@@ -1,0 +1,47 @@
+@import "variables";
+
+.navbar {
+  padding-top: 2.5rem; /* py-10 */
+  padding-bottom: 3rem; /* mb-12 */
+  display: flex;
+  justify-content: space-between;
+  color: black; /* dark:text-white */
+
+  &.dark {
+    color: white;
+  }
+
+  .logo {
+    font-family: "burtons";
+    font-size: 1.5rem; /* text-xl */
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+
+    li {
+      margin-right: 1rem; /* ml-8 for the second li */
+
+      .dark-mode-icon {
+        cursor: pointer;
+        font-size: 2rem; /* text-2xl */
+      }
+
+      .resume-link {
+        background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
+        color: white; /* text-white */
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease; /* Added transition for hover effect */
+
+        &:hover {
+          background-color: teal; /* Use variable for hover color */
+        }
+      }
+    }
+  }
+}

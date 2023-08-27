@@ -1,0 +1,23 @@
+main {
+  background-color: white;
+  padding-left: 1.25rem; /* Equivalent to px-10 */
+  padding-right: 1.25rem; /* Equivalent to px-10 */
+
+  @media (min-width: 768px) {
+    padding-left: 2.5rem; /* Equivalent to md:px-20 */
+    padding-right: 2.5rem; /* Equivalent to md:px-20 */
+  }
+
+  @media (min-width: 1024px) {
+    padding-left: 4rem; /* Equivalent to lg:px-40 */
+    padding-right: 4rem; /* Equivalent to lg:px-40 */
+  }
+
+  &.dark {
+    background-color: #1a202c; /* Equivalent to dark:bg-gray-900 */
+  }
+}
+
+.section-1{
+    min-height: 100vh;
+}
