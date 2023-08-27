@@ -3,27 +3,79 @@
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 main {
   background-color: white;
-  padding-left: 1.25rem; /* Equivalent to px-10 */
-  padding-right: 1.25rem; /* Equivalent to px-10 */
-}
-@media (min-width: 768px) {
-  main {
-    padding-left: 2.5rem; /* Equivalent to md:px-20 */
-    padding-right: 2.5rem; /* Equivalent to md:px-20 */
-  }
-}
-@media (min-width: 1024px) {
-  main {
-    padding-left: 4rem; /* Equivalent to lg:px-40 */
-    padding-right: 4rem; /* Equivalent to lg:px-40 */
-  }
+  padding: 1.25rem;
 }
 main.dark {
-  background-color: #1a202c; /* Equivalent to dark:bg-gray-900 */
+  background-color: #1a202c;
 }
 
 .section-1 {
   min-height: 100vh;
+}
+
+.section-2 {
+  padding-top: 2.5rem;
+}
+
+.services-heading,
+.portfolio-heading {
+  font-size: 1.875rem;
+  padding-top: 0.25rem;
+  color: black;
+}
+.services-heading.dark,
+.portfolio-heading.dark {
+  color: white;
+}
+
+.services-paragraph {
+  font-size: 1.25rem;
+  padding-top: 0.5rem;
+  line-height: 1.5;
+  color: #333;
+}
+.services-paragraph.dark {
+  color: white;
+}
+
+.teal-text {
+  color: #0ca4a5;
+}
+.teal-text:before {
+  margin: 0 0.5rem;
+}
+
+.portfolio-image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 2.5rem;
+}
+@media (min-width: 1024px) {
+  .portfolio-image-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+}
+.portfolio-image-container .image-item {
+  flex-basis: 33.3333333333%;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+.portfolio-image-container .image-item .rounded-lg {
+  border-radius: 0.5rem;
+}
+.portfolio-image-container .image-item .object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.portfolio-image-container .image-item::before {
+  content: "";
+  display: block;
 }
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_header.scss ***!
