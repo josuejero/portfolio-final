@@ -28,25 +28,38 @@ const Service = ({ darkMode }) => {
   ];
 
   return (
-    <div className={`service-container ${darkMode ? "dark" : ""}`}>
-      {services.map((service, index) => (
-        <div key={index} className="service-item">
-          <div className="service-content">
-            <div className="image-container">
-              <Image src={service.image} width={100} height={100} alt="" />
+    <div>
+      <div>
+        <h3 className={`services-heading ${darkMode ? "dark" : ""}`}>Services I offer</h3>
+        <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
+          Since the beginning of my journey as a freelance designer and developer, I have worked with agencies,
+          startups, and collaborated with others to create digital products for business and consumer use.
+        </p>
+        <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
+          I offer a variety of services, including brand design, programming, and teaching.
+        </p>
+      </div>
+      <div className={`service-container ${darkMode ? "dark" : ""}`}>
+        {services.map((service, index) => (
+          <div key={index} className="service-item">
+            <div className="service-content">
+              <div className="image-container">
+                <Image src={service.image} width={100} height={100} alt="" />
+              </div>
+              <h3 className="title">{service.title}</h3>
+              <p className="description">{service.description}</p>
+              <h4 className="subtitle">Tools I Use</h4>
+              <ul className="tool-list">
+                {service.tools.map((tool, index) => (
+                  <li key={index}>{tool}</li>
+                ))}
+              </ul>
             </div>
-            <h3 className="title">{service.title}</h3>
-            <p className="description">{service.description}</p>
-            <h4 className="subtitle">Tools I Use</h4>
-            <ul className="tool-list">
-              {service.tools.map((tool, index) => (
-                <li key={index}>{tool}</li>
-              ))}
-            </ul>
           </div>
-        </div>
       ))}
     </div>
+    </div>
+    
   );
 };
 

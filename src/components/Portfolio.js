@@ -9,37 +9,28 @@ import web5 from "../../public/web5.png";
 import web6 from "../../public/web6.png";
 import "../styles/_portfolio.scss"
 
-const Portfolio = () => {
+const webImages = [
+  "/web1.png",
+  "/web2.png",
+  "/web3.png",
+  "/web4.png",
+  "/web5.png",
+  "/web6.png"
+];
+
+
+const Portfolio = ({darkMode}) => {
   const portfolioImages = [web1, web2, web3, web4, web5, web6];
 
   return (
     <section className="portfolio-section">
-      <div className="content-container">
-        <h3 className="section-heading">Portfolio</h3>
-        <p className="section-paragraph">
-          Since the beginning of my journey as a freelance designer and developer,
-          I have done remote work for{" "}
-          <span className="highlighted-text">agencies</span> consulted for{" "}
-          <span className="highlighted-text">startups</span> and
-          collaborated with talented people to create digital products for both
-          business and consumer use.
-        </p>
-        <p className="section-paragraph">
-          I offer a wide range of services, including brand design, programming,
-          and teaching.
-        </p>
+      <div>
+        <h3 className={`portfolio-heading ${darkMode ? "dark" : ""}`}>Portfolio</h3>
       </div>
-      <div className="flex-container">
-        {portfolioImages.map((image, index) => (
-          <div key={index} className="portfolio-item">
-            <Image
-              className="image-item"
-              width={"100%"}
-              height={"100%"}
-              layout="responsive"
-              src={image}
-              alt=""
-            />
+      <div className="portfolio-image-container">
+        {webImages.map((image, index) => (
+          <div key={index} className="image-item">
+            <Image className="rounded-lg object-cover" width={500} height={300} layout="responsive" src={image} alt="" />
           </div>
         ))}
       </div>

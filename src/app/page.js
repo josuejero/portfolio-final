@@ -1,21 +1,12 @@
 "use client"
 import React, { useState } from "react";
-import Image from "next/image";
 import Head from "next/head";
 import "../styles/main.scss";
 
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import Service from "@/components/Service";
-
-const webImages = [
-  "/web1.png",
-  "/web2.png",
-  "/web3.png",
-  "/web4.png",
-  "/web5.png",
-  "/web6.png"
-];
+import Portfolio from "@/components/Portfolio";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -33,29 +24,10 @@ export default function Home() {
           <HeroSection darkMode={darkMode} />
         </section>
         <section>
-          <div>
-            <h3 className={`services-heading ${darkMode ? "dark" : ""}`}>Services I offer</h3>
-            <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
-              Since the beginning of my journey as a freelance designer and developer, I have worked with agencies,
-              startups, and collaborated with others to create digital products for business and consumer use.
-            </p>
-            <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
-              I offer a variety of services, including brand design, programming, and teaching.
-            </p>
-          </div>
           <Service darkMode={darkMode} />
         </section>
         <section className="section-2">
-          <div>
-            <h3 className={`portfolio-heading ${darkMode ? "dark" : ""}`}>Portfolio</h3>
-          </div>
-          <div className="portfolio-image-container">
-            {webImages.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image className="rounded-lg object-cover" width={500} height={300} layout="responsive" src={image} alt="" />
-              </div>
-            ))}
-          </div>
+          <Portfolio darkMode={darkMode}/>
         </section>
       </main>
     </div>

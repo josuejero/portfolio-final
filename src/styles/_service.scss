@@ -85,3 +85,26 @@
     }
   }
 }
+
+.services-heading,
+.portfolio-heading {
+  font-size: 1.875rem;
+  padding-top: 0.25rem;
+  color: black;
+
+  &.dark {
+    color: white;
+  }
+}
+
+.services-paragraph {
+  font-size: 1.25rem;
+  padding-top: 0.5rem;
+  line-height: 1.5;
+  color: #333;
+
+  &.dark {
+    color: white;
+  }
+}
+
