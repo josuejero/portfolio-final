@@ -1,0 +1,236 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/main.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+main {
+  background-color: white;
+  padding-left: 1.25rem; /* Equivalent to px-10 */
+  padding-right: 1.25rem; /* Equivalent to px-10 */
+}
+@media (min-width: 768px) {
+  main {
+    padding-left: 2.5rem; /* Equivalent to md:px-20 */
+    padding-right: 2.5rem; /* Equivalent to md:px-20 */
+  }
+}
+@media (min-width: 1024px) {
+  main {
+    padding-left: 4rem; /* Equivalent to lg:px-40 */
+    padding-right: 4rem; /* Equivalent to lg:px-40 */
+  }
+}
+main.dark {
+  background-color: #1a202c; /* Equivalent to dark:bg-gray-900 */
+}
+
+.section-1 {
+  min-height: 100vh;
+}
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_header.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.navbar {
+  padding-top: 2.5rem; /* py-10 */
+  padding-bottom: 3rem; /* mb-12 */
+  display: flex;
+  justify-content: space-between;
+  color: black; /* dark:text-white */
+}
+.navbar.dark {
+  color: white;
+}
+.navbar .logo {
+  font-family: "burtons";
+  font-size: 1.5rem; /* text-xl */
+}
+.navbar ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.navbar ul li {
+  margin-right: 1rem; /* ml-8 for the second li */
+}
+.navbar ul li .dark-mode-icon {
+  cursor: pointer;
+  font-size: 2rem; /* text-2xl */
+}
+.navbar ul li .resume-link {
+  background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
+  color: white; /* text-white */
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* Added transition for hover effect */
+}
+.navbar ul li .resume-link:hover {
+  background-color: teal; /* Use variable for hover color */
+}
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_hero-section.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.my-container {
+  text-align: center;
+  padding: 2.5rem;
+}
+.my-container.dark {
+  color: #ffffff;
+}
+.my-container.dark .my-heading-2, .my-container.dark .my-paragraph {
+  color: #ffffff;
+}
+.my-container.dark .my-social-icons {
+  color: #718096;
+}
+
+.my-heading-1 {
+  font-size: 2.5rem;
+  color: #38b2ac;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  .my-heading-1 {
+    font-size: 4rem;
+  }
+}
+
+.my-heading-2 {
+  font-size: 1.5rem;
+  color: #2d3748;
+}
+@media (min-width: 768px) {
+  .my-heading-2 {
+    font-size: 2rem;
+  }
+}
+
+.my-paragraph {
+  font-size: 1rem;
+  padding: 1.25rem 0;
+  line-height: 2rem;
+  color: #2d3748;
+}
+@media (min-width: 768px) {
+  .my-paragraph {
+    font-size: 1.5rem;
+  }
+}
+
+.my-social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  font-size: 2.5rem;
+  color: #718096;
+  padding: 2.5rem 0;
+}
+@media (min-width: 768px) {
+  .my-social-icons {
+    font-size: 3.5rem;
+  }
+}
+
+.my-image-wrapper, .my-image-container {
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+.my-image-container {
+  overflow: hidden;
+  position: relative;
+  background-image: linear-gradient(to bottom, #38b2ac, #2d3748);
+  border-radius: 9999px;
+  margin: 0 auto;
+  padding: 10rem;
+}
+@media (max-width: 767px) {
+  .my-image-container {
+    width: 20rem;
+    height: 20rem;
+  }
+}
+@media (min-width: 768px) {
+  .my-image-container {
+    width: 24rem;
+    height: 24rem;
+  }
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_service.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.service-container {
+  gap: 1rem;
+  justify-content: center;
+  display: flex;
+}
+@media (max-width: 794px) {
+  .service-container {
+    width: 100%;
+    margin: 1rem 0;
+    display: block;
+  }
+  .service-container .image-container {
+    display: block;
+    justify-content: center;
+    align-items: center;
+  }
+  .service-container .image-container img {
+    width: 80px;
+    height: 80px;
+  }
+}
+.service-container .service-item {
+  flex: 1;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  margin: 1rem;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+.service-container .service-item.dark {
+  background-color: #2d3748;
+}
+.service-container .service-item:hover {
+  background-color: #f7fafc;
+}
+.service-container .service-item .service-content {
+  padding: 1rem;
+}
+.service-container .service-item .service-content .image-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.service-container .service-item .service-content .image-container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.service-container .service-item .service-content .title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  padding-top: 0.5rem;
+  padding-bottom: 0.25rem;
+}
+.service-container .service-item .service-content .description {
+  font-size: 1rem;
+  padding-top: 0.5rem;
+}
+.service-container .service-item .service-content .subtitle {
+  font-size: 1.125rem;
+  color: #319795;
+  padding-top: 1rem;
+}
+.service-container .service-item .service-content .tool-list {
+  list-style: none;
+  color: #4a5568;
+  padding-top: 0.5rem;
+}
+.service-container .service-item .service-content .tool-list li {
+  padding-left: 1rem;
+  margin-bottom: 0.25rem;
+}
