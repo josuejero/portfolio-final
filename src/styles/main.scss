@@ -1,7 +1,7 @@
 .main {
   background-color: white;
   padding: 1.25rem;
-
+  display: flex;
   &.dark {
     background-color: #1a202c;
   }
@@ -13,4 +13,24 @@
 
 .section-2 {
   padding-top: 2.5rem;
+}
+
+.fixed-child{
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  z-index: 100;
+  width: 300px;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+
+}
+
+.scrollable-child{
+  margin-left: 300px;
+  flex: 1;
+  overflow-y: scroll;
+  padding: 20px;
 }

@@ -4,6 +4,7 @@
 .main {
   background-color: white;
   padding: 1.25rem;
+  display: flex;
 }
 .main.dark {
   background-color: #1a202c;
@@ -16,35 +17,54 @@
 .section-2 {
   padding-top: 2.5rem;
 }
+
+.fixed-child {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  z-index: 100;
+  width: 300px;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+}
+
+.scrollable-child {
+  margin-left: 300px;
+  flex: 1;
+  overflow-y: scroll;
+  padding: 20px;
+}
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_header.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.navbar {
+.sidebar {
   padding: 2.5rem 0 3rem; /* py-10 mb-12 */
   display: flex;
   justify-content: space-between;
   color: black; /* dark:text-white */
 }
-.navbar.dark {
+.sidebar.dark {
   color: white;
 }
-.navbar .logo {
+.sidebar .logo {
   font-family: "burtons";
   font-size: 1.5rem; /* text-xl */
 }
-.navbar ul {
+.sidebar ul {
   display: flex;
   align-items: center;
   list-style: none;
 }
-.navbar ul li {
+.sidebar ul li {
   margin-right: 1rem; /* ml-8 for second li */
 }
-.navbar ul li .dark-mode-icon {
+.sidebar ul li .dark-mode-icon {
   cursor: pointer;
   font-size: 2rem; /* text-2xl */
 }
-.navbar ul li .resume-link {
+.sidebar ul li .resume-link {
   background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
   color: white; /* text-white */
   padding: 0.5rem 1rem;
@@ -53,7 +73,7 @@
   text-decoration: none;
   transition: background-color 0.3s ease; /* Added transition for hover effect */
 }
-.navbar ul li .resume-link:hover {
+.sidebar ul li .resume-link:hover {
   background-color: teal; /* Use variable for hover color */
 }
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\

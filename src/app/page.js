@@ -19,16 +19,21 @@ export default function Home() {
         <link rel="icon" href="../favicon.ico" />
       </Head>
       <main className={`main ${darkMode ? "dark" : ""}`}>
-        <section className="section-1">
+        <div className="fixed-child">
           <Header darkMode={darkMode} setDarkMode={setDarkMode} />
-          <HeroSection darkMode={darkMode} />
-        </section>
-        <section>
-          <Service darkMode={darkMode} />
-        </section>
-        <section className="section-2">
-          <Portfolio darkMode={darkMode}/>
-        </section>
+        </div>
+        <div className="scrollable-child">
+          <section className="section-1">
+            <HeroSection darkMode={darkMode} />
+          </section>
+          <section>
+            <Service darkMode={darkMode} />
+          </section>
+          <section className="section-2">
+            <Portfolio darkMode={darkMode}/>
+          </section>
+        </div>
+        
       </main>
     </div>
   );

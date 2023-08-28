@@ -3,7 +3,7 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import "../styles/_header.scss";
 
 const Header = ({ darkMode, setDarkMode }) => (
-  <nav className={`navbar ${darkMode ? "dark" : ""}`}>
+  <nav className={`sidebar ${darkMode ? "dark" : ""}`}>
     <h1 className="logo">developed-by-josue</h1>
     <ul className="image">
       <li>
