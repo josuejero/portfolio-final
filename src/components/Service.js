@@ -1,44 +1,38 @@
 import React from "react";
 import Image from "next/image";
-import design from "../../public/design.png";
-import code from "../../public/code.png";
-import consulting from "../../public/consulting.png";
 import "../styles/_service.scss";
 
 const Service = ({ darkMode }) => {
   const services = [
     {
-      image: design,
+      image: require("../../public/design.png"),
       title: "Beautiful Designs",
       description: "Creating elegant designs suited for your needs following core design theory.",
       tools: ["Photoshop", "Illustrator", "Figma", "Indesign"],
     },
     {
-      image: code,
+      image: require("../../public/code.png"),
       title: "Code your dream project",
-      description: "Do you have an idea for your next great website? Let's make it a reality.",
+      description: "Turning your website idea into reality with HTML, CSS, JavaScript, and React.",
       tools: ["HTML", "CSS", "JavaScript", "React"],
     },
     {
-      image: consulting,
+      image: require("../../public/consulting.png"),
       title: "Consulting",
-      description: "Are you interested in feedback for your current project? I can give you tips and tricks to level it up.",
+      description: "Providing feedback and advice to enhance your projects with best practices and optimization.",
       tools: ["Project Evaluation", "Best Practices", "Optimization"],
     },
   ];
 
   return (
     <div>
-      <div>
-        <h3 className={`services-heading ${darkMode ? "dark" : ""}`}>Services I offer</h3>
-        <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
-          Since the beginning of my journey as a freelance designer and developer, I have worked with agencies,
-          startups, and collaborated with others to create digital products for business and consumer use.
-        </p>
-        <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
-          I offer a variety of services, including brand design, programming, and teaching.
-        </p>
-      </div>
+      <h3 className={`services-heading ${darkMode ? "dark" : ""}`}>Services I offer</h3>
+      <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
+        As a freelance designer and developer, I&rsquo;ve partnered with agencies, startups, and collaborators to craft digital products for businesses and consumers.
+      </p>
+      <p className={`services-paragraph ${darkMode ? "dark" : ""}`}>
+        I provide diverse services including branding, programming, and instruction.
+      </p>
       <div className={`service-container ${darkMode ? "dark" : ""}`}>
         {services.map((service, index) => (
           <div key={index} className="service-item">
@@ -56,10 +50,9 @@ const Service = ({ darkMode }) => {
               </ul>
             </div>
           </div>
-      ))}
+        ))}
+      </div>
     </div>
-    </div>
-    
   );
 };
 

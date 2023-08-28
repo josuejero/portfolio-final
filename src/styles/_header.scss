@@ -1,8 +1,7 @@
 @import "variables";
 
 .navbar {
-  padding-top: 2.5rem; /* py-10 */
-  padding-bottom: 3rem; /* mb-12 */
+  padding: 2.5rem 0 3rem; /* py-10 mb-12 */
   display: flex;
   justify-content: space-between;
   color: black; /* dark:text-white */
@@ -22,7 +21,7 @@
     list-style: none;
 
     li {
-      margin-right: 1rem; /* ml-8 for the second li */
+      margin-right: 1rem; /* ml-8 for second li */
 
       .dark-mode-icon {
         cursor: pointer;
