@@ -2,7 +2,7 @@
 
 .sidebar {
   padding: 2.5rem 0 3rem; /* py-10 mb-12 */
-  display: flex;
+
   justify-content: space-between;
   color: black; /* dark:text-white */
 
@@ -16,7 +16,6 @@
   }
 
   ul {
-    display: flex;
     align-items: center;
     list-style: none;
 

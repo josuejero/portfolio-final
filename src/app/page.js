@@ -22,6 +22,9 @@ export default function Home() {
         <div className="fixed-child">
           <Header darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>
+
+
+
         <div className="scrollable-child">
           <section className="section-1">
             <HeroSection darkMode={darkMode} />
@@ -33,6 +36,7 @@ export default function Home() {
             <Portfolio darkMode={darkMode}/>
           </section>
         </div>
+        
         
       </main>
     </div>
