@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useState } from "react";
 import Head from "next/head";
@@ -7,7 +8,14 @@ import Sidebar from "../components/Sidebar";
 import HomeSection from "../components/HomeSection";
 import About from "../components/About";
 import Blog from "../components/Blog";
-import Contact from "../components/Contact"
+import Contact from "../components/Contact";
+
+const sections = [
+  { id: "HomeSection", component: HomeSection },
+  { id: "AboutSection", component: About },
+  { id: "BlogSection", component: Blog },
+  { id: "ContactSection", component: Contact },
+];
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -24,21 +32,15 @@ export default function Home() {
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>
         <div className="scrollable-child">
-          <section className="section-1" id="HomeSection">
-            <HomeSection darkMode={darkMode} />
-          </section>
-          <section id="AboutSection">
-            <About darkMode={darkMode} />
-          </section>
-          <section className="section-2" id="BlogSection">
-            <Blog darkMode={darkMode}/>
-          </section>
-          <section id="ContactSection">
-            <Contact />
-          </section>
+          {sections.map((section) => (
+            <section key={section.id} id={section.id}>
+              {React.createElement(section.component, { darkMode })}
+              <a className="resume-button" href="/path/to/your/resume.pdf" download="resume.pdf">
+                Resume
+              </a>
+            </section>
+          ))}
         </div>
-        
-        
       </main>
     </div>
   );

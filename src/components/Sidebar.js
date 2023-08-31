@@ -37,7 +37,11 @@ const Sidebar = ({ darkMode, setDarkMode }) => (
         </li>
       ))}
       <li>
-        <a className="resume-link" href="#">
+        <a
+          className="resume-link"
+          href="Resume.pdf"
+          download="resume.pdf"
+        >
           Resume
         </a>
       </li>
