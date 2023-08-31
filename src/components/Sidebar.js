@@ -1,13 +1,16 @@
 import React from "react";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import "../styles/_header.scss";
-import Home from "../../public/home.png";
-import About from "../../public/about.png";
-import Blog from "../../public/blog.png";
-import Contact from "../../public/contact.png";
 import Image from "next/image";
 
-const Header = ({ darkMode, setDarkMode }) => (
+const sections = [
+  { id: "#HomeSection", label: "Home" },
+  { id: "#AboutSection", label: "About" },
+  { id: "#BlogSection", label: "Blog" },
+  { id: "#ContactSection", label: "Contact" },
+];
+
+const Sidebar = ({ darkMode, setDarkMode }) => (
   <nav className={`sidebar ${darkMode ? "dark" : ""}`}>
     <ul className="image">
       <li>
@@ -16,18 +19,23 @@ const Header = ({ darkMode, setDarkMode }) => (
           className="dark-mode-icon"
         />
       </li>
-      <li>
-        <Image src={Home} layout="fixed" width={25} height={25} />
-      </li>
-      <li>
-        <Image src={About} layout="fixed" width={25} height={25} />
-      </li>
-      <li>
-        <Image src={Blog} layout="fixed" width={25} height={25} />
-      </li>
-      <li>
-        <Image src={Contact} layout="fixed" width={25} height={25} />
-      </li>
+      {sections.map((section) => (
+        <li key={section.id}>
+          <button
+            className="nav-link"
+            onClick={() => scrollToSection(section.id)}
+          >
+            <Image
+              src={`/${section.label.toLowerCase()}.png`}
+              layout="fixed"
+              width={25}
+              height={25}
+              alt=""
+            />
+            <span className="button-name">{section.label}</span>
+          </button>
+        </li>
+      ))}
       <li>
         <a className="resume-link" href="#">
           Resume
@@ -37,4 +45,12 @@ const Header = ({ darkMode, setDarkMode }) => (
   </nav>
 );
 
-export default Header;
+// Function to scroll to a section with a given ID
+const scrollToSection = (sectionId) => {
+  const section = document.querySelector(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+export default Sidebar;

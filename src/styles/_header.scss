@@ -13,6 +13,37 @@
     font-size: 1.5rem; /* text-xl */
   }
 
+  .nav-link {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    position: relative;
+    z-index: 1;
+
+    &:hover {
+      transform: translateX(-5px);
+      color: yellow;
+    }
+  }
+
+  .button-name {
+    position: absolute;
+    top: 50%;
+    left: -40px;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .nav-link:hover .button-name {
+    opacity: 1;
+    transform: translateY(-50%) translateX(-10px);
+  }
+
   ul {
     align-items: center;
     list-style: none;
@@ -32,16 +63,17 @@
       }
 
       .resume-link {
-        background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
-        color: white; /* text-white */
+        background: linear-gradient(to right, cyan, teal);
+        color: white;
         padding: 0.25rem 0.5rem;
         border: none;
         border-radius: 0.25rem;
         text-decoration: none;
-        transition: background-color 0.3s ease; /* Added transition for hover effect */
+        transition: background-color 0.3s ease;
         font-size: 0.75rem;
+        
         &:hover {
-          background-color: teal; /* Use variable for hover color */
+          background-color: teal;
         }
       }
     }

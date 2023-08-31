@@ -5,9 +5,9 @@ import "../styles/main.scss";
 
 import Sidebar from "../components/Sidebar";
 import HomeSection from "../components/HomeSection";
-import About from "@/components/About";
-import Blog from "@/components/Blog";
-import Contact from "@/components/Contact"
+import About from "../components/About";
+import Blog from "../components/Blog";
+import Contact from "../components/Contact"
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -23,20 +23,17 @@ export default function Home() {
         <div className="fixed-child">
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>
-
-
-
         <div className="scrollable-child">
-          <section className="section-1">
+          <section className="section-1" id="HomeSection">
             <HomeSection darkMode={darkMode} />
           </section>
-          <section>
+          <section id="AboutSection">
             <About darkMode={darkMode} />
           </section>
-          <section className="section-2">
+          <section className="section-2" id="BlogSection">
             <Blog darkMode={darkMode}/>
           </section>
-          <section>
+          <section id="ContactSection">
             <Contact />
           </section>
         </div>
