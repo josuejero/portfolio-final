@@ -2,8 +2,6 @@
 
 .sidebar {
   padding: 2.5rem 0 3rem; /* py-10 mb-12 */
-
-  justify-content: space-between;
   color: black; /* dark:text-white */
 
   &.dark {
@@ -18,9 +16,15 @@
   ul {
     align-items: center;
     list-style: none;
+    display: flex;
+    flex-direction: column;
 
     li {
-      margin-right: 1rem; /* ml-8 for second li */
+      margin-bottom: 4rem; /* Add margin between images */
+
+      &:last-child {
+        margin-bottom: 0; /* Remove margin for the last li */
+      }
 
       .dark-mode-icon {
         cursor: pointer;
@@ -30,12 +34,12 @@
       .resume-link {
         background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
         color: white; /* text-white */
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 0.5rem;
         border: none;
         border-radius: 0.25rem;
         text-decoration: none;
         transition: background-color 0.3s ease; /* Added transition for hover effect */
-
+        font-size: 0.75rem;
         &:hover {
           background-color: teal; /* Use variable for hover color */
         }

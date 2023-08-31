@@ -557,6 +557,9 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.fixed {
+  position: fixed;
+}
 .rounded-lg {
   border-radius: 0.5rem;
 }
