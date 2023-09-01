@@ -19,6 +19,11 @@ const sections = [
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(true)
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  }
 
   return (
     <div className={`dark ${darkMode ? "dark" : ""}`}>
@@ -28,10 +33,16 @@ export default function Home() {
         <link rel="icon" href="../favicon.ico" />
       </Head>
       <main className={`main ${darkMode ? "dark" : ""}`}>
-        <div className="fixed-child">
+        <div className={`fixed-child ${sidebarVisible ? "" : "hiding-class"}`}>
+          <button className="toggle-button" onClick={toggleSidebar}>
+            Toggle Sidebar
+          </button>
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>
-        <div className="scrollable-child">
+        <div className={`scrollable-child ${sidebarVisible ? "" : "expanded"}`}>
+          <button className="toggle-button" onClick={toggleSidebar}>
+            Toggle Sidebar
+          </button>
           {sections.map((section) => (
             <section key={section.id} id={section.id}>
               {React.createElement(section.component, { darkMode })}

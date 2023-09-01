@@ -560,6 +560,9 @@ video {
 .fixed {
   position: fixed;
 }
+.hidden {
+  display: none;
+}
 .rounded-lg {
   border-radius: 0.5rem;
 }
