@@ -23,16 +23,14 @@
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
 }
-
-.fixed-child.hiding-class {
+.fixed-child.hiding-sidebar {
   transform: translateX(100px);
-  transition: transform 0.3s ease-in-out;
 }
 
 .scrollable-child {
   flex: 1;
   padding: 20px;
-  transition: margin-right 0.3s ease-in-out; /* Add transition for margin-right */
+  transition: margin-right 0.3s ease-in-out;
   margin-right: 100px;
 }
 .scrollable-child.expanded {

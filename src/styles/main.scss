@@ -2,6 +2,7 @@
   background-color: #333;
   padding: 1.25rem;
   display: flex;
+
   &.dark {
     background-color: #1a202c;
   }
@@ -19,20 +20,20 @@
   color: #1a202c;
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
-}
 
-.fixed-child.hiding-class{
-  transform: translateX(100px);
-  transition: transform 0.3s ease-in-out;
+  &.hiding-sidebar {
+    transform: translateX(100px);
+  }
 }
 
 .scrollable-child {
   margin-right: 100px;
   flex: 1;
   padding: 20px;
-  transition: margin-right 0.3s ease-in-out; /* Add transition for margin-right */
+  transition: margin-right 0.3s ease-in-out;
   margin-right: 100px;
-  &.expanded{
+
+  &.expanded {
     margin-right: 0px;
   }
 }
