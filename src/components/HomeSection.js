@@ -3,6 +3,7 @@ import Image from "next/image";
 import { AiFillTwitterCircle, AiFillLinkedin, AiFillYoutube } from "react-icons/ai";
 import deved from "../../public/dev-ed-wave.png";
 import "../styles/_hero-section.scss";
+import Die from '../components/Die'
 
 const HeroSection = ({ darkMode }) => (
   <div className={`my-container ${darkMode ? "dark" : ""}`}>
@@ -16,6 +17,7 @@ const HeroSection = ({ darkMode }) => (
       <AiFillLinkedin className="social-icon" />
       <AiFillYoutube className="social-icon" />
     </div>
+    <Die/>
     <div className="my-image-wrapper">
       <div className="my-image-container">
         <Image src={deved} layout="fill" objectFit="cover" alt="" />
