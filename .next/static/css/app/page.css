@@ -356,6 +356,27 @@ body {
   cursor: pointer;
   transform: translateY(15px);
 }
+
+.selected-skill {
+  text-align: center;
+  margin-top: 250px;
+}
+.selected-skill h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.selected-skill h3 {
+  font-size: 20px;
+  margin-top: 10px;
+}
+.selected-skill ul {
+  list-style: none;
+  padding: 0;
+}
+.selected-skill li {
+  font-size: 16px;
+  margin: 5px 0;
+}
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_service.scss ***!
   \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/

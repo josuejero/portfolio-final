@@ -168,3 +168,29 @@
     transform: translateY(15px);
   }
 }
+
+.selected-skill {
+
+  text-align: center;
+  margin-top: 250px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+}
