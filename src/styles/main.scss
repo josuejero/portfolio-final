@@ -1,16 +1,53 @@
 .main {
-  background-color: white;
+  background-color: #333;
   padding: 1.25rem;
+  display: flex;
 
   &.dark {
     background-color: #1a202c;
   }
 }
 
-.section-1 {
-  min-height: 100vh;
+.fixed-child {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 100;
+  width: 100px;
+  height: 100vh;
+  background-color: #333;
+  color: #1a202c;
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+
+  &.hiding-sidebar {
+    transform: translateX(100px);
+  }
 }
 
-.section-2 {
-  padding-top: 2.5rem;
+.scrollable-child {
+  margin-right: 100px;
+  flex: 1;
+  padding: 20px;
+  transition: margin-right 0.3s ease-in-out;
+  margin-right: 100px;
+
+  &.expanded {
+    margin-right: 0px;
+  }
+}
+
+body {
+  background-color: #1a202c;
+}
+
+.toggle-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
 }

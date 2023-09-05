@@ -1,4 +1,4 @@
-// File: C:\Users\josue\Desktop\portfolio-final\src\app\page.js
+// File: /Users/wholesway/Library/CloudStorage/OneDrive-Personal/Documents/Programming_Projects/PORTFOLIO-FINAL/portfolio-final/src/app/page.js
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

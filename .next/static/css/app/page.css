@@ -2,59 +2,123 @@
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/main.scss ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .main {
-  background-color: white;
+  background-color: #333;
   padding: 1.25rem;
+  display: flex;
 }
 .main.dark {
   background-color: #1a202c;
 }
 
-.section-1 {
-  min-height: 100vh;
+.fixed-child {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 100;
+  width: 100px;
+  height: 100vh;
+  background-color: #333;
+  color: #1a202c;
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+.fixed-child.hiding-sidebar {
+  transform: translateX(100px);
 }
 
-.section-2 {
-  padding-top: 2.5rem;
+.scrollable-child {
+  flex: 1;
+  padding: 20px;
+  transition: margin-right 0.3s ease-in-out;
+  margin-right: 100px;
+}
+.scrollable-child.expanded {
+  margin-right: 0px;
+}
+
+body {
+  background-color: #1a202c;
+}
+
+.toggle-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_header.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.navbar {
+.sidebar {
   padding: 2.5rem 0 3rem; /* py-10 mb-12 */
-  display: flex;
-  justify-content: space-between;
   color: black; /* dark:text-white */
 }
-.navbar.dark {
+.sidebar.dark {
   color: white;
 }
-.navbar .logo {
+.sidebar .logo {
   font-family: "burtons";
   font-size: 1.5rem; /* text-xl */
 }
-.navbar ul {
-  display: flex;
+.sidebar .nav-link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+.sidebar .nav-link:hover {
+  transform: translateX(-5px);
+  color: yellow;
+}
+.sidebar .button-name {
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.sidebar .nav-link:hover .button-name {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-10px);
+}
+.sidebar ul {
   align-items: center;
   list-style: none;
+  display: flex;
+  flex-direction: column;
 }
-.navbar ul li {
-  margin-right: 1rem; /* ml-8 for second li */
+.sidebar ul li {
+  margin-bottom: 4rem; /* Add margin between images */
 }
-.navbar ul li .dark-mode-icon {
+.sidebar ul li:last-child {
+  margin-bottom: 0; /* Remove margin for the last li */
+}
+.sidebar ul li .dark-mode-icon {
   cursor: pointer;
   font-size: 2rem; /* text-2xl */
 }
-.navbar ul li .resume-link {
-  background: linear-gradient(to right, cyan, teal); /* Use variables for colors */
-  color: white; /* text-white */
-  padding: 0.5rem 1rem;
+.sidebar ul li .resume-link {
+  background: linear-gradient(to right, cyan, teal);
+  color: white;
+  padding: 0.25rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   text-decoration: none;
-  transition: background-color 0.3s ease; /* Added transition for hover effect */
+  transition: background-color 0.3s ease;
+  font-size: 0.75rem;
 }
-.navbar ul li .resume-link:hover {
-  background-color: teal; /* Use variable for hover color */
+.sidebar ul li .resume-link:hover {
+  background-color: teal;
 }
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_hero-section.scss ***!
@@ -144,6 +208,174 @@
     width: 24rem;
     height: 24rem;
   }
+}
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/__die.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.die-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: green;
+}
+.die-body .game {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: auto;
+  height: 100%;
+}
+.die-body .die-container {
+  position: relative;
+  display: inline-block;
+  top: 300px;
+  margin: 0 auto;
+}
+.die-body .dice {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+.die-body .dice .side {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+  line-height: 2em;
+}
+.die-body .dice .side:nth-child(1) {
+  transform: translateZ(3.1em);
+}
+.die-body .dice .side:nth-child(6) {
+  transform: rotateY(90deg) translateZ(3.1em);
+}
+.die-body .dice .side:nth-child(3) {
+  transform: rotateY(-90deg) translateZ(3.1em);
+}
+.die-body .dice .side:nth-child(4) {
+  transform: rotateX(90deg) translateZ(3.1em);
+}
+.die-body .dice .side:nth-child(5) {
+  transform: rotateX(-90deg) translateZ(3.1em);
+}
+.die-body .dice .side:nth-child(2) {
+  transform: rotateY(-180deg) translateZ(3.1em);
+}
+.die-body .dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: -10px 5px 5px -10px;
+  border-radius: 20px;
+  background-color: #f25f5c;
+  box-shadow: inset 2px 2px #d90429;
+}
+.die-body .show-1 {
+  transform: rotateX(720deg) rotateZ(-720deg);
+}
+.die-body .show-6 {
+  transform: rotateX(-900deg) rotateZ(1080deg);
+}
+.die-body .show-3 {
+  transform: rotateY(-450deg) rotateZ(-1440deg);
+}
+.die-body .show-4 {
+  transform: rotateY(810deg) rotateZ(720deg);
+}
+.die-body .show-5 {
+  transform: rotateX(-810deg) rotateZ(-1080deg);
+}
+.die-body .show-2 {
+  transform: rotateX(450deg) rotateZ(-720deg);
+}
+.die-body .two-1,
+.die-body .three-1,
+.die-body .four-1,
+.die-body .five-1,
+.die-body .six-1 {
+  top: 20%;
+  left: 20%;
+}
+.die-body .four-3,
+.die-body .five-3,
+.die-body .six-4 {
+  top: 20%;
+  left: 80%;
+}
+.die-body .one-1,
+.die-body .three-2,
+.die-body .five-5 {
+  top: 50%;
+  left: 50%;
+}
+.die-body .four-2,
+.die-body .five-2,
+.die-body .six-3 {
+  top: 80%;
+  left: 20%;
+}
+.die-body .two-2,
+.die-body .three-3,
+.die-body .four-4,
+.die-body .five-4,
+.die-body .six-6 {
+  top: 80%;
+  left: 80%;
+}
+.die-body .six-2 {
+  top: 50%;
+  left: 20%;
+}
+.die-body .six-5 {
+  top: 50%;
+  left: 80%;
+}
+
+.die-button {
+  position: relative;
+  top: 80px;
+  padding: 15px 50px;
+  color: #fff;
+  background-color: orange;
+  border: none;
+  font-size: 20px;
+  border-radius: 20px;
+  box-shadow: 1px 3px black;
+  outline: none;
+  transition: 0.3s;
+}
+.die-button:hover, .die-button:active {
+  outline: none;
+  background-color: orange;
+  cursor: pointer;
+  transform: translateY(15px);
+}
+
+.selected-skill {
+  text-align: center;
+  margin-top: 250px;
+}
+.selected-skill h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.selected-skill h3 {
+  font-size: 20px;
+  margin-top: 10px;
+}
+.selected-skill ul {
+  list-style: none;
+  padding: 0;
+}
+.selected-skill li {
+  font-size: 16px;
+  margin: 5px 0;
 }
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_service.scss ***!
