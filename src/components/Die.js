@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/__die.scss';
+import React_Img from "../../public/react.png"
+import Image from 'next/image';
 
 function Die() {
     const skills = ['javascript', 'python', 'react', 'node.js', 'java', 'c#'];
@@ -31,7 +33,8 @@ function Die() {
                 <div className="die-container">
                     <div id="dice1" className={`dice dice-one show-${diceValue}`}>
                         <div id="dice-one-side-one" className="side one">
-                            <div className="dot one-1" />
+                            {/* <div className="dot one-1" /> */}
+                            <Image src={React_Img}/>
                         </div>
                         <div id="dice-one-side-two" className="side two">
                             <div className="dot two-1" />
