@@ -1,80 +1,45 @@
-
-.sidebar {
-  padding: 2.5rem 0 3rem; /* py-10 mb-12 */
-  color: black; /* dark:text-white */
-
-  &.dark {
-    color: white;
-  }
-
-  .logo {
-    font-family: "burtons";
-    font-size: 1.5rem; /* text-xl */
-  }
-
-  .nav-link {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-    position: relative;
-    z-index: 1;
-
-    &:hover {
-      transform: translateX(-5px);
-      color: yellow;
-    }
-  }
-
-  .button-name {
-    position: absolute;
-    top: 50%;
-    left: -40px;
-    opacity: 0;
-    transform: translateY(-50%);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .nav-link:hover .button-name {
-    opacity: 1;
-    transform: translateY(-50%) translateX(-10px);
-  }
-
-  ul {
-    align-items: center;
-    list-style: none;
+.image {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  li{
+    width: 75px;
     display: flex;
-    flex-direction: column;
-
-    li {
-      margin-bottom: 4rem; /* Add margin between images */
-
-      &:last-child {
-        margin-bottom: 0; /* Remove margin for the last li */
-      }
-
-      .dark-mode-icon {
-        cursor: pointer;
-        font-size: 2rem; /* text-2xl */
-      }
-
-      .resume-link {
-        background: linear-gradient(to right, cyan, teal);
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border: none;
-        border-radius: 0.25rem;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        font-size: 0.75rem;
-        
-        &:hover {
-          background-color: teal;
-        }
-      }
-    }
+    align-items: center;
+    justify-content: center;
+    align-items: center;
   }
+}
+
+.image-container {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+  justify-content: center;
+}
+
+.image-container .button-name {
+  position: absolute;
+  top: 0; /* Adjust the top position to move the button name */
+  left: 0; /* Adjust the left position to move the button name */
+  opacity: 0;
+  transition: opacity 0.3s;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.image-container:hover .button-name {
+  opacity: 1;
+}
+
+.image-container:hover img {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.sidebar{
+  display: flex;
+  justify-content: center;
+  
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/__die.scss';
+import '../styles/_die.scss';
 import React_Img from "../../public/react.png"
 import Image from 'next/image';
 
