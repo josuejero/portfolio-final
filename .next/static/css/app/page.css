@@ -12,9 +12,9 @@ main {
 .scrollable-child {
   background-color: darkblue;
 }
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_header.scss ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_sidebar.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .image {
   display: flex;
   align-items: center;
@@ -23,40 +23,42 @@ main {
 .image li {
   width: 75px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
-
-.image-container {
+.image li .image-container {
   display: flex;
-  position: relative;
   cursor: pointer;
   transition: transform 0.3s;
   justify-content: center;
+  top: 100px;
 }
-
-.image-container .button-name {
-  position: absolute;
-  top: 0; /* Adjust the top position to move the button name */
-  left: 0; /* Adjust the left position to move the button name */
+.image li .image-container .button-name {
+  position: relative;
   opacity: 0;
   transition: opacity 0.3s;
   padding: 5px;
   font-size: 12px;
 }
-
-.image-container:hover .button-name {
+.image li .image-container:hover .button-name {
   opacity: 1;
 }
-
-.image-container:hover img {
-  opacity: 0;
+.image li .image-container:hover img {
   transition: opacity 0.3s;
 }
 
 .sidebar {
   display: flex;
   justify-content: center;
+}
+.sidebar .nav-link:hover span {
+  display: inline-block;
+}
+.sidebar .nav-link:hover img {
+  display: none;
+}
+.sidebar .nav-link span {
+  display: none;
 }
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_hero-section.scss ***!

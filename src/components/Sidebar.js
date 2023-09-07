@@ -1,7 +1,7 @@
 import React from "react";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import Image from "next/image";
-import "../styles/_header.scss";
+import "../styles/_sidebar.scss";
 
 const sections = [
   { id: "#HomeSection", label: "Home" },
@@ -11,9 +11,7 @@ const sections = [
 ];
 
 const Sidebar = ({ darkMode, setDarkMode }) => {
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
   const scrollToSection = (id) => {
     // Implement your scrollToSection function here
@@ -23,27 +21,15 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
     <nav className="sidebar">
       <ul className="image">
         <li>
-          <BsFillMoonStarsFill
-            onClick={toggleDarkMode}
-            className="dark-mode-icon"
-          />
+          <BsFillMoonStarsFill onClick={toggleDarkMode} className="dark-mode-icon" />
         </li>
         {sections.map((section) => (
           <li key={section.id}>
-            <div
-              className="nav-link"
-              onClick={() => scrollToSection(section.id)}
-            >
+            <div className="nav-link" onClick={() => scrollToSection(section.id)}>
               <div className="image-container">
-                <Image
-                  src={`/${section.label.toLowerCase()}.png`}
-                  layout="fixed"
-                  width={25}
-                  height={25}
-                  alt=""
-                />
+                <Image src={`/${section.label.toLowerCase()}.png`} width={25} height={25} alt="" />
+                <span className="button-name">{section.label}</span>
               </div>
-              <span className="button-name">{section.label}</span>
             </div>
           </li>
         ))}
