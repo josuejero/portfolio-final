@@ -1,0 +1,53 @@
+.image{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+
+    li{
+        width: 75px;
+        display: flex;
+        justify-content: center;
+
+        .image-container{
+            display: flex;
+            cursor: pointer;
+            
+            .button-name{
+                opacity: 0;
+                transition: opacity 0.3s;
+                padding: 5px;
+                font-size: 12px;
+            }
+
+            &:hover{
+                .button-name{
+                    opacity: 1;
+                }
+
+                img{
+                    transition: opacity 0.3s;
+                }
+            }
+        }
+    }
+}
+
+.sidebar{
+    display: flex;
+
+    .nav-link:hover{
+        span{
+            display: inline-block;
+        }
+
+        img{
+            display: none;
+        }
+    }
+
+    .nav-link{
+        span{
+            display: none;
+        }
+    }
+}
