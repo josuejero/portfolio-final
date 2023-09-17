@@ -1,4 +1,214 @@
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_main.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@media (min-width: 768px) {
+  main {
+    display: flex;
+  }
+}
+
+.fixed-child {
+  background-color: gray;
+}
+.fixed-child.sidebar-open {
+  display: none;
+}
+
+.scrollable-child {
+  background-color: darkblue;
+}
+.scrollable-child.sidebar-open {
+  display: none;
+}
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_HomeSection.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.HomeSection {
+  text-align: center;
+  padding: 2.5rem;
+}
+
+.my-heading-1 {
+  font-size: 2.5rem;
+  color: burlywood;
+  font-weight: 500;
+}
+
+.my-heading-2 {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.my-paragraph {
+  font-size: 1rem;
+  padding: 1.25rem 0;
+  line-height: 2rem;
+  color: white;
+}
+
+.my-image-wrapper, .my-image-container {
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+.my-image-container {
+  overflow: hidden;
+  position: relative;
+  background-image: linear-gradient(to bottom teal, black);
+  border-radius: 9999px;
+  margin: 0 auto;
+  padding: 10rem;
+}
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_about.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.service-container {
+  gap: 1rem;
+  justify-content: center;
+  display: flex;
+}
+
+.service-item {
+  flex: 1 1;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  margin: 1rem;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+.service-item .service-content {
+  padding: 1rem;
+}
+.service-item .service-content .image-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.service-item .service-content .image-container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.service-item .service-content .title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  padding-top: 0.5rem;
+  padding-bottom: 0.25rem;
+}
+.service-item .service-content .description {
+  font-size: 1rem;
+  padding-top: 0.5rem;
+}
+.service-item .service-content .subtitle {
+  font-size: 1.125rem;
+  color: teal;
+  padding-top: 1rem;
+}
+.service-item .service-content .tool-list {
+  list-style: none;
+  color: grey;
+  padding-top: 0.5rem;
+}
+.service-item .service-content .tool-list li {
+  padding-left: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.services-heading, .portfolio-heading {
+  font-size: 1.875rem;
+  padding-top: 0.25rem;
+  color: white;
+}
+
+.services-paragraph {
+  font-size: 1.25rem;
+  padding-top: 0.5rem;
+  line-height: 1.5;
+  color: grey;
+}
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_blog.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.portfolio-image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 2.5rem;
+}
+.portfolio-image-container .image-item {
+  flex-basis: 33.3333333333%;
+  flex: 1 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+.portfolio-image-container .image-item .rounded-lg {
+  border-radius: 0.5rem;
+}
+.portfolio-image-container .image-item .object-cover {
+  object-fit: cover;
+}
+.portfolio-image-container .image-item::before {
+  content: "";
+  display: block;
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_contact.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.ContactSection {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.ContactSection h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.ContactSection p {
+  color: #666;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.ContactSection .form-group {
+  margin-bottom: 20px;
+}
+.ContactSection .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 16px;
+}
+.ContactSection .form-group input,
+.ContactSection .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.ContactSection .form-group textarea {
+  resize: vertical;
+}
+.ContactSection button {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+.ContactSection button:hover {
+  background-color: #0056b3;
+}
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_dice.scss ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .die-body {
@@ -217,202 +427,4 @@
 
 .nav-link span {
   display: none;
-}
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_main.scss ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.fixed-child {
-  background-color: gray;
-}
-
-.scrollable-child {
-  background-color: darkblue;
-}
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_HomeSection.scss ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.my-container {
-  text-align: center;
-  padding: 2.5rem;
-}
-
-.my-heading-1 {
-  font-size: 2.5rem;
-  color: burlywood;
-  font-weight: 500;
-}
-
-.my-heading-2 {
-  font-size: 1.5rem;
-  color: white;
-}
-
-.my-paragraph {
-  font-size: 1rem;
-  padding: 1.25rem 0;
-  line-height: 2rem;
-  color: white;
-}
-
-.my-image-wrapper, .my-image-container {
-  text-align: center;
-  padding: 2.5rem 0;
-}
-
-.my-image-container {
-  overflow: hidden;
-  position: relative;
-  background-image: linear-gradient(to bottom teal, black);
-  border-radius: 9999px;
-  margin: 0 auto;
-  padding: 10rem;
-}
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_about.scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.service-container {
-  gap: 1rem;
-  justify-content: center;
-  display: flex;
-}
-
-.service-item {
-  flex: 1 1;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  margin: 1rem;
-  background-color: white;
-  transition: background-color 0.3s ease;
-}
-.service-item .service-content {
-  padding: 1rem;
-}
-.service-item .service-content .image-container {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.service-item .service-content .image-container img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.service-item .service-content .title {
-  font-size: 1.25rem;
-  font-weight: 500;
-  padding-top: 0.5rem;
-  padding-bottom: 0.25rem;
-}
-.service-item .service-content .description {
-  font-size: 1rem;
-  padding-top: 0.5rem;
-}
-.service-item .service-content .subtitle {
-  font-size: 1.125rem;
-  color: teal;
-  padding-top: 1rem;
-}
-.service-item .service-content .tool-list {
-  list-style: none;
-  color: grey;
-  padding-top: 0.5rem;
-}
-.service-item .service-content .tool-list li {
-  padding-left: 1rem;
-  margin-bottom: 0.25rem;
-}
-
-.services-heading, .portfolio-heading {
-  font-size: 1.875rem;
-  padding-top: 0.25rem;
-  color: white;
-}
-
-.services-paragraph {
-  font-size: 1.25rem;
-  padding-top: 0.5rem;
-  line-height: 1.5;
-  color: grey;
-}
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_blog.scss ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.portfolio-image-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  padding-top: 2.5rem;
-}
-.portfolio-image-container .image-item {
-  flex-basis: 33.3333333333%;
-  flex: 1 1;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: block;
-}
-.portfolio-image-container .image-item .rounded-lg {
-  border-radius: 0.5rem;
-}
-.portfolio-image-container .image-item .object-cover {
-  object-fit: cover;
-}
-.portfolio-image-container .image-item::before {
-  content: "";
-  display: block;
-}
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_contact.scss ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.contact {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-.contact h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.contact p {
-  color: #666;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-.contact .form-group {
-  margin-bottom: 20px;
-}
-.contact .form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-  font-size: 16px;
-}
-.contact .form-group input,
-.contact .form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-.contact .form-group textarea {
-  resize: vertical;
-}
-.contact button {
-  display: inline-block;
-  padding: 10px 20px;
-  color: #fff;
-  background-color: #007bff;
-  border-radius: 5px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-.contact button:hover {
-  background-color: #0056b3;
 }

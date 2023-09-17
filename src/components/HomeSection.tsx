@@ -4,7 +4,7 @@ import "../styles/_HomeSection.scss"
 
 export default function HomeSection(){
     return(
-        <div className="my-container">
+        <div className="HomeSection">
             <h2 className="my-heading-1">
                 Josue Jeronimo
             </h2>

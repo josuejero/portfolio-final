@@ -20,7 +20,7 @@ export default function About(){
         },
     ];
     return(
-        <div>
+        <div className="AboutSection">
             <h3 className="services-heading">
                 Services I Offer
             </h3>

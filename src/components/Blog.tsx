@@ -9,7 +9,7 @@ interface PortfolioProps {
 }
 
 const Portfolio: React.FC<PortfolioProps> = ({  }) => (
-    <section className="portfolio-section">
+    <section className="BlogSection">
         <div>
             <h3 className="portfolio-heading">Portfolio</h3>
         </div>

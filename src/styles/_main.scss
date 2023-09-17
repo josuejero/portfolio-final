@@ -1,10 +1,21 @@
 main{
+    @media (min-width: 768px) {
+        display: flex;
+    }
 }
 
 .fixed-child{
     background-color: gray;
+
+    &.sidebar-open{
+        display: none;
+    }
 }
 
 .scrollable-child{
     background-color: darkblue;
+
+    &.sidebar-open{
+        display:none;
+    }
 }

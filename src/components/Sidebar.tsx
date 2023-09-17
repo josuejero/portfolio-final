@@ -1,45 +1,58 @@
-"use client"
-import Image from "next/image"
-import "../styles/_sidebar.scss"
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import "../styles/_sidebar.scss";
 
 type Section = {
-    id: string;
+    className: string;
     label: string;
 };
 
 const sections: Section[] = [
     {
-        id: "#HomeSection", 
+        className: ".HomeSection", 
         label: "Home"
     },
     {
-        id: "#AboutSection",
+        className: ".AboutSection",
         label: "About"
     },
     {
-        id: "BlogSection",
+        className: ".BlogSection",
         label: "Blog"
     },
     {
-        id: "#ContactSection",
+        className: ".ContactSection",
         label: "Contact"
     },
 ]
 
 export default function Sidebar(){
 
-    const scrollToSection = (id: string) => {
-        
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleSidebar = () =>{
+        setIsOpen(!isOpen)
+    }
+    
+    const scrollToSection = (className: string) => {
+        const element = document.querySelector(className);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     return(
-        <div className="sidebar">
+        <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+            <button onClick={toggleSidebar}>
+                {isOpen ? "Close" : "Open"} Sidebar
+            </button>
             <ul className="image">
                 <li>
                 </li>
                 {sections.map((section) => (
-                    <li key={section.id}>
-                        <div className="nav-link" onClick={() => scrollToSection(section.id)}>
+                    <li key={section.className}>
+                        <div className="nav-link" onClick={() => scrollToSection(section.className)}>
                             <div className="image-container">
                                 <Image src={`/${section.label.toLowerCase()}.png`} width={25} height={25} alt=""/>
                                 <span className="button-name">{section.label}</span>

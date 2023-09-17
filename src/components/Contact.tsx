@@ -3,7 +3,7 @@ import "../styles/_contact.scss"
 
 const Contact: React.FC = () => {
     return (
-        <section className="contact">
+        <section className="ContactSection">
             <h2>Contact Us</h2>
             <p>Feel free to get in touch with us.</p>
             <form>
