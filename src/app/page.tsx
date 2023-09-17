@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import "../styles/_main.scss"
 import HomeSection from '@/components/HomeSection'
 import About from '@/components/About'

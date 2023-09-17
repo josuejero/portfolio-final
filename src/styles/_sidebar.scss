@@ -1,5 +1,13 @@
+.sidebar{
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+}
+
 .image{
     display: flex;
+    justify-content: center; /* Center items horizontally */
     align-items: center;
     padding: 20px;
 
@@ -12,6 +20,10 @@
             display: flex;
             cursor: pointer;
             
+            img{
+                max-width: 100%;
+                height: auto;
+            }
             .button-name{
                 opacity: 0;
                 transition: opacity 0.3s;
@@ -32,22 +44,18 @@
     }
 }
 
-.sidebar{
-    display: flex;
-
-    .nav-link:hover{
-        span{
-            display: inline-block;
-        }
-
-        img{
-            display: none;
-        }
+.nav-link:hover{
+    span{
+        display: inline-block;
     }
 
-    .nav-link{
-        span{
-            display: none;
-        }
+    img{
+        display: none;
+    }
+}
+
+.nav-link{
+    span{
+        display: none;
     }
 }

@@ -169,8 +169,16 @@
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_sidebar.scss ***!
   \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.sidebar {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+}
+
 .image {
   display: flex;
+  justify-content: center; /* Center items horizontally */
   align-items: center;
   padding: 20px;
 }
@@ -182,6 +190,10 @@
 .image li .image-container {
   display: flex;
   cursor: pointer;
+}
+.image li .image-container img {
+  max-width: 100%;
+  height: auto;
 }
 .image li .image-container .button-name {
   opacity: 0;
@@ -196,25 +208,19 @@
   transition: opacity 0.3s;
 }
 
-.sidebar {
-  display: flex;
-}
-.sidebar .nav-link:hover span {
+.nav-link:hover span {
   display: inline-block;
 }
-.sidebar .nav-link:hover img {
+.nav-link:hover img {
   display: none;
 }
-.sidebar .nav-link span {
+
+.nav-link span {
   display: none;
 }
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_main.scss ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-main {
-  display: inline-block;
-}
-
 .fixed-child {
   background-color: gray;
 }
@@ -235,20 +241,10 @@ main {
   color: burlywood;
   font-weight: 500;
 }
-@media (min-width: 768px) {
-  .my-heading-1 {
-    font-size: 4rem;
-  }
-}
 
 .my-heading-2 {
   font-size: 1.5rem;
   color: white;
-}
-@media (min-width: 768px) {
-  .my-heading-2 {
-    font-size: 2rem;
-  }
 }
 
 .my-paragraph {
@@ -256,11 +252,6 @@ main {
   padding: 1.25rem 0;
   line-height: 2rem;
   color: white;
-}
-@media (min-width: 768px) {
-  .my-paragraph {
-    font-size: 1.5rem;
-  }
 }
 
 .my-image-wrapper, .my-image-container {
@@ -354,14 +345,6 @@ main {
   flex-direction: column;
   gap: 2.5rem;
   padding-top: 2.5rem;
-}
-@media (min-width: 1024px) {
-  .portfolio-image-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2.5rem;
-    gap: 2.5rem;
-  }
 }
 .portfolio-image-container .image-item {
   flex-basis: 33.3333333333%;

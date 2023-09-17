@@ -8,18 +8,12 @@
     color: burlywood;
     font-weight: 500;
 
-    @media(min-width: 768px){
-        font-size: 4rem;
-    }
 }
 
 .my-heading-2{
     font-size: 1.5rem;
     color: white;
 
-    @media (min-width: 768px){
-        font-size: 2rem;
-    }
 }
 
 .my-paragraph{
@@ -28,9 +22,7 @@
     line-height: 2rem;
     color: white;
 
-    @media(min-width: 768px){
-        font-size: 1.5rem;
-    }
+    
 }
 
 .my-image-wrapper, .my-image-container{
