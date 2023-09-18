@@ -1,24 +1,68 @@
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_main.scss ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-@media (min-width: 768px) {
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scroll bars on the body */
+}
+
+main {
+  display: flex;
+  height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+@media (max-width: 768px) {
   main {
-    display: flex;
+    display: block;
   }
 }
 
 .fixed-child {
-  background-color: gray;
+  background-color: grey;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -250px; /* Start hidden */
+  overflow-y: auto; /* Enable scrolling if the content overflows */
+  transition: left 0.3s ease;
 }
 .fixed-child.sidebar-open {
-  display: none;
+  left: 0; /* Slide in when open */
+}
+.fixed-child .toggle-button {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .fixed-child {
+    width: 100%; /* Expand to full width */
+    left: 0; /* Always visible on smaller screens */
+    transition: none; /* No transition on smaller screens */
+  }
 }
 
 .scrollable-child {
   background-color: darkblue;
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling if the content overflows */
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Transition to move content when sidebar opens */
 }
 .scrollable-child.sidebar-open {
-  display: none;
+  margin-left: 250px; /* Shift content when sidebar is open */
+}
+@media (max-width: 768px) {
+  .scrollable-child {
+    margin-left: 0; /* No shift on smaller screens */
+    transition: none; /* No transition on smaller screens */
+  }
 }
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_HomeSection.scss ***!
@@ -380,14 +424,13 @@
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[13].use[5]!./src/styles/_sidebar.scss ***!
   \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .sidebar {
-  display: flex;
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */
+  transition: all 0.3s ease-in-out;
 }
 
 .image {
-  display: flex;
   justify-content: center; /* Center items horizontally */
   align-items: center;
   padding: 20px;
@@ -396,6 +439,7 @@
   width: 75px;
   display: flex;
   justify-content: center;
+  display: flex;
 }
 .image li .image-container {
   display: flex;
