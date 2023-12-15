@@ -46,7 +46,7 @@ function Die({}: DieProps): React.ReactElement<DieState> {
                     <div id="dice1" className={`dice dice-one show-${diceValue}`}>
                         <div id="dice-one-side-one" className="side one">
                             {/* <div className="dot one-1" /> */}
-                            <Image src="" alt=''/>
+                            {/* <Image src="" alt=''/> */}
                         </div>
                         <div id="dice-one-side-two" className="side two">
                             <div className="dot two-1" />

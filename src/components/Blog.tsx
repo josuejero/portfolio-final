@@ -16,7 +16,7 @@ const Portfolio: React.FC<PortfolioProps> = ({  }) => (
         <div className="portfolio-image-container">
         {webImages.map((image, index) => (
             <div key={index} className="image-item">
-            <Image className="rounded-lg object-cover" width={500} height={300} layout="responsive" src={image} alt="" />
+            <Image className="rounded-lg object-cover" width={500} height={300}  src={image} alt="" />
             </div>
         ))}
         </div>

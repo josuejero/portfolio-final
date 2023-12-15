@@ -25,14 +25,14 @@ const sections: Section[] = [
         className: ".ContactSection",
         label: "Contact"
     },
-]
+];
 
-export default function Sidebar(){
+export default function Sidebar() {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const toggleSidebar = () =>{
-        setIsOpen(!isOpen)
+    const toggleSidebar = () => {
+        setIsOpen(!isOpen);
     }
     
     const scrollToSection = (className: string) => {
@@ -42,19 +42,17 @@ export default function Sidebar(){
         }
     }
 
-    return(
+    return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
             <button onClick={toggleSidebar}>
                 {isOpen ? "Close" : "Open"} Sidebar
             </button>
             <ul className="image">
-                <li>
-                </li>
                 {sections.map((section) => (
                     <li key={section.className}>
                         <div className="nav-link" onClick={() => scrollToSection(section.className)}>
                             <div className="image-container">
-                                <Image src={`/${section.label.toLowerCase()}.png`} width={25} height={25} alt=""/>
+                                <Image src={`/${section.label.toLowerCase()}.svg`} width={25} height={25} alt={section.label} />
                                 <span className="button-name">{section.label}</span>
                             </div>
                         </div>
@@ -67,5 +65,5 @@ export default function Sidebar(){
                 </li>
             </ul>
         </div>
-    )
+    );
 }
