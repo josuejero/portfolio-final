@@ -3,7 +3,10 @@
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically */
     transition: all 0.3s ease-in-out;
-    
+
+    &.open{
+        transform: translateX(-100%);
+    }
 
 }
 
