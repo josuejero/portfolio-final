@@ -9,7 +9,7 @@ import Sidebar from "@/components/Sidebar";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const toggleSidebar = () => {
@@ -22,10 +22,8 @@ export default function Home() {
     };
 
     if (typeof window !== "undefined") {
-      // Check if window object is defined (i.e., running in the browser)
       setIsSmallScreen(window.innerWidth <= 768);
       window.addEventListener("resize", handleResize);
-
       return () => {
         window.removeEventListener("resize", handleResize);
       };
@@ -34,16 +32,17 @@ export default function Home() {
 
   return (
     <main>
+      {/* Conditional rendering based on screen size */}
       {isSmallScreen ? (
         <div className={`header ${isSidebarOpen ? "sidebar-open" : ""}`}>
           <button className="toggle-button" onClick={toggleSidebar}>
             {isSidebarOpen ? "Close" : "Open"} Sidebar
           </button>
-          <Sidebar />
+          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         </div>
       ) : (
         <div className={`fixed-child ${isSidebarOpen ? "sidebar-open" : ""}`}>
-          <Sidebar />
+          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         </div>
       )}
 

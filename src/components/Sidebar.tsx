@@ -27,14 +27,13 @@ const sections: Section[] = [
     },
 ];
 
-export default function Sidebar({isOpen, toggleSidebar}) {
+type SidebarProps = {
+    isOpen: boolean;
+    toggleSidebar: () => void; // Assuming toggleSidebar is a function that returns void
+};
 
-    const [isOpen, setIsOpen] = useState(false); // Changed to true
-
-    const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-        console.log("Sidebar state after toggle:", !isOpen);
-    }
+export default function Sidebar({isOpen, toggleSidebar}: SidebarProps) {
+    // Removed the useState and function declaration for isOpen and toggleSidebar
     
     const scrollToSection = (className: string) => {
         const element = document.querySelector(className);
