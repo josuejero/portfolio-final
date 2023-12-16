@@ -1,4 +1,5 @@
 .sidebar{
+    display: flex;
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically */
@@ -8,23 +9,33 @@
 }
 
 .image{
-    justify-content: center; /* Center items horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Center items horizontally */
     align-items: center;
     padding: 20px;
+    width: 100%;
 
     li{
-        width: 75px;
+        margin: 10px 0;
         display: flex;
         justify-content: center;
-        display: flex;
+        align-items: center;
 
         .image-container{
             display: flex;
             cursor: pointer;
             
             img{
+                filter: invert(72%) sepia(94%) saturate(629%) hue-rotate(2deg) brightness(103%) contrast(101%);
                 max-width: 100%;
                 height: auto;
+                transition: opacity 1s ease;
+                opacity: 1;
+
+                &:hover{
+                    opacity: 0;
+                }
             }
             .button-name{
                 opacity: 0;
