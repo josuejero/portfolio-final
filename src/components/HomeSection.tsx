@@ -17,7 +17,7 @@ export default function HomeSection(){
             <div className="my-social-icons"></div>
             <div className="my-image-wrapper">
                 <div className="my-image-container">
-                    <Image src="" layout="fill" objectFit="cover" alt=""/>
+                    {/* <Image src="" alt=""/> */}
                 </div>
             </div>
         </div>

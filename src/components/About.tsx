@@ -35,7 +35,7 @@ export default function About(){
                     <div className="service-item" key={index}>
                         <div className="service-content">
                             <div className="image-container">
-                                <Image src="" width={100} height={100} alt=""/>
+                                {/* <Image src="" width={100} height={100} alt=""/> */}
                             </div>
                             <h3 className="title">
                                 {services.title}
