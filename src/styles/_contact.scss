@@ -23,21 +23,26 @@
             display: block;
             margin-bottom: 5px;
             color: #333;
-            font-size: 16px;
+            font-size: 1rem;
         }
 
         input,
         textarea {
             width: 100%;
+            max-width: 100%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            font-size: 16px;
+            font-size: 1rem;
+
+            @media (max-width: 930px){
+                width: 90%;
+            }
         }
 
-        textarea {
-            resize: vertical;
-        }
+        // textarea {
+        //     resize: vertical;
+        // }
     }
 
     button {

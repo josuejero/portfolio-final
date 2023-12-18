@@ -16,39 +16,15 @@ export default function Home() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768);
-    };
-
-    if (typeof window !== "undefined") {
-      setIsSmallScreen(window.innerWidth <= 768);
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, []);
-
   return (
     <main>
       {/* Conditional rendering based on screen size */}
-      {isSmallScreen ? (
-        <div className={`header ${isSidebarOpen ? "sidebar-open" : ""}`}>
-          <button className="toggle-button" onClick={toggleSidebar}>
-            {isSidebarOpen ? "Close" : "Open"} Sidebar
-          </button>
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-        </div>
-      ) : (
-        <div className={`fixed-child ${isSidebarOpen ? "sidebar-open" : ""}`}>
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-        </div>
-      )}
+
+      
 
       <div className={`scrollable-child ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <button className="toggle-button" onClick={toggleSidebar}>
-          {isSidebarOpen ? "Close" : "Open"} Sidebar
+          {isSidebarOpen ? "Open" : "Close"} Sidebar
         </button>
         <HomeSection />
         <About />
@@ -56,6 +32,10 @@ export default function Home() {
         <Blog />
         <Contact />
       </div>
+      <div className={`fixed-child ${isSidebarOpen ? "sidebar-open" : ""}`}>
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      </div>
+
     </main>
   );
 }

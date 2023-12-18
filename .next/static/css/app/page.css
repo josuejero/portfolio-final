@@ -12,11 +12,6 @@ main {
   height: 100vh;
   transition: margin-left 0.3s ease;
 }
-@media (max-width: 768px) {
-  main {
-    display: block;
-  }
-}
 
 .fixed-child {
   background-color: grey;
@@ -26,12 +21,13 @@ main {
   color: white;
   position: fixed;
   top: 0;
-  left: -250px; /* Start hidden */
+  left: auto;
+  right: 0px;
   overflow-y: auto; /* Enable scrolling if the content overflows */
   transition: left 0.3s ease;
 }
 .fixed-child.sidebar-open {
-  left: 0; /* Slide in when open */
+  right: -250px;
 }
 .fixed-child .toggle-button {
   background-color: #444;
@@ -40,29 +36,17 @@ main {
   padding: 10px;
   cursor: pointer;
 }
-@media (max-width: 768px) {
-  .fixed-child {
-    width: 100%; /* Expand to full width */
-    left: 0; /* Always visible on smaller screens */
-    transition: none; /* No transition on smaller screens */
-  }
-}
 
 .scrollable-child {
   background-color: darkblue;
   flex-grow: 1;
   overflow-y: auto; /* Enable scrolling if the content overflows */
   padding: 20px;
-  transition: margin-left 0.3s ease; /* Transition to move content when sidebar opens */
+  margin-right: 250px;
+  transition: margin-right 0.3s ease;
 }
 .scrollable-child.sidebar-open {
-  margin-left: 250px; /* Shift content when sidebar is open */
-}
-@media (max-width: 768px) {
-  .scrollable-child {
-    margin-left: 0; /* No shift on smaller screens */
-    transition: none; /* No transition on smaller screens */
-  }
+  margin-right: 0;
 }
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[12].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[12].oneOf[13].use[5]!./src/styles/_HomeSection.scss ***!
@@ -110,6 +94,7 @@ main {
   gap: 1rem;
   justify-content: center;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .service-item {
@@ -226,18 +211,22 @@ main {
   display: block;
   margin-bottom: 5px;
   color: #333;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .ContactSection .form-group input,
 .ContactSection .form-group textarea {
   width: 100%;
+  max-width: 100%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  font-size: 16px;
+  font-size: 1rem;
 }
-.ContactSection .form-group textarea {
-  resize: vertical;
+@media (max-width: 930px) {
+  .ContactSection .form-group input,
+  .ContactSection .form-group textarea {
+    width: 90%;
+  }
 }
 .ContactSection button {
   display: inline-block;
@@ -429,6 +418,7 @@ main {
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */
   transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
 }
 
 .image {

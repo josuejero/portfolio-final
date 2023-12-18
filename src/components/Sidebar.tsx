@@ -45,7 +45,7 @@ export default function Sidebar({isOpen, toggleSidebar}: SidebarProps) {
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
             <button onClick={toggleSidebar}>
-                {isOpen ? "Close" : "Open"} Sidebar
+                {isOpen ? "Open" : "Close"} Sidebar
             </button>
             <ul className="image">
                 {sections.map((section) => (

@@ -13,9 +13,7 @@ main {
 
     transition: margin-left 0.3s ease; 
 
-    @media (max-width: 768px) {
-        display: block;
-    }
+    
 }
 
 // Styles for the sidebar
@@ -27,12 +25,15 @@ main {
     color: white;
     position: fixed;
     top: 0;
-    left: -250px; /* Start hidden */
+    // left: -250px; /* Start hidden */
+    left: auto;
+    right: 0px;
     overflow-y: auto; /* Enable scrolling if the content overflows */
     transition: left 0.3s ease;
 
     &.sidebar-open {
-        left: 0; /* Slide in when open */
+        // left: 0; /* Slide in when open */
+        right: -250px;
     }
 
     .toggle-button {
@@ -43,11 +44,6 @@ main {
         cursor: pointer;
     }
 
-    @media (max-width: 768px) {
-        width: 100%; /* Expand to full width */
-        left: 0; /* Always visible on smaller screens */
-        transition: none; /* No transition on smaller screens */
-    }
 }
 
 // Styles for the scrollable content area
@@ -56,14 +52,13 @@ main {
     flex-grow: 1;
     overflow-y: auto; /* Enable scrolling if the content overflows */
     padding: 20px;
-    transition: margin-left 0.3s ease; /* Transition to move content when sidebar opens */
+    // transition: margin-left 0.3s ease; /* Transition to move content when sidebar opens */
+    margin-right: 250px;
+    transition: margin-right 0.3s ease;
 
     &.sidebar-open {
-        margin-left: 250px; /* Shift content when sidebar is open */
+        // margin-left: 250px; /* Shift content when sidebar is open */
+        margin-right: 0;
     }
 
-    @media (max-width: 768px) {
-        margin-left: 0; /* No shift on smaller screens */
-        transition: none; /* No transition on smaller screens */
-    }
 }
