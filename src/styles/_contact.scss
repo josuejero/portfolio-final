@@ -1,62 +1,112 @@
-.ContactSection {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+// .ContactSection {
+//     width: 100%;
+//     max-width: 600px;
+//     margin: 0 auto;
+//     padding: 20px;
     
-    h2 {
-        color: #333;
-        font-size: 24px;
-        margin-bottom: 10px;
+//     h2 {
+//         color: #333;
+//         font-size: 24px;
+//         margin-bottom: 10px;
+//     }
+
+//     p {
+//         color: #666;
+//         font-size: 18px;
+//         margin-bottom: 20px;
+//     }
+
+//     .form-group {
+//         margin-bottom: 20px;
+
+//         label {
+//             display: block;
+//             margin-bottom: 5px;
+//             color: #333;
+//             font-size: 1rem;
+//         }
+
+//         input,
+//         textarea {
+//             width: 100%;
+//             max-width: 100%;
+//             padding: 10px;
+//             border-radius: 5px;
+//             border: 1px solid #ccc;
+//             font-size: 1rem;
+
+//             @media (max-width: 930px){
+//                 width: 90%;
+//             }
+//         }
+
+//         // textarea {
+//         //     resize: vertical;
+//         // }
+//     }
+
+//     button {
+//         display: inline-block;
+//         padding: 10px 20px;
+//         color: #fff;
+//         background-color: #007bff;
+//         border-radius: 5px;
+//         border: none;
+//         font-size: 16px;
+//         cursor: pointer;
+
+//         &:hover {
+//             background-color: #0056b3;
+//         }
+//     }
+// }
+
+
+.contact-section {
+    margin-bottom: 20px;
+    width: min(100%, 38rem);
+    text-align: center;
+  
+    @media (min-width: 640px) { // sm breakpoint
+      margin-bottom: 28px;
     }
-
-    p {
-        color: #666;
-        font-size: 18px;
-        margin-bottom: 20px;
+  }
+  
+  .contact-description {
+    color: gray-700;
+    margin-top: -6px;
+  
+    .dark & {
+      color: rgba(255, 255, 255, 0.8); // Adjusted for opacity
     }
-
-    .form-group {
-        margin-bottom: 20px;
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-size: 1rem;
+  }
+  
+  .email-link {
+    text-decoration: underline;
+  }
+  
+  .contact-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  
+    .dark & {
+      color: black;
+    }
+  
+    input,
+    textarea {
+      height: 14px;
+      padding: 4px;
+      border-radius: 0.5rem;
+      transition: all 0.3s;
+  
+      .dark & {
+        background-color: rgba(255, 255, 255, 0.8); // Adjusted for opacity
+        &:focus {
+          background-opacity: 100%;
         }
-
-        input,
-        textarea {
-            width: 100%;
-            max-width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-
-            @media (max-width: 930px){
-                width: 90%;
-            }
-        }
-
-        // textarea {
-        //     resize: vertical;
-        // }
+      }
     }
-
-    button {
-        display: inline-block;
-        padding: 10px 20px;
-        color: #fff;
-        background-color: #007bff;
-        border-radius: 5px;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: #0056b3;
-        }
-    }
-}
+  }
+  
