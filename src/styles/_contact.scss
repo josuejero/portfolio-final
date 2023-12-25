@@ -66,47 +66,49 @@
     margin-bottom: 20px;
     width: min(100%, 38rem);
     text-align: center;
-  
-    @media (min-width: 640px) { // sm breakpoint
-      margin-bottom: 28px;
+    @media screen and (min-width: 640px) {
+        margin-bottom: 28px;
     }
-  }
-  
-  .contact-description {
-    color: gray-700;
-    margin-top: -6px;
-  
+}
+
+.contact-description {
+    color: #4a5568; // Equivalent to text-gray-700
+    margin-top: -1.5rem; // Equivalent to -mt-6
     .dark & {
-      color: rgba(255, 255, 255, 0.8); // Adjusted for opacity
+        color: rgba(255, 255, 255, 0.8);
     }
-  }
-  
-  .email-link {
+}
+
+.contact-link {
     text-decoration: underline;
-  }
-  
-  .contact-form {
-    margin-top: 10px;
+}
+
+.contact-form {
+    margin-top: 2.5rem;
     display: flex;
     flex-direction: column;
-  
     .dark & {
-      color: black;
+        color: black;
     }
-  
-    input,
-    textarea {
-      height: 14px;
-      padding: 4px;
-      border-radius: 0.5rem;
-      transition: all 0.3s;
-  
-      .dark & {
-        background-color: rgba(255, 255, 255, 0.8); // Adjusted for opacity
+}
+
+.contact-input,
+.contact-textarea {
+    height: 3.5rem; // Equivalent to h-14 for input
+    padding: 1rem; // Equivalent to px-4 for input and p-4 for textarea
+    border-radius: 0.75rem; // Equivalent to rounded-lg
+    transition: all;
+    .dark & {
+        background-color: white;
+        background-opacity: 0.8;
         &:focus {
-          background-opacity: 100%;
+        background-opacity: 1;
         }
-      }
+        outline: none;
     }
-  }
-  
+}
+
+.contact-textarea {
+    height: 13rem; // Equivalent to h-52
+    margin-top: 0.75rem; // Equivalent to my-3
+}

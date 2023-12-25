@@ -1,6 +1,8 @@
 import React from 'react';
 import "../styles/_contact.scss"
-import { useState } from 'react';
+import {FormEvent, useState } from 'react';
+import {motion} from "framer-motion"
+
 
 interface FormData{
     senderEmail: string
@@ -29,30 +31,38 @@ const Contact: React.FC = () => {
     //     </section>
     // );
 
-    const [formData, setFormData] = useState<FormData>({senderEmail:'', message: ''})
+
+    
 
     return (
-        <section id="contact" className="contact-section">
+        <motion.section className='contact-section' 
+        id="contact"
+        initial={{
+            opacity:0,
+        }}
+        whileInView={{
+            opacity:1,
+        }}
+        transition={{
+            duration:1,
+        }}>
             <h1>Contact me</h1>
-            <p className="contact-description">
+            <p className='contact-description'>
                 Please contact me directly at{" "}
-                <a className='email-link' href="mailto:josuejero@hotmail.com">
+                <a className='contact-link' href='mailto:josuejero@hotmail.com'>
                     josuejero@hotmail.com
                 </a>
                 {" "} or through this form.
             </p>
 
             <form className='contact-form'>
-                <input
-                    className='input-field'
-                    name="senderEmail"
-                    type="email"
-                    required
-                    maxLength={500}
-                    placeholder='Your email'
-                />
+                <input className='contact-input' type='email' placeholder='Your email'/>
+                <textarea className='contact-textarea' placeholder='Your message'/>
+                <button type='submit'>
+                    Submit{" "}
+                </button>
             </form>
-        </section>
+        </motion.section>
     )
 };
 
