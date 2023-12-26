@@ -54,10 +54,11 @@
         .tool-list{
             list-style: none;
             color: grey;
-            padding-top: 0.5rem;
+            padding: 0;
+            margin: 0;
 
             li{
-                padding-left: 1rem;
+                padding: 0;
                 margin-bottom: 0.25rem;
             }
         }
@@ -68,6 +69,7 @@
     font-size: 1.875rem;
     padding-top: 0.25rem;
     color: white;
+    text-align: center;
 }
 
 .services-paragraph{
@@ -75,4 +77,5 @@
     padding-top: 0.5rem;
     line-height: 1.5;
     color: grey;
+    text-align: center;
 }

@@ -1,23 +1,26 @@
 .die-body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: green;
 
     .game {
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         position: relative;
-        width: auto;
-        height: 100%;
+        width: 100%;
+        height: auto;
     }
 
     .die-container {
         position: relative;
         display: inline-block;
-        top: 300px;
-        margin: 0 auto;
+        top: auto;
+        margin-bottom: 10px;
     }
 
     .dice {
@@ -149,8 +152,7 @@
 
 .die-button {
     position: relative;
-    top: 80px;
-    padding: 15px 50px;
+    padding: 1em 2em;
     color: #fff;
     background-color: orange;
     border: none;
@@ -159,6 +161,7 @@
     box-shadow: 1px 3px black;
     outline: none;
     transition: .3s;
+    margin-bottom: 10px;
 
     &:hover,
     &:active {
@@ -172,16 +175,13 @@
 .selected-skill {
 
     text-align: center;
-    margin-top: 250px;
 
     h2 {
         font-size: 24px;
-        margin-bottom: 10px;
     }
 
     h3 {
         font-size: 20px;
-        margin-top: 10px;
     }
 
     ul {
@@ -191,6 +191,5 @@
 
     li {
         font-size: 16px;
-        margin: 5px 0;
     }
 }

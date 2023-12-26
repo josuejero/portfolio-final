@@ -56,9 +56,48 @@ main {
     margin-right: 250px;
     transition: margin-right 0.3s ease;
 
+    .toggle-button {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+
+        position: fixed;
+        right: 20px;
+        top: 20px;
+    }
+
     &.sidebar-open {
         // margin-left: 250px; /* Shift content when sidebar is open */
         margin-right: 0;
     }
 
+
+}
+
+@media (max-width: 435px) {
+    .fixed-child {
+        width: 100%;     // Take the full width of the screen
+        height: auto;    // Adjust height as needed
+        top: 0;
+        right: auto;     // Reset right positioning
+        left: 0;         // Align to the left
+        // Adjust other properties as needed
+        &.sidebar-open {
+            // left: 0; /* Slide in when open */
+            top: -100%;
+        }
+    }
+
+    .scrollable-child {
+        margin-right: 0; // Reset margin
+        margin-top: 250px; // Adjust according to the height of fixed-child
+        // You might need to adjust the top margin to make space for the fixed child
+        transition: margin-top 0.3s ease;
+
+        &.sidebar-open{
+            margin: 0;
+        }
+    }
 }

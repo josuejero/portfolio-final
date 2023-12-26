@@ -22,7 +22,7 @@ const sections: Section[] = [
         label: "Blog"
     },
     {
-        className: ".ContactSection",
+        className: ".contact-section",
         label: "Contact"
     },
 ];
