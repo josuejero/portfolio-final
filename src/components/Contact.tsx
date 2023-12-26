@@ -2,6 +2,7 @@ import React from 'react';
 import "../styles/_contact.scss"
 import {FormEvent, useState } from 'react';
 import {motion} from "framer-motion"
+import {sendEmail} from "@/actions/sendEmail"
 
 
 interface FormData{
@@ -55,9 +56,27 @@ const Contact: React.FC = () => {
                 {" "} or through this form.
             </p>
 
-            <form className='contact-form'>
-                <input className='contact-input' type='email' placeholder='Your email'/>
-                <textarea className='contact-textarea' placeholder='Your message'/>
+            <form 
+                className='contact-form'
+                action={async (formData) => {
+                    await sendEmail(formData)
+                }}
+            >
+                <input
+                    className='contact-input' 
+                    type='email' 
+                    placeholder='Your email'
+                    required
+                    maxLength={500}
+                    name='senderEmail'
+                />
+                <textarea
+                    className='contact-textarea'
+                    placeholder='Your message'
+                    required
+                    maxLength={500}
+                    name='message'
+                />
                 <button type='submit'>
                     Submit{" "}
                 </button>
