@@ -1,42 +1,22 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
 import "../styles/_sidebar.scss";
 
-type Section = {
-    className: string;
-    label: string;
-};
-
-const sections: Section[] = [
-    {
-        className: ".HomeSection", 
-        label: "Home"
-    },
-    {
-        className: ".AboutSection",
-        label: "About"
-    },
-    {
-        className: ".BlogSection",
-        label: "Blog"
-    },
-    {
-        className: ".contact-section",
-        label: "Contact"
-    },
+const sections = [
+    { className: "HomeSection", label: "Home" },
+    { className: "AboutSection", label: "About" },
+    { className: "BlogSection", label: "Blog" },
+    { className: "ContactSection", label: "Contact" },
 ];
 
 type SidebarProps = {
     isOpen: boolean;
-    toggleSidebar: () => void; // Assuming toggleSidebar is a function that returns void
+    toggleSidebar: () => void;
 };
 
-export default function Sidebar({isOpen, toggleSidebar}: SidebarProps) {
-    // Removed the useState and function declaration for isOpen and toggleSidebar
-    
+export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
     const scrollToSection = (className: string) => {
-        const element = document.querySelector(className);
+        const element = document.querySelector(`.${className}`);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
@@ -45,23 +25,17 @@ export default function Sidebar({isOpen, toggleSidebar}: SidebarProps) {
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
             <button onClick={toggleSidebar}>
-                {isOpen ? "Open" : "Close"} Sidebar
+                {isOpen ? "Close" : "Open"} Sidebar
             </button>
-            <ul className="image">
-                {sections.map((section) => (
-                    <li key={section.className}>
-                        <div className="nav-link" onClick={() => scrollToSection(section.className)}>
-                            <div className="image-container">
-                                <Image src={`/${section.label.toLowerCase()}.svg`} width={25} height={25} alt={section.label} />
-                                <span className="button-name">{section.label}</span>
-                            </div>
-                        </div>
+            <ul>
+                {sections.map(section => (
+                    <li key={section.className} onClick={() => scrollToSection(section.className)}>
+                        <Image src={`/${section.label.toLowerCase()}.svg`} width={25} height={25} alt={section.label} />
+                        <span>{section.label}</span>
                     </li>
                 ))}
                 <li>
-                    <a className="resume-link" href="Resume.pdf">
-                        Resume
-                    </a>
+                    <a href="Resume.pdf">Resume</a>
                 </li>
             </ul>
         </div>
