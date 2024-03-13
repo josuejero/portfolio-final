@@ -1,74 +1,64 @@
-.sidebar{
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    transition: all 0.3s ease-in-out;
-    overflow-x: hidden;
-
-}
-
-.image{
+.sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-around; /* Center items horizontally */
     align-items: center;
-    padding: 20px;
-    width: 100%;
+    justify-content: space-between; // Evenly space items vertically
+    height: 100vh; // Full viewport height
+    transition: all 0.3s ease-in-out; // Smooth transitions for any changes
+    overflow-x: hidden; // Prevent horizontal overflow
 
-    li{
-        margin: 10px 0;
+    ul {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-
-        .image-container{
+        justify-content: space-around; // Evenly space list items vertically
+        height: 100%; // Take full height of its container
+        list-style-type: none; // No bullet points
+        padding: 0; // No padding
+        margin: 0; // No margin
+        width: 100%; // Ensure it aligns with the sidebar width
+    
+        li {
             display: flex;
-            cursor: pointer;
-            
-            img{
-                filter: invert(72%) sepia(94%) saturate(629%) hue-rotate(2deg) brightness(103%) contrast(101%);
-                max-width: 100%;
-                height: auto;
-                transition: opacity 1s ease;
-                opacity: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; // Center content in list items
+        }
+    }
 
-                &:hover{
-                    opacity: 0;
-                }
+    .image, .image-container {
+      width: 100%; // Ensure images and containers take full width
+      padding: 20px; // Space around images
+      cursor: pointer; // Indicate clickable items
+    
+        img {
+            filter: invert(72%) sepia(94%) saturate(629%) hue-rotate(2deg) brightness(103%) contrast(101%);
+            transition: opacity 1s ease; // Smooth transition for hover effects
+            max-width: 100%; // Ensure images do not exceed their container
+            height: auto; // Maintain aspect ratio
+        }
+    
+        &:hover {
+            .button-name, img {
+            opacity: 0; // Hide image on hover
+            transition: opacity 0.3s; // Smooth transition for hover effects
             }
-            .button-name{
-                opacity: 0;
-                transition: opacity 0.3s;
-                padding: 5px;
-                font-size: 12px;
+    
+            .button-name {
+            opacity: 1; // Show text on hover
             }
-
-            &:hover{
-                .button-name{
-                    opacity: 1;
-                }
-
-                img{
-                    transition: opacity 0.3s;
-                }
-            }
+        }
+    
+        .button-name {
+            padding: 5px;
+            font-size: 12px;
+            opacity: 0; // Initially hidden, shown on hover
         }
     }
 }
-
-.nav-link:hover{
-    span{
-        display: inline-block;
-    }
-
-    img{
-        display: none;
-    }
-}
-
-.nav-link{
-    span{
-        display: none;
+    
+@media (max-width: 435px) {
+    .sidebar .image {
+    flex-direction: row; // Adjust direction for smaller screens
     }
 }
