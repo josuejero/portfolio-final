@@ -20,8 +20,8 @@ export default function Home() {
           {isSidebarOpen ? "Close" : "Open"} Sidebar
         </button>
         <HomeSection />
-        <About />
         <Dice />
+        <About />
         <Blog />
         <Contact />
       </div>
