@@ -11,7 +11,7 @@ import Sidebar from "@/components/Sidebar";
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const toggleSidebar = () => setIsSidebarOpen(prevState => !prevState);
+  const toggleSidebar = () => setIsSidebarOpen((prevState) => !prevState);
 
   return (
     <main>
@@ -19,8 +19,11 @@ export default function Home() {
         <button className="toggle-button" onClick={toggleSidebar}>
           {isSidebarOpen ? "Close" : "Open"} Sidebar
         </button>
-        <HomeSection />
-        <Dice />
+        {/* Wrap HomeSection and Dice in a new div */}
+        <div className="home-and-dice-wrapper">
+          <HomeSection />
+          <Dice />
+        </div>
         <About />
         <Blog />
         <Contact />
