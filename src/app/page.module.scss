@@ -1,0 +1,67 @@
+.home{
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: #0c1222;
+  overflow: hidden;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  font-size: 1.5rem;
+  color: #fff;
+  font-family:'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .githubIcon,
+  .linkedinIcon,
+  .twitterIcon{
+    position: absolute;
+    top: 58.125rem;
+    left: 1.313rem;
+    width: 3.125rem;
+    height: 3.25rem;
+    overflow: hidden;
+    filter: brightness(0) invert(1);
+
+    &.linkedinIcon,
+    &.githubIcon{
+      top: 54rem;
+      height: 3.188rem;
+    }
+
+    &.githubIcon{
+      top: 49.938rem;
+      height: 3.125rem;
+    }
+  }
+
+  .josueJeronimo,
+  .softwareEngineer{
+    position: absolute;
+    top: 8.563rem;
+    left: 2.875rem;
+
+    &.josueJeronimo{
+      margin: 0;
+      top: 5.563rem;
+      font-size: 2.5rem;
+      font-weight: 400;
+      font-family: inherit;
+    }
+  }
+
+  @media screen and (max-width: 767px){
+    .josueJeronimo{
+      font-size: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .softwareEngineer{
+      font-size: 1.188rem;
+    }
+  }
+}
