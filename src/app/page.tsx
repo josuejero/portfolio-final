@@ -1,10 +1,15 @@
 import Image from "next/image";
 import styles from "./page.module.scss";
+import type { NextPage } from "next";
+import Dice from "@/components/dice"
+import Sidebar from "@/components/sidebar"
 
-export default function Home() {
-  return (
-    <div>
-      this is my home page
+const Home: NextPage = ()=>{
+  return(
+    <div className={styles.home}>
+      <img className={styles.homeIcon} alt="" src="/"/>
     </div>
-  );
+  )
 }
+
+export default Home;
