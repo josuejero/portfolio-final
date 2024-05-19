@@ -1,42 +1,52 @@
-import Image from "next/image";
-import styles from "./page.module.scss";
 import type { NextPage } from "next";
-import Dice from "@/components/dice";
+import Image from "next/image";
+import DiceSection from "@/components/DiceSection"
 import Sidebar from "@/components/sidebar";
+import styles from "@/app/page.module.scss"
 
 const Home: NextPage = () => {
   return (
     <div className={styles.home}>
-      <Image
-        className={styles.twitterIcon}
-        src="/twitter.svg"
-        alt="Twitter Logo"
-        width={50} // Set appropriate width
-        height={50} // Set appropriate height
-        fill={false} // New prop to replace layout="fixed"
-      />
-      <Image
-        className={styles.linkedinIcon}
-        src="/linkedin.svg"
-        alt="LinkedIn Logo"
-        width={50} // Set appropriate width
-        height={50} // Set appropriate height
-        fill={false} // New prop to replace layout="fixed"
-      />
-      <Image
-        className={styles.githubIcon}
-        src="/github.svg" // Corrected path
-        alt="GitHub Logo"
-        width={50} // Set appropriate width
-        height={50} // Set appropriate height
-        fill={false} // New prop to replace layout="fixed"
-      />
-      <Dice />
+      <main className={styles.frameParent}>
+        <div className={styles.frameWrapper}>
+          <div className={styles.closeButtonParent}>
+            <button className={styles.closeButton}>Close</button>
+          </div>
+          <div className={styles.frameContainer}>
+            <div className={styles.josuJernimoParent}>
+              <h2 className={styles.josuJernimo}>Josué Jerónimo</h2>
+              <div className={styles.softwareEngineer}>Software Engineer</div>
+            </div>
+            <div className={styles.socialButtons}>
+              <Image
+                className={styles.socialIcon}
+                src="/github.svg"
+                alt="GitHub Logo"
+                width={40} // Set appropriate width
+                height={40} // Set appropriate height
+              />
+              <Image
+                className={styles.socialIcon}
+                src="/linkedin.svg"
+                alt="LinkedIn Logo"
+                width={40} // Set appropriate width
+                height={40} // Set appropriate height
+              />
+              <Image
+                className={styles.socialIcon}
+                src="/twitter.svg"
+                alt="Twitter Logo"
+                width={40} // Set appropriate width
+                height={40} // Set appropriate height
+              />
+            </div>
+          </div>
+        </div>
+        <DiceSection />
+      </main>
       <Sidebar />
-      <div className={styles.softwareEngineer}>Software Engineer</div>
-      <h2 className={styles.josueJeronimo}>Josué Jerónimo</h2>
     </div>
   );
-}
+};
 
 export default Home;

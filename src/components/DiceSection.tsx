@@ -1,4 +1,4 @@
-export default function Dice(){
+export default function DiceSection(){
   return(
     <div>
       
