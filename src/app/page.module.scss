@@ -3,14 +3,18 @@ $background-color: #0c1222;
 $button-background: #5d6aab;
 $white: #fff;
 
+
+
 .home {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   background-color: $background-color;
   display: flex;
   flex-direction: row;
   font-family: $font-family;
   color: $white;
+  box-sizing: border-box;
 
   .frameParent {
     flex: 1;

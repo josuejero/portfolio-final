@@ -1,0 +1,57 @@
+// Variables for colors and sizing
+$background-color-dice: #063970;
+$button-background-color: #873e23;
+$button-radius: 25px;
+$text-color: #fff;
+$font-weight-regular: 400;
+$font-weight-bold: bold;
+
+// Mixin for flex centering
+@mixin flex-center($direction: column) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+// Main dice section styling
+.diceSection {
+  @include flex-center;
+  width: 100%;
+  padding: 2rem;
+  background-color: $background-color-dice;
+  border-radius: 50px;
+  gap: 2rem;
+
+  // Nested styling for the project discovery title
+  .discoverMyProjects {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: $font-weight-regular;
+    color: $text-color;
+  }
+
+  // Styling for the wrapper that contains the dice image and button
+  .diceWrapper {
+    @include flex-center;
+    gap: 1rem;
+
+    // Specific styles for the python logo icon
+    .pythonLogoIcon {
+      width: 100px; // Specific width for the image
+      height: 100px; // Specific height for the image
+    }
+
+    // Styles for the 'Roll the Die' button
+    .rollDiceButton {
+      padding: 1rem 2rem;
+      background-color: $button-background-color;
+      border-radius: $button-radius;
+      color: $text-color;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase; // Added for stylistic choice
+    }
+  }
+}
