@@ -11,7 +11,7 @@ const Sidebar: NextPage = () => {
         <div className={styles.buttonWrapper}>Blog</div>
         <div className={styles.buttonWrapper}>Contact</div>
       </div>
-      <div className={styles.buttonWrapper}>Resume</div>
+      <div className={styles.resumeButtonWrapper}>Resume</div>
     </div>
   );
 };
