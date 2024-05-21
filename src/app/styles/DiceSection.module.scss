@@ -22,6 +22,7 @@ $font-weight-bold: bold;
   background-color: $background-color-dice;
   border-radius: 50px;
   gap: 2rem;
+  box-sizing: border-box; // Ensure padding is included in the element's dimensions
 
   // Nested styling for the project discovery title
   .discoverMyProjects {
@@ -52,6 +53,8 @@ $font-weight-bold: bold;
       font-size: 1.5rem;
       font-weight: $font-weight-bold;
       text-transform: uppercase; // Added for stylistic choice
+      border: none; // Remove default button border
+      outline: none; // Remove default button outline
     }
   }
 }

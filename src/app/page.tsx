@@ -1,12 +1,13 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import DiceSection from "@/components/DiceSection"
+import DiceSection from "@/components/DiceSection";
 import Sidebar from "@/components/sidebar";
-import styles from "@/app/page.module.scss"
+import styles from "@/app/page.module.scss";
 
 const Home: NextPage = () => {
   return (
     <div className={styles.home}>
+      <Sidebar />
       <main className={styles.frameParent}>
         <div className={styles.frameWrapper}>
           <div className={styles.closeButtonParent}>
@@ -22,29 +23,28 @@ const Home: NextPage = () => {
                 className={styles.socialIcon}
                 src="/github.svg"
                 alt="GitHub Logo"
-                width={40} // Set appropriate width
-                height={40} // Set appropriate height
+                width={40}
+                height={40}
               />
               <Image
                 className={styles.socialIcon}
                 src="/linkedin.svg"
                 alt="LinkedIn Logo"
-                width={40} // Set appropriate width
-                height={40} // Set appropriate height
+                width={40}
+                height={40}
               />
               <Image
                 className={styles.socialIcon}
                 src="/twitter.svg"
                 alt="Twitter Logo"
-                width={40} // Set appropriate width
-                height={40} // Set appropriate height
+                width={40}
+                height={40}
               />
             </div>
           </div>
         </div>
         <DiceSection />
       </main>
-      <Sidebar />
     </div>
   );
 };

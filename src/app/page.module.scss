@@ -3,36 +3,37 @@ $background-color: #0c1222;
 $button-background: #5d6aab;
 $white: #fff;
 
-
-
 .home {
   width: 100vw;
   height: 100vh;
-  position: relative;
-  background-color: $background-color;
   display: flex;
   flex-direction: row;
   font-family: $font-family;
   color: $white;
+  background-color: $background-color;
   box-sizing: border-box;
 
   .frameParent {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+    overflow: hidden; // Ensure no content overflows
   }
 
   .frameWrapper {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    gap: 2rem; // Add gap between elements
   }
 
   .closeButtonParent {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -45,20 +46,25 @@ $white: #fff;
       padding: 1.375rem 0.125rem;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
+      cursor: pointer;
     }
   }
 
   .frameContainer {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem; // Add gap between elements
   }
 
   .josuJernimoParent {
     display: flex;
     flex-direction: column;
-    padding-right: 1.25rem;
+    align-items: center;
+    padding: 1.25rem;
 
     .josuJernimo {
       margin: 0;
@@ -74,6 +80,7 @@ $white: #fff;
   .socialButtons {
     display: flex;
     gap: 0.937rem;
+    justify-content: center;
 
     .socialIcon {
       width: 40px;
@@ -83,19 +90,17 @@ $white: #fff;
 }
 
 @media screen and (max-width: 1050px) {
-  .home .josuJernimo {
+  .josuJernimo {
     font-size: 2rem;
   }
 }
 
 @media screen and (max-width: 450px) {
-  .home {
-    .josuJernimo {
-      font-size: 1.5rem;
-    }
-    
-    .softwareEngineer {
-      font-size: 1.188rem;
-    }
+  .josuJernimo {
+    font-size: 1.5rem;
+  }
+  
+  .softwareEngineer {
+    font-size: 1.188rem;
   }
 }
