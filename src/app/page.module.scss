@@ -85,6 +85,7 @@ $white: #fff;
     .socialIcon {
       width: 40px;
       height: 40px;
+      filter: brightness(0) invert(1); // Change icon color to white
     }
   }
 }
