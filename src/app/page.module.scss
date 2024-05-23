@@ -4,97 +4,103 @@ $button-background: #5d6aab;
 $white: #fff;
 
 .home {
-  width: 100vw;
   display: flex;
-  flex-direction: column;
   font-family: $font-family;
   color: $white;
   background-color: $background-color;
   box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.mainContent {
+  flex: 1;
   overflow-y: auto; // Enable vertical scrolling
+}
 
-  .section {
-    min-height: 100vh;
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.frameParent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.frameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.closeButtonParent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+
+  .closeButton {
+    width: 5.313rem;
+    border-radius: 10px;
+    background-color: $button-background;
+    padding: 1.375rem 0.125rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.frameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.josuJernimoParent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+
+  .josuJernimo {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 400;
   }
 
-  .frameParent {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    gap: 2rem;
-    overflow: hidden; // Ensure no content overflows
+  .softwareEngineer {
+    font-size: 1.5rem;
   }
+}
 
-  .frameWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 2rem; // Add gap between elements
-  }
+.socialButtons {
+  display: flex;
+  gap: 0.937rem;
+  justify-content: center;
 
-  .closeButtonParent {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 1rem;
-
-    .closeButton {
-      width: 5.313rem;
-      border-radius: 10px;
-      background-color: $button-background;
-      padding: 1.375rem 0.125rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-  }
-
-  .frameContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 1rem; // Add gap between elements
-  }
-
-  .josuJernimoParent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.25rem;
-
-    .josuJernimo {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 400;
-    }
-
-    .softwareEngineer {
-      font-size: 1.5rem;
-    }
-  }
-
-  .socialButtons {
-    display: flex;
-    gap: 0.937rem;
-    justify-content: center;
-
-    .socialIcon {
-      width: 40px;
-      height: 40px;
-      filter: brightness(0) invert(1); // Change icon color to white
-    }
+  .socialIcon {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1); // Change icon color to white
   }
 }
 
@@ -108,7 +114,7 @@ $white: #fff;
   .josuJernimo {
     font-size: 1.5rem;
   }
-  
+
   .softwareEngineer {
     font-size: 1.188rem;
   }

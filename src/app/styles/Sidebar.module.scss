@@ -6,6 +6,8 @@
   padding: 2rem 1rem; // Adjust padding as needed
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+  position: sticky; // Make sidebar sticky
+  top: 0; // Stick to the top
   height: 100vh; // Make sure sidebar takes full height of the viewport
 }
 

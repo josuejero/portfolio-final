@@ -2,13 +2,15 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import DiceSection from "@/components/DiceSection";
 import Sidebar from "@/components/sidebar";
+import About from "@/components/about";
+import Blog from "@/components/blog";
 import styles from "@/app/page.module.scss";
 
 const Home: NextPage = () => {
   return (
     <div className={styles.home}>
-      <div className={styles.section}>
-        <Sidebar />
+      <Sidebar />
+      <div className={styles.mainContent}>
         <main className={styles.frameParent}>
           <div className={styles.frameWrapper}>
             <div className={styles.closeButtonParent}>
@@ -46,15 +48,15 @@ const Home: NextPage = () => {
           </div>
           <DiceSection />
         </main>
-      </div>
-      {/* Future full-window components can be added here */}
-      <div className={styles.section}>
-        {/* Example of another full-window component */}
-        <h1>Future Component 1</h1>
-      </div>
-      <div className={styles.section}>
-        {/* Example of another full-window component */}
-        <h1>Future Component 2</h1>
+        <About />
+        <Blog />
+        {/* Future full-window components can be added here */}
+        <div className={styles.section}>
+          <h1>Future Component 1</h1>
+        </div>
+        <div className={styles.section}>
+          <h1>Future Component 2</h1>
+        </div>
       </div>
     </div>
   );
