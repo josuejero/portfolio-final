@@ -3,7 +3,9 @@ import Image from "next/image";
 import DiceSection from "@/components/DiceSection";
 import Sidebar from "@/components/sidebar";
 import About from "@/components/about";
+import Projects from "@/components/projects"
 import Blog from "@/components/blog";
+import Contact from "@/components/contact"
 import styles from "@/app/page.module.scss";
 
 const Home: NextPage = () => {
@@ -49,14 +51,9 @@ const Home: NextPage = () => {
           <DiceSection />
         </main>
         <About />
+        <Projects/>
         <Blog />
-        {/* Future full-window components can be added here */}
-        <div className={styles.section}>
-          <h1>Future Component 1</h1>
-        </div>
-        <div className={styles.section}>
-          <h1>Future Component 2</h1>
-        </div>
+        <Contact/>
       </div>
     </div>
   );
