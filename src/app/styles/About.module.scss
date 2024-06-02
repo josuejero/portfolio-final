@@ -18,20 +18,27 @@
     background-color: #1c1c1c;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
-    h2 {
+    h2, h3 {
       font-size: 2rem;
       margin-bottom: 1rem;
     }
 
-    .biography {
+    p, ul {
       font-size: 1rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .biography {
+      font-size: 1.2rem;
       margin-bottom: 2rem;
     }
 
-    .skills, .languages, .coursework, .timeline {
-      margin-bottom: 2rem;
-
+    .skills, .languages, .projects, .professionalJourney, .coursework {
       h3 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
@@ -40,9 +47,19 @@
       ul {
         list-style: none;
         padding: 0;
+        margin: 0;
 
         li {
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
+
+          ul {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+
+            li {
+              margin-bottom: 0.25rem;
+            }
+          }
         }
       }
     }
@@ -72,5 +89,12 @@
         text-decoration: underline;
       }
     }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .section {
+    width: 100%;
+    padding: 1rem;
   }
 }
