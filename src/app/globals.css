@@ -3,8 +3,6 @@ html, body {
   margin: 0; /* Removes default margin */
   padding: 0; /* Removes default padding */
   overflow: hidden; /* Prevents scroll if not needed */
-}
-html {
   scroll-behavior: smooth;
 }
 

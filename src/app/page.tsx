@@ -19,9 +19,9 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className={`${styles.home} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
+    <div className={styles.home}>
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className={styles.mainContent}>
+      <div className={`${styles.mainContent} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
         <section id="home" className={styles.frameParent}>
           <div className={styles.frameWrapper}>
             <div className={styles.closeButtonParent}>

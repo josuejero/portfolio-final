@@ -1,30 +1,38 @@
+$sidebar-width: 15rem;
+$sidebar-background: #5d6aab;
+$button-background: #4c5788;
+$button-hover-background: #6b7db3;
+$resume-button-background: #435069;
+$white: #fff;
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 15rem; // Adjust width as needed to match the design
-  background-color: #5d6aab;
+  width: $sidebar-width; // Adjust width as needed to match the design
+  background-color: $sidebar-background;
   padding: 2rem 1rem; // Adjust padding as needed
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  position: sticky; // Make sidebar sticky
+  position: fixed; // Make sidebar fixed
   top: 0; // Stick to the top
   height: 100vh; // Make sure sidebar takes full height of the viewport
   transform: translateX(0);
   transition: transform 0.3s ease;
+  z-index: 1000;
 
   &.closed {
     transform: translateX(-100%);
   }
 
   .toggleButton {
-    background-color: #4c5788; // Different background for contrast
+    background-color: $button-background; // Different background for contrast
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #6b7db3;
+      background-color: $button-hover-background;
     }
   }
 
@@ -36,22 +44,22 @@
   }
 
   .buttonWrapper {
-    background-color: #4c5788; // Different background for contrast
+    background-color: $button-background; // Different background for contrast
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #6b7db3;
+      background-color: $button-hover-background;
     }
   }
 
   .resumeButtonWrapper {
     margin-top: 2rem; // Space above the resume button
-    background-color: #435069;
+    background-color: $resume-button-background;
     &:hover {
-      background-color: #5d6aab;
+      background-color: $sidebar-background;
     }
     cursor: pointer;
     text-align: center;

@@ -3,7 +3,11 @@ $background-color: #0c1222;
 $button-background: #5d6aab;
 $white: #fff;
 
+
+
+
 .home {
+  scroll-behavior: smooth;
   display: flex;
   font-family: $font-family;
   color: $white;
@@ -21,6 +25,11 @@ $white: #fff;
 .mainContent {
   flex: 1;
   overflow-y: auto; // Enable vertical scrolling
+  transition: margin-left 0.3s; // Add transition for smooth animation
+
+  &.sidebarOpen {
+    margin-left: 15rem; // Adjust based on sidebar width
+  }
 }
 
 .section {
