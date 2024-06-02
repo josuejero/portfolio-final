@@ -9,35 +9,52 @@
   position: sticky; // Make sidebar sticky
   top: 0; // Stick to the top
   height: 100vh; // Make sure sidebar takes full height of the viewport
-}
+  transform: translateX(0);
+  transition: transform 0.3s ease;
 
-.menu {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 1rem; // Adjust gap for visual spacing between buttons
-}
-
-.buttonWrapper {
-  background-color: #4c5788; // Different background for contrast
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #6b7db3;
+  &.closed {
+    transform: translateX(-100%);
   }
-}
 
-// Styles for the Resume button, optionally differentiated
-.resumeButtonWrapper {
-  margin-top: 2rem; // Space above the resume button
-  background-color: #435069;
-  &:hover {
-    background-color: #5d6aab;
+  .toggleButton {
+    background-color: #4c5788; // Different background for contrast
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #6b7db3;
+    }
   }
-  cursor: pointer;
-  text-align: center;
-  border-radius: 5px;
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem; // Adjust gap for visual spacing between buttons
+  }
+
+  .buttonWrapper {
+    background-color: #4c5788; // Different background for contrast
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #6b7db3;
+    }
+  }
+
+  .resumeButtonWrapper {
+    margin-top: 2rem; // Space above the resume button
+    background-color: #435069;
+    &:hover {
+      background-color: #5d6aab;
+    }
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+  }
 }

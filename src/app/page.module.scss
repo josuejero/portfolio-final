@@ -11,10 +11,11 @@ $white: #fff;
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
-}
+  transition: margin-left 0.3s; // Add transition for smooth animation
 
-.sidebar {
-  flex-shrink: 0;
+  &.sidebarOpen {
+    margin-left: 15rem; // Adjust based on sidebar width
+  }
 }
 
 .mainContent {

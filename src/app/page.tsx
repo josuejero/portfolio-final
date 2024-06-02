@@ -1,22 +1,33 @@
+"use client";
+
 import type { NextPage } from "next";
+import { useState } from "react";
 import Image from "next/image";
 import DiceSection from "@/components/DiceSection";
 import Sidebar from "@/components/sidebar";
 import About from "@/components/about";
-import Projects from "@/components/projects"
+import Projects from "@/components/projects";
 import Blog from "@/components/blog";
-import Contact from "@/components/contact"
+import Contact from "@/components/contact";
 import styles from "@/app/page.module.scss";
 
 const Home: NextPage = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className={styles.home}>
-      <Sidebar />
+    <div className={`${styles.home} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className={styles.mainContent}>
-        <main className={styles.frameParent}>
+        <section id="home" className={styles.frameParent}>
           <div className={styles.frameWrapper}>
             <div className={styles.closeButtonParent}>
-              <button className={styles.closeButton}>Close</button>
+              <button className={styles.closeButton} onClick={toggleSidebar}>
+                {isSidebarOpen ? 'Close' : 'Open'}
+              </button>
             </div>
             <div className={styles.frameContainer}>
               <div className={styles.josuJernimoParent}>
@@ -49,11 +60,19 @@ const Home: NextPage = () => {
             </div>
           </div>
           <DiceSection />
-        </main>
-        <About />
-        <Projects/>
-        <Blog />
-        <Contact/>
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="projects">
+          <Projects />
+        </section>
+        <section id="blog">
+          <Blog />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
       </div>
     </div>
   );

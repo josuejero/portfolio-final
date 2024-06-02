@@ -1,30 +1,36 @@
 import type { NextPage } from "next";
-import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 import styles from "@/app/styles/Sidebar.module.scss";
 
-const Sidebar: NextPage = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+const Sidebar: NextPage<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
+      <button onClick={toggleSidebar} className={styles.toggleButton}>
+        {isOpen ? 'Close' : 'Open'}
+      </button>
       <div className={styles.menu}>
-        <Link href="#home" passHref>
+        <ScrollLink to="home" smooth={true} duration={500} onClick={toggleSidebar}>
           <div className={styles.buttonWrapper}>Home</div>
-        </Link>
-        <Link href="#about" passHref>
+        </ScrollLink>
+        <ScrollLink to="about" smooth={true} duration={500} onClick={toggleSidebar}>
           <div className={styles.buttonWrapper}>About</div>
-        </Link>
-        <Link href="#projects" passHref>
+        </ScrollLink>
+        <ScrollLink to="projects" smooth={true} duration={500} onClick={toggleSidebar}>
           <div className={styles.buttonWrapper}>Projects</div>
-        </Link>
-        <Link href="#blog" passHref>
+        </ScrollLink>
+        <ScrollLink to="blog" smooth={true} duration={500} onClick={toggleSidebar}>
           <div className={styles.buttonWrapper}>Blog</div>
-        </Link>
-        <Link href="#contact" passHref>
+        </ScrollLink>
+        <ScrollLink to="contact" smooth={true} duration={500} onClick={toggleSidebar}>
           <div className={styles.buttonWrapper}>Contact</div>
-        </Link>
+        </ScrollLink>
       </div>
-      <Link href="/resume.pdf" passHref>
-        <div className={styles.resumeButtonWrapper}>Resume</div>
-      </Link>
+      <a href="/resume.pdf" className={styles.resumeButtonWrapper}>Resume</a>
     </div>
   );
 };
