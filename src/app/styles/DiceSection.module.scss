@@ -23,6 +23,7 @@ $font-weight-bold: bold;
   gap: 2rem;
   box-sizing: border-box; // Ensure padding is included in the element's dimensions
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); // Add shadow for depth
+  margin: 2rem auto; // Center the dice section in the middle of the page
 
   .discoverMyProjects {
     margin: 0;
@@ -35,7 +36,6 @@ $font-weight-bold: bold;
   .diceWrapper {
     @include flex-center;
     gap: 2rem;
-    animation: bounce 2s infinite; // Add bounce animation to the entire wrapper
 
     .dice {
       width: 150px;
@@ -46,8 +46,12 @@ $font-weight-bold: bold;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add shadow to the dice
-      transform: rotateY(0deg);
-      animation: rotateDice 4s infinite; // Add rotation animation
+      transform-style: preserve-3d;
+      transition: transform 1s ease;
+
+      &.rolling {
+        animation: rolling 4s;
+      }
 
       .side {
         position: absolute;
@@ -65,6 +69,12 @@ $font-weight-bold: bold;
         &.side4 { transform: rotateY(-90deg) translateZ(75px); }
         &.side5 { transform: rotateX(90deg) translateZ(75px); }
         &.side6 { transform: rotateX(-90deg) translateZ(75px); }
+
+        .imageContainer {
+          position: relative;
+          width: 100px;
+          height: 100px;
+        }
       }
     }
 
@@ -93,30 +103,18 @@ $font-weight-bold: bold;
   }
 }
 
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-30px);
-  }
-  60% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes rotateDice {
-  0% {
-    transform: rotateY(0deg);
-  }
-  100% {
-    transform: rotateY(360deg);
+@keyframes rolling {
+  50% {
+    transform: rotateX(455deg) rotateY(455deg);
   }
 }
 
 .selectedSkill {
   text-align: center;
   margin-top: 2rem;
+  background-color: rgba(255, 255, 255, 0.1); // Add a subtle background for contrast
+  padding: 1rem;
+  border-radius: 15px;
 
   h2 {
     font-size: 24px;
