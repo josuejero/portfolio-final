@@ -24,7 +24,6 @@ $font-weight-bold: bold;
   box-sizing: border-box; // Ensure padding is included in the element's dimensions
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); // Add shadow for depth
 
-  // Nested styling for the project discovery title
   .discoverMyProjects {
     margin: 0;
     font-size: 2.5rem;
@@ -33,13 +32,11 @@ $font-weight-bold: bold;
     text-align: center;
   }
 
-  // Styling for the wrapper that contains the dice image and button
   .diceWrapper {
     @include flex-center;
     gap: 2rem;
     animation: bounce 2s infinite; // Add bounce animation to the entire wrapper
 
-    // Specific styles for the dice container
     .dice {
       width: 150px;
       height: 150px;
@@ -51,15 +48,26 @@ $font-weight-bold: bold;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add shadow to the dice
       transform: rotateY(0deg);
       animation: rotateDice 4s infinite; // Add rotation animation
+
+      .side {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        backface-visibility: hidden;
+
+        &.side1 { transform: translateZ(75px); }
+        &.side2 { transform: rotateY(90deg) translateZ(75px); }
+        &.side3 { transform: rotateY(180deg) translateZ(75px); }
+        &.side4 { transform: rotateY(-90deg) translateZ(75px); }
+        &.side5 { transform: rotateX(90deg) translateZ(75px); }
+        &.side6 { transform: rotateX(-90deg) translateZ(75px); }
+      }
     }
 
-    // Specific styles for the python logo icon
-    .pythonLogoIcon {
-      width: 100px; // Specific width for the image
-      height: 100px; // Specific height for the image
-    }
-
-    // Styles for the 'Roll the Die' button
     .rollDiceButton {
       padding: 1rem 2rem;
       background-color: $button-background-color;
@@ -85,7 +93,6 @@ $font-weight-bold: bold;
   }
 }
 
-// Add bounce animation
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -98,12 +105,36 @@ $font-weight-bold: bold;
   }
 }
 
-// Add rotation animation for the dice
 @keyframes rotateDice {
   0% {
     transform: rotateY(0deg);
   }
   100% {
     transform: rotateY(360deg);
+  }
+}
+
+.selectedSkill {
+  text-align: center;
+  margin-top: 2rem;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    font-size: 16px;
+    margin: 5px 0;
   }
 }

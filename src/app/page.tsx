@@ -61,16 +61,16 @@ const Home: NextPage = () => {
           </div>
           <DiceSection />
         </section>
-        <section id="about" className={styles.section}>
+        <section id="about">
           <About />
         </section>
-        <section id="projects" className={styles.section}>
+        <section id="projects">
           <Projects />
         </section>
-        <section id="blog" className={styles.section}>
+        <section id="blog">
           <Blog />
         </section>
-        <section id="contact" className={styles.section}>
+        <section id="contact">
           <Contact />
         </section>
       </div>
