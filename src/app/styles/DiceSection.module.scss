@@ -16,7 +16,7 @@ $font-weight-bold: bold;
 // Main dice section styling
 .diceSection {
   @include flex-center;
-  width: 100%;
+  width: 80%;
   padding: 2rem;
   background-color: $background-color-dice;
   border-radius: 15px;

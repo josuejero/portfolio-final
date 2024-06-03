@@ -10,9 +10,6 @@ interface SidebarProps {
 const Sidebar: NextPage<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   return (
     <div className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
-      <button onClick={toggleSidebar} className={styles.toggleButton}>
-        {isOpen ? 'Close' : 'Open'}
-      </button>
       <div className={styles.menu}>
         <ScrollLink to="home" smooth={true} duration={500} onClick={() => {toggleSidebar(); window.location.hash = 'home';}}>
           <div className={styles.buttonWrapper}>Home</div>

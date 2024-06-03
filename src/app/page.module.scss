@@ -2,9 +2,10 @@ $font-family: 'Inter', sans-serif;
 $background-color: #0c1222;
 $button-background: #5d6aab;
 $white: #fff;
-
-
-
+$sidebar-width: 10rem;
+$sidebar-background: #5d6aab;
+$button-hover-background: #6b7db3;
+$resume-button-background: #435069;
 
 .home {
   scroll-behavior: smooth;
@@ -15,20 +16,16 @@ $white: #fff;
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
-  transition: margin-left 0.3s; // Add transition for smooth animation
-
-  &.sidebarOpen {
-    margin-left: 15rem; // Adjust based on sidebar width
-  }
 }
 
 .mainContent {
   flex: 1;
   overflow-y: auto; // Enable vertical scrolling
-  transition: margin-left 0.3s; // Add transition for smooth animation
-
+  overflow-x: hidden; // Disable horizontal scrolling
+  transition: transform 0.3s; // Add transition for smooth animation
+  
   &.sidebarOpen {
-    margin-left: 15rem; // Adjust based on sidebar width
+    transform: translateX($sidebar-width); // Adjust based on sidebar width
   }
 }
 
@@ -127,5 +124,67 @@ $white: #fff;
 
   .softwareEngineer {
     font-size: 1.188rem;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: $sidebar-width; // Adjust width as needed to match the design
+  background-color: $sidebar-background;
+  padding: 2rem 1rem; // Adjust padding as needed
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  position: fixed; // Make sidebar fixed
+  top: 0; // Stick to the top
+  height: 100vh; // Make sure sidebar takes full height of the viewport
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+
+  &.closed {
+    transform: translateX(-100%);
+  }
+
+  .toggleButton {
+    background-color: $button-background; // Different background for contrast
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $button-hover-background;
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem; // Adjust gap for visual spacing between buttons
+  }
+
+  .buttonWrapper {
+    background-color: $button-background; // Different background for contrast
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $button-hover-background;
+    }
+  }
+
+  .resumeButtonWrapper {
+    margin-top: 2rem; // Space above the resume button
+    background-color: $resume-button-background;
+    &:hover {
+      background-color: $sidebar-background;
+    }
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
   }
 }
