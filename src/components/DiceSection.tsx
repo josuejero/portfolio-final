@@ -30,7 +30,6 @@ const DiceSection: React.FC = () => {
 
   const rollDice = () => {
     const newDiceValue = Math.floor(Math.random() * 6) + 1;
-    setDiceValue(newDiceValue);
     animateDice(newDiceValue);
   };
 
@@ -42,30 +41,34 @@ const DiceSection: React.FC = () => {
       switch (value) {
         case 1:
           dice?.setAttribute('style', 'transform: rotateX(0deg) rotateY(0deg);');
+          setSelectedSkill('javascript');
           break;
         case 2:
           dice?.setAttribute('style', 'transform: rotateX(-90deg) rotateY(0deg);');
+          setSelectedSkill('node.js');
           break;
         case 3:
           dice?.setAttribute('style', 'transform: rotateX(0deg) rotateY(90deg);');
+          setSelectedSkill('python');
           break;
         case 4:
           dice?.setAttribute('style', 'transform: rotateX(0deg) rotateY(-90deg);');
+          setSelectedSkill('docker');
           break;
         case 5:
           dice?.setAttribute('style', 'transform: rotateX(90deg) rotateY(0deg);');
+          setSelectedSkill('postgresql');
           break;
         case 6:
           dice?.setAttribute('style', 'transform: rotateX(180deg) rotateY(0deg);');
+          setSelectedSkill('mern stack');
           break;
         default:
           break;
       }
       dice?.classList.remove(styles.rolling);
 
-      const randomSkill = skills[value - 1];
-      setSelectedSkill(randomSkill.name);
-
+      const randomSkill = skills.find(skill => skill.name === selectedSkill);
       const dummyProjects: Project[] = [
         {
           id: 1,
@@ -89,7 +92,7 @@ const DiceSection: React.FC = () => {
         },
       ];
 
-      const filteredProjects = dummyProjects.filter(project => project.skills.includes(randomSkill.name));
+      const filteredProjects = dummyProjects.filter(project => project.skills.includes(randomSkill?.name || ''));
       setProjects(filteredProjects);
     }, 4000);
   };
