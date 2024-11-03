@@ -1,0 +1,1481 @@
+
+
+This is a website I am working on. Please analyze the project structure, errors, and code carefully:
+
+.
+├── README.md
+├── all_code.txt
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── problem.js
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── src
+│   ├── app
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── error.tsx
+│   │   ├── favicon.ico
+│   │   ├── fonts
+│   │   │   ├── GeistMonoVF.woff
+│   │   │   └── GeistVF.woff
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── About
+│   │   │   └── About.tsx
+│   │   ├── Blog
+│   │   ├── Contact
+│   │   ├── Die
+│   │   ├── Home
+│   │   │   └── Home.tsx
+│   │   ├── Projects
+│   │   │   └── Projects.tsx
+│   │   ├── Sidebar
+│   │   │   └── Sidebar.tsx
+│   │   └── common
+│   │       ├── ErrorBoundary.tsx
+│   │       ├── Layout.tsx
+│   │       ├── Loading.tsx
+│   │       ├── ThemeBoundary.tsx
+│   │       ├── ThemeProvider.tsx
+│   │       └── ThemeSwitcher.tsx
+│   ├── context
+│   ├── hooks
+│   ├── styles
+│   ├── types
+│   └── utils
+├── tailwind.config.ts
+├── tsconfig.json
+└── yarn.lock
+
+20 directories, 35 files
+
+
+================================================================================
+File: .eslintrc.json
+================================================================================
+
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
+}
+
+
+================================================================================
+File: .gitignore
+================================================================================
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files (can opt-in for commiting if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+================================================================================
+File: README.md
+================================================================================
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+================================================================================
+File: next-env.d.ts
+================================================================================
+
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.
+
+
+================================================================================
+File: next.config.ts
+================================================================================
+
+import path from 'path';
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, './src'),
+    };
+    return config;
+  },
+};
+
+export default nextConfig;
+
+================================================================================
+File: package.json
+================================================================================
+
+{
+  "name": "portfolio-final",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "node problem.js"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "clipboardy": "^4.0.0",
+    "framer-motion": "^11.11.11",
+    "next": "15.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
+
+
+================================================================================
+File: postcss.config.mjs
+================================================================================
+
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+
+export default config;
+
+
+================================================================================
+File: problem.js
+================================================================================
+
+#!/usr/bin/env node
+
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+import clipboard from 'clipboardy';
+import readline from 'readline';
+
+const OUTPUT_FILE_PATH = 'all_code.txt';
+const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+
+const EXCLUDE_DIRS = new Set([
+  'node_modules',
+  '.next',
+  'venv',
+  '.git',
+  '__pycache__'
+]);
+
+const EXCLUDE_FILES = new Set([
+  'package-lock.json',
+  OUTPUT_FILE_PATH,
+  '.DS_Store'
+]);
+
+const ALLOWED_EXTENSIONS = new Set([
+  '.md',
+  '.json',
+  '.mjs',
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.css',
+  '.module.css',
+  '.scss',
+  '.txt',
+  '.yml',
+  '.yaml',
+  '.tf',
+  '.py',
+  '.env',
+  '.ini',
+  '.gitignore',
+  ''
+]);
+
+const ALLOWED_FILENAMES = new Set(['Dockerfile']);
+
+// Initialize output file
+try {
+  fs.writeFileSync(OUTPUT_FILE_PATH, '');
+} catch (error) {
+  console.error(`Error initializing '${OUTPUT_FILE_PATH}':`, error);
+  process.exit(1);
+}
+
+// Function to ask a single question
+function askQuestion(query) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(query, (answer) => {
+      rl.close();
+      resolve(answer);
+    });
+  });
+}
+
+// Function to get multiline input from user
+async function getMultilineInput(promptMessage) {
+  console.log(promptMessage);
+  console.log("Type 'END' on a new line to finish.");
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const lines = [];
+
+  for await (const line of rl) {
+    if (line.trim().toUpperCase() === 'END') {
+      rl.close();
+      break;
+    }
+    lines.push(line);
+  }
+
+  return lines.join('\n');
+}
+
+// Function to process directory
+function processDirectory(dirPath) {
+  try {
+    const items = fs.readdirSync(dirPath);
+
+    for (const item of items) {
+      const fullPath = path.join(dirPath, item);
+      const stat = fs.statSync(fullPath);
+
+      if (stat.isDirectory()) {
+        if (!EXCLUDE_DIRS.has(item)) {
+          processDirectory(fullPath);
+        }
+      } else {
+        if (EXCLUDE_FILES.has(item)) {
+          continue;
+        }
+
+        const ext = path.extname(item);
+        if (ALLOWED_EXTENSIONS.has(ext) || ALLOWED_FILENAMES.has(item)) {
+          try {
+            const content = fs.readFileSync(fullPath, 'utf8');
+            const relativePath = path.relative('.', fullPath);
+
+            const separator = '='.repeat(80);
+            const fileContent = `\n${separator}\nFile: ${relativePath}\n${separator}\n\n${content}\n`;
+
+            fs.appendFileSync(OUTPUT_FILE_PATH, fileContent);
+          } catch (error) {
+            console.error(`Error reading file '${fullPath}':`, error);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error during directory traversal:', error);
+    process.exit(1);
+  }
+}
+
+(async () => {
+  try {
+    // Get problem description from user
+    const problemMessage = await getMultilineInput('Enter the problem with the code:');
+
+    // Write initial content to file
+    try {
+      fs.appendFileSync(OUTPUT_FILE_PATH, `${problemMessage}\n\n`);
+      fs.appendFileSync(
+        OUTPUT_FILE_PATH,
+        'This is a website I am working on. Please analyze the project structure, errors, and code carefully:\n\n'
+      );
+    } catch (error) {
+      console.error(`Error writing to '${OUTPUT_FILE_PATH}':`, error);
+      process.exit(1);
+    }
+
+    // Get and write directory tree
+    try {
+      const treeOutput = execSync('tree -I "node_modules|.next|venv|.git"', { encoding: 'utf8' });
+      fs.appendFileSync(OUTPUT_FILE_PATH, treeOutput + '\n');
+    } catch (error) {
+      console.error('Error executing tree command:', error);
+      process.exit(1);
+    }
+
+    // Process the current directory
+    processDirectory('.');
+
+    // Check file size and copy to clipboard
+    try {
+      const fileSize = fs.statSync(OUTPUT_FILE_PATH).size;
+      const mbSize = fileSize / (1024 * 1024);
+
+      if (fileSize > MAX_FILE_SIZE) {
+        console.log(`Warning: The file '${OUTPUT_FILE_PATH}' exceeds 500 MB (${mbSize.toFixed(2)} MB).`);
+        console.log('Copying such a large amount of data to the clipboard may cause issues.');
+
+        const response = await askQuestion('Do you want to proceed with copying to clipboard? (y/N): ');
+
+        if (response.trim().toLowerCase() !== 'y') {
+          console.log('Skipping copying to clipboard.');
+          console.log(`All steps completed, '${OUTPUT_FILE_PATH}' has been updated.`);
+          process.exit(0);
+        }
+
+        console.log('Proceeding to copy to clipboard. This may take some time.');
+      } else {
+        console.log(`The file size of '${OUTPUT_FILE_PATH}' is ${mbSize.toFixed(2)} MB.`);
+      }
+
+      // Copy to clipboard
+      const fileContent = fs.readFileSync(OUTPUT_FILE_PATH, 'utf8');
+      clipboard.writeSync(fileContent);
+
+      console.log(`All steps completed, '${OUTPUT_FILE_PATH}' has been updated.`);
+      console.log('Its contents have been copied to the clipboard.');
+
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes('Memory')) {
+          console.error('MemoryError: The file is too large to copy to the clipboard.');
+        } else {
+          console.error('Error copying to clipboard:', error);
+        }
+      }
+      console.log('Proceeding without copying to clipboard.');
+    }
+  } catch (err) {
+    console.error('An unexpected error occurred:', err);
+    process.exit(1);
+  }
+})();
+
+
+================================================================================
+File: src/app/about/page.tsx
+================================================================================
+
+// src/app/about/page.tsx
+import About from '@/components/About/About';
+import Layout from '@/components/common/Layout';
+
+export default function AboutPage() {
+  return (
+    <Layout>
+      <About />
+    </Layout>
+  );
+}
+
+================================================================================
+File: src/app/error.tsx
+================================================================================
+
+// src/app/error.tsx
+'use client';
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  return (
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="text-center space-y-4">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+          Something went wrong!
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          {error.message || 'An unexpected error occurred'}
+        </p>
+        <button
+          onClick={reset}
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+        >
+          Try again
+        </button>
+      </div>
+    </div>
+  );
+}
+
+================================================================================
+File: src/app/globals.css
+================================================================================
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+:root[class~="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/* Prevent Dark Reader from applying its styles */
+[data-darkreader-mode] {
+  background: unset !important;
+  color: unset !important;
+}
+
+================================================================================
+File: src/app/layout.tsx
+================================================================================
+
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { ThemeProvider } from "@/components/common/ThemeProvider";
+
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+export const metadata: Metadata = {
+  title: "Josue Sebastian Jeronimo - Portfolio",
+  description: "Full-Stack Developer Portfolio showcasing projects and skills",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <main className="min-h-screen bg-background text-foreground">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+
+================================================================================
+File: src/app/loading.tsx
+================================================================================
+
+// src/app/loading.tsx
+import Loading from '@/components/common/Loading';
+
+export default function PageLoading() {
+  return <Loading />;
+}
+
+================================================================================
+File: src/app/page.tsx
+================================================================================
+
+// src/app/page.tsx
+import Layout from '@/components/common/Layout';
+import Home from '@/components/Home/Home';
+import Projects from '@/components/Projects/Projects';
+
+export default function HomePage() {
+  return (
+    <Layout>
+      <div className="space-y-16">
+        <Home />
+        <Projects />
+      </div>
+    </Layout>
+  );
+}
+
+================================================================================
+File: src/components/About/About.tsx
+================================================================================
+
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { BookOpenIcon, AcademicCapIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+
+interface GithubStats {
+  totalCommits: number;
+  totalRepos: number;
+  topLanguages: { [key: string]: number };
+  loading: boolean;
+  error: string | null;
+}
+
+const useGithubStats = () => {
+  const [stats, setStats] = useState<GithubStats>({
+    totalCommits: 0,
+    totalRepos: 0,
+    topLanguages: {},
+    loading: true,
+    error: null
+  });
+
+  useEffect(() => {
+    // TODO: Implement actual GitHub API integration
+    // For now, using placeholder data
+    setTimeout(() => {
+      setStats({
+        totalCommits: 520,
+        totalRepos: 15,
+        topLanguages: {
+          'Python': 35,
+          'JavaScript': 25,
+          'Java': 20,
+          'C++': 10,
+          'HTML/CSS': 10
+        },
+        loading: false,
+        error: null
+      });
+    }, 1000);
+  }, []);
+
+  return stats;
+};
+
+const About = () => {
+  const githubStats = useGithubStats();
+
+  const skills = [
+    {
+      category: "Programming",
+      items: [
+        { name: "Python", proficiency: 90, years: 6 },
+        { name: "Java", proficiency: 85, years: 7 },
+        { name: "JavaScript", proficiency: 85, years: 5 },
+        { name: "C++", proficiency: 80, years: 5 },
+      ]
+    },
+    {
+      category: "Cloud & DevOps",
+      items: [
+        { name: "Docker", proficiency: 85, years: 3 },
+        { name: "Kubernetes", proficiency: 80, years: 2 },
+        { name: "Jenkins", proficiency: 75, years: 2 },
+        { name: "Google Cloud", proficiency: 80, years: 3 },
+      ]
+    },
+    {
+      category: "Frameworks & Tools",
+      items: [
+        { name: "Django", proficiency: 85, years: 4 },
+        { name: "React", proficiency: 80, years: 3 },
+        { name: "Node.js", proficiency: 75, years: 3 },
+        { name: "PostgreSQL", proficiency: 80, years: 4 },
+      ]
+    }
+  ];
+
+  const education = {
+    degree: "Bachelor of Science in Computer Engineering",
+    school: "Florida International University (FIU)",
+    location: "Miami, Florida",
+    graduation: "July 2024",
+    gpa: "Dean's List (Spring 2020)",
+    relevantCourses: [
+      "Data Structures",
+      "Operating Systems",
+      "Mobile App Development",
+      "Systems Programming",
+      "Embedded Systems",
+      "Computer Architecture",
+      "Analytics & Cloud in ECE",
+      "IoT Security",
+      "Deep Learning in ECE"
+    ]
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-12 py-8">
+      {/* Professional Summary */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        <h2 className="text-3xl font-bold flex items-center gap-2">
+          <BookOpenIcon className="h-8 w-8 text-blue-600" />
+          Professional Background
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300">
+          Results-oriented Computer Engineering graduate with 7 years of programming experience, 
+          including hands-on work in software development, cloud computing, and automation. 
+          Demonstrated strong work ethic and time management skills by working part-time to 
+          self-finance college education while pursuing a full-time degree.
+        </p>
+      </motion.section>
+
+      {/* Education */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="space-y-6"
+      >
+        <h2 className="text-3xl font-bold flex items-center gap-2">
+          <AcademicCapIcon className="h-8 w-8 text-blue-600" />
+          Education
+        </h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <h3 className="text-xl font-bold">{education.degree}</h3>
+          <p className="text-gray-600 dark:text-gray-400">{education.school}</p>
+          <p className="text-gray-600 dark:text-gray-400">{education.location}</p>
+          <p className="text-gray-600 dark:text-gray-400">Graduating: {education.graduation}</p>
+          <p className="text-blue-600 dark:text-blue-400 mt-2">{education.gpa}</p>
+          
+          <div className="mt-4">
+            <h4 className="font-semibold mb-2">Relevant Coursework:</h4>
+            <div className="flex flex-wrap gap-2">
+              {education.relevantCourses.map((course, index) => (
+                <span 
+                  key={index}
+                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                >
+                  {course}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* GitHub Stats */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="space-y-6"
+      >
+        <h2 className="text-3xl font-bold flex items-center gap-2">
+          <CodeBracketIcon className="h-8 w-8 text-blue-600" />
+          GitHub Activity
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Stats Cards */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">Overview</h3>
+            {githubStats.loading ? (
+              <div className="animate-pulse space-y-4">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-gray-600 dark:text-gray-300">
+                  Total Commits: {githubStats.totalCommits}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Public Repositories: {githubStats.totalRepos}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Language Distribution */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">Language Distribution</h3>
+            {githubStats.loading ? (
+              <div className="animate-pulse space-y-4">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {Object.entries(githubStats.topLanguages).map(([language, percentage]) => (
+                  <div key={language} className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>{language}</span>
+                      <span>{percentage}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                      <div
+                        className="bg-blue-600 h-2.5 rounded-full"
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Skills */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="space-y-6"
+      >
+        <h2 className="text-3xl font-bold">Technical Proficiency</h2>
+        <div className="space-y-8">
+          {skills.map((skillGroup) => (
+            <div key={skillGroup.category} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-xl font-semibold mb-6">{skillGroup.category}</h3>
+              <div className="space-y-6">
+                {skillGroup.items.map((skill) => (
+                  <div key={skill.name} className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="font-medium">{skill.name}</span>
+                      <span>{skill.years} years</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                      <motion.div
+                        className="bg-blue-600 h-2.5 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.proficiency}%` }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                      ></motion.div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+    </div>
+  );
+};
+
+export default About;
+
+================================================================================
+File: src/components/Home/Home.tsx
+================================================================================
+
+'use client';
+
+import { motion } from 'framer-motion';
+import { CodeBracketIcon, CommandLineIcon, CloudIcon } from '@heroicons/react/24/outline';
+
+const Home = () => {
+  const skills = [
+    { category: "Languages", items: ["Java", "C", "C++", "Python", "JavaScript", "HTML5", "SCSS"] },
+    { category: "Frameworks & Libraries", items: ["ReactJS", "Django", "Node.js"] },
+    { category: "Cloud & DevOps", items: ["Docker", "Kubernetes", "Jenkins", "Google Cloud Platform", "Microsoft Azure"] },
+    { category: "Databases", items: ["PostgreSQL", "SQLite"] },
+  ];
+
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-12 py-8">
+      {/* Hero Section */}
+      <motion.section 
+        className="text-center space-y-4"
+        initial={fadeIn.initial}
+        animate={fadeIn.animate}
+        transition={fadeIn.transition}
+      >
+        <h1 className="text-5xl font-bold">Josue Sebastian Jeronimo</h1>
+        <h2 className="text-2xl text-gray-600 dark:text-gray-300">Full-Stack Developer</h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+          Results-oriented Computer Engineering graduate with 7 years of programming experience, specializing in software development,
+          cloud computing, and automation.
+        </p>
+      </motion.section>
+
+      {/* Key Areas */}
+      <motion.section 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        initial={fadeIn.initial}
+        animate={fadeIn.animate}
+        transition={{ ...fadeIn.transition, delay: 0.2 }}
+      >
+        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+          <CodeBracketIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Software Development</h3>
+          <p className="text-gray-600 dark:text-gray-300">Full-stack development with modern frameworks and technologies</p>
+        </div>
+        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+          <CloudIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Cloud Computing</h3>
+          <p className="text-gray-600 dark:text-gray-300">Experience with GCP, Azure, and cloud-native technologies</p>
+        </div>
+        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+          <CommandLineIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Automation</h3>
+          <p className="text-gray-600 dark:text-gray-300">CI/CD pipelines and process automation expertise</p>
+        </div>
+      </motion.section>
+
+      {/* Skills Section */}
+      <motion.section 
+        className="space-y-6"
+        initial={fadeIn.initial}
+        animate={fadeIn.animate}
+        transition={{ ...fadeIn.transition, delay: 0.4 }}
+      >
+        <h2 className="text-3xl font-bold text-center">Technical Skills</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {skills.map((skillGroup, index) => (
+            <div key={index} className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+              <h3 className="text-xl font-semibold mb-4">{skillGroup.category}</h3>
+              <div className="flex flex-wrap gap-2">
+                {skillGroup.items.map((skill, skillIndex) => (
+                  <span 
+                    key={skillIndex}
+                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Call to Action */}
+      <motion.section 
+        className="text-center"
+        initial={fadeIn.initial}
+        animate={fadeIn.animate}
+        transition={{ ...fadeIn.transition, delay: 0.6 }}
+      >
+        <a 
+          href="/resume_fiu_canva_3.pdf" 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Download Resume
+        </a>
+      </motion.section>
+    </div>
+  );
+};
+
+export default Home;
+
+================================================================================
+File: src/components/Projects/Projects.tsx
+================================================================================
+
+'use client';
+
+import { motion } from 'framer-motion';
+
+const Projects = () => {
+  const projects = [
+    {
+      title: "Product Affordability Predictor",
+      period: "October 2023 - Present",
+      description: "Cash flow and product affordability application",
+      technologies: ["Python", "Django", "PostgreSQL", "Docker", "Kubernetes", "Jenkins"],
+      highlights: [
+        "Engineered a cash flow and product affordability application managing financial data with PostgreSQL",
+        "Implemented OAuth integration for improved user experience",
+        "Designed robust Jenkins CI/CD pipeline for automated updates"
+      ]
+    },
+    {
+      title: "Finance Tracker",
+      period: "May 2023 - Present",
+      description: "Personal finance tracking application",
+      technologies: ["Python", "Django", "OAuth", "Google Cloud", "PyTest", "Selenium"],
+      highlights: [
+        "Built personal finance tracker with secure account linking",
+        "Established deployment processes on Google Cloud",
+        "Streamlined testing workflows reducing deployment time"
+      ]
+    },
+    {
+      title: "Selestino",
+      period: "September 2022 - Present",
+      description: "Recipe website with cloud infrastructure",
+      technologies: ["Python", "PostgreSQL", "Docker", "Kubernetes", "Jenkins", "Google Cloud"],
+      highlights: [
+        "Developed recipe website using Python and PostgreSQL",
+        "Optimized application hosting on Google Cloud",
+        "Improved functionality with RESTful APIs"
+      ]
+    },
+    {
+      title: "Fludde",
+      period: "April 2022 - Present",
+      description: "Multimedia review platform",
+      technologies: ["Android", "Java", "REST API"],
+      highlights: [
+        "Collaborated on multimedia review platform development",
+        "Leveraged Movie Database API for real-time content",
+        "Created REST API for user interactions"
+      ]
+    }
+  ];
+
+  return (
+    <div className="max-w-4xl mx-auto py-8 space-y-12">
+      <motion.h2 
+        className="text-3xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Featured Projects
+      </motion.h2>
+
+      <div className="grid grid-cols-1 gap-8">
+        {projects.map((project, index) => (
+          <motion.div
+            key={project.title}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{project.period}</span>
+              </div>
+              
+              <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
+              
+              <div className="mb-4">
+                <h4 className="text-lg font-semibold mb-2">Key Features:</h4>
+                <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
+                  {project.highlights.map((highlight, i) => (
+                    <li key={i}>{highlight}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {project.technologies.map((tech, i) => (
+                  <span 
+                    key={i}
+                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Projects;
+
+================================================================================
+File: src/components/Sidebar/Sidebar.tsx
+================================================================================
+
+'use client';
+
+import { useState } from 'react';
+import { HomeIcon, UserIcon, BookOpenIcon, MapIcon, MinusIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { ThemeSwitcher } from '../common/ThemeSwitcher';
+
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
+    { name: 'Home', icon: HomeIcon, href: '/' },
+    { name: 'About', icon: UserIcon, href: '/about' },
+    { name: 'Blog', icon: BookOpenIcon, href: '/blog' },
+    { name: 'Contact', icon: MapIcon, href: '/contact' }
+  ];
+
+  return (
+    <div className={`fixed h-screen bg-gray-900 text-white transition-all duration-300 ${
+      isOpen ? 'w-64' : 'w-20'
+    }`}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="absolute right-0 top-4 -mr-6 rounded-r bg-gray-900 p-2"
+        aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
+      >
+        <MinusIcon className="h-6 w-6" />
+      </button>
+
+      <nav className="mt-16 space-y-8">
+        {menuItems.map((item) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            className="flex items-center px-4 py-2 hover:bg-gray-800 transition-colors"
+          >
+            <item.icon className="h-6 w-6" />
+            {isOpen && (
+              <span className="ml-4">{item.name}</span>
+            )}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+        <ThemeSwitcher />
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
+
+================================================================================
+File: src/components/common/ErrorBoundary.tsx
+================================================================================
+
+// src/components/common/ErrorBoundary.tsx
+'use client';
+
+import { Component, ErrorInfo, ReactNode } from 'react';
+
+interface Props {
+  children: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false
+  };
+
+  public static getDerivedStateFromError(_: Error): State {
+    return { hasError: true };
+  }
+
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught error:', error, errorInfo);
+  }
+
+  public render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 text-center">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+            Something went wrong.
+          </h2>
+          <button
+            className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+            onClick={() => this.setState({ hasError: false })}
+          >
+            Try again
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+
+================================================================================
+File: src/components/common/Layout.tsx
+================================================================================
+
+// src/components/common/Layout.tsx
+'use client';
+
+import { ReactNode, Suspense } from 'react';
+import Sidebar from '../Sidebar/Sidebar';
+import ErrorBoundary from './ErrorBoundary';
+import Loading from './Loading';
+
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout = ({ children }: LayoutProps) => {
+  return (
+    <div className="flex min-h-screen">
+      <Sidebar />
+      <main className="flex-1 p-8 ml-20">
+        <ErrorBoundary>
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+        </ErrorBoundary>
+      </main>
+    </div>
+  );
+};
+
+export default Layout;
+
+================================================================================
+File: src/components/common/Loading.tsx
+================================================================================
+
+// src/components/common/Loading.tsx
+'use client';
+
+const Loading = () => {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="relative">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm text-gray-600 dark:text-gray-300">
+          Loading...
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Loading;
+
+================================================================================
+File: src/components/common/ThemeBoundary.tsx
+================================================================================
+
+
+
+================================================================================
+File: src/components/common/ThemeProvider.tsx
+================================================================================
+
+'use client';
+
+import * as React from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+type Theme = 'dark' | 'light' | 'system';
+
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  attribute?: string;
+  enableSystem?: boolean;
+};
+
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
+
+const initialState: ThemeProviderState = {
+  theme: 'system',
+  setTheme: () => null,
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+
+export function ThemeProvider({
+  children,
+  defaultTheme = 'system',
+  attribute = 'class',
+  enableSystem = true,
+  ...props
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.removeAttribute('style');
+    root.removeAttribute('data-darkreader-mode');
+    root.removeAttribute('data-darkreader-scheme');
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    function updateTheme(newTheme: Theme) {
+      let resolvedTheme = newTheme;
+      
+      if (newTheme === 'system' && enableSystem) {
+        resolvedTheme = mediaQuery.matches ? 'dark' : 'light';
+      }
+      
+      root.classList.remove('light', 'dark');
+      
+      if (attribute === 'class') {
+        root.classList.add(resolvedTheme);
+      } else {
+        root.setAttribute(attribute, resolvedTheme);
+      }
+    }
+
+    updateTheme(theme);
+
+    const listener = () => {
+      if (theme === 'system') {
+        updateTheme('system');
+      }
+    };
+
+    if (enableSystem) {
+      mediaQuery.addEventListener('change', listener);
+    }
+
+    return () => {
+      if (enableSystem) {
+        mediaQuery.removeEventListener('change', listener);
+      }
+    };
+  }, [theme, attribute, enableSystem]);
+
+  const value = {
+    theme,
+    setTheme: (theme: Theme) => {
+      setTheme(theme);
+    },
+  };
+
+  return (
+    <ThemeProviderContext.Provider {...props} value={value}>
+      {children}
+    </ThemeProviderContext.Provider>
+  );
+}
+
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext);
+
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+
+  return context;
+};
+
+================================================================================
+File: src/components/common/ThemeSwitcher.tsx
+================================================================================
+
+// src/components/common/ThemeSwitcher.tsx
+'use client';
+
+import { useTheme } from './ThemeProvider';
+import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
+
+export function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <div className="flex gap-2">
+      <button
+        onClick={() => setTheme('light')}
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
+          theme === 'light' ? 'bg-gray-200 dark:bg-gray-700' : ''
+        }`}
+        aria-label="Light mode"
+      >
+        <SunIcon className="w-5 h-5" />
+      </button>
+      
+      <button
+        onClick={() => setTheme('dark')}
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
+          theme === 'dark' ? 'bg-gray-200 dark:bg-gray-700' : ''
+        }`}
+        aria-label="Dark mode"
+      >
+        <MoonIcon className="w-5 h-5" />
+      </button>
+      
+      <button
+        onClick={() => setTheme('system')}
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
+          theme === 'system' ? 'bg-gray-200 dark:bg-gray-700' : ''
+        }`}
+        aria-label="System theme"
+      >
+        <ComputerDesktopIcon className="w-5 h-5" />
+      </button>
+    </div>
+  );
+}
+
+================================================================================
+File: tailwind.config.ts
+================================================================================
+
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: 'class',
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
+
+================================================================================
+File: tsconfig.json
+================================================================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "outDir": "dist",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+
