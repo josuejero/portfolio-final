@@ -17,8 +17,16 @@ body {
   background: var(--background);
 }
 
-/* Prevent Dark Reader from applying its styles */
-[data-darkreader-mode] {
+/* Remove Dark Reader styles */
+[data-darkreader-mode],
+[data-darkreader-scheme] {
   background: unset !important;
   color: unset !important;
+}
+
+[data-darkreader-inline-bgcolor],
+[data-darkreader-inline-color],
+[data-darkreader-inline-border],
+[data-darkreader-inline-stroke] {
+  all: unset !important;
 }

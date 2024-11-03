@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { disableDarkReader } from '@/lib/utils';
 
 type Theme = 'dark' | 'light' | 'system';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
   defaultTheme?: Theme;
-  attribute?: string;
   enableSystem?: boolean;
 };
 
@@ -27,19 +27,19 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  attribute = 'class',
   enableSystem = true,
-  ...props
 }: ThemeProviderProps) {
+  const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
+  // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    disableDarkReader();
     const root = window.document.documentElement;
-
-    root.removeAttribute('style');
-    root.removeAttribute('data-darkreader-mode');
-    root.removeAttribute('data-darkreader-scheme');
-
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     function updateTheme(newTheme: Theme) {
@@ -50,12 +50,7 @@ export function ThemeProvider({
       }
       
       root.classList.remove('light', 'dark');
-      
-      if (attribute === 'class') {
-        root.classList.add(resolvedTheme);
-      } else {
-        root.setAttribute(attribute, resolvedTheme);
-      }
+      root.classList.add(resolvedTheme);
     }
 
     updateTheme(theme);
@@ -75,7 +70,7 @@ export function ThemeProvider({
         mediaQuery.removeEventListener('change', listener);
       }
     };
-  }, [theme, attribute, enableSystem]);
+  }, [theme, enableSystem]);
 
   const value = {
     theme,
@@ -84,8 +79,13 @@ export function ThemeProvider({
     },
   };
 
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );

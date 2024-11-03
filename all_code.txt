@@ -21,6 +21,12 @@ This is a website I am working on. Please analyze the project structure, errors,
 │   ├── app
 │   │   ├── about
 │   │   │   └── page.tsx
+│   │   ├── blog
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── contact
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
 │   │   ├── error.tsx
 │   │   ├── favicon.ico
 │   │   ├── fonts
@@ -34,8 +40,18 @@ This is a website I am working on. Please analyze the project structure, errors,
 │   │   ├── About
 │   │   │   └── About.tsx
 │   │   ├── Blog
+│   │   │   ├── Blog.tsx
+│   │   │   └── index.ts
 │   │   ├── Contact
+│   │   │   ├── Contact.tsx
+│   │   │   └── index.ts
 │   │   ├── Die
+│   │   │   ├── Die.tsx
+│   │   │   ├── DieAnimation.ts
+│   │   │   ├── SkillInfo.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── skillsData.ts
+│   │   │   └── types.ts
 │   │   ├── Home
 │   │   │   └── Home.tsx
 │   │   ├── Projects
@@ -51,6 +67,8 @@ This is a website I am working on. Please analyze the project structure, errors,
 │   │       └── ThemeSwitcher.tsx
 │   ├── context
 │   ├── hooks
+│   ├── lib
+│   │   └── utils.ts
 │   ├── styles
 │   ├── types
 │   └── utils
@@ -58,7 +76,7 @@ This is a website I am working on. Please analyze the project structure, errors,
 ├── tsconfig.json
 └── yarn.lock
 
-20 directories, 35 files
+23 directories, 50 files
 
 
 ================================================================================
@@ -474,6 +492,60 @@ export default function AboutPage() {
 }
 
 ================================================================================
+File: src/app/blog/loading.tsx
+================================================================================
+
+// src/app/blog/loading.tsx
+import Loading from '@/components/common/Loading';
+
+export default function BlogLoading() {
+  return <Loading />;
+}
+
+================================================================================
+File: src/app/blog/page.tsx
+================================================================================
+
+// src/app/blog/page.tsx
+import Blog from '@/components/Blog/Blog';
+import Layout from '@/components/common/Layout';
+
+export default function BlogPage() {
+  return (
+    <Layout>
+      <Blog />
+    </Layout>
+  );
+}
+
+================================================================================
+File: src/app/contact/loading.tsx
+================================================================================
+
+// src/app/contact/loading.tsx
+import Loading from '@/components/common/Loading';
+
+export default function ContactLoading() {
+  return <Loading />;
+}
+
+================================================================================
+File: src/app/contact/page.tsx
+================================================================================
+
+// src/app/contact/page.tsx
+import Contact from '@/components/Contact/Contact';
+import Layout from '@/components/common/Layout';
+
+export default function ContactPage() {
+  return (
+    <Layout>
+      <Contact />
+    </Layout>
+  );
+}
+
+================================================================================
 File: src/app/error.tsx
 ================================================================================
 
@@ -530,10 +602,18 @@ body {
   background: var(--background);
 }
 
-/* Prevent Dark Reader from applying its styles */
-[data-darkreader-mode] {
+/* Remove Dark Reader styles */
+[data-darkreader-mode],
+[data-darkreader-scheme] {
   background: unset !important;
   color: unset !important;
+}
+
+[data-darkreader-inline-bgcolor],
+[data-darkreader-inline-color],
+[data-darkreader-inline-border],
+[data-darkreader-inline-stroke] {
+  all: unset !important;
 }
 
 ================================================================================
@@ -549,12 +629,14 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: 'swap', // Prevent FOIT
 });
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+  display: 'swap', // Prevent FOIT
 });
 
 export const metadata: Metadata = {
@@ -570,7 +652,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider defaultTheme="system" enableSystem>
           <main className="min-h-screen bg-background text-foreground">
             {children}
           </main>
@@ -870,20 +952,629 @@ const About = () => {
 export default About;
 
 ================================================================================
+File: src/components/Blog/Blog.tsx
+================================================================================
+
+// src/components/Blog/Blog.tsx
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { CalendarIcon, TagIcon, ClockIcon } from '@heroicons/react/24/outline';
+
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  tags: string[];
+  content: string;
+}
+
+const SAMPLE_POSTS: BlogPost[] = [
+  {
+    id: '1',
+    title: 'Building a Portfolio with Next.js and TypeScript',
+    excerpt: 'A deep dive into creating a modern portfolio website using Next.js, TypeScript, and Tailwind CSS.',
+    date: '2024-03-01',
+    readTime: '5 min read',
+    tags: ['Next.js', 'TypeScript', 'Web Development'],
+    content: 'Full blog post content here...'
+  },
+  {
+    id: '2',
+    title: 'My Journey with Cloud Technologies',
+    excerpt: 'Exploring various cloud platforms and sharing insights from real-world projects.',
+    date: '2024-02-15',
+    readTime: '7 min read',
+    tags: ['Cloud', 'AWS', 'DevOps'],
+    content: 'Full blog post content here...'
+  }
+];
+
+const Blog = () => {
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+
+  return (
+    <div className="max-w-4xl mx-auto py-8 space-y-12">
+      <motion.h1
+        className="text-4xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Technical Blog
+      </motion.h1>
+
+      <div className="grid gap-8">
+        {SAMPLE_POSTS.map((post, index) => (
+          <motion.article
+            key={post.id}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-2 hover:text-blue-600 cursor-pointer"
+                  onClick={() => setSelectedPost(post)}>
+                {post.title}
+              </h2>
+              
+              <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <div className="flex items-center gap-1">
+                  <CalendarIcon className="h-4 w-4" />
+                  <span>{new Date(post.date).toLocaleDateString()}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <ClockIcon className="h-4 w-4" />
+                  <span>{post.readTime}</span>
+                </div>
+              </div>
+
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                {post.excerpt}
+              </p>
+
+              <div className="flex items-center gap-2">
+                <TagIcon className="h-4 w-4 text-gray-500" />
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+
+      {/* Modal for full post */}
+      {selectedPost && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <motion.div
+            className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-4">{selectedPost.title}</h2>
+              <p className="text-gray-600 dark:text-gray-300">{selectedPost.content}</p>
+              <button
+                onClick={() => setSelectedPost(null)}
+                className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Blog;
+
+================================================================================
+File: src/components/Blog/index.ts
+================================================================================
+
+// src/components/Blog/index.ts
+export { default } from './Blog';
+
+================================================================================
+File: src/components/Contact/Contact.tsx
+================================================================================
+
+// src/components/Contact/Contact.tsx
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { EnvelopeIcon, PhoneIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const Contact = () => {
+  const [formData, setFormData] = useState<ContactForm>({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // TODO: Implement actual form submission
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    setIsSubmitting(false);
+    setSubmitStatus('success');
+    setFormData({ name: '', email: '', message: '' });
+    
+    // Reset status after 3 seconds
+    setTimeout(() => setSubmitStatus('idle'), 3000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto py-8 space-y-12">
+      <motion.h1
+        className="text-4xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Get in Touch
+      </motion.h1>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Contact Information */}
+        <motion.div
+          className="space-y-6"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <EnvelopeIcon className="h-6 w-6 text-blue-600" />
+                <a href="mailto:josuejero@hotmail.com" className="hover:text-blue-600">
+                  josuejero@hotmail.com
+                </a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <PhoneIcon className="h-6 w-6 text-blue-600" />
+                <a href="tel:+13052835028" className="hover:text-blue-600">
+                  (305) 283-5028
+                </a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <GlobeAltIcon className="h-6 w-6 text-blue-600" />
+                <span>Wilmington, Delaware</span>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Connect with me</h3>
+              <div className="flex gap-4">
+                <a
+                  href="https://github.com/josuejero"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/josue-jeronimo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                >
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Contact Form */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-6">
+            <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
+            
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows={4}
+                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`w-full py-2 px-4 rounded-md text-white transition-colors ${
+                isSubmitting
+                  ? 'bg-gray-400'
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
+
+            {submitStatus === 'success' && (
+              <p className="text-green-600 text-center">Message sent successfully!</p>
+            )}
+            {submitStatus === 'error' && (
+              <p className="text-red-600 text-center">Failed to send message. Please try again.</p>
+            )}
+          </form>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default Contact;
+
+================================================================================
+File: src/components/Contact/index.ts
+================================================================================
+
+// src/components/Contact/index.ts
+export { default } from './Contact';
+
+================================================================================
+File: src/components/Die/Die.tsx
+================================================================================
+
+// src/components/Die/Die.tsx
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Skill, DieProps } from './types';
+import { SKILLS_DATA } from './skillsData';
+import { dieAnimationVariants } from './DieAnimation';
+import { SkillInfo } from './SkillInfo';
+
+const Die: React.FC<DieProps> = ({ onSkillSelect, className = '' }) => {
+  const [state, setState] = useState({
+    isRolling: false,
+    currentSkill: null as Skill | null,
+    previousSkill: null as Skill | null,
+  });
+
+  const rollDie = useCallback(() => {
+    if (state.isRolling) return;
+
+    setState(prev => ({
+      ...prev,
+      isRolling: true,
+      previousSkill: prev.currentSkill
+    }));
+
+    let rollCount = 0;
+    const maxRolls = 10;
+    const rollInterval = setInterval(() => {
+      const randomSkill = SKILLS_DATA[Math.floor(Math.random() * SKILLS_DATA.length)];
+      setState(prev => ({ ...prev, currentSkill: randomSkill }));
+      
+      rollCount++;
+      if (rollCount >= maxRolls) {
+        clearInterval(rollInterval);
+        const finalSkill = SKILLS_DATA[Math.floor(Math.random() * SKILLS_DATA.length)];
+        setState(prev => ({
+          ...prev,
+          isRolling: false,
+          currentSkill: finalSkill
+        }));
+        onSkillSelect?.(finalSkill);
+      }
+    }, 200);
+  }, [state.isRolling, onSkillSelect]);
+
+  return (
+    <div className={`flex flex-col items-center ${className}`}>
+      <motion.div
+        variants={dieAnimationVariants}
+        initial="initial"
+        animate={state.isRolling ? "rolling" : "initial"}
+        whileHover="hover"
+        whileTap="tap"
+        onClick={rollDie}
+        className="w-32 h-32 bg-white dark:bg-gray-800 rounded-lg shadow-lg 
+                 flex items-center justify-center cursor-pointer 
+                 perspective-1000 transform-style-preserve-3d"
+      >
+        <span className="text-lg font-bold text-center">
+          {state.currentSkill ? state.currentSkill.name : 'Click to Roll!'}
+        </span>
+      </motion.div>
+
+      <AnimatePresence mode="wait">
+        {state.currentSkill && !state.isRolling && (
+          <SkillInfo skill={state.currentSkill} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default Die;
+
+================================================================================
+File: src/components/Die/DieAnimation.ts
+================================================================================
+
+// src/components/Die/DieAnimation.ts
+export const dieAnimationVariants = {
+  initial: {
+    scale: 1,
+    rotateX: 0,
+    rotateY: 0
+  },
+  rolling: {
+    scale: [1, 1.2, 1],
+    rotateX: [0, 360, 720, 1080],
+    rotateY: [0, 360, 720, 1080],
+    transition: {
+      duration: 2,
+      ease: "easeInOut",
+      times: [0, 0.2, 0.8, 1]
+    }
+  },
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.2
+    }
+  },
+  tap: {
+    scale: 0.95,
+    transition: {
+      duration: 0.1
+    }
+  }
+};
+
+================================================================================
+File: src/components/Die/SkillInfo.tsx
+================================================================================
+
+// src/components/Die/SkillInfo.tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Skill } from './types';
+
+interface SkillInfoProps {
+  skill: Skill;
+}
+
+export const SkillInfo: React.FC<SkillInfoProps> = ({ skill }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="mt-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+    >
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-bold">{skill.name}</h3>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {skill.yearsOfExperience} years
+          </span>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span>Proficiency</span>
+            <span>{skill.proficiency}%</span>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${skill.proficiency}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="bg-blue-600 h-2 rounded-full"
+            />
+          </div>
+        </div>
+
+        {skill.projects && skill.projects.length > 0 && (
+          <div>
+            <h4 className="font-semibold mb-2">Related Projects:</h4>
+            <div className="flex flex-wrap gap-2">
+              {skill.projects.map((project) => (
+                <span
+                  key={project}
+                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 
+                           text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                >
+                  {project}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+================================================================================
+File: src/components/Die/index.ts
+================================================================================
+
+// src/components/Die/index.ts
+export { default } from './Die';
+export * from './types';
+
+================================================================================
+File: src/components/Die/skillsData.ts
+================================================================================
+
+// src/components/Die/skillsData.ts
+import { Skill } from './types';
+
+export const SKILLS_DATA: Skill[] = [
+  {
+    name: 'Python',
+    category: 'language',
+    proficiency: 90,
+    yearsOfExperience: 6,
+    projects: ['Finance Tracker', 'Product Affordability Predictor']
+  },
+  {
+    name: 'Java',
+    category: 'language',
+    proficiency: 85,
+    yearsOfExperience: 7,
+    projects: ['Fludde']
+  },
+  {
+    name: 'React',
+    category: 'framework',
+    proficiency: 80,
+    yearsOfExperience: 3,
+    projects: ['Portfolio Website']
+  },
+  {
+    name: 'Docker',
+    category: 'tool',
+    proficiency: 85,
+    yearsOfExperience: 3,
+    projects: ['Selestino', 'Finance Tracker']
+  },
+  {
+    name: 'GCP',
+    category: 'cloud',
+    proficiency: 80,
+    yearsOfExperience: 3,
+    projects: ['Selestino', 'Finance Tracker']
+  }
+];
+
+================================================================================
+File: src/components/Die/types.ts
+================================================================================
+
+// src/components/Die/types.ts
+export interface Skill {
+  name: string;
+  category: 'language' | 'framework' | 'tool' | 'cloud';
+  proficiency: number;
+  yearsOfExperience: number;
+  projects?: string[];
+}
+
+export interface DieProps {
+  onSkillSelect?: (skill: Skill) => void;
+  className?: string;
+}
+
+export interface DieState {
+  isRolling: boolean;
+  currentSkill: Skill | null;
+  currentFace: number;
+}
+
+================================================================================
 File: src/components/Home/Home.tsx
 ================================================================================
 
 'use client';
 
 import { motion } from 'framer-motion';
-import { CodeBracketIcon, CommandLineIcon, CloudIcon } from '@heroicons/react/24/outline';
+import { 
+  CodeBracketIcon, 
+  CommandLineIcon, 
+  CloudIcon,
+  ArrowDownIcon 
+} from '@heroicons/react/24/outline';
+import Die from '@/components/Die';
+import { Skill } from '@/components/Die/types';
 
 const Home = () => {
   const skills = [
-    { category: "Languages", items: ["Java", "C", "C++", "Python", "JavaScript", "HTML5", "SCSS"] },
-    { category: "Frameworks & Libraries", items: ["ReactJS", "Django", "Node.js"] },
-    { category: "Cloud & DevOps", items: ["Docker", "Kubernetes", "Jenkins", "Google Cloud Platform", "Microsoft Azure"] },
-    { category: "Databases", items: ["PostgreSQL", "SQLite"] },
+    { 
+      category: "Languages", 
+      items: ["Java", "C", "C++", "Python", "JavaScript", "HTML5", "SCSS"],
+      icon: CodeBracketIcon
+    },
+    { 
+      category: "Frameworks & Libraries", 
+      items: ["ReactJS", "Django", "Node.js"],
+      icon: CommandLineIcon
+    },
+    { 
+      category: "Cloud & DevOps", 
+      items: ["Docker", "Kubernetes", "Jenkins", "Google Cloud Platform", "Microsoft Azure"],
+      icon: CloudIcon
+    }
   ];
 
   const fadeIn = {
@@ -892,89 +1583,114 @@ const Home = () => {
     transition: { duration: 0.5 }
   };
 
+  const handleSkillSelect = (skill: Skill) => {
+    // Optional: Add analytics or other functionality when a skill is selected
+    console.log('Selected skill:', skill);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto space-y-12 py-8">
+    <div className="max-w-4xl mx-auto space-y-16 py-8">
       {/* Hero Section */}
       <motion.section 
-        className="text-center space-y-4"
+        className="relative text-center space-y-6"
         initial={fadeIn.initial}
         animate={fadeIn.animate}
         transition={fadeIn.transition}
       >
-        <h1 className="text-5xl font-bold">Josue Sebastian Jeronimo</h1>
-        <h2 className="text-2xl text-gray-600 dark:text-gray-300">Full-Stack Developer</h2>
-        <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-          Results-oriented Computer Engineering graduate with 7 years of programming experience, specializing in software development,
-          cloud computing, and automation.
+        <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
+          Josue Sebastian Jeronimo
+        </h1>
+        <h2 className="text-2xl text-gray-600 dark:text-gray-300">
+          Full-Stack Developer
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          Results-oriented Computer Engineering graduate with 7 years of programming experience, 
+          specializing in software development, cloud computing, and automation.
         </p>
+        
+        {/* Interactive Die */}
+        <motion.div 
+          className="mt-12"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <h3 className="text-xl font-semibold mb-4">Roll the Die to Explore My Skills</h3>
+          <Die onSkillSelect={handleSkillSelect} className="mx-auto" />
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <ArrowDownIcon className="h-6 w-6 text-gray-400" />
+        </motion.div>
       </motion.section>
 
       {/* Key Areas */}
       <motion.section 
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-3 gap-8"
         initial={fadeIn.initial}
         animate={fadeIn.animate}
         transition={{ ...fadeIn.transition, delay: 0.2 }}
       >
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-          <CodeBracketIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Software Development</h3>
-          <p className="text-gray-600 dark:text-gray-300">Full-stack development with modern frameworks and technologies</p>
-        </div>
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-          <CloudIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Cloud Computing</h3>
-          <p className="text-gray-600 dark:text-gray-300">Experience with GCP, Azure, and cloud-native technologies</p>
-        </div>
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-          <CommandLineIcon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Automation</h3>
-          <p className="text-gray-600 dark:text-gray-300">CI/CD pipelines and process automation expertise</p>
-        </div>
-      </motion.section>
-
-      {/* Skills Section */}
-      <motion.section 
-        className="space-y-6"
-        initial={fadeIn.initial}
-        animate={fadeIn.animate}
-        transition={{ ...fadeIn.transition, delay: 0.4 }}
-      >
-        <h2 className="text-3xl font-bold text-center">Technical Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skills.map((skillGroup, index) => (
-            <div key={index} className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">{skillGroup.category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {skillGroup.items.map((skill, skillIndex) => (
-                  <span 
-                    key={skillIndex}
-                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+        {skills.map((skill, index) => (
+          <motion.div
+            key={skill.category}
+            className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg 
+                     hover:shadow-xl transition-shadow"
+            whileHover={{ scale: 1.02 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <skill.icon className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
+            <h3 className="text-xl font-semibold mb-3">{skill.category}</h3>
+            <div className="flex flex-wrap gap-2">
+              {skill.items.map((item, itemIndex) => (
+                <span
+                  key={itemIndex}
+                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 
+                           dark:text-blue-100 rounded-full text-sm"
+                >
+                  {item}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
+          </motion.div>
+        ))}
       </motion.section>
 
       {/* Call to Action */}
       <motion.section 
-        className="text-center"
+        className="text-center space-y-6"
         initial={fadeIn.initial}
         animate={fadeIn.animate}
         transition={{ ...fadeIn.transition, delay: 0.6 }}
       >
-        <a 
-          href="/resume_fiu_canva_3.pdf" 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Download Resume
-        </a>
+        <h3 className="text-2xl font-semibold">Interested in learning more?</h3>
+        <div className="flex justify-center gap-4">
+          <a 
+            href="/resume_fiu_canva_3.pdf" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white 
+                     rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <span>Download Resume</span>
+            <ArrowDownIcon className="h-4 w-4" />
+          </a>
+          <a 
+            href="/contact" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 dark:bg-gray-700 
+                     text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 
+                     dark:hover:bg-gray-600 transition-colors"
+          >
+            Contact Me
+          </a>
+        </div>
       </motion.section>
     </div>
   );
@@ -1273,13 +1989,13 @@ File: src/components/common/ThemeProvider.tsx
 
 import * as React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { disableDarkReader } from '@/lib/utils';
 
 type Theme = 'dark' | 'light' | 'system';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
   defaultTheme?: Theme;
-  attribute?: string;
   enableSystem?: boolean;
 };
 
@@ -1298,19 +2014,19 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  attribute = 'class',
   enableSystem = true,
-  ...props
 }: ThemeProviderProps) {
+  const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
+  // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    disableDarkReader();
     const root = window.document.documentElement;
-
-    root.removeAttribute('style');
-    root.removeAttribute('data-darkreader-mode');
-    root.removeAttribute('data-darkreader-scheme');
-
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     function updateTheme(newTheme: Theme) {
@@ -1321,12 +2037,7 @@ export function ThemeProvider({
       }
       
       root.classList.remove('light', 'dark');
-      
-      if (attribute === 'class') {
-        root.classList.add(resolvedTheme);
-      } else {
-        root.setAttribute(attribute, resolvedTheme);
-      }
+      root.classList.add(resolvedTheme);
     }
 
     updateTheme(theme);
@@ -1346,7 +2057,7 @@ export function ThemeProvider({
         mediaQuery.removeEventListener('change', listener);
       }
     };
-  }, [theme, attribute, enableSystem]);
+  }, [theme, enableSystem]);
 
   const value = {
     theme,
@@ -1355,8 +2066,13 @@ export function ThemeProvider({
     },
   };
 
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );
@@ -1371,6 +2087,7 @@ export const useTheme = () => {
 
   return context;
 };
+
 
 ================================================================================
 File: src/components/common/ThemeSwitcher.tsx
@@ -1418,6 +2135,24 @@ export function ThemeSwitcher() {
       </button>
     </div>
   );
+}
+
+================================================================================
+File: src/lib/utils.ts
+================================================================================
+
+// src/lib/utils.ts
+export function disableDarkReader() {
+  if (typeof window !== 'undefined') {
+    const root = window.document.documentElement;
+    root.removeAttribute('data-darkreader-mode');
+    root.removeAttribute('data-darkreader-scheme');
+    const elements = document.querySelectorAll('[data-darkreader-inline-stroke]');
+    elements.forEach((el) => {
+      el.removeAttribute('data-darkreader-inline-stroke');
+      el.removeAttribute('style');
+    });
+  }
 }
 
 ================================================================================
