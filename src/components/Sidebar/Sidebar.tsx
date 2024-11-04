@@ -1,7 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { HomeIcon, UserIcon, BookOpenIcon, MapIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { 
+  HomeIcon, 
+  UserIcon, 
+  NewspaperIcon, 
+  EnvelopeIcon, 
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon 
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
 
@@ -11,30 +18,35 @@ const Sidebar = () => {
   const menuItems = [
     { name: 'Home', icon: HomeIcon, href: '/' },
     { name: 'About', icon: UserIcon, href: '/about' },
-    { name: 'Blog', icon: BookOpenIcon, href: '/blog' },
-    { name: 'Contact', icon: MapIcon, href: '/contact' }
+    { name: 'Blog', icon: NewspaperIcon, href: '/blog' },
+    { name: 'Contact', icon: EnvelopeIcon, href: '/contact' }
   ];
 
   return (
-    <div className={`fixed h-screen bg-gray-900 text-white transition-all duration-300 ${
-      isOpen ? 'w-64' : 'w-20'
+    <div className={`fixed h-screen bg-gray-900 text-white transition-all duration-300 flex flex-col ${
+      isOpen ? 'w-64' : 'w-16'
     }`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute right-0 top-4 -mr-6 rounded-r bg-gray-900 p-2"
+        className="absolute -right-3 top-4 bg-gray-900 rounded-full p-1.5"
         aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
       >
-        <MinusIcon className="h-6 w-6" />
+        {isOpen ? (
+          <ChevronDoubleLeftIcon className="h-4 w-4" />
+        ) : (
+          <ChevronDoubleRightIcon className="h-4 w-4" />
+        )}
       </button>
 
-      <nav className="mt-16 space-y-8">
+      <nav className="flex flex-col gap-2 mt-16">
         {menuItems.map((item) => (
           <Link
             key={item.name}
             href={item.href}
-            className="flex items-center px-4 py-2 hover:bg-gray-800 transition-colors"
+            className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors
+                       ${isOpen ? 'justify-start' : 'justify-center'}`}
           >
-            <item.icon className="h-6 w-6" />
+            <item.icon className="h-5 w-5" />
             {isOpen && (
               <span className="ml-4">{item.name}</span>
             )}
@@ -42,8 +54,9 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-        <ThemeSwitcher />
+      {/* Updated theme switcher container */}
+      <div className="mt-auto mb-4 flex justify-center">
+        <ThemeSwitcher isOpen={isOpen} />
       </div>
     </div>
   );
