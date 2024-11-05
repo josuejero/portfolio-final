@@ -1,10 +1,16 @@
 // src/components/Die/types.ts
+
+export interface Project {
+  name: string;
+  url: string;
+}
+
 export interface Skill {
   name: string;
   category: 'language' | 'framework' | 'tool' | 'cloud';
   proficiency: number;
   yearsOfExperience: number;
-  projects?: string[];
+  projects?: Project[];
 }
 
 export interface DieProps {

@@ -39,7 +39,7 @@ const ALLOWED_EXTENSIONS = new Set([
   '.yaml',
   '.tf',
   '.py',
-  '.env',
+  '.local',
   '.ini',
   '.gitignore',
   ''

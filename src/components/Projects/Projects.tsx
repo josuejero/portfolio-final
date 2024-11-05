@@ -1,55 +1,222 @@
 'use client';
 
+import React from 'react';
 import { motion } from 'framer-motion';
+import { 
+  CodeBracketIcon, 
+  GlobeAltIcon,
+} from '@heroicons/react/24/outline';
 
-const Projects = () => {
-  const projects = [
-    {
-      title: "Product Affordability Predictor",
-      period: "October 2023 - Present",
-      description: "Cash flow and product affordability application",
-      technologies: ["Python", "Django", "PostgreSQL", "Docker", "Kubernetes", "Jenkins"],
-      highlights: [
-        "Engineered a cash flow and product affordability application managing financial data with PostgreSQL",
-        "Implemented OAuth integration for improved user experience",
-        "Designed robust Jenkins CI/CD pipeline for automated updates"
-      ]
-    },
-    {
-      title: "Finance Tracker",
-      period: "May 2023 - Present",
-      description: "Personal finance tracking application",
-      technologies: ["Python", "Django", "OAuth", "Google Cloud", "PyTest", "Selenium"],
-      highlights: [
-        "Built personal finance tracker with secure account linking",
-        "Established deployment processes on Google Cloud",
-        "Streamlined testing workflows reducing deployment time"
-      ]
-    },
-    {
-      title: "Selestino",
-      period: "September 2022 - Present",
-      description: "Recipe website with cloud infrastructure",
-      technologies: ["Python", "PostgreSQL", "Docker", "Kubernetes", "Jenkins", "Google Cloud"],
-      highlights: [
-        "Developed recipe website using Python and PostgreSQL",
-        "Optimized application hosting on Google Cloud",
-        "Improved functionality with RESTful APIs"
-      ]
-    },
-    {
-      title: "Fludde",
-      period: "April 2022 - Present",
-      description: "Multimedia review platform",
-      technologies: ["Android", "Java", "REST API"],
-      highlights: [
-        "Collaborated on multimedia review platform development",
-        "Leveraged Movie Database API for real-time content",
-        "Created REST API for user interactions"
-      ]
-    }
-  ];
+interface ProjectProps {
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl: string;
+  demoUrl?: string;
+  imageUrl?: string;
+  highlights: string[];
+  period: string;
+}
 
+const ProjectCard = ({ 
+  title, 
+  description, 
+  technologies, 
+  githubUrl, 
+  demoUrl, 
+  highlights,
+  period 
+}: ProjectProps) => {
+  return (
+    <motion.div
+      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+      whileHover={{ y: -5 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {title}
+          </h3>
+          <div className="flex gap-2">
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+              aria-label={`View ${title} on GitHub`}
+            >
+              <CodeBracketIcon className="h-5 w-5" />
+            </a>
+            {demoUrl && (
+              <a
+                href={demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                aria-label={`View ${title} demo`}
+              >
+                <GlobeAltIcon className="h-5 w-5" />
+              </a>
+            )}
+          </div>
+        </div>
+
+        <span className="text-sm text-gray-500 dark:text-gray-400 block mb-4">
+          {period}
+        </span>
+        
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          {description}
+        </p>
+
+        <div className="mb-4">
+          <h4 className="text-lg font-semibold mb-2">Key Features:</h4>
+          <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
+            {highlights.map((highlight, i) => (
+              <li key={i} className="leading-relaxed">
+                {highlight}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {technologies.map((tech, i) => (
+            <span
+              key={i}
+              className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const projectsData: ProjectProps[] = [
+  {
+    title: "Product Affordability Predictor",
+    description: "A cash flow and product affordability application using Python and Django, managing financial data with PostgreSQL.",
+    period: "October 2023 - Present",
+    technologies: ["Python", "Django", "PostgreSQL", "Docker", "Kubernetes", "Jenkins", "OAuth"],
+    githubUrl: "https://github.com/josuejero/product-affordability-predictor",
+    highlights: [
+      "Engineered a cash flow and product affordability application using Python and Django",
+      "Implemented innovative financial data management solutions with PostgreSQL",
+      "Incorporated external APIs via OAuth to improve user experience and retention",
+      "Spearheaded the adoption of Docker and Kubernetes for deployment",
+      "Designed a robust Jenkins CI/CD pipeline to automate updates"
+    ]
+  },
+  {
+    title: "Finance Tracker",
+    description: "Personal finance tracker enabling users to monitor transactions with OAuth-secured account linking.",
+    period: "May 2023 - Present",
+    technologies: ["Python", "Django", "OAuth", "Google Cloud", "PyTest", "Selenium", "Docker", "Kubernetes"],
+    githubUrl: "https://github.com/josuejero/finance-tracker",
+    highlights: [
+      "Built a personal finance tracker with Python and Django",
+      "Enabled secure account linking through OAuth integration",
+      "Led establishment of deployment processes on Google Cloud with Docker and Kubernetes",
+      "Streamlined testing workflows using PyTest and Selenium",
+      "Maintained CI/CD pipeline through Jenkins to accelerate feature releases"
+    ]
+  },
+  {
+    title: "Selestino (Peruvian Recipe Generator)",
+    description: "A recipe website developed using Python and PostgreSQL, with cloud infrastructure optimization.",
+    period: "September 2022 - Present",
+    technologies: ["Python", "PostgreSQL", "Docker", "Kubernetes", "Jenkins", "Google Cloud", "REST API"],
+    githubUrl: "https://github.com/josuejero/selestino",
+    highlights: [
+      "Developed recipe website using Python and PostgreSQL",
+      "Optimized application hosting on Google Cloud with Docker and Kubernetes",
+      "Ensured scalable infrastructure through Jenkins CI/CD automation",
+      "Improved application functionality by incorporating RESTful APIs",
+      "Conducted comprehensive browser testing with Selenium to boost user satisfaction"
+    ]
+  },
+  {
+    title: "Fludde",
+    description: "A multimedia review platform for Android using Java, with integrated social features and content sharing.",
+    period: "April 2022 - Present",
+    technologies: ["Android", "Java", "REST API", "Movie Database API"],
+    githubUrl: "https://github.com/josuejero/Fludde",
+    highlights: [
+      "Collaborated on multimedia review platform development using Android and Java",
+      "Leveraged Movie Database API for real-time content integration",
+      "Created REST API to enable seamless user interaction",
+      "Implemented social features and content sharing capabilities",
+      "Contributed to launch and continuous feature enhancements"
+    ]
+  },
+  {
+    title: "FrameCast Web Portal",
+    description: "A comprehensive web-based management system for digital photo frames, featuring device management, photo organization, and wireless connectivity through both Bluetooth and WiFi interfaces.",
+    period: "2024",
+    technologies: [
+      "Python", 
+      "Flask", 
+      "RESTful API", 
+      "SQLite",
+      "Bluetooth",
+      "WiFi",
+      "pytest",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    githubUrl: "https://github.com/josuejero/FrameCast-Web-Portal",
+    highlights: [
+      "Developed comprehensive device management system for discovering and controlling digital photo frames",
+      "Implemented dual connectivity with both Bluetooth and WiFi device discovery and management",
+      "Created RESTful API endpoints for device operations and photo management",
+      "Built user-friendly web interface for device configuration and photo organization",
+      "Integrated automated testing suite using pytest for reliable deployment"
+    ]
+  },
+  {
+    title: "Cheapest Grocery Finder",
+    description: "A web application that helps users locate the most affordable grocery items in their vicinity.",
+    period: "2024 - Present",
+    technologies: ["Python", "Django", "REST API", "PostgreSQL"],
+    githubUrl: "https://github.com/josuejero/grocery-finder",
+    highlights: [
+      "Developed price comparison algorithm for grocery items",
+      "Integrated with store APIs for real-time pricing data",
+      "Implemented location-based store searching",
+      "Created user-friendly interface for price comparison",
+      "Built database for storing historical price data"
+    ]
+  },
+  {
+    title: "Ozzie Gonzalez Photography Portfolio",
+    description: "A professional photography portfolio website built with Next.js, featuring a bilingual interface, image galleries, and workshop management for a professional photographer.",
+    period: "2024",
+    technologies: [
+      "Next.js",
+      "JavaScript",
+      "SCSS",
+      "Jest",
+      "Cloudinary",
+      "Vercel"
+    ],
+    githubUrl: "https://github.com/CourajeousMax/ozzie-photography",
+    demoUrl: "https://ozzie-photography.vercel.app",
+    highlights: [
+      "Built responsive portfolio website with Next.js and SCSS for optimal performance",
+      "Implemented bilingual support for English and Spanish speaking audiences",
+      "Integrated Cloudinary for optimized image management and delivery",
+      "Created dynamic gallery system with LightGallery.js for professional photo showcase",
+      "Developed workshop management system for scheduling and displaying photography events"
+    ]
+  }
+];
+
+const ProjectsSection = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 space-y-12">
       <motion.h2 
@@ -61,47 +228,15 @@ const Projects = () => {
       </motion.h2>
 
       <div className="grid grid-cols-1 gap-8">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.title}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{project.period}</span>
-              </div>
-              
-              <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
-              
-              <div className="mb-4">
-                <h4 className="text-lg font-semibold mb-2">Key Features:</h4>
-                <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
-                  {project.highlights.map((highlight, i) => (
-                    <li key={i}>{highlight}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech, i) => (
-                  <span 
-                    key={i}
-                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+        {projectsData.map((project, index) => (
+          <ProjectCard 
+            key={`${project.title}-${index}`}
+            {...project}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export default Projects;
+export default ProjectsSection;

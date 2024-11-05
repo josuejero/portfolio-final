@@ -8,6 +8,27 @@ interface SkillInfoProps {
 }
 
 export const SkillInfo: React.FC<SkillInfoProps> = ({ skill }) => {
+  // Define animation variants for the container and items
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1, 
+        delayChildren: 0.05 * i,
+      },
+    }),
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.3 } 
+    },
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -32,7 +53,7 @@ export const SkillInfo: React.FC<SkillInfoProps> = ({ skill }) => {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${skill.proficiency}%` }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
               className="bg-blue-600 h-2 rounded-full"
             />
           </div>
@@ -41,17 +62,26 @@ export const SkillInfo: React.FC<SkillInfoProps> = ({ skill }) => {
         {skill.projects && skill.projects.length > 0 && (
           <div>
             <h4 className="font-semibold mb-2">Related Projects:</h4>
-            <div className="flex flex-wrap gap-2">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-wrap gap-2"
+            >
               {skill.projects.map((project) => (
-                <span
-                  key={project}
+                <motion.a
+                  key={project.name}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variants={itemVariants}
                   className="px-3 py-1 bg-blue-100 dark:bg-blue-900 
-                           text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                             text-blue-800 dark:text-blue-100 rounded-full text-sm hover:underline"
                 >
-                  {project}
-                </span>
+                  {project.name}
+                </motion.a>
               ))}
-            </div>
+            </motion.div>
           </div>
         )}
       </div>
