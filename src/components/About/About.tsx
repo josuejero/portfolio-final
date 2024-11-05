@@ -1,69 +1,123 @@
-// src/components/About.tsx
-'use client';
+// src/components/About/About.tsx
+'use client'
 
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpenIcon, AcademicCapIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { BookOpen, GraduationCap, Code2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGithubStats } from '@/hooks/useGithubStats';
+import useGithubStats from '@/hooks/useGithubStats';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 const GithubStats = React.lazy(() => import('./GithubStats'));
+
+const education = {
+  degree: 'Bachelor of Science in Computer Engineering',
+  school: 'Florida International University (FIU)',
+  location: 'Miami, Florida',
+  graduation: 'July 2024',
+  gpa: "Dean's List (Spring 2020)",
+  relevantCourses: [
+    'Data Structures',
+    'Operating Systems',
+    'Mobile App Development',
+    'Systems Programming',
+    'Embedded Systems',
+    'Computer Architecture',
+    'Analytics & Cloud in ECE',
+    'IoT Security',
+    'Deep Learning in ECE',
+  ]
+};
+
+const TechnicalSkills = () => {
+  const skillCategories = [
+    {
+      category: "Core Languages & Frameworks",
+      skills: [
+        { name: "Python", years: 6, details: "Django, Flask, Data Analysis" },
+        { name: "Java", years: 7, details: "Android Development, Spring Boot" },
+        { name: "JavaScript/TypeScript", years: 5, details: "React, Next.js, Node.js" },
+        { name: "C++", years: 5, details: "Systems Programming, Embedded Systems" }
+      ]
+    },
+    {
+      category: "Cloud & DevOps",
+      skills: [
+        { name: "Docker & Kubernetes", years: 3, details: "Container Orchestration, Microservices" },
+        { name: "Google Cloud Platform", years: 3, details: "App Engine, Cloud Functions, Cloud Run" },
+        { name: "CI/CD", years: 2, details: "Jenkins, GitHub Actions" },
+        { name: "Infrastructure as Code", years: 2, details: "Terraform, CloudFormation" }
+      ]
+    },
+    {
+      category: "Databases & Tools",
+      skills: [
+        { name: "PostgreSQL", years: 4, details: "Performance Optimization, Schema Design" },
+        { name: "MongoDB", years: 2, details: "Document Design, Aggregation Pipeline" },
+        { name: "Git & GitHub", years: 5, details: "Version Control, Code Review" },
+        { name: "AWS Services", years: 2, details: "Lambda, S3, EC2, RDS" }
+      ]
+    }
+  ];
+
+  return (
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-8"
+    >
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-3xl font-bold">
+            <Code2 className="h-8 w-8 text-blue-600" />
+            Technical Proficiency
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-8">
+            {skillCategories.map((category, idx) => (
+              <motion.div
+                key={category.category}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <h3 className="text-xl font-semibold mb-4">{category.category}</h3>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {category.skills.map((skill) => (
+                    <motion.div
+                      key={skill.name}
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="font-medium text-lg">{skill.name}</span>
+                        <span className="text-sm text-blue-600 dark:text-blue-400">
+                          {skill.years} years
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{skill.details}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </motion.section>
+  );
+};
 
 const About = () => {
   const username = 'josuejero';
   const stats = useGithubStats(username);
 
-  const skills = [
-    {
-      category: 'Programming',
-      items: [
-        { name: 'Python', proficiency: 90, years: 6 },
-        { name: 'Java', proficiency: 85, years: 7 },
-        { name: 'JavaScript', proficiency: 85, years: 5 },
-        { name: 'C++', proficiency: 80, years: 5 },
-      ],
-    },
-    {
-      category: 'Cloud & DevOps',
-      items: [
-        { name: 'Docker', proficiency: 85, years: 3 },
-        { name: 'Kubernetes', proficiency: 80, years: 2 },
-        { name: 'Jenkins', proficiency: 75, years: 2 },
-        { name: 'Google Cloud', proficiency: 80, years: 3 },
-      ],
-    },
-    {
-      category: 'Frameworks & Tools',
-      items: [
-        { name: 'Django', proficiency: 85, years: 4 },
-        { name: 'React', proficiency: 80, years: 3 },
-        { name: 'Node.js', proficiency: 75, years: 3 },
-        { name: 'PostgreSQL', proficiency: 80, years: 4 },
-      ],
-    },
-  ];
-
-  const education = {
-    degree: 'Bachelor of Science in Computer Engineering',
-    school: 'Florida International University (FIU)',
-    location: 'Miami, Florida',
-    graduation: 'July 2024',
-    gpa: "Dean's List (Spring 2020)",
-    relevantCourses: [
-      'Data Structures',
-      'Operating Systems',
-      'Mobile App Development',
-      'Systems Programming',
-      'Embedded Systems',
-      'Computer Architecture',
-      'Analytics & Cloud in ECE',
-      'IoT Security',
-      'Deep Learning in ECE',
-    ],
-  };
-
   return (
-    <div className="max-w-4xl mx-auto space-y-12 py-8">
+    <div className="max-w-[calc(100vw-5rem)] mx-auto space-y-12 py-8 px-4">
+
       {/* Professional Summary */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -72,8 +126,8 @@ const About = () => {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BookOpenIcon className="h-8 w-8 text-blue-600" />
+            <CardTitle className="flex items-center gap-2 text-3xl font-bold">
+              <BookOpen className="h-10 w-10 text-blue-600" />
               Professional Background
             </CardTitle>
           </CardHeader>
@@ -87,7 +141,7 @@ const About = () => {
           </CardContent>
         </Card>
       </motion.section>
-
+      
       {/* Education */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -97,14 +151,14 @@ const About = () => {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AcademicCapIcon className="h-8 w-8 text-blue-600" />
+            <CardTitle className="flex items-center gap-2 text-3xl font-bold">
+              <GraduationCap className="h-10 w-10 text-blue-600" />
               Education
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <h3 className="text-xl font-bold">{education.degree}</h3>
+              <h3 className="text-2xl font-bold mb-2">{education.degree}</h3>
               <p className="text-gray-600 dark:text-gray-400">{education.school}</p>
               <p className="text-gray-600 dark:text-gray-400">{education.location}</p>
               <p className="text-gray-600 dark:text-gray-400">Graduating: {education.graduation}</p>
@@ -112,7 +166,7 @@ const About = () => {
             </div>
 
             <div className="mt-4">
-              <h4 className="font-semibold mb-2">Relevant Coursework:</h4>
+              <h4 className="text-xl font-semibold mb-2">Relevant Coursework:</h4>
               <div className="flex flex-wrap gap-2">
                 {education.relevantCourses.map((course, index) => (
                   <span
@@ -137,8 +191,8 @@ const About = () => {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CodeBracketIcon className="h-8 w-8 text-blue-600" />
+            <CardTitle className="flex items-center gap-2 text-3xl font-bold">
+              <Code2 className="h-10 w-10 text-blue-600" />
               GitHub Activity
             </CardTitle>
           </CardHeader>
@@ -151,51 +205,18 @@ const About = () => {
             ) : stats.error ? (
               <p className="text-red-500 text-center p-4">Error: {stats.error}</p>
             ) : (
-              <Suspense fallback={<div>Loading...</div>}>
-                <GithubStats stats={stats} username={username} />
-              </Suspense>
+              <ErrorBoundary>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <GithubStats stats={stats} username={username} />
+                </Suspense>
+              </ErrorBoundary>
             )}
           </CardContent>
         </Card>
       </motion.section>
 
-      {/* Skills */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Technical Proficiency</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-8">
-            {skills.map((skillGroup) => (
-              <div key={skillGroup.category}>
-                <h3 className="text-xl font-semibold mb-6">{skillGroup.category}</h3>
-                <div className="space-y-6">
-                  {skillGroup.items.map((skill) => (
-                    <div key={skill.name} className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="font-medium">{skill.name}</span>
-                        <span>{skill.years} years</span>
-                      </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                        <motion.div
-                          className="bg-blue-600 h-2.5 rounded-full"
-                          initial={{ width: 0 }}
-                          animate={{ width: `${skill.proficiency}%` }}
-                          transition={{ duration: 1, delay: 0.8 }}
-                        ></motion.div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </motion.section>
+      {/* Technical Skills Section */}
+      <TechnicalSkills />
     </div>
   );
 };

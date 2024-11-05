@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { EnvelopeIcon, PhoneIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import emailjs from '@emailjs/browser';
 
 interface ContactForm {
   name: string;
@@ -23,16 +24,36 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // TODO: Implement actual form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset status after 3 seconds
-    setTimeout(() => setSubmitStatus('idle'), 3000);
+    setSubmitStatus('idle');
+  
+    try {
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Josue',
+          to_email: 'josuejero@hotmail.com',
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+      );
+      
+      if (result.status === 200) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitStatus('idle'), 3000);
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

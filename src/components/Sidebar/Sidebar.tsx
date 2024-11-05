@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { 
   HomeIcon, 
   UserIcon, 
-  NewspaperIcon, 
   EnvelopeIcon, 
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon 
@@ -18,14 +17,22 @@ const Sidebar = () => {
   const menuItems = [
     { name: 'Home', icon: HomeIcon, href: '/' },
     { name: 'About', icon: UserIcon, href: '/about' },
-    { name: 'Blog', icon: NewspaperIcon, href: '/blog' },
     { name: 'Contact', icon: EnvelopeIcon, href: '/contact' }
   ];
 
   return (
-    <div className={`fixed h-screen bg-gray-900 text-white transition-all duration-300 flex flex-col ${
-      isOpen ? 'w-64' : 'w-16'
-    }`}>
+    <div className={`
+      fixed 
+      h-screen 
+      bg-gray-900 
+      text-white 
+      transition-all 
+      duration-300 
+      flex 
+      flex-col
+      z-50  // Add z-index to keep sidebar above content
+      ${isOpen ? 'w-64' : 'w-16'}
+    `}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="absolute -right-3 top-4 bg-gray-900 rounded-full p-1.5"

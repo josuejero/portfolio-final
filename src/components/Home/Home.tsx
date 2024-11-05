@@ -40,7 +40,7 @@ const Home = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-16 py-8 px-4 md:px-8 pl-16">
+    <div className="max-w-[calc(100vw-5rem)] mx-auto space-y-16 py-8 px-4 md:px-8">
       {/* Hero Section */}
       <motion.section 
         className="relative w-full max-w-3xl mx-auto"
@@ -120,7 +120,6 @@ const Home = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <h3 className="text-xl font-semibold mb-4 text-center">Roll the Die to Explore My Skills</h3>
           <Die onSkillSelect={handleSkillSelect} className="mx-auto" />
         </motion.div>
       </motion.section>

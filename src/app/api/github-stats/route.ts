@@ -1,11 +1,10 @@
-// src/app/github-stats/route.ts
-
+// src/app/api/github-stats/route.ts
 import { NextResponse } from 'next/server';
+
+
 
 interface GitHubUserData {
   public_repos: number;
-  followers: number;
-  following: number;
 }
 
 interface GitHubRepo {
@@ -19,9 +18,12 @@ interface GitHubRepoLanguages {
 }
 
 interface GitHubCommit {
-  sha: string;
+  commit: {
+    author: {
+      date: string;
+    };
+  };
 }
-
 
 async function fetchGitHubData<T>(endpoint: string, token: string): Promise<T> {
   const response = await fetch(`https://api.github.com${endpoint}`, {
@@ -38,6 +40,58 @@ async function fetchGitHubData<T>(endpoint: string, token: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function getCommitActivity(username: string, token: string) {
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  
+  // Get all repos
+  const repos = await fetchGitHubData<GitHubRepo[]>(
+    `/users/${username}/repos?per_page=100&type=owner`,
+    token
+  );
+
+  // Initialize monthly commits object
+  const monthlyCommits: { [key: string]: number } = {};
+  
+  // Initialize all months with 0 commits
+  for (let i = 0; i < 12; i++) {
+    const date = new Date();
+    date.setMonth(date.getMonth() - i);
+    const monthKey = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    monthlyCommits[monthKey] = 0;
+  }
+
+  // Fetch commits for each non-fork repository
+  await Promise.all(
+    repos.filter(repo => !repo.fork).map(async (repo) => {
+      const since = oneYearAgo.toISOString();
+      const until = new Date().toISOString();
+      
+      try {
+        const commits = await fetchGitHubData<GitHubCommit[]>(
+          `/repos/${username}/${repo.name}/commits?since=${since}&until=${until}&per_page=100`,
+          token
+        );
+
+        commits.forEach(commit => {
+          const date = new Date(commit.commit.author.date);
+          const monthKey = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+          if (monthlyCommits[monthKey] !== undefined) {
+            monthlyCommits[monthKey]++;
+          }
+        });
+      } catch (error) {
+        console.error(`Error fetching commits for ${repo.name}:`, error);
+      }
+    })
+  );
+
+  // Convert to array and sort chronologically
+  return Object.entries(monthlyCommits)
+    .map(([month, commits]) => ({ month, commits }))
+    .reverse();
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get('username');
@@ -52,16 +106,13 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Fetch user data
-    const userData = await fetchGitHubData<GitHubUserData>(`/users/${username}`, token);
+    // Fetch all data in parallel
+    const [userData, repos, commitActivity] = await Promise.all([
+      fetchGitHubData<GitHubUserData>(`/users/${username}`, token),
+      fetchGitHubData<GitHubRepo[]>(`/users/${username}/repos?per_page=100`, token),
+      getCommitActivity(username, token)
+    ]);
 
-    // Fetch repositories
-    const repos = await fetchGitHubData<GitHubRepo[]>(
-      `/users/${username}/repos?per_page=100`,
-      token
-    );
-
-    // Calculate language distribution
     // Calculate language distribution
     const languages: { [key: string]: number } = {};
     let totalSize = 0;
@@ -90,31 +141,16 @@ export async function GET(request: Request) {
         .slice(0, 4)
     );
 
-
-    // Count total commits
-    let totalCommits = 0;
-    await Promise.all(
-      repos.map(async (repo: GitHubRepo) => {
-        if (!repo.fork) {
-          const commits = await fetchGitHubData<GitHubCommit[]>(
-            `/repos/${username}/${repo.name}/commits?per_page=1&page=1`,
-            token
-          );
-          totalCommits +=
-            repo.size > 0
-              ? parseInt(commits[0]?.sha?.substring(0, 7) || '0', 16) % 100
-              : 0;
-        }
-      })
-    );
+    // Calculate total commits
+    const totalCommits = commitActivity.reduce((sum, month) => sum + month.commits, 0);
 
     return NextResponse.json({
       totalRepos: userData.public_repos,
       totalCommits,
       topLanguages: languagePercentages,
-      followers: userData.followers,
-      following: userData.following,
+      commitActivity
     });
+    
   } catch (error) {
     console.error('GitHub API Error:', error);
     return NextResponse.json(

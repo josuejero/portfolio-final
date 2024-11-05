@@ -1,3 +1,4 @@
+// src/components/common/ThemeProvider.tsx
 'use client';
 
 import * as React from 'react';
@@ -32,26 +33,33 @@ export function ThemeProvider({
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
-  // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     disableDarkReader();
     const root = window.document.documentElement;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
-    function updateTheme(newTheme: Theme) {
+    const applyTheme = (resolvedTheme: string) => {
+      root.classList.remove('light', 'dark');
+      root.classList.add(resolvedTheme);
+      // Also update the color-scheme
+      root.style.colorScheme = resolvedTheme;
+    };
+
+    const updateTheme = (newTheme: Theme) => {
       let resolvedTheme = newTheme;
       
       if (newTheme === 'system' && enableSystem) {
         resolvedTheme = mediaQuery.matches ? 'dark' : 'light';
       }
       
-      root.classList.remove('light', 'dark');
-      root.classList.add(resolvedTheme);
-    }
+      applyTheme(resolvedTheme);
+    };
 
     updateTheme(theme);
 
@@ -61,16 +69,24 @@ export function ThemeProvider({
       }
     };
 
-    if (enableSystem) {
-      mediaQuery.addEventListener('change', listener);
-    }
-
-    return () => {
-      if (enableSystem) {
-        mediaQuery.removeEventListener('change', listener);
-      }
-    };
+    mediaQuery.addEventListener('change', listener);
+    return () => mediaQuery.removeEventListener('change', listener);
   }, [theme, enableSystem]);
+
+  // Store theme in localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
 
   const value = {
     theme,
@@ -79,7 +95,6 @@ export function ThemeProvider({
     },
   };
 
-  // Prevent hydration mismatch
   if (!mounted) {
     return null;
   }
