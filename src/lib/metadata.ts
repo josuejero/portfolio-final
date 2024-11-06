@@ -1,7 +1,7 @@
 export const siteMetadata = {
   title: 'Josue Sebastian Jeronimo - Portfolio',
   description: 'Full-Stack Developer specializing in Python, Java, and Cloud Technologies',
-  siteUrl: 'https://your-domain.com', // Replace with your actual domain
+  siteUrl: 'https://portfolio-josuejero.vercel.app',
   siteName: 'Josue Sebastian Jeronimo',
   creator: 'Josue Sebastian Jeronimo',
   locale: 'en_US',
