@@ -11,7 +11,7 @@ interface ThemeSwitcherProps {
 export function ThemeSwitcher({ isOpen }: ThemeSwitcherProps) {
   const { theme, setTheme } = useTheme();
 
-  // If sidebar is closed, only show the active theme button
+  // Mobile or collapsed sidebar view
   if (!isOpen) {
     const ActiveIcon = {
       light: SunIcon,
@@ -22,52 +22,37 @@ export function ThemeSwitcher({ isOpen }: ThemeSwitcherProps) {
     return (
       <button
         onClick={() => {
-          // Cycle through themes when clicked
           const themes: Array<'light' | 'dark' | 'system'> = ['light', 'dark', 'system'];
-          const currentIndex = themes.indexOf(theme as any);
+          const currentIndex = themes.indexOf(theme);
           const nextTheme = themes[(currentIndex + 1) % themes.length];
           setTheme(nextTheme);
         }}
-        className="p-1.5 rounded-md hover:bg-gray-700 transition-colors"
+        className="p-2 rounded-md hover:bg-gray-700 transition-colors"
         aria-label={`Current theme: ${theme}. Click to change.`}
       >
-        <ActiveIcon className="w-4 h-4" />
+        <ActiveIcon className="h-5 w-5" />
       </button>
     );
   }
 
-  // If sidebar is open, show all theme buttons
+  // Expanded sidebar view
   return (
-    <div className="flex gap-1">
-      <button
-        onClick={() => setTheme('light')}
-        className={`p-1.5 rounded-md hover:bg-gray-700 transition-colors ${
-          theme === 'light' ? 'bg-gray-700' : ''
-        }`}
-        aria-label="Light mode"
-      >
-        <SunIcon className="w-4 h-4" />
-      </button>
-      
-      <button
-        onClick={() => setTheme('dark')}
-        className={`p-1.5 rounded-md hover:bg-gray-700 transition-colors ${
-          theme === 'dark' ? 'bg-gray-700' : ''
-        }`}
-        aria-label="Dark mode"
-      >
-        <MoonIcon className="w-4 h-4" />
-      </button>
-      
-      <button
-        onClick={() => setTheme('system')}
-        className={`p-1.5 rounded-md hover:bg-gray-700 transition-colors ${
-          theme === 'system' ? 'bg-gray-700' : ''
-        }`}
-        aria-label="System theme"
-      >
-        <ComputerDesktopIcon className="w-4 h-4" />
-      </button>
+    <div className="flex gap-2">
+      {[
+        { theme: 'light', Icon: SunIcon, label: 'Light mode' },
+        { theme: 'dark', Icon: MoonIcon, label: 'Dark mode' },
+        { theme: 'system', Icon: ComputerDesktopIcon, label: 'System theme' }
+      ].map(({ theme: themeOption, Icon, label }) => (
+        <button
+          key={themeOption}
+          onClick={() => setTheme(themeOption as 'light' | 'dark' | 'system')}
+          className={`p-2 rounded-md hover:bg-gray-700 transition-colors
+                     ${theme === themeOption ? 'bg-gray-700' : ''}`}
+          aria-label={label}
+        >
+          <Icon className="h-5 w-5" />
+        </button>
+      ))}
     </div>
   );
 }

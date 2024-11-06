@@ -1,7 +1,7 @@
 // src/components/common/Layout.tsx
 'use client';
 
-import { ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense, useEffect, useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import ErrorBoundary from './ErrorBoundary';
 import Loading from './Loading';
@@ -11,21 +11,40 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background overflow-hidden">
       <Sidebar />
-      <main className={`
-        flex-1 
-        p-8 
-        transition-all 
-        duration-300
-        ml-16 lg:ml-20  // Adjust margin based on sidebar width
-        overflow-x-hidden
-        w-[calc(100%-4rem)] lg:w-[calc(100%-5rem)]  // Adjust width to account for sidebar
-      `}>
+      <main 
+        className={`flex-1 relative
+                    w-full max-w-[100vw] min-h-screen
+                    px-4 sm:px-6 lg:px-8 
+                    py-4 sm:py-6 lg:py-8
+                    transition-all duration-300
+                    md:ml-16
+                    ${isMobile ? 'mb-16' : ''}`} // Add bottom margin on mobile for navigation bar
+      >
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
-            {children}
+            <div className="max-w-full overflow-x-hidden">
+              {children}
+            </div>
           </Suspense>
         </ErrorBoundary>
       </main>

@@ -30,13 +30,15 @@ const ProjectCard = ({
   return (
     <motion.div
       className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -3, scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <div className="p-4 sm:p-5 lg:p-6">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-3 sm:mb-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
             {title}
           </h3>
           <div className="flex gap-2">
@@ -44,36 +46,42 @@ const ProjectCard = ({
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+              className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                         rounded-full transition-colors"
               aria-label={`View ${title} on GitHub`}
             >
-              <CodeBracketIcon className="h-5 w-5" />
+              <CodeBracketIcon className="h-4 w-4 sm:h-5 sm:w-5" />
             </a>
             {demoUrl && (
               <a
                 href={demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                           rounded-full transition-colors"
                 aria-label={`View ${title} demo`}
               >
-                <GlobeAltIcon className="h-5 w-5" />
+                <GlobeAltIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               </a>
             )}
           </div>
         </div>
 
-        <span className="text-sm text-gray-500 dark:text-gray-400 block mb-4">
+        {/* Period */}
+        <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 block mb-3 sm:mb-4">
           {period}
         </span>
         
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
+        {/* Description */}
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
           {description}
         </p>
 
+        {/* Key Features */}
         <div className="mb-4">
-          <h4 className="text-lg font-semibold mb-2">Key Features:</h4>
-          <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
+          <h4 className="text-base sm:text-lg font-semibold mb-2">Key Features:</h4>
+          <ul className="list-disc list-inside space-y-1 text-sm sm:text-base 
+                         text-gray-600 dark:text-gray-300">
             {highlights.map((highlight, i) => (
               <li key={i} className="leading-relaxed">
                 {highlight}
@@ -82,11 +90,16 @@ const ProjectCard = ({
           </ul>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {technologies.map((tech, i) => (
             <span
               key={i}
-              className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+              className="px-2 sm:px-3 py-0.5 sm:py-1 
+                         text-xs sm:text-sm 
+                         bg-blue-100 dark:bg-blue-900 
+                         text-blue-800 dark:text-blue-100 
+                         rounded-full"
             >
               {tech}
             </span>
@@ -96,6 +109,7 @@ const ProjectCard = ({
     </motion.div>
   );
 };
+
 
 const projectsData: ProjectProps[] = [
   {
@@ -218,16 +232,18 @@ const projectsData: ProjectProps[] = [
 
 const ProjectsSection = () => {
   return (
-    <div className="max-w-4xl mx-auto py-8 space-y-12">
+    <div className="max-w-4xl mx-auto py-4 sm:py-6 lg:py-8 px-3 sm:px-4 md:px-8 
+                    space-y-6 sm:space-y-8 lg:space-y-12">
       <motion.h2 
-        className="text-3xl font-bold text-center mb-8"
+        className="text-2xl sm:text-3xl font-bold text-center 
+                   mb-4 sm:mb-6 lg:mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         Featured Projects
       </motion.h2>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
         {projectsData.map((project, index) => (
           <ProjectCard 
             key={`${project.title}-${index}`}

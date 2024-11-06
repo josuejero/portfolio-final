@@ -8,14 +8,14 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
-  display: 'swap', // Prevent FOIT
+  display: 'swap',
 });
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
-  display: 'swap', // Prevent FOIT
+  display: 'swap',
 });
 
 
@@ -71,9 +71,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="system" enableSystem>
-          <main className="min-h-screen bg-background text-foreground">
+          <div className="min-h-screen bg-background text-foreground relative">
             {children}
-          </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

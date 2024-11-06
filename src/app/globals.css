@@ -73,3 +73,26 @@
 * {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+@layer utilities {
+  .max-w-content {
+    max-width: calc(100vw - var(--sidebar-width, 4rem));
+  }
+  
+  .overflow-prevent {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}
+
+/* Mobile safe area handling */
+.h-safe-area {
+  height: env(safe-area-inset-bottom, 0px);
+}
+
+/* Prevent content from being hidden under the mobile navigation bar */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
