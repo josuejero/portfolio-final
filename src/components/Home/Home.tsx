@@ -192,7 +192,7 @@ const Home = () => {
         <h3 className="text-xl font-semibold">Interested in learning more?</h3>
         <div className="flex flex-col sm:flex-row justify-center gap-3">
           <motion.a 
-            href="/resume.pdf" 
+            href="/RESUME_word.docx" 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 
