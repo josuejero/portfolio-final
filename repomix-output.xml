@@ -1,0 +1,1045 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
+The content has been processed where content has been compressed (code blocks are separated by ⋮---- delimiter).
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: src/**, public/**/*.svg, components.json, next.config.ts, tailwind.config.ts, postcss.config.mjs, tsconfig.json, package.json, README.md
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Content has been compressed - code blocks are separated by ⋮---- delimiter
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+public/
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+src/
+  app/
+    about/
+      page.tsx
+    api/
+      contact/
+        route.ts
+      github-stats/
+        route.ts
+    blog/
+      loading.tsx
+      page.tsx
+    contact/
+      loading.tsx
+      page.tsx
+    error.tsx
+    globals.css
+    layout.tsx
+    loading.tsx
+    page.tsx
+  components/
+    About/
+      About.tsx
+      animations.ts
+      GithubStats.tsx
+      index.ts
+    Blog/
+      Blog.tsx
+      index.ts
+    common/
+      ErrorBoundary.tsx
+      Layout.tsx
+      Loading.tsx
+      ThemeProvider.tsx
+      ThemeSwitcher.tsx
+    Contact/
+      Contact.tsx
+      index.ts
+    Die/
+      Die.tsx
+      DieAnimation.ts
+      index.ts
+      SkillInfo.tsx
+      skillsData.ts
+      types.ts
+    Home/
+      Home.tsx
+    Projects/
+      Projects.tsx
+    Sidebar/
+      Sidebar.tsx
+    ui/
+      card.tsx
+  hooks/
+    useGithubStats.ts
+  lib/
+    metadata.ts
+    utils.ts
+  types/
+    github.ts
+components.json
+next.config.ts
+package.json
+postcss.config.mjs
+README.md
+tailwind.config.ts
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="src/app/about/page.tsx">
+// src/app/about/page.tsx
+import About from '@/components/About/About';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function AboutPage()
+</file>
+
+<file path="src/app/blog/loading.tsx">
+// src/app/blog/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function BlogLoading()
+</file>
+
+<file path="src/app/blog/page.tsx">
+// src/app/blog/page.tsx
+import Blog from '@/components/Blog/Blog';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function BlogPage()
+</file>
+
+<file path="src/app/contact/loading.tsx">
+// src/app/contact/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function ContactLoading()
+</file>
+
+<file path="src/app/contact/page.tsx">
+// src/app/contact/page.tsx
+import Contact from '@/components/Contact/Contact';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function ContactPage()
+</file>
+
+<file path="src/app/error.tsx">
+// src/app/error.tsx
+⋮----
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+reset: ()
+</file>
+
+<file path="src/app/loading.tsx">
+// src/app/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function PageLoading()
+</file>
+
+<file path="src/components/About/animations.ts">
+// src/components/About/animations.ts
+import { Variants } from 'framer-motion';
+</file>
+
+<file path="src/components/About/GithubStats.tsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Code2Icon, BarChart3Icon } from 'lucide-react';
+import type { GitHubStats } from '@/types/github';
+⋮----
+interface GithubStatsProps {
+  stats: GitHubStats;
+  username: string;
+}
+⋮----
+{/* Centered Stats Grid */}
+⋮----
+{/* Activity Chart */}
+⋮----
+{/* Language Distribution */}
+⋮----
+</file>
+
+<file path="src/components/About/index.ts">
+// src/components/About/index.ts
+</file>
+
+<file path="src/components/Blog/Blog.tsx">
+// src/components/Blog/Blog.tsx
+⋮----
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { CalendarIcon, TagIcon, ClockIcon } from '@heroicons/react/24/outline';
+⋮----
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  tags: string[];
+  content: string;
+}
+⋮----
+{/* Modal for full post */}
+</file>
+
+<file path="src/components/Blog/index.ts">
+// src/components/Blog/index.ts
+</file>
+
+<file path="src/components/common/ErrorBoundary.tsx">
+// src/components/common/ErrorBoundary.tsx
+⋮----
+import { Component, ErrorInfo, ReactNode } from 'react';
+⋮----
+interface Props {
+  children: ReactNode;
+}
+⋮----
+interface State {
+  hasError: boolean;
+}
+⋮----
+class ErrorBoundary extends Component<Props, State>
+⋮----
+public static getDerivedStateFromError(_: Error): State
+⋮----
+public componentDidCatch(error: Error, errorInfo: ErrorInfo)
+⋮----
+public render()
+</file>
+
+<file path="src/components/common/Loading.tsx">
+// src/components/common/Loading.tsx
+⋮----
+const Loading = () =>
+</file>
+
+<file path="src/components/Contact/index.ts">
+// src/components/Contact/index.ts
+</file>
+
+<file path="src/components/Die/DieAnimation.ts">
+// src/components/Die/DieAnimation.ts
+</file>
+
+<file path="src/components/Die/index.ts">
+// src/components/Die/index.ts
+</file>
+
+<file path="src/components/ui/card.tsx">
+import { cn } from "@/lib/utils"
+⋮----
+className=
+⋮----
+<div ref=
+</file>
+
+<file path="src/hooks/useGithubStats.ts">
+import { useState, useEffect } from 'react';
+import type { GitHubStats } from '../types/github';
+⋮----
+export function useGithubStats(username: string)
+⋮----
+commitActivity: [], // Initialize commitActivity
+⋮----
+async function fetchGitHubStats()
+</file>
+
+<file path="src/types/github.ts">
+// src/types/github.ts
+⋮----
+export interface CommitActivity {
+  month: string;
+  commits: number;
+}
+⋮----
+export interface GitHubStats {
+  totalRepos: number;
+  totalCommits: number;
+  followers: number;
+  following: number;
+  topLanguages: Record<string, number>;
+  commitActivity: CommitActivity[];
+  loading: boolean;
+  error: string | null;
+}
+</file>
+
+<file path="components.json">
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+</file>
+
+<file path="next.config.ts">
+import path from 'path';
+import type { NextConfig } from "next";
+</file>
+
+<file path="postcss.config.mjs">
+/** @type {import('postcss-load-config').Config} */
+</file>
+
+<file path="src/app/api/contact/route.ts">
+// src/app/api/contact/route.ts
+import { NextResponse } from 'next/server';
+⋮----
+export async function POST(req: Request)
+⋮----
+// Basic validation
+⋮----
+// Since we're using EmailJS on the frontend, we can just return success
+</file>
+
+<file path="src/app/api/github-stats/route.ts">
+// src/app/api/github-stats/route.ts
+import { NextResponse } from 'next/server';
+⋮----
+interface GitHubUserData {
+  public_repos: number;
+}
+⋮----
+interface GitHubRepo {
+  name: string;
+  fork: boolean;
+  size: number;
+}
+⋮----
+interface GitHubRepoLanguages {
+  [language: string]: number;
+}
+⋮----
+interface GitHubCommit {
+  commit: {
+    author: {
+      date: string;
+    };
+  };
+}
+⋮----
+async function fetchGitHubData<T>(endpoint: string, token: string): Promise<T>
+⋮----
+async function getCommitActivity(username: string, token: string)
+⋮----
+// Get all repos
+⋮----
+// Initialize monthly commits object
+⋮----
+// Initialize all months with 0 commits
+⋮----
+// Fetch commits for each non-fork repository
+⋮----
+// Convert to array and sort chronologically
+⋮----
+export async function GET(request: Request)
+⋮----
+// Fetch all data in parallel
+⋮----
+// Calculate language distribution
+⋮----
+// Fetch language data for each repo
+⋮----
+// Convert byte counts to percentages
+⋮----
+// Calculate total commits
+</file>
+
+<file path="src/components/Contact/Contact.tsx">
+// src/components/Contact/Contact.tsx
+⋮----
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { EnvelopeIcon, PhoneIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import emailjs from '@emailjs/browser';
+⋮----
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+}
+⋮----
+const handleSubmit = async (e: React.FormEvent) =>
+⋮----
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+⋮----
+{/* Contact Information */}
+⋮----
+href="https://linkedin.com/in/josue-jeronimo"
+⋮----
+{/* Contact Form */}
+</file>
+
+<file path="src/components/Die/Die.tsx">
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Skill, DieProps } from './types';
+import { SKILLS_DATA } from './skillsData';
+import { dieAnimationVariants } from './DieAnimation';
+⋮----
+{/* Section Title */}
+⋮----
+{/* Die Container with Glow Effect */}
+⋮----
+{/* Glow Effect */}
+⋮----
+{/* Main Die */}
+⋮----
+{/* Skill Details with AnimatePresence */}
+</file>
+
+<file path="src/components/Die/SkillInfo.tsx">
+// src/components/Die/SkillInfo.tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Skill } from './types';
+⋮----
+interface SkillInfoProps {
+  skill: Skill;
+}
+⋮----
+// Define animation variants for the container and items
+</file>
+
+<file path="src/components/Die/skillsData.ts">
+// src/components/Die/skillsData.ts
+import { Skill } from './types';
+</file>
+
+<file path="src/components/Die/types.ts">
+// src/components/Die/types.ts
+⋮----
+export interface Project {
+  name: string;
+  url: string;
+}
+⋮----
+export interface Skill {
+  name: string;
+  category: 'language' | 'framework' | 'tool' | 'cloud';
+  proficiency: number;
+  yearsOfExperience: number;
+  projects?: Project[];
+}
+⋮----
+export interface DieProps {
+  onSkillSelect?: (skill: Skill) => void;
+  className?: string;
+}
+⋮----
+export interface DieState {
+  isRolling: boolean;
+  currentSkill: Skill | null;
+  currentFace: number;
+}
+</file>
+
+<file path="src/lib/metadata.ts">
+type: 'website' as const, // Type assertion to literal type
+</file>
+
+<file path="src/components/About/About.tsx">
+// src/components/About/About.tsx
+⋮----
+import React, { Suspense } from 'react';
+import { motion } from 'framer-motion';
+import { BookOpen, GraduationCap, Code2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import useGithubStats from '@/hooks/useGithubStats';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
+⋮----
+const stats = useGithubStats(username);
+⋮----
+{/* Professional Summary */}
+⋮----
+{/* Education */}
+⋮----
+{/* GitHub Activity */}
+⋮----
+{/* Technical Skills Section */}
+</file>
+
+<file path="src/components/common/Layout.tsx">
+// src/components/common/Layout.tsx
+⋮----
+import { ReactNode, Suspense, useEffect, useState } from 'react';
+import Sidebar from '../Sidebar/Sidebar';
+import ErrorBoundary from './ErrorBoundary';
+import Loading from './Loading';
+⋮----
+interface LayoutProps {
+  children: ReactNode;
+}
+⋮----
+const Layout = (
+⋮----
+const handleResize = () =>
+⋮----
+// Set initial value
+⋮----
+// Add event listener
+⋮----
+// Cleanup
+⋮----
+${isMobile ? 'mb-16' : ''}`} // Add bottom margin on mobile for navigation bar
+</file>
+
+<file path="src/components/common/ThemeProvider.tsx">
+// src/components/common/ThemeProvider.tsx
+⋮----
+import { createContext, useContext, useEffect, useState } from 'react';
+import { disableDarkReader } from '@/lib/utils';
+⋮----
+type Theme = 'dark' | 'light' | 'system';
+⋮----
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  enableSystem?: boolean;
+};
+⋮----
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
+⋮----
+export function ThemeProvider({
+  children,
+  defaultTheme = 'system',
+  enableSystem = true,
+}: ThemeProviderProps)
+⋮----
+const applyTheme = (resolvedTheme: string) =>
+⋮----
+// Also update the color-scheme
+⋮----
+const updateTheme = (newTheme: Theme) =>
+⋮----
+const listener = () =>
+⋮----
+// Store theme in localStorage
+⋮----
+// Load theme from localStorage on mount
+⋮----
+export const useTheme = () =>
+</file>
+
+<file path="src/components/common/ThemeSwitcher.tsx">
+// src/components/common/ThemeSwitcher.tsx
+⋮----
+import { useTheme } from './ThemeProvider';
+import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
+⋮----
+interface ThemeSwitcherProps {
+  isOpen: boolean;
+}
+⋮----
+export function ThemeSwitcher(
+⋮----
+// Mobile or collapsed sidebar view
+⋮----
+const currentIndex = themes.indexOf(theme);
+⋮----
+setTheme(nextTheme);
+⋮----
+// Expanded sidebar view
+</file>
+
+<file path="src/components/Projects/Projects.tsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  CodeBracketIcon, 
+  GlobeAltIcon,
+} from '@heroicons/react/24/outline';
+⋮----
+interface ProjectProps {
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl: string;
+  demoUrl?: string;
+  imageUrl?: string;
+  highlights: string[];
+  period: string;
+}
+⋮----
+{/* Header Section */}
+⋮----
+{/* Period */}
+⋮----
+{/* Description */}
+⋮----
+{/* Key Features */}
+⋮----
+{/* Technologies */}
+</file>
+
+<file path="src/lib/utils.ts">
+// src/lib/utils.ts
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+⋮----
+export function cn(...inputs: ClassValue[])
+⋮----
+export function disableDarkReader()
+⋮----
+// Remove Dark Reader styles
+</file>
+
+<file path="tailwind.config.ts">
+// tailwind.config.ts
+import type { Config } from "tailwindcss";
+</file>
+
+<file path="src/components/Sidebar/Sidebar.tsx">
+// src/components/Sidebar/Sidebar.tsx
+⋮----
+import { useState, useEffect } from 'react';
+import { 
+  HomeIcon, 
+  UserIcon, 
+  EnvelopeIcon, 
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon 
+} from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ThemeSwitcher } from '../common/ThemeSwitcher';
+⋮----
+// Handle resize events
+⋮----
+const handleResize = () =>
+⋮----
+setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
+⋮----
+// Set initial value
+⋮----
+// Add event listener
+⋮----
+// Cleanup
+⋮----
+// Mobile Bottom Navigation
+⋮----
+{/* Mobile Theme Switcher */}
+⋮----
+{/* Safe area padding for mobile devices */}
+⋮----
+// Desktop Sidebar
+⋮----
+{/* Desktop Theme Switcher */}
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="src/components/Home/Home.tsx">
+import { motion } from 'framer-motion';
+import { 
+  CodeBracketIcon, 
+  CommandLineIcon, 
+  CloudIcon,
+  ArrowDownIcon 
+} from '@heroicons/react/24/outline';
+import Die from '@/components/Die';
+import { Skill } from '@/components/Die/types';
+⋮----
+const Home = () =>
+⋮----
+const handleSkillSelect = (skill: Skill) =>
+⋮----
+{/* Hero Section */}
+⋮----
+{/* Profile Image with hover effects */}
+⋮----
+{/* Interactive Die */}
+⋮----
+{/* Key Areas with hover animations */}
+⋮----
+{/* Call to Action */}
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "outDir": "dist",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+</file>
+
+<file path="src/app/layout.tsx">
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+⋮----
+import { ThemeProvider } from "@/components/common/ThemeProvider";
+import { siteMetadata } from '@/lib/metadata';
+⋮----
+type: 'website', // Explicitly set as literal
+⋮----
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>)
+</file>
+
+<file path="README.md">
+# Portfolio Website
+
+This repository contains the source code for my personal portfolio website, built with [Next.js](https://nextjs.org) and TypeScript. The site showcases my professional background, projects, technical skills, and provides ways to get in touch. It also integrates GitHub API data to display commit activity, language distribution, and repository statistics.
+
+## Features
+
+- **Modern Frontend Stack**: Built with Next.js 15 and React 18, taking advantage of the latest app directory and server-side rendering capabilities.
+- **TypeScript**: Ensures type safety and improved developer experience.
+- **Tailwind CSS**: Rapidly style UI components with a utility-first CSS framework.
+- **Framer Motion**: Adds subtle animations and transitions throughout the site.
+- **Dark Mode Support**: Easily switch between light and dark themes.
+- **GitHub Stats Integration**: Retrieves and displays GitHub repository, commit activity, and language usage statistics (requires a GitHub token).
+- **Modular & Scalable Architecture**: Organized into structured directories for pages, components, hooks, and utilities, simplifying maintenance and scalability.
+- **Contact Form Integration**: Uses EmailJS on the frontend to handle contact form submissions.
+- **Responsive & Mobile-Friendly**: Adapts to various screen sizes, with a responsive sidebar and mobile navigation.
+
+## Project Structure
+
+```
+.
+├── public/                 # Public assets (images, icons, etc.)
+├── src/
+│   ├── app/                # Next.js App Router structure
+│   │   ├── page.tsx        # Homepage
+│   │   ├── about/          # About page
+│   │   ├── blog/           # Blog page & loader
+│   │   ├── contact/        # Contact page & loader
+│   │   ├── api/            # Serverless functions for GitHub stats & contact handling
+│   │   ├── error.tsx       # Custom error page
+│   │   ├── layout.tsx      # Root layout with ThemeProvider
+│   │   ├── loading.tsx     # Global loading state
+│   │   └── globals.css     # Global styles
+│   ├── components/         # Reusable UI components
+│   │   ├── About/          # About page components & GitHubStats integration
+│   │   ├── Blog/           # Blog listing & modal viewer
+│   │   ├── Contact/        # Contact form & integration with EmailJS
+│   │   ├── Die/            # Interactive skill "die" component
+│   │   ├── Home/           # Home section (hero, skills preview, call-to-action)
+│   │   ├── Projects/       # Featured projects listing
+│   │   ├── Sidebar/        # Sidebar and mobile navigation
+│   │   ├── common/         # Common utilities (ErrorBoundary, Layout, Loading, ThemeProvider)
+│   │   └── ui/             # UI primitives (Card, etc.)
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Metadata, utility functions
+│   └── types/              # Type definitions (GitHub stats, etc.)
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+└── ... (other config files)
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or newer
+- npm, yarn, or pnpm (choose one for dependency management)
+- A GitHub personal access token (optional) if you want the GitHub stats feature to function
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/josuejero/portfolio-final.git
+   cd portfolio-final
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Set environment variables:**
+
+   Create a `.env.local` file at the root of the project to configure environment variables:
+
+   ```env
+   GITHUB_TOKEN=your_github_pat_here
+   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_emailjs_service_id
+   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+   ```
+
+   - **GITHUB_TOKEN**: Required for GitHub stats to display. Create a [GitHub PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `read:user` permissions.
+   - **EmailJS Keys**: Required for the contact form integration. Sign up at [EmailJS](https://www.emailjs.com/) to get these keys.
+
+### Running Locally
+
+To run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+The site will automatically reload whenever you make changes to the code.
+
+### Building & Production
+
+To create a production build:
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+```
+
+Then, start the production server:
+
+```bash
+npm run start
+# or
+yarn start
+# or
+pnpm start
+```
+
+### Deployment
+
+The site can be easily deployed to [Vercel](https://vercel.com/) (recommended) or any other hosting platform that supports Next.js.
+
+For Vercel:
+
+1. Push your repository to GitHub, GitLab, or Bitbucket.
+2. [Import the repository into Vercel](https://vercel.com/new).
+3. Add your environment variables on Vercel.
+4. Vercel handles builds, previews, and deployments automatically on every git push.
+
+## Customization
+
+- **Branding & Content**: Update `siteMetadata` in `src/lib/metadata.ts` for SEO, social links, and site title.
+- **Styling**: Customize styles via Tailwind classes in `globals.css` or component-level styling.
+- **Components & Pages**: Modify or add new pages under `src/app/` and respective components under `src/components/`.
+
+## Technologies Used
+
+- **Next.js 15**
+- **React 18**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **EmailJS**
+- **GitHub API**
+- **Vercel Deployment**
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests if you have improvements, suggestions, or bug fixes.
+
+1. Fork the repository
+2. Create a new branch for your changes (`git checkout -b feature/my-feature`)
+3. Commit and push your changes
+4. Open a pull request
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+</file>
+
+<file path="src/app/globals.css">
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+⋮----
+:root {
+⋮----
+.dark {
+⋮----
+@layer base {
+⋮----
+* {
+⋮----
+@apply border-border;
+⋮----
+body {
+⋮----
+/* Ensure basic elements have dark mode styles */
+.dark body {
+⋮----
+/* Ensure transitions are smooth */
+⋮----
+@layer utilities {
+⋮----
+.max-w-content {
+⋮----
+.overflow-prevent {
+⋮----
+/* Mobile safe area handling */
+.h-safe-area {
+⋮----
+/* Prevent content from being hidden under the mobile navigation bar */
+</file>
+
+<file path="package.json">
+{
+  "name": "portfolio-final",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "node problem.js"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@heroicons/react": "^2.1.5",
+    "@radix-ui/react-icons": "^1.3.1",
+    "class-variance-authority": "^0.7.0",
+    "clipboardy": "^4.0.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "12.23.22",
+    "lucide-react": "^0.454.0",
+    "next": "15.5.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "recharts": "2.15.4",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.1",
+    "eslint": "^8",
+    "eslint-config-next": "15.5.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
+</file>
+
+<file path="src/app/page.tsx">
+// src/app/page.tsx
+import Layout from '@/components/common/Layout';
+import Home from '@/components/Home/Home';
+import Projects from '@/components/Projects/Projects';
+⋮----
+export default function HomePage()
+</file>
+
+</files>

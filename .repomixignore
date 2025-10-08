@@ -1,0 +1,26 @@
+# Build & caches
+.next/
+.out/
+.vercel/
+coverage/
+.cache/
+tmp/
+
+# OS/editor junk
+.DS_Store
+
+# Binaries & large assets
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.webp
+public/**/*.ico
+public/**/*.pdf
+public/**/*.doc
+public/**/*.docx
+
+# Local env & secrets
+.env*
+test-github-token.*
+src/app/fonts/GeistMonoVF.woff
+src/app/fonts/GeistVF.woff
