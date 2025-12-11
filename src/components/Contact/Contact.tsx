@@ -1,209 +1,230 @@
-// src/components/Contact/Contact.tsx
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { EnvelopeIcon, PhoneIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
-import emailjs from '@emailjs/browser';
+import React from 'react';
+import { z } from 'zod';
 
-interface ContactForm {
+type FormState = {
   name: string;
   email: string;
   message: string;
-}
+  // Honeypot (should stay empty)
+  website: string;
+};
 
-const Contact = () => {
-  const [formData, setFormData] = useState<ContactForm>({
+type FieldErrors = Partial<Record<keyof FormState, string>> & { general?: string; };
+
+const ContactSchema = z.object({
+  name: z.string().min(2, 'Please enter your full name.').max(100, 'Name is too long.'),
+  email: z.string().email(),
+  message: z.string().min(10, 'Message must be at least 10 characters.').max(5000, 'Message is too long.'),
+  // Honeypot: allow empty only (bots tend to fill it). We won't show client error if they do.
+  website: z.string().max(0).optional(),
+});
+
+export default function Contact() {
+  const [form, setForm] = React.useState<FormState>({
     name: '',
     email: '',
-    message: ''
+    message: '',
+    website: '', // honeypot — leave empty
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-  
-    try {
-      const result = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_name: 'Josue',
-          to_email: 'josuejero@hotmail.com',
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
-      );
-      
-      if (result.status === 200) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setSubmitStatus('idle'), 3000);
-      } else {
-        throw new Error('Failed to send message');
+  const [errors, setErrors] = React.useState<FieldErrors>({});
+  const [submitting, setSubmitting] = React.useState(false);
+  const [sent, setSent] = React.useState(false);
+
+  const onChange =
+    (field: keyof FormState) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      setForm((f) => ({ ...f, [field]: value }));
+      // Live-clear error for this field
+      setErrors((prev) => ({ ...prev, [field]: undefined, general: undefined }));
+    };
+
+  const validate = (): boolean => {
+    const parsed = ContactSchema.safeParse(form);
+    if (parsed.success) return true;
+
+    const fieldErrors: FieldErrors = {};
+    for (const issue of parsed.error.issues) {
+      const pathKey = issue.path[0] as keyof FormState | undefined;
+      if (pathKey && pathKey !== 'website') {
+        // Do not surface honeypot errors to real users
+        fieldErrors[pathKey] = issue.message;
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus('idle'), 3000);
+    }
+    setErrors(fieldErrors);
+    return false;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors({});
+    setSent(false);
+
+    if (!validate()) return;
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      // Server may return:
+      // - 200 { ok: true } on success
+      // - 204 (no content) if honeypot trips — treat as success silently
+      // - 400 { error } on validation
+      // - 429 { error } on rate-limit
+      // - 502 { error } on upstream failure
+      if (res.status === 204) {
+        setSent(true);
+        setForm({ name: '', email: '', message: '', website: '' });
+        return;
+      }
+
+      if (!res.ok) {
+        let detail = 'Failed to send message.';
+        try {
+          const data = await res.json();
+          if (data?.error) detail = data.error;
+        } catch {
+          // ignore JSON parse errors
+        }
+        setErrors({ general: detail });
+        return;
+      }
+
+      setSent(true);
+      setForm({ name: '', email: '', message: '', website: '' });
+    } catch {
+      setErrors({ general: 'Network error. Please try again.' });
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
   return (
-    <div className="max-w-4xl mx-auto py-8 space-y-12">
-      <motion.h1
-        className="text-4xl font-bold text-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        Get in Touch
-      </motion.h1>
+    <section className="mx-auto max-w-2xl p-4">
+      <h1 className="text-2xl font-semibold mb-4">Contact</h1>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Contact Information */}
-        <motion.div
-          className="space-y-6"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
+      {sent && (
+        <div
+          role="status"
+          className="mb-4 rounded-md border border-green-300 bg-green-50 p-3 text-green-800"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-            
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <EnvelopeIcon className="h-6 w-6 text-blue-600" />
-                <a href="mailto:josuejero@hotmail.com" className="hover:text-blue-600">
-                  josuejero@hotmail.com
-                </a>
-              </div>
+          Thanks! Your message has been sent.
+        </div>
+      )}
 
-              <div className="flex items-center gap-3">
-                <PhoneIcon className="h-6 w-6 text-blue-600" />
-                <a href="tel:+13052835028" className="hover:text-blue-600">
-                  (305) 283-5028
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <GlobeAltIcon className="h-6 w-6 text-blue-600" />
-                <span>Wilmington, Delaware</span>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Connect with me</h3>
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com/josuejero"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://linkedin.com/in/josue-jeronimo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Contact Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
+      {errors.general && (
+        <div
+          role="alert"
+          className="mb-4 rounded-md border border-red-300 bg-red-50 p-3 text-red-800"
         >
-          <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-6">
-            <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
-            
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          {errors.general}
+        </div>
+      )}
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+      <form onSubmit={handleSubmit} noValidate>
+        {/* Honeypot: visually hidden but still present in DOM */}
+        <div
+          aria-hidden="true"
+          style={{ position: 'absolute', left: '-10000px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}
+        >
+          <label htmlFor="website">Leave this field empty</label>
+          <input
+            id="website"
+            name="website"
+            type="text"
+            autoComplete="off"
+            tabIndex={-1}
+            value={form.website}
+            onChange={onChange('website')}
+          />
+        </div>
 
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+        <div className="mb-4">
+          <label htmlFor="name" className="mb-1 block text-sm font-medium">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            className="w-full rounded-md border p-2"
+            value={form.name}
+            onChange={onChange('name')}
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? 'name-error' : undefined}
+            required
+            minLength={2}
+            maxLength={100}
+          />
+          {errors.name && (
+            <p id="name-error" className="mt-1 text-sm text-red-600">
+              {errors.name}
+            </p>
+          )}
+        </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full py-2 px-4 rounded-md text-white transition-colors ${
-                isSubmitting
-                  ? 'bg-gray-400'
-                  : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-1 block text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            className="w-full rounded-md border p-2"
+            value={form.email}
+            onChange={onChange('email')}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
+            required
+          />
+          {errors.email && (
+            <p id="email-error" className="mt-1 text-sm text-red-600">
+              {errors.email}
+            </p>
+          )}
+        </div>
 
-            {submitStatus === 'success' && (
-              <p className="text-green-600 text-center">Message sent successfully!</p>
-            )}
-            {submitStatus === 'error' && (
-              <p className="text-red-600 text-center">Failed to send message. Please try again.</p>
-            )}
-          </form>
-        </motion.div>
-      </div>
-    </div>
+        <div className="mb-6">
+          <label htmlFor="message" className="mb-1 block text-sm font-medium">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            className="min-h-[140px] w-full rounded-md border p-2"
+            value={form.message}
+            onChange={onChange('message')}
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? 'message-error' : undefined}
+            required
+            minLength={10}
+            maxLength={5000}
+          />
+          {errors.message && (
+            <p id="message-error" className="mt-1 text-sm text-red-600">
+              {errors.message}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 font-medium disabled:opacity-60"
+        >
+          {submitting ? 'Sending…' : 'Send message'}
+        </button>
+      </form>
+    </section>
   );
-};
-
-export default Contact;
+}

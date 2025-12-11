@@ -1,33 +1,41 @@
 // src/components/Sidebar/Sidebar.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { 
-  HomeIcon, 
-  UserIcon, 
-  EnvelopeIcon, 
+import {
   ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon 
+  ChevronDoubleRightIcon,
+  CodeBracketIcon,
+  EnvelopeIcon,
+  FolderIcon,
+  HomeIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
 
-  const menuItems = [
-    { name: 'Home', icon: HomeIcon, href: '/' },
-    { name: 'About', icon: UserIcon, href: '/about' },
-    { name: 'Contact', icon: EnvelopeIcon, href: '/contact' }
+  // Navigation items
+  const navItems = [
+    { href: '/', icon: HomeIcon, label: 'Home' },
+    { href: '/about', icon: UserIcon, label: 'About' },
+    { href: '/projects', icon: FolderIcon, label: 'Projects' },
+    { href: '/snippets', icon: CodeBracketIcon, label: 'Snippets' },
+    { href: '/contact', icon: EnvelopeIcon, label: 'Contact' },
   ];
 
   // Handle resize events
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
+      if (window.innerWidth < 768) {
+        setIsCollapsed(true);
+      }
     };
 
     // Set initial value
@@ -43,87 +51,115 @@ const Sidebar = () => {
   // Mobile Bottom Navigation
   if (isMobile) {
     return (
-      <nav className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white z-50">
-        <div className="flex items-center justify-between px-4 h-16">
-          {menuItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex flex-col items-center justify-center flex-1 py-2
-                           transition-colors duration-200
-                           ${isActive ? 'text-blue-400' : 'text-gray-400 hover:text-white'}`}
-              >
-                <item.icon className="h-6 w-6" />
-                <span className="text-xs mt-1">{item.name}</span>
-              </Link>
-            );
-          })}
-          {/* Mobile Theme Switcher */}
-          <div className="flex flex-col items-center justify-center flex-1 py-2">
-            <ThemeSwitcher isOpen={false} />
-            <span className="text-xs mt-1">Theme</span>
+      <>
+        {/* Main content area - add padding to avoid overlap */}
+        <div className="pb-16" />
+
+        {/* Mobile Bottom Navigation */}
+        <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 h-16">
+          <div className="h-full flex items-center justify-around">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+                    isActive
+                      ? 'text-primary bg-primary/10'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="text-xs mt-1">{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
-        </div>
-        
-        {/* Safe area padding for mobile devices */}
-        <div className="h-safe-area bg-gray-900" />
-      </nav>
+
+          {/* Mobile Theme Switcher */}
+          <div className="absolute top-2 right-2">
+            <ThemeSwitcher isOpen={true} />
+          </div>
+
+          {/* Safe area padding for mobile devices */}
+          <div className="h-safe-area" />
+        </nav>
+      </>
     );
   }
 
   // Desktop Sidebar
   return (
-    <div 
-      className={`fixed top-0 left-0 h-screen bg-gray-900 text-white
-                  transition-all duration-300 flex flex-col z-50
-                  ${isOpen ? 'w-64' : 'w-16'}`}
-    >
+    <>
+      {/* Sidebar Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="absolute -right-3 top-4 bg-gray-900 rounded-full p-1.5
-                   hover:bg-gray-800 transition-colors"
-        aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className={`fixed top-4 z-50 bg-card border border-border rounded-full p-2 transition-all duration-300 ${
+          isCollapsed ? 'left-4' : 'md:left-64'
+        } hover:bg-muted`}
       >
-        {isOpen ? (
-          <ChevronDoubleLeftIcon className="h-4 w-4" />
+        {isCollapsed ? (
+          <ChevronDoubleRightIcon className="h-5 w-5" />
         ) : (
-          <ChevronDoubleRightIcon className="h-4 w-4" />
+          <ChevronDoubleLeftIcon className="h-5 w-5" />
         )}
       </button>
 
-      <nav className="flex flex-col gap-2 mt-16">
-        {menuItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex items-center px-4 py-3 
-                         transition-colors
-                         ${isOpen ? 'justify-start' : 'justify-center'}
-                         ${isActive 
-                           ? 'bg-gray-800 text-blue-400' 
-                           : 'hover:bg-gray-800 text-gray-400 hover:text-white'
-                         }`}
-            >
-              <item.icon className="h-5 w-5" />
-              {isOpen && (
-                <span className="ml-4 transition-opacity duration-200">
-                  {item.name}
-                </span>
-              )}
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Desktop Sidebar */}
+      <aside
+        className={`fixed left-0 top-0 h-full bg-card border-r border-border z-40 transition-all duration-300 overflow-hidden ${
+          isCollapsed ? 'w-0 md:w-16' : 'w-64'
+        }`}
+      >
+        <div className="h-full flex flex-col">
+          {/* Logo/Brand */}
+          <div className="p-6 border-b border-border">
+            {!isCollapsed ? (
+              <h1 className="text-xl font-bold">Portfolio</h1>
+            ) : (
+              <div className="flex justify-center">
+                <CodeBracketIcon className="h-6 w-6" />
+              </div>
+            )}
+          </div>
 
-      {/* Desktop Theme Switcher */}
-      <div className="mt-auto mb-4 flex justify-center">
-        <ThemeSwitcher isOpen={isOpen} />
-      </div>
-    </div>
+          {/* Navigation */}
+          <nav className="flex-1 p-4">
+            <ul className="space-y-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={`flex items-center rounded-lg p-3 transition-colors ${
+                        isActive
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      }`}
+                    >
+                      <Icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
+                      {!isCollapsed && <span>{item.label}</span>}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* Desktop Theme Switcher */}
+          <div className="p-4 border-t border-border">
+            <ThemeSwitcher isOpen={!isCollapsed} />
+          </div>
+        </div>
+      </aside>
+
+      {/* Main content offset */}
+      <div className={`transition-all duration-300 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'}`} />
+    </>
   );
 };
 

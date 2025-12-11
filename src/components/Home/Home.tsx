@@ -1,228 +1,224 @@
+// src/components/Home/Home.tsx
 'use client';
 
-import { motion } from 'framer-motion';
-import { 
-  CodeBracketIcon, 
-  CommandLineIcon, 
-  CloudIcon,
-  ArrowDownIcon 
-} from '@heroicons/react/24/outline';
 import Die from '@/components/Die';
 import { Skill } from '@/components/Die/types';
+import useGithubStats from '@/hooks/useGithubStats';
+import type { GitHubStats } from '@/types/github';
+import GitHubProfileCard from './GitHubProfileCard';
 
-const Home = () => {
-  const skills = [
-    { 
-      category: "Languages", 
-      items: ["Java", "C", "C++", "Python", "JavaScript", "HTML5", "SCSS"],
-      icon: CodeBracketIcon
-    },
-    { 
-      category: "Frameworks & Libraries", 
-      items: ["ReactJS", "Django", "Node.js"],
-      icon: CommandLineIcon
-    },
-    { 
-      category: "Cloud & DevOps", 
-      items: ["Docker", "Kubernetes", "Jenkins", "Google Cloud Platform", "Microsoft Azure"],
-      icon: CloudIcon
-    }
-  ];
+import {
+  ArrowDownIcon,
+  CloudIcon,
+  CodeBracketIcon,
+  CommandLineIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 }
-  };
+const GITHUB_USERNAME = 'josuejero'; // change here if needed
+
+function scrollToSection(id: string) {
+  if (typeof window === 'undefined') return;
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const offset = 80;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+export default function Home() {
+  const stats = useGithubStats(GITHUB_USERNAME);
 
   const handleSkillSelect = (skill: Skill) => {
-    console.log('Selected skill:', skill);
+    // Optional: analytics or telemetry hook
+    console.debug('[Die] selected skill', skill.name);
   };
 
   return (
-    <div className="w-full max-w-full mx-auto 
-                    space-y-8 sm:space-y-12 lg:space-y-16 
-                    py-4 sm:py-6 lg:py-8 
-                    px-4 sm:px-6 lg:px-8">
-      {/* Hero Section */}
-      <motion.section 
-        className="relative w-full max-w-3xl mx-auto"
-        initial={fadeIn.initial}
-        animate={fadeIn.animate}
-        transition={fadeIn.transition}
-      >
-        <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative group mb-4 sm:mb-6"
-          >
-            {/* Profile Image with hover effects */}
-            <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 
-                            rounded-full overflow-hidden 
-                            ring-4 ring-blue-600 dark:ring-blue-500 
-                            transition-all duration-300 
-                            group-hover:ring-opacity-80 group-hover:shadow-xl">
-              <div className="w-full h-full relative overflow-hidden">
-                <img
-                  src="/images/profile.png"
-                  alt="Josue Sebastian Jeronimo"
-                  className="w-full h-full object-cover transition-transform duration-500 
-                             scale-105 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 
-                                opacity-0 transition-opacity duration-300 
-                                group-hover:opacity-100"></div>
-              </div>
-            </div>
-            <motion.div 
-              className="absolute -bottom-2 -right-2 bg-blue-600 text-white 
-                          px-3 py-1.5 sm:px-4 sm:py-2 
-                          text-xs sm:text-sm 
-                          rounded-full font-medium shadow-lg"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              Open to Work
-            </motion.div>
-          </motion.div>
+    <section id="home" className="relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-sky-500/10 via-background to-background"
+      />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="space-y-3 sm:space-y-4 px-4"
-          >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold 
-                          bg-clip-text text-transparent bg-gradient-to-r 
-                          from-blue-600 to-violet-600 
-                          leading-tight">
-              Josue Sebastian Jeronimo
-            </h1>
-            <motion.div 
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
+        {/* Hero Section */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-start">
+          {/* GitHub-backed profile card */}
+          <GitHubProfileCard username={GITHUB_USERNAME} />
+
+          {/* Main hero content: intro, die, key areas, CTA */}
+          <div className="space-y-8">
+            {/* Intro copy */}
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl 
-                          text-gray-600 dark:text-gray-300 
-                          flex flex-wrap justify-center gap-2"
+              transition={{ duration: 0.4 }}
+              className="space-y-3"
             >
-              <span>Software Engineer</span>
-              <span className="text-blue-600">•</span>
-              <span>Data Engineer</span>
-              <span className="text-blue-600">•</span>
-              <span>Network Engineer</span>
-              <span className="text-blue-600">•</span>
-              <span>Automation Engineer</span>
+              <p className="text-sm font-medium uppercase tracking-wide text-sky-500">
+                Software engineer • Cloud • Frontend
+              </p>
+              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+                I build reliable, observable systems with clean developer
+                experiences.
+              </h1>
+              <p className="max-w-xl text-sm text-muted-foreground sm:text-base">
+                From APIs and infrastructure to polished interfaces, I like to
+                ship production-ready features backed by data, telemetry, and
+                tight feedback loops.
+              </p>
             </motion.div>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-sm sm:text-base lg:text-lg 
-                          text-gray-700 dark:text-gray-300 
-                          leading-relaxed max-w-2xl mx-auto"
+
+            {/* Die + focus areas */}
+            <div className="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.05 }}
+                className="rounded-2xl border border-border/60 bg-background/60 p-4 shadow-sm backdrop-blur"
+              >
+                <Die onSkillSelect={handleSkillSelect} />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.1 }}
+                className="space-y-4"
+              >
+                <FeatureRow
+                  icon={CodeBracketIcon}
+                  title="Frontend & DX"
+                  body="Modern React, TypeScript, and component systems that are a joy to work in."
+                />
+                <FeatureRow
+                  icon={CloudIcon}
+                  title="Cloud & infra"
+                  body="APIs and services deployed with sensible observability and guardrails."
+                />
+                <FeatureRow
+                  icon={CommandLineIcon}
+                  title="Automation"
+                  body="Tooling and scripts that keep the boring parts out of the way."
+                />
+              </motion.div>
+            </div>
+
+            {/* Call to Action */}
+            <motion.div
+              className="flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.15 }}
             >
-              Results-oriented Computer Engineering graduate with 7 years of programming experience, 
-              specializing in software development, cloud computing, and automation.
-            </motion.p>
-          </motion.div>
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2 text-sm font-medium text-sky-950 shadow-sm transition hover:bg-sky-400"
+              >
+                View projects
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-medium text-foreground/90 hover:bg-foreground/5"
+              >
+                Get in touch
+              </button>
+              <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <ArrowDownIcon className="h-4 w-4 animate-bounce-slow" />
+                <span>Scroll for GitHub activity and projects</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        
-        {/* Interactive Die */}
-        <motion.div 
-          className="mt-8 sm:mt-10 lg:mt-12 text-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Die onSkillSelect={handleSkillSelect} className="mx-auto" />
-        </motion.div>
-      </motion.section>
 
-      {/* Key Areas with hover animations */}
-      <motion.section 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 w-full"
-        initial={fadeIn.initial}
-        animate={fadeIn.animate}
-        transition={{ ...fadeIn.transition, delay: 0.2 }}
-      >
-        {skills.map((skill, index) => (
-          <motion.div
-            key={skill.category}
-            className="p-4 bg-white dark:bg-gray-800 
-                        rounded-lg shadow-lg 
-                        transition-all duration-300 ease-in-out"
-            whileHover={{ 
-              scale: 1.02, 
-              y: -3 
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <div className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3">
-              <skill.icon />
-            </div>
-            <h3 className="text-lg font-semibold mb-2">{skill.category}</h3>
-            <div className="flex flex-wrap gap-2">
-              {skill.items.map((item, itemIndex) => (
-                <span
-                  key={itemIndex}
-                  className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 
-                              text-blue-800 dark:text-blue-100 
-                              rounded-full"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </motion.section>
-
-      {/* Call to Action */}
-      <motion.section 
-        className="text-center space-y-4 w-full max-w-3xl mx-auto px-4"
-        initial={fadeIn.initial}
-        animate={fadeIn.animate}
-        transition={{ ...fadeIn.transition, delay: 0.6 }}
-      >
-        <h3 className="text-xl font-semibold">Interested in learning more?</h3>
-        <div className="flex flex-col sm:flex-row justify-center gap-3">
-          <motion.a 
-            href="/RESUME_word.docx" 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 
-                        px-4 py-2.5 
-                        bg-blue-600 text-white 
-                        text-sm
-                        rounded-lg transition-colors"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span>Download Resume</span>
-            <ArrowDownIcon className="h-4 w-4" />
-          </motion.a>
-          <motion.a 
-            href="/contact" 
-            className="inline-flex items-center justify-center gap-2 
-                        px-4 py-2.5 
-                        bg-gray-200 dark:bg-gray-700 
-                        text-gray-800 dark:text-white 
-                        text-sm
-                        rounded-lg transition-colors"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Contact Me
-          </motion.a>
-        </div>
-      </motion.section>
-    </div>
+        {/* Snapshot stats bar */}
+        <SnapshotStatsBar stats={stats} />
+      </div>
+    </section>
   );
+}
+
+type FeatureRowProps = {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  body: string;
 };
 
-export default Home;
+function FeatureRow({ icon: Icon, title, body }: FeatureRowProps) {
+  return (
+    <div className="flex gap-3 rounded-2xl border border-border/60 bg-background/60 p-3 text-sm">
+      <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border border-border/70">
+        <Icon className="h-4 w-4 text-sky-500" />
+      </div>
+      <div className="space-y-1">
+        <h2 className="text-sm font-medium">{title}</h2>
+        <p className="text-xs text-muted-foreground">{body}</p>
+      </div>
+    </div>
+  );
+}
+
+type SnapshotStatsBarProps = {
+  stats: GitHubStats;
+};
+
+function SnapshotStatsBar({ stats }: SnapshotStatsBarProps) {
+  return (
+    <motion.div
+      className="mt-2 grid gap-4 rounded-2xl border border-border/60 bg-background/70 p-4 shadow-sm backdrop-blur-sm sm:grid-cols-3 lg:grid-cols-6"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.35 }}
+    >
+      {stats.loading ? (
+        <div className="col-span-full flex items-center justify-center py-2 text-xs text-muted-foreground sm:text-sm">
+          Pulling live GitHub snapshot…
+        </div>
+      ) : stats.error ? (
+        <div className="col-span-full flex items-center justify-center gap-2 py-2 text-xs text-red-500 sm:text-sm">
+          <ExclamationTriangleIcon className="h-4 w-4" />
+          <span>Could not load GitHub snapshot right now.</span>
+        </div>
+      ) : (
+        <>
+          <SnapshotItem label="Public repos" value={stats.totalRepos} />
+          <SnapshotItem label="Total stars" value={stats.totalStars} />
+          <SnapshotItem label="Total forks" value={stats.totalForks} />
+          <SnapshotItem
+            label="Open issues (own repos)"
+            value={stats.totalOpenIssues}
+          />
+          <SnapshotItem
+            label="Contributions this year"
+            value={stats.contributionsThisYear}
+          />
+          <SnapshotItem label="Followers" value={stats.followers} />
+        </>
+      )}
+    </motion.div>
+  );
+}
+
+type SnapshotItemProps = {
+  label: string;
+  value: number | string;
+};
+
+function SnapshotItem({ label, value }: SnapshotItemProps) {
+  return (
+    <div className="flex flex-col gap-1 rounded-xl border border-border/40 bg-background/90 px-3 py-2 text-xs sm:text-sm">
+      <span className="text-[0.65rem] uppercase tracking-wide text-muted-foreground sm:text-[0.7rem]">
+        {label}
+      </span>
+      <span className="text-lg font-semibold tabular-nums sm:text-xl">
+        {value}
+      </span>
+    </div>
+  );
+}
