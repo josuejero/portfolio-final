@@ -1,5 +1,7 @@
-// src/components/Projects/ProjectsExplorer.tsx
-import type { GitHubRepositorySummary } from '@/types/github';
+// FILE: src/components/Projects/ProjectsExplorer.tsx
+'use client';
+
+import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
 import {
   BookOpenIcon,
   CodeBracketIcon,
@@ -13,292 +15,449 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type SortKey = 'stars' | 'updated' | 'created';
 
-interface GitHubReadme {
-  repo: string;
-  path: string;
-  excerpt: string;
-  fullMarkdown: string;
-  lastFetched: string;
+type ReadmeMap = Record<string, GitHubReadme | null>;
+
+interface AggregateStats {
+  totalStars: number;
+  totalForks: number;
+  totalOpenIssues: number;
 }
 
-const fetchRepos = async (): Promise<GitHubRepositorySummary[]> => {
-  const response = await fetch('/api/github-projects/repos');
-  if (!response.ok) {
-    throw new Error('Failed to fetch repositories');
-  }
-  return response.json();
+const initialAggregate: AggregateStats = {
+  totalStars: 0,
+  totalForks: 0,
+  totalOpenIssues: 0,
 };
+
+function formatDate(date: string) {
+  try {
+    return new Date(date).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  } catch {
+    return date;
+  }
+}
 
 export default function ProjectsExplorer() {
   const [repos, setRepos] = useState<GitHubRepositorySummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState<SortKey>('stars');
-  const [selectedReadme, setSelectedReadme] = useState<GitHubReadme | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
-  const load = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchRepos();
-      setRepos(data);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load repositories');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [search, setSearch] = useState('');
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [sortKey, setSortKey] = useState<SortKey>('stars');
+
+  const [readmes, setReadmes] = useState<ReadmeMap>({});
+  const [activeReadmeRepo, setActiveReadmeRepo] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch('/api/github-projects/repos');
+        if (!response.ok) {
+          throw new Error(`Failed to load repositories (status ${response.status})`);
+        }
+
+        const data: GitHubRepositorySummary[] = await response.json();
+        if (!cancelled) {
+          setRepos(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error ? err.message : 'Failed to load repositories from GitHub.',
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
     load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const fetchReadme = async (repoName: string) => {
-    try {
-      const response = await fetch(`/api/github-projects/readme/${repoName}`);
-      if (!response.ok) return null;
-      const data = await response.json();
-      return data as GitHubReadme;
-    } catch {
-      return null;
-    }
-  };
-
-  const matchesSearch = useCallback((repo: GitHubRepositorySummary): boolean => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      repo.name.toLowerCase().includes(query) ||
-      (repo.description?.toLowerCase() || '').includes(query) ||
-      repo.topics.some(topic => topic.toLowerCase().includes(query))
-    );
-  }, [searchQuery]);
-
-  const matchesLanguage = useCallback((repo: GitHubRepositorySummary): boolean => {
-    if (!selectedLanguage) return true;
-    return repo.language === selectedLanguage;
-  }, [selectedLanguage]);
-
-  const matchesTopic = useCallback((repo: GitHubRepositorySummary): boolean => {
-    if (selectedTopics.length === 0) return true;
-    return selectedTopics.every(topic => repo.topics.includes(topic));
-  }, [selectedTopics]);
-
-  const filteredRepos = useMemo(() => {
-    return repos
-      .filter(repo => matchesSearch(repo) && matchesLanguage(repo) && matchesTopic(repo))
-      .sort((a, b) => {
-        switch (sortBy) {
-          case 'stars':
-            return b.stargazersCount - a.stargazersCount;
-          case 'updated':
-            return new Date(b.pushedAt).getTime() - new Date(a.pushedAt).getTime();
-          case 'created':
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-          default:
-            return 0;
-        }
-      });
-  }, [repos, searchQuery, selectedLanguage, selectedTopics, sortBy, matchesSearch, matchesLanguage, matchesTopic]);
-
-  const toggleTopic = (topic: string) => {
-    setSelectedTopics(prev =>
-      prev.includes(topic)
-        ? prev.filter(t => t !== topic)
-        : [...prev, topic]
-    );
-  };
-
   const languages = useMemo(() => {
-    const langSet = new Set(repos.map(repo => repo.language).filter(Boolean));
-    return Array.from(langSet).sort();
+    const set = new Set<string>();
+    for (const repo of repos) {
+      if (repo.language) {
+        set.add(repo.language);
+      }
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [repos]);
 
   const topics = useMemo(() => {
-    const topicSet = new Set(repos.flatMap(repo => repo.topics));
-    return Array.from(topicSet).sort();
+    const set = new Set<string>();
+    for (const repo of repos) {
+      for (const topic of repo.topics) {
+        set.add(topic);
+      }
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [repos]);
 
-  // ... rest of the component code including JSX ...
-  // Note: The JSX code references the state variables that are now properly declared above
+  const aggregate = useMemo(
+    () =>
+      repos.reduce<AggregateStats>(
+        (acc, repo) => {
+          acc.totalStars += repo.stargazersCount;
+          acc.totalForks += repo.forksCount;
+          acc.totalOpenIssues += repo.openIssuesCount;
+          return acc;
+        },
+        { ...initialAggregate },
+      ),
+    [repos],
+  );
+
+  const filteredRepos = useMemo(() => {
+    let result = repos;
+
+    const query = search.trim().toLowerCase();
+    if (query) {
+      result = result.filter((repo) => {
+        const name = repo.name.toLowerCase();
+        const description = (repo.description ?? '').toLowerCase();
+        return name.includes(query) || description.includes(query);
+      });
+    }
+
+    if (selectedLanguages.length > 0) {
+      result = result.filter(
+        (repo) => repo.language && selectedLanguages.includes(repo.language),
+      );
+    }
+
+    if (selectedTopics.length > 0) {
+      result = result.filter((repo) =>
+        selectedTopics.every((topic) => repo.topics.includes(topic)),
+      );
+    }
+
+    const sorted = [...result];
+    sorted.sort((a, b) => {
+      switch (sortKey) {
+        case 'stars':
+          return b.stargazersCount - a.stargazersCount;
+        case 'updated':
+          return new Date(b.pushedAt).getTime() - new Date(a.pushedAt).getTime();
+        case 'created':
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [repos, search, selectedLanguages, selectedTopics, sortKey]);
+
+  const toggleLanguage = useCallback((language: string) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(language)
+        ? prev.filter((lang) => lang !== language)
+        : [...prev, language],
+    );
+  }, []);
+
+  const toggleTopic = useCallback((topic: string) => {
+    setSelectedTopics((prev) =>
+      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic],
+    );
+  }, []);
+
+  const handleSortChange = useCallback((key: SortKey) => {
+    setSortKey(key);
+  }, []);
+
+  const fetchReadme = useCallback(
+    async (repoName: string) => {
+      // Toggle off if already open
+      if (activeReadmeRepo === repoName) {
+        setActiveReadmeRepo(null);
+        return;
+      }
+
+      // If we've already fetched (including "no readme"), just show cached
+      if (readmes[repoName] !== undefined) {
+        setActiveReadmeRepo(repoName);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `/api/github-projects/readme/${encodeURIComponent(repoName)}`,
+        );
+
+        if (!response.ok) {
+          setReadmes((prev) => ({ ...prev, [repoName]: null }));
+          setActiveReadmeRepo(repoName);
+          return;
+        }
+
+        const data: GitHubReadme = await response.json();
+        setReadmes((prev) => ({ ...prev, [repoName]: data }));
+        setActiveReadmeRepo(repoName);
+      } catch {
+        setReadmes((prev) => ({ ...prev, [repoName]: null }));
+        setActiveReadmeRepo(repoName);
+      }
+    },
+    [activeReadmeRepo, readmes],
+  );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Controls */}
-      <div className="mb-8 space-y-4">
-        {/* Search */}
-        <div className="relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search repositories..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+    <section className="space-y-6">
+      <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Explore my public GitHub repositories with search, filters, and live stats.
+          </p>
         </div>
-
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4 items-center">
-          <div className="flex items-center gap-2">
-            <FunnelIcon className="h-5 w-5 text-gray-500" />
-            <span className="text-sm font-medium">Filters:</span>
+        <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <CodeBracketIcon className="h-4 w-4" />
+            <span>{repos.length} repositories</span>
           </div>
-
-          {/* Language filter */}
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedLanguage(null)}
-              className={`px-3 py-1 text-sm rounded-full ${
-                selectedLanguage === null
-                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-            >
-              All Languages
-            </button>
-            {languages.map(lang => (
-              <button
-                key={lang}
-                onClick={() => setSelectedLanguage(lang === selectedLanguage ? null : lang)}
-                className={`px-3 py-1 text-sm rounded-full ${
-                  selectedLanguage === lang
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {lang}
-              </button>
-            ))}
+          <div className="flex items-center gap-1">
+            <StarIcon className="h-4 w-4" />
+            <span>{aggregate.totalStars} stars</span>
           </div>
+          <div className="flex items-center gap-1">
+            <BookOpenIcon className="h-4 w-4" />
+            <span>{aggregate.totalOpenIssues} open issues</span>
+          </div>
+        </div>
+      </header>
 
-          {/* Topic filter */}
-          <div className="flex flex-wrap gap-2">
-            <span className="text-sm font-medium mr-2">Topics:</span>
-            {topics.slice(0, 10).map(topic => (
-              <button
-                key={topic}
-                onClick={() => toggleTopic(topic)}
-                className={`px-3 py-1 text-sm rounded-full ${
-                  selectedTopics.includes(topic)
-                    ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {topic}
-              </button>
-            ))}
+      {error && (
+        <div className="rounded-md border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-200">
+          {error}
+        </div>
+      )}
+
+      {/* Controls: search + sort */}
+      <div className="flex flex-col gap-4 rounded-xl border bg-card/80 p-4 shadow-sm backdrop-blur md:flex-row">
+        <div className="flex-1">
+          <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <MagnifyingGlassIcon className="h-4 w-4" />
+            Search
+          </label>
+          <div className="mt-1 flex items-center gap-2 rounded-md border bg-background px-3 py-2">
+            <input
+              type="text"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search by name or description..."
+              className="h-8 w-full bg-transparent text-sm outline-none"
+            />
           </div>
         </div>
 
-        {/* Sort */}
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium">Sort by:</span>
-          <div className="flex gap-2">
-            {(['stars', 'updated', 'created'] as SortKey[]).map(key => (
+        <div className="md:w-64">
+          <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <FunnelIcon className="h-4 w-4" />
+            Sort
+          </span>
+          <div className="mt-2 grid grid-cols-3 gap-2 text-xs">
+            {(['stars', 'updated', 'created'] as SortKey[]).map((key) => (
               <button
                 key={key}
-                onClick={() => setSortBy(key)}
-                className={`px-3 py-1 text-sm rounded-full ${
-                  sortBy === key
-                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                type="button"
+                onClick={() => handleSortChange(key)}
+                className={`rounded-md border px-2 py-1 capitalize ${
+                  sortKey === key
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border text-muted-foreground hover:bg-muted/60'
                 }`}
               >
-                {key.charAt(0).toUpperCase() + key.slice(1)}
+                {key === 'stars'
+                  ? 'Most stars'
+                  : key === 'updated'
+                  ? 'Recently updated'
+                  : 'Newest'}
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Results */}
-      {loading ? (
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading repositories...</p>
-        </div>
-      ) : error ? (
-        <div className="text-center py-12 text-red-600 dark:text-red-400">
-          <p>{error}</p>
-          <button
-            onClick={load}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Retry
-          </button>
-        </div>
-      ) : (
-        <>
-          {/* Stats */}
-          <div className="mb-6 text-sm text-gray-600 dark:text-gray-400">
-            Showing {filteredRepos.length} of {repos.length} repositories
+      {/* Filters */}
+      <div className="flex flex-col gap-4 md:flex-row">
+        {languages.length > 0 && (
+          <div className="flex-1">
+            <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Languages
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {languages.map((language) => (
+                <button
+                  key={language}
+                  type="button"
+                  onClick={() => toggleLanguage(language)}
+                  className={`rounded-full border px-3 py-1 text-xs ${
+                    selectedLanguages.includes(language)
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border text-muted-foreground hover:bg-muted/60'
+                  }`}
+                >
+                  {language}
+                </button>
+              ))}
+            </div>
           </div>
+        )}
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRepos.map(repo => (
-              <motion.div
-                key={repo.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Link href={`/projects/${repo.name}`}>
-                  <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-5 hover:border-blue-300 dark:hover:border-blue-700 transition-colors cursor-pointer h-full bg-white dark:bg-gray-900">
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="font-bold text-lg truncate">{repo.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <StarIcon className="h-4 w-4 text-yellow-500" />
-                        <span className="text-sm">{repo.stargazersCount}</span>
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                      {repo.description || 'No description'}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {repo.topics.slice(0, 3).map(topic => (
-                        <span
-                          key={topic}
-                          className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"
+        {topics.length > 0 && (
+          <div className="flex-1">
+            <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Topics
+            </h2>
+            <div className="flex max-h-32 flex-wrap gap-2 overflow-y-auto pr-1">
+              {topics.map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => toggleTopic(topic)}
+                  className={`rounded-full border px-3 py-1 text-xs ${
+                    selectedTopics.includes(topic)
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border text-muted-foreground hover:bg-muted/60'
+                  }`}
+                >
+                  #{topic}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Results */}
+      <div className="mt-2">
+        {loading ? (
+          <p className="text-sm text-muted-foreground">Loading repositories…</p>
+        ) : filteredRepos.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            No repositories match the current search and filters.
+          </p>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {filteredRepos.map((repo) => {
+              const readme = readmes[repo.name];
+              const isActive = activeReadmeRepo === repo.name;
+
+              return (
+                <motion.article
+                  key={repo.id}
+                  layout
+                  whileHover={{ y: -2 }}
+                  className="flex flex-col gap-3 rounded-xl border bg-card/80 p-4 shadow-sm backdrop-blur"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-semibold leading-tight">
+                        <Link
+                          href={`/projects/${encodeURIComponent(repo.name)}`}
+                          className="hover:underline"
                         >
-                          {topic}
-                        </span>
-                      ))}
-                      {repo.topics.length > 3 && (
-                        <span className="px-2 py-1 text-xs text-gray-500">
-                          +{repo.topics.length - 3}
-                        </span>
+                          {repo.name}
+                        </Link>
+                      </h3>
+                      {repo.description && (
+                        <p className="line-clamp-2 text-xs text-muted-foreground">
+                          {repo.description}
+                        </p>
                       )}
                     </div>
-                    
-                    <div className="flex justify-between items-center text-sm text-gray-500">
-                      <div className="flex items-center gap-2">
-                        {repo.language && (
-                          <>
-                            <CodeBracketIcon className="h-4 w-4" />
-                            <span>{repo.language}</span>
-                          </>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <BookOpenIcon className="h-4 w-4" />
-                        <span>Updated {new Date(repo.pushedAt).toLocaleDateString()}</span>
-                      </div>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <StarIcon className="h-4 w-4" />
+                      <span>{repo.stargazersCount}</span>
                     </div>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                    {repo.language && (
+                      <span className="rounded-full border border-border px-2 py-0.5">
+                        {repo.language}
+                      </span>
+                    )}
+                    {repo.topics.slice(0, 3).map((topic) => (
+                      <span
+                        key={topic}
+                        className="rounded-full border border-border px-2 py-0.5"
+                      >
+                        #{topic}
+                      </span>
+                    ))}
+                    <span className="ml-auto">
+                      Updated {formatDate(repo.pushedAt)}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => fetchReadme(repo.name)}
+                    className="flex items-center gap-2 text-xs font-medium text-primary hover:underline"
+                  >
+                    <BookOpenIcon className="h-4 w-4" />
+                    {isActive ? 'Hide README highlight' : 'Show README highlight'}
+                  </button>
+
+                  {isActive && (
+                    <div className="rounded-md border bg-muted/40 p-3 text-xs leading-relaxed text-muted-foreground">
+                      {!readme ? (
+                        <p>No README preview available for this repository.</p>
+                      ) : readme.excerpt ? (
+                        <p>{readme.excerpt}</p>
+                      ) : (
+                        <p>README found, but no preview could be generated.</p>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="mt-auto flex items-center justify-between pt-1 text-xs">
+                    <Link
+                      href={repo.htmlUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+                    >
+                      <CodeBracketIcon className="h-4 w-4" />
+                      <span>View on GitHub</span>
+                    </Link>
+                    {repo.homepage && (
+                      <Link
+                        href={repo.homepage}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        Live demo
+                      </Link>
+                    )}
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </section>
   );
 }

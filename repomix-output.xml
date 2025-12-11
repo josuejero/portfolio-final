@@ -762,77 +762,6 @@ expect(headers.Accept).toContain('github'); // vnd.github+json etc
 // Bang on it enough times to cross the limit window
 </file>
 
-<file path="src/lib/github-api.ts">
-// src/lib/github-api.ts
-import { Redis } from '@upstash/redis';
-⋮----
-interface CacheEntry<T> {
-  value: T;
-  expiresAt: number;
-}
-⋮----
-// Use Upstash Redis for caching if available, otherwise use in-memory cache
-⋮----
-// Default TTL for cache entries (in seconds)
-const MEMORY_CACHE_TTL = 15 * 60; // 15 minutes
-⋮----
-export async function cachedFetch<T>(
-  key: string,
-  fetchFn: () => Promise<T>,
-  ttlSeconds: number = MEMORY_CACHE_TTL,
-): Promise<T>
-⋮----
-// Try Redis cache first
-⋮----
-// On Redis failure, just fall back to memory / live fetch
-// eslint-disable-next-line no-console
-⋮----
-// Try memory cache
-⋮----
-// Fetch fresh data
-⋮----
-// Cache in Redis
-⋮----
-// TTL in seconds
-⋮----
-// eslint-disable-next-line no-console
-⋮----
-// Cache in memory (TTL in ms)
-⋮----
-// Clean up old memory cache entries periodically (server-only)
-⋮----
-}, 60_000); // Clean every minute
-⋮----
-export function getGitHubHeaders(
-  token?: string,
-  extra: Record<string, string> = {},
-): Record<string, string>
-⋮----
-// Helper to generate cache keys
-export function getCacheKey(
-  endpoint: string,
-  params: Record<string, string> = {},
-): string
-⋮----
-// Rate limiting helper
-export class RateLimiter
-⋮----
-private static readonly WINDOW_MS = 60 * 60 * 1000; // 1 hour
-private static readonly MAX_REQUESTS = 4000; // Leave some buffer under 5000 limit
-⋮----
-static canMakeRequest(endpoint: string): boolean
-⋮----
-// Clean up old requests
-⋮----
-// If already at limit, do not record a new one
-⋮----
-// Record this request and allow
-⋮----
-static recordRequest(endpoint: string): void
-⋮----
-static getRemainingRequests(endpoint: string): number
-</file>
-
 <file path="src/middleware.ts">
 import { NextRequest, NextResponse } from 'next/server'
 ⋮----
@@ -1019,6 +948,116 @@ const fetchGitHubStats = async () =>
 // Call our server-side API route instead of fetching directly from GitHub
 ⋮----
 // Refresh every 15 minutes for fresh data
+</file>
+
+<file path="src/lib/github-api.ts">
+// FILE: src/lib/github-api.ts
+// src/lib/github-api.ts
+import { Redis } from '@upstash/redis';
+⋮----
+interface CacheEntry<T> {
+  value: T;
+  expiresAt: number;
+}
+⋮----
+// Default TTL for cache entries (in seconds)
+const MEMORY_CACHE_TTL = 15 * 60; // 15 minutes
+⋮----
+// Simple in-memory cache as a fallback when Redis is not available
+⋮----
+// Singleton Redis client so we don't create multiple instances
+⋮----
+function getRedisClient(): Redis | null
+⋮----
+// Guard against non-Node environments (e.g. browser)
+⋮----
+/**
+ * cachedFetch
+ *
+ * Generic cache helper that:
+ * - Tries Redis first if configured
+ * - Falls back to in-memory cache
+ * - Falls back to live fetch on any cache failure
+ */
+export async function cachedFetch<T>(
+  key: string,
+  fetchFn: () => Promise<T>,
+  ttlSeconds: number = MEMORY_CACHE_TTL,
+): Promise<T>
+⋮----
+// Try Redis cache first
+⋮----
+// Cache miss or expired: fetch fresh data
+⋮----
+// TTL in seconds for Redis
+⋮----
+// On Redis failure, just fall back to memory / live fetch
+// eslint-disable-next-line no-console
+⋮----
+// Try memory cache
+⋮----
+// Fetch fresh data
+⋮----
+// Cache in memory (TTL in ms)
+⋮----
+// Clean up old memory cache entries periodically (server-only).
+// We guard with a flag on globalThis so we don't create multiple intervals
+// during hot reloads or in test environments that re-import this module.
+⋮----
+}, 60_000); // Clean every minute
+⋮----
+/**
+ * Build headers for GitHub REST / GraphQL APIs.
+ *
+ * - Always includes GitHub's recommended Accept + User-Agent headers.
+ * - Optionally adds Authorization if a token is provided.
+ * - Merges in any extra headers the caller passes.
+ */
+export function getGitHubHeaders(
+  token?: string,
+  extra: Record<string, string> = {},
+): Record<string, string>
+⋮----
+// Helper to generate cache keys
+export function getCacheKey(
+  endpoint: string,
+  params: Record<string, string> = {},
+): string
+⋮----
+// Rate limiting helper
+export class RateLimiter
+⋮----
+// 1 hour window
+⋮----
+// Leave some buffer under GitHub's 5000/hr limit
+⋮----
+// Map of endpoint -> timestamps (ms) of recent requests
+⋮----
+private static prune(endpoint: string, now: number): number[]
+⋮----
+/**
+   * Check whether we can make another request for this endpoint
+   * in the current window. Does NOT record the request; caller
+   * should call recordRequest() after actually making the call.
+   */
+static canMakeRequest(endpoint: string): boolean
+⋮----
+/**
+   * Record that we have made a request to this endpoint.
+   * If we are already at the limit, this is a no-op to avoid
+   * inflating the count further.
+   */
+static recordRequest(endpoint: string): void
+⋮----
+// If already at limit, do not record a new one
+⋮----
+// Record this request and allow
+⋮----
+/**
+   * Return how many requests remain in the current window
+   * for the given endpoint.
+   */
+static getRemainingRequests(endpoint: string): number
 </file>
 
 <file path="src/lib/metadata.ts">
