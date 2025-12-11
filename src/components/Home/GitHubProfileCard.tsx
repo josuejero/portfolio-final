@@ -4,8 +4,7 @@ import useGithubStats from '@/hooks/useGithubStats';
 import {
   ArrowTopRightOnSquareIcon,
   BuildingOffice2Icon,
-  MapPinIcon,
-  UsersIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -73,7 +72,6 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-lg truncate">{stats.name || username}</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">{stats.bio}</p>
               <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
                 {stats.location && (
                   <span className="flex items-center gap-1">
@@ -87,10 +85,6 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
                     {stats.company}
                   </span>
                 )}
-                <span className="flex items-center gap-1">
-                  <UsersIcon className="h-3 w-3" />
-                  {stats.followers} followers · {stats.following} following
-                </span>
               </div>
             </div>
           </div>

@@ -3,16 +3,12 @@
 
 import Die from '@/components/Die';
 import { Skill } from '@/components/Die/types';
-import useGithubStats from '@/hooks/useGithubStats';
-import type { GitHubStats } from '@/types/github';
 import GitHubProfileCard from './GitHubProfileCard';
 
 import {
-  ArrowDownIcon,
   CloudIcon,
   CodeBracketIcon,
-  CommandLineIcon,
-  ExclamationTriangleIcon,
+  CommandLineIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 
@@ -30,7 +26,6 @@ function scrollToSection(id: string) {
 }
 
 export default function Home() {
-  const stats = useGithubStats(GITHUB_USERNAME);
 
   const handleSkillSelect = (skill: Skill) => {
     // Optional: analytics or telemetry hook
@@ -128,16 +123,15 @@ export default function Home() {
               >
                 Get in touch
               </button>
-              <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+              {/* <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                 <ArrowDownIcon className="h-4 w-4 animate-bounce-slow" />
                 <span>Scroll for GitHub activity and projects</span>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>
 
         {/* Snapshot stats bar */}
-        <SnapshotStatsBar stats={stats} />
       </div>
     </section>
   );
@@ -163,62 +157,6 @@ function FeatureRow({ icon: Icon, title, body }: FeatureRowProps) {
   );
 }
 
-type SnapshotStatsBarProps = {
-  stats: GitHubStats;
-};
 
-function SnapshotStatsBar({ stats }: SnapshotStatsBarProps) {
-  return (
-    <motion.div
-      className="mt-2 grid gap-4 rounded-2xl border border-border/60 bg-background/70 p-4 shadow-sm backdrop-blur-sm sm:grid-cols-3 lg:grid-cols-6"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.35 }}
-    >
-      {stats.loading ? (
-        <div className="col-span-full flex items-center justify-center py-2 text-xs text-muted-foreground sm:text-sm">
-          Pulling live GitHub snapshot…
-        </div>
-      ) : stats.error ? (
-        <div className="col-span-full flex items-center justify-center gap-2 py-2 text-xs text-red-500 sm:text-sm">
-          <ExclamationTriangleIcon className="h-4 w-4" />
-          <span>Could not load GitHub snapshot right now.</span>
-        </div>
-      ) : (
-        <>
-          <SnapshotItem label="Public repos" value={stats.totalRepos} />
-          <SnapshotItem label="Total stars" value={stats.totalStars} />
-          <SnapshotItem label="Total forks" value={stats.totalForks} />
-          <SnapshotItem
-            label="Open issues (own repos)"
-            value={stats.totalOpenIssues}
-          />
-          <SnapshotItem
-            label="Contributions this year"
-            value={stats.contributionsThisYear}
-          />
-          <SnapshotItem label="Followers" value={stats.followers} />
-        </>
-      )}
-    </motion.div>
-  );
-}
 
-type SnapshotItemProps = {
-  label: string;
-  value: number | string;
-};
 
-function SnapshotItem({ label, value }: SnapshotItemProps) {
-  return (
-    <div className="flex flex-col gap-1 rounded-xl border border-border/40 bg-background/90 px-3 py-2 text-xs sm:text-sm">
-      <span className="text-[0.65rem] uppercase tracking-wide text-muted-foreground sm:text-[0.7rem]">
-        {label}
-      </span>
-      <span className="text-lg font-semibold tabular-nums sm:text-xl">
-        {value}
-      </span>
-    </div>
-  );
-}

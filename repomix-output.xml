@@ -502,8 +502,7 @@ import useGithubStats from '@/hooks/useGithubStats';
 import {
   ArrowTopRightOnSquareIcon,
   BuildingOffice2Icon,
-  MapPinIcon,
-  UsersIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -766,6 +765,68 @@ const labelForActivityType = (type: string) =>
 ⋮----
 {/* Contribution calendar and streaks */}
 ⋮----
+{/* <p className="mt-2 text-[11px] text-muted-foreground">
+                Darker squares represent more contributions on that day, like the
+                GitHub profile calendar.
+              </p> */}
+⋮----
+{/* <motion.div
+          className="rounded-xl border bg-card/50 p-4"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.05 }}
+        >
+          <p className="text-xs font-medium text-muted-foreground">
+            Streaks and patterns
+          </p>
+          {streaks ? (
+            <dl className="mt-3 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Current streak
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.currentStreak}{' '}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    days
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Longest streak
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.longestStreak}{' '}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    days
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Busiest weekday
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.busiestDayOfWeek}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Avg commits on active days
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.averageCommitsPerActiveDay.toFixed(1)}
+                </dd>
+              </div>
+            </dl>
+          ) : (
+            <p className="mt-3 text-sm text-muted-foreground">
+              Streak data is not available yet.
+            </p>
+          )}
+        </motion.div> */}
+⋮----
 {/* Monthly commit activity */}
 ⋮----
 {/* Languages and activity feed */}
@@ -854,40 +915,56 @@ export interface DieState {
 import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
 import {
   BookOpenIcon,
-  CodeBracketIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  StarIcon,
+  CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-⋮----
-type SortKey = 'stars' | 'updated' | 'created';
+import { useCallback, useEffect, useState } from 'react';
 ⋮----
 type ReadmeMap = Record<string, GitHubReadme | null>;
 ⋮----
-interface AggregateStats {
-  totalStars: number;
-  totalForks: number;
-  totalOpenIssues: number;
-}
+// interface AggregateStats {
+//   totalStars: number;
+//   totalForks: number;
+//   totalOpenIssues: number;
+// }
+⋮----
+// const initialAggregate: AggregateStats = {
+//   totalStars: 0,
+//   totalForks: 0,
+//   totalOpenIssues: 0,
+// };
 ⋮----
 function formatDate(date: string)
 ⋮----
 const load = async () =>
 ⋮----
+// const aggregate = useMemo(
+//   () =>
+//     repos.reduce<AggregateStats>(
+//       (acc, repo) => {
+//         acc.totalStars += repo.stargazersCount;
+//         acc.totalForks += repo.forksCount;
+//         acc.totalOpenIssues += repo.openIssuesCount;
+//         return acc;
+//       },
+//       { ...initialAggregate },
+//     ),
+//   [repos],
+// );
+⋮----
 // Toggle off if already open
 ⋮----
 // If we've already fetched (including "no readme"), just show cached
 ⋮----
-{/* Controls: search + sort */}
-⋮----
-onChange=
-⋮----
-{/* Filters */}
-⋮----
-{/* Results */}
+{/* <div className="flex items-center gap-1">
+            <StarIcon className="h-4 w-4" />
+            <span>{aggregate.totalStars} stars</span>
+          </div> */}
+{/* <div className="flex items-center gap-1">
+            <BookOpenIcon className="h-4 w-4" />
+            <span>{aggregate.totalOpenIssues} open issues</span>
+          </div> */}
 </file>
 
 <file path="src/hooks/useGithubStats.ts">
@@ -1227,7 +1304,8 @@ export interface GitHubGist {
 </file>
 
 <file path="next.config.ts">
-/** @type {import('next').NextConfig} */
+// next.config.ts
+import type { NextConfig } from 'next';
 ⋮----
 // Clickjacking: modern control is CSP frame-ancestors; XFO kept for legacy
 ⋮----
@@ -1237,11 +1315,25 @@ export interface GitHubGist {
 ⋮----
 // Feature gating
 ⋮----
-"fullscreen=()" // allow per-page if you actually need it
+'fullscreen=()', // allow per-page if you actually need it
 ⋮----
 // Cross-origin isolation hardening
 ⋮----
-// HSTS (only send on HTTPS/prod; preload optional but requires 1yr+ includeSubDomains)
+// HSTS only in production
+⋮----
+// Minimum needed to fix: allow GitHub avatars host
+⋮----
+// Or, if you prefer more granularity instead of `domains`,
+// you can use this instead (and remove `domains`):
+//
+// remotePatterns: [
+//   {
+//     protocol: 'https',
+//     hostname: 'avatars.githubusercontent.com',
+//     port: '',
+//     pathname: '/u/**',
+//   },
+// ],
 ⋮----
 async headers()
 </file>
@@ -1808,16 +1900,12 @@ setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
 ⋮----
 import Die from '@/components/Die';
 import { Skill } from '@/components/Die/types';
-import useGithubStats from '@/hooks/useGithubStats';
-import type { GitHubStats } from '@/types/github';
 import GitHubProfileCard from './GitHubProfileCard';
 ⋮----
 import {
-  ArrowDownIcon,
   CloudIcon,
   CodeBracketIcon,
-  CommandLineIcon,
-  ExclamationTriangleIcon,
+  CommandLineIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 ⋮----
@@ -1844,6 +1932,11 @@ const handleSkillSelect = (skill: Skill) =>
 {/* Call to Action */}
 ⋮----
 onClick=
+⋮----
+{/* <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <ArrowDownIcon className="h-4 w-4 animate-bounce-slow" />
+                <span>Scroll for GitHub activity and projects</span>
+              </div> */}
 ⋮----
 {/* Snapshot stats bar */}
 </file>
@@ -2097,7 +2190,7 @@ body {
     "clsx": "^2.1.1",
     "framer-motion": "12.23.22",
     "lucide-react": "^0.454.0",
-    "next": "15.5.4",
+    "next": "15.5.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "recharts": "2.15.4",
@@ -2132,9 +2225,10 @@ body {
 // src/app/page.tsx
 import Layout from '@/components/common/Layout';
 import Home from '@/components/Home/Home';
-import Projects from '@/components/Projects/Projects';
 ⋮----
 export default function HomePage()
+⋮----
+{/* <Projects /> */}
 </file>
 
 </files>

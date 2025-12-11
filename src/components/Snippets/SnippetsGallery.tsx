@@ -3,8 +3,7 @@
 import { GitHubGist } from '@/types/github';
 import {
   CalendarIcon,
-  CodeBracketIcon,
-  TagIcon
+  CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -13,7 +12,6 @@ export default function SnippetsGallery() {
   const [gists, setGists] = useState<GitHubGist[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedGist, setSelectedGist] = useState<GitHubGist | null>(null);
-  const [filterTag, setFilterTag] = useState<string>('all');
 
   useEffect(() => {
     fetchGists();
@@ -30,14 +28,6 @@ export default function SnippetsGallery() {
       setLoading(false);
     }
   };
-
-  const allTags = Array.from(
-    new Set(gists.flatMap(gist => gist.tags || []))
-  ).sort();
-
-  const filteredGists = filterTag === 'all' 
-    ? gists 
-    : gists.filter(gist => gist.tags?.includes(filterTag));
 
   if (loading) {
     return (
@@ -60,34 +50,9 @@ export default function SnippetsGallery() {
         </p>
       </motion.div>
 
-      {/* Tags filter */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <TagIcon className="w-5 h-5" />
-          <span className="font-medium">Filter by tag:</span>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setFilterTag('all')}
-            className={`px-3 py-1 rounded-full text-sm ${filterTag === 'all' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-          >
-            All
-          </button>
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => setFilterTag(tag)}
-              className={`px-3 py-1 rounded-full text-sm ${filterTag === tag ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Gists grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredGists.map((gist, index) => (
+        {gists.map((gist, index) => (
           <motion.div
             key={gist.id}
             initial={{ opacity: 0, y: 20 }}
@@ -143,7 +108,11 @@ export default function SnippetsGallery() {
               <div className="mt-4">
                 <div className="text-sm font-medium mb-2">Preview:</div>
                 <pre className="text-xs bg-muted p-3 rounded overflow-x-auto max-h-32">
-                  {Object.values(gist.files)[0]?.content.substring(0, 200)}...
+                  {(
+                    Object.values(gist.files)[0]?.content ??
+                    'Preview not available for this gist'
+                  ).substring(0, 200)}
+                  ...
                 </pre>
               </div>
 

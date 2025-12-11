@@ -51,7 +51,6 @@ const GithubStats: React.FC<GithubStatsProps> = ({ stats, username }) => {
   );
 
   const calendar = stats.contributionCalendar;
-  const streaks = stats.streaks;
   const activity = stats.activity ?? [];
 
   let maxDayCount = 0;
@@ -170,10 +169,10 @@ const GithubStats: React.FC<GithubStatsProps> = ({ stats, username }) => {
                   }),
                 )}
               </div>
-              <p className="mt-2 text-[11px] text-muted-foreground">
+              {/* <p className="mt-2 text-[11px] text-muted-foreground">
                 Darker squares represent more contributions on that day, like the
                 GitHub profile calendar.
-              </p>
+              </p> */}
             </div>
           ) : (
             <p className="mt-3 text-sm text-muted-foreground">
@@ -183,7 +182,7 @@ const GithubStats: React.FC<GithubStatsProps> = ({ stats, username }) => {
           )}
         </motion.div>
 
-        <motion.div
+        {/* <motion.div
           className="rounded-xl border bg-card/50 p-4"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -238,7 +237,7 @@ const GithubStats: React.FC<GithubStatsProps> = ({ stats, username }) => {
               Streak data is not available yet.
             </p>
           )}
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Monthly commit activity */}
@@ -312,7 +311,7 @@ const GithubStats: React.FC<GithubStatsProps> = ({ stats, username }) => {
               <div>
                 <p className="text-sm font-medium">Languages</p>
                 <p className="text-xs text-muted-foreground">
-                  Top languages across your own repos
+                  Top languages
                 </p>
               </div>
             </div>
