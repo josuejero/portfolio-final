@@ -1,44 +1,79 @@
-import { useState, useEffect } from 'react';
-import type { GitHubStats } from '../types/github';
+// src/hooks/useGithubStats.ts
+import type { GitHubStats } from '@/types/github';
+import { useEffect, useState } from 'react';
 
-export function useGithubStats(username: string) {
-  const [stats, setStats] = useState<GitHubStats & { loading: boolean; error: string | null }>({
-    totalRepos: 0,
-    totalCommits: 0,
-    followers: 0,
-    following: 0,
-    topLanguages: {},
-    commitActivity: [], // Initialize commitActivity
-    loading: true,
-    error: null,
-  });
+const createEmptyStats = (): GitHubStats => ({
+  // Core counters
+  totalRepos: 0,
+  totalCommits: 0,
+  followers: 0,
+  following: 0,
+  topLanguages: {},
+  commitActivity: [],
+
+  // Snapshot bar metrics
+  totalStars: 0,
+  totalForks: 0,
+  totalOpenIssues: 0,
+  contributionsThisYear: 0,
+
+  // Contribution calendar and derived streaks
+  contributionCalendar: null,
+  streaks: null,
+
+  // Activity feed
+  activity: [],
+
+  // Profile info for hero card and about page
+  avatarUrl: '',
+  name: '',
+  bio: '',
+  location: '',
+  company: '',
+  profileUrl: '',
+  memberSinceYear: 0,
+
+  // UI state
+  loading: true,
+  error: null,
+});
+
+export default function useGithubStats(username: string): GitHubStats {
+  const [stats, setStats] = useState<GitHubStats>(createEmptyStats());
 
   useEffect(() => {
-    async function fetchGitHubStats() {
+    const fetchGitHubStats = async () => {
       try {
-        const response = await fetch(`/api/github-stats?username=${username}`);
+        setStats(prev => ({ ...prev, loading: true }));
+        
+        // Call our server-side API route instead of fetching directly from GitHub
+        const response = await fetch(`/api/github-stats`);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch GitHub stats');
+          throw new Error(`Failed to fetch GitHub stats: ${response.status}`);
         }
+        
         const data = await response.json();
         setStats({
           ...data,
           loading: false,
-          error: null
+          error: null,
         });
-      } catch (error) {
+      } catch (err) {
         setStats(prev => ({
           ...prev,
           loading: false,
-          error: error instanceof Error ? error.message : 'An error occurred'
+          error: err instanceof Error ? err.message : 'Unknown error',
         }));
       }
-    }
+    };
 
     fetchGitHubStats();
+    
+    // Refresh every 15 minutes for fresh data
+    const interval = setInterval(fetchGitHubStats, 15 * 60 * 1000);
+    return () => clearInterval(interval);
   }, [username]);
 
   return stats;
 }
-
-export default useGithubStats;
