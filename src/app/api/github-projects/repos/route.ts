@@ -1,5 +1,5 @@
 // FILE: src/app/api/github-projects/repos/route.ts
-import { getGitHubHeaders } from '@/lib/github-api';
+import { getGitHubHeaders, getRepoCiStatus } from '@/lib/github-api';
 import type { GitHubRepositorySummary } from '@/types/github';
 import { NextResponse } from 'next/server';
 
@@ -31,6 +31,7 @@ interface GitHubRepoResponse {
   fork: boolean;
   pushed_at: string;
   created_at: string;
+  default_branch: string; // <-- add this
 }
 
 async function fetchUserRepos(
@@ -69,47 +70,77 @@ function resolveGitHubUsername(): string {
 }
 
 export async function GET() {
-  const token = process.env.GITHUB_TOKEN;
-  const username = resolveGitHubUsername();
-
-  const emptyPayload: GitHubRepositorySummary[] = [];
-  const emptyResponse = NextResponse.json(emptyPayload);
-
   try {
-    const repos = await fetchUserRepos(username, token);
+    const username = resolveGitHubUsername();
+    const token = process.env.GITHUB_TOKEN;
+    const requirePassingCi =
+      process.env.GITHUB_REQUIRE_PASSING_CI === 'true';
 
-    // Filter out forks and inactive repos to keep the explorer focused
-    const filtered = repos.filter(
-      (repo) => !repo.fork && !repo.archived && !repo.disabled,
+    const rawRepos = await fetchUserRepos(username, token);
+
+    // Existing filters: non-forks, not archived, not disabled, recent, topic, etc
+    let filtered = rawRepos.filter((repo) => {
+      if (repo.fork || repo.archived || repo.disabled) return false;
+
+      // Example "recent activity" filter - keep your current logic here
+      const pushedAt = new Date(repo.pushed_at).getTime();
+      const oneYearAgo =
+        Date.now() - 365 * 24 * 60 * 60 * 1000;
+      if (pushedAt < oneYearAgo) return false;
+
+      return true;
+    });
+
+    // New: optionally only keep repos with a passing CI run
+    if (requirePassingCi) {
+      const ciResults = await Promise.all(
+        filtered.map(async (repo) => ({
+          repo,
+          ci: await getRepoCiStatus({
+            fullName: repo.full_name,
+            defaultBranch: repo.default_branch,
+            token,
+          }),
+        })),
+      );
+
+      filtered = ciResults
+        .filter(({ ci }) => ci === 'success')
+        .map(({ repo }) => repo);
+    }
+
+    const payload: GitHubRepositorySummary[] = filtered.map(
+      (repo) => ({
+        id: repo.id,
+        name: repo.name,
+        fullName: repo.full_name,
+        description: repo.description,
+        htmlUrl: repo.html_url,
+        homepage: repo.homepage,
+        homepageUrl: repo.homepage,
+        language: repo.language,
+        primaryLanguage: repo.language
+          ? { name: repo.language, color: null }
+          : null,
+        stargazersCount: repo.stargazers_count,
+        stargazerCount: repo.stargazers_count,
+        forksCount: repo.forks_count,
+        forkCount: repo.forks_count,
+        openIssuesCount: repo.open_issues_count,
+        topics: repo.topics ?? [],
+        archived: repo.archived,
+        disabled: repo.disabled,
+        pushedAt: repo.pushed_at,
+        createdAt: repo.created_at,
+      }),
     );
 
-    // Transform to our frontend-friendly format
-    const mapped: GitHubRepositorySummary[] = filtered.map((repo) => ({
-      id: repo.id,
-      name: repo.name,
-      fullName: repo.full_name,
-      description: repo.description,
-      htmlUrl: repo.html_url,
-      homepage: repo.homepage,
-      language: repo.language,
-      stargazersCount: repo.stargazers_count,
-      forksCount: repo.forks_count,
-      openIssuesCount: repo.open_issues_count,
-      topics: repo.topics ?? [],
-      archived: repo.archived,
-      disabled: repo.disabled,
-      pushedAt: repo.pushed_at,
-      createdAt: repo.created_at,
-    }));
-
-    const nextResponse = NextResponse.json(mapped);
-    return setCacheHeaders(nextResponse, 3600); // 1 hour cache
+    return setCacheHeaders(NextResponse.json(payload), 3600);
   } catch (error) {
-    // On GitHub error, normalize to a 200 with an empty list
-    // so the frontend can degrade gracefully.
-    // eslint-disable-next-line no-console
-    console.error('Error fetching GitHub repositories', error);
-
-    return setCacheHeaders(emptyResponse, 60); // 1 minute cache on error
+    console.error('[github-projects/repos] error', error);
+    return NextResponse.json(
+      { error: 'Failed to load repositories' },
+      { status: 500 },
+    );
   }
 }

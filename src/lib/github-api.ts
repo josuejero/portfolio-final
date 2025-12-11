@@ -42,6 +42,71 @@ function getRedisClient(): Redis | null {
   return redisClient;
 }
 
+export type CiStatus = 'success' | 'failing' | 'unknown';
+
+type WorkflowRun = {
+  status: 'queued' | 'in_progress' | 'completed';
+  conclusion:
+    | 'success'
+    | 'failure'
+    | 'neutral'
+    | 'cancelled'
+    | 'skipped'
+    | 'timed_out'
+    | 'action_required'
+    | 'stale'
+    | null;
+};
+
+type WorkflowRunsResponse = {
+  total_count: number;
+  workflow_runs: WorkflowRun[];
+};
+
+export async function getRepoCiStatus(opts: {
+  fullName: string;       // "owner/repo"
+  defaultBranch: string;
+  token?: string;
+}): Promise<CiStatus> {
+  const { fullName, defaultBranch, token } = opts;
+
+  // Hit the workflow runs endpoint for this repo + branch
+  const url = new URL(
+    `https://api.github.com/repos/${fullName}/actions/runs`,
+  );
+  url.searchParams.set('branch', defaultBranch);
+  url.searchParams.set('status', 'completed');
+  url.searchParams.set('per_page', '1');
+
+  const res = await fetch(url.toString(), {
+    headers: getGitHubHeaders(token),
+  });
+
+  if (!res.ok) {
+    console.error(
+      '[CI] Failed to fetch workflow runs for',
+      fullName,
+      res.status,
+    );
+    return 'unknown';
+  }
+
+  const data = (await res.json()) as WorkflowRunsResponse;
+
+  if (!data.workflow_runs?.length) {
+    // No completed runs on the default branch - treat as "no passing CI"
+    return 'unknown';
+  }
+
+  const latest = data.workflow_runs[0];
+
+  if (latest.status !== 'completed' || !latest.conclusion) {
+    return 'unknown';
+  }
+
+  return latest.conclusion === 'success' ? 'success' : 'failing';
+}
+
 /**
  * cachedFetch
  *

@@ -495,23 +495,6 @@ const Loading = () =>
 // src/components/Die/index.ts
 </file>
 
-<file path="src/components/Home/GitHubProfileCard.tsx">
-// src/components/Home/GitHubProfileCard.tsx
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import useGithubStats from '@/hooks/useGithubStats';
-import {
-  ArrowTopRightOnSquareIcon,
-  BuildingOffice2Icon,
-  MapPinIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-⋮----
-type GitHubProfileCardProps = {
-  username: string;
-};
-</file>
-
 <file path="src/components/Projects/ProjectDetail.tsx">
 // src/components/Projects/ProjectDetail.tsx
 ⋮----
@@ -535,35 +518,6 @@ type TabKey = 'overview' | 'releases';
 const load = async () =>
 ⋮----
 {/* Tabs */}
-</file>
-
-<file path="src/components/Snippets/SnippetsGallery.tsx">
-import { GitHubGist } from '@/types/github';
-import {
-  CalendarIcon,
-  CodeBracketIcon,
-  TagIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-⋮----
-const fetchGists = async () =>
-⋮----
-{/* Tags filter */}
-⋮----
-onClick=
-⋮----
-{/* Gists grid */}
-⋮----
-{/* Tags */}
-⋮----
-{/* Preview first file content */}
-⋮----
-{/* Gist Detail Modal */}
-⋮----
-Created:
-⋮----
-Updated:
 </file>
 
 <file path="src/components/ui/card.tsx">
@@ -736,102 +690,6 @@ import { GET } from './route';
 // UI state
 </file>
 
-<file path="src/components/About/GithubStats.tsx">
-// src/components/About/GithubStats.tsx
-⋮----
-import type { GitHubStats } from '@/types/github';
-import { motion } from 'framer-motion';
-import React from 'react';
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-⋮----
-interface GithubStatsProps {
-  stats: GitHubStats;
-  username: string;
-}
-⋮----
-const levelForCount = (count: number) =>
-⋮----
-const levelClass = (level: number) =>
-⋮----
-const labelForActivityType = (type: string) =>
-⋮----
-{/* Contribution calendar and streaks */}
-⋮----
-{/* <p className="mt-2 text-[11px] text-muted-foreground">
-                Darker squares represent more contributions on that day, like the
-                GitHub profile calendar.
-              </p> */}
-⋮----
-{/* <motion.div
-          className="rounded-xl border bg-card/50 p-4"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.05 }}
-        >
-          <p className="text-xs font-medium text-muted-foreground">
-            Streaks and patterns
-          </p>
-          {streaks ? (
-            <dl className="mt-3 grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Current streak
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.currentStreak}{' '}
-                  <span className="text-xs font-normal text-muted-foreground">
-                    days
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Longest streak
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.longestStreak}{' '}
-                  <span className="text-xs font-normal text-muted-foreground">
-                    days
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Busiest weekday
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.busiestDayOfWeek}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Avg commits on active days
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.averageCommitsPerActiveDay.toFixed(1)}
-                </dd>
-              </div>
-            </dl>
-          ) : (
-            <p className="mt-3 text-sm text-muted-foreground">
-              Streak data is not available yet.
-            </p>
-          )}
-        </motion.div> */}
-⋮----
-{/* Monthly commit activity */}
-⋮----
-{/* Languages and activity feed */}
-</file>
-
 <file path="src/components/Die/Die.tsx">
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -909,62 +767,47 @@ export interface DieState {
 }
 </file>
 
-<file path="src/components/Projects/ProjectsExplorer.tsx">
-// FILE: src/components/Projects/ProjectsExplorer.tsx
-⋮----
-import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
+<file path="src/components/Home/GitHubProfileCard.tsx">
+// src/components/Home/GitHubProfileCard.tsx
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import useGithubStats from '@/hooks/useGithubStats';
 import {
-  BookOpenIcon,
+  ArrowTopRightOnSquareIcon,
+  BuildingOffice2Icon,
+  MapPinIcon
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+⋮----
+type GitHubProfileCardProps = {
+  username: string;
+};
+</file>
+
+<file path="src/components/Snippets/SnippetsGallery.tsx">
+import { GitHubGist } from '@/types/github';
+import {
+  CalendarIcon,
   CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 ⋮----
-type ReadmeMap = Record<string, GitHubReadme | null>;
+const fetchGists = async () =>
 ⋮----
-// interface AggregateStats {
-//   totalStars: number;
-//   totalForks: number;
-//   totalOpenIssues: number;
-// }
+{/* Gists grid */}
 ⋮----
-// const initialAggregate: AggregateStats = {
-//   totalStars: 0,
-//   totalForks: 0,
-//   totalOpenIssues: 0,
-// };
+{/* Tags */}
 ⋮----
-function formatDate(date: string)
+{/* Preview first file content */}
 ⋮----
-const load = async () =>
+onClick=
 ⋮----
-// const aggregate = useMemo(
-//   () =>
-//     repos.reduce<AggregateStats>(
-//       (acc, repo) => {
-//         acc.totalStars += repo.stargazersCount;
-//         acc.totalForks += repo.forksCount;
-//         acc.totalOpenIssues += repo.openIssuesCount;
-//         return acc;
-//       },
-//       { ...initialAggregate },
-//     ),
-//   [repos],
-// );
+{/* Gist Detail Modal */}
 ⋮----
-// Toggle off if already open
+Created:
 ⋮----
-// If we've already fetched (including "no readme"), just show cached
-⋮----
-{/* <div className="flex items-center gap-1">
-            <StarIcon className="h-4 w-4" />
-            <span>{aggregate.totalStars} stars</span>
-          </div> */}
-{/* <div className="flex items-center gap-1">
-            <BookOpenIcon className="h-4 w-4" />
-            <span>{aggregate.totalOpenIssues} open issues</span>
-          </div> */}
+Updated:
 </file>
 
 <file path="src/hooks/useGithubStats.ts">
@@ -1303,41 +1146,6 @@ export interface GitHubGist {
 }
 </file>
 
-<file path="next.config.ts">
-// next.config.ts
-import type { NextConfig } from 'next';
-⋮----
-// Clickjacking: modern control is CSP frame-ancestors; XFO kept for legacy
-⋮----
-// MIME sniffing
-⋮----
-// Referrer privacy
-⋮----
-// Feature gating
-⋮----
-'fullscreen=()', // allow per-page if you actually need it
-⋮----
-// Cross-origin isolation hardening
-⋮----
-// HSTS only in production
-⋮----
-// Minimum needed to fix: allow GitHub avatars host
-⋮----
-// Or, if you prefer more granularity instead of `domains`,
-// you can use this instead (and remove `domains`):
-//
-// remotePatterns: [
-//   {
-//     protocol: 'https',
-//     hostname: 'avatars.githubusercontent.com',
-//     port: '',
-//     pathname: '/u/**',
-//   },
-// ],
-⋮----
-async headers()
-</file>
-
 <file path="src/app/api/contact/route.ts">
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -1637,6 +1445,102 @@ const TechnicalSkills = () =>
 {/* Technical Skills Section */}
 </file>
 
+<file path="src/components/About/GithubStats.tsx">
+// src/components/About/GithubStats.tsx
+⋮----
+import type { GitHubStats } from '@/types/github';
+import { motion } from 'framer-motion';
+import React from 'react';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+⋮----
+interface GithubStatsProps {
+  stats: GitHubStats;
+  username: string;
+}
+⋮----
+const levelForCount = (count: number) =>
+⋮----
+const levelClass = (level: number) =>
+⋮----
+const labelForActivityType = (type: string) =>
+⋮----
+{/* Contribution calendar and streaks */}
+⋮----
+{/* <p className="mt-2 text-[11px] text-muted-foreground">
+                Darker squares represent more contributions on that day, like the
+                GitHub profile calendar.
+              </p> */}
+⋮----
+{/* <motion.div
+          className="rounded-xl border bg-card/50 p-4"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.05 }}
+        >
+          <p className="text-xs font-medium text-muted-foreground">
+            Streaks and patterns
+          </p>
+          {streaks ? (
+            <dl className="mt-3 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Current streak
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.currentStreak}{' '}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    days
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Longest streak
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.longestStreak}{' '}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    days
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Busiest weekday
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.busiestDayOfWeek}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[11px] text-muted-foreground">
+                  Avg commits on active days
+                </dt>
+                <dd className="text-base font-semibold">
+                  {streaks.averageCommitsPerActiveDay.toFixed(1)}
+                </dd>
+              </div>
+            </dl>
+          ) : (
+            <p className="mt-3 text-sm text-muted-foreground">
+              Streak data is not available yet.
+            </p>
+          )}
+        </motion.div> */}
+⋮----
+{/* Monthly commit activity */}
+⋮----
+{/* Languages and activity feed */}
+</file>
+
 <file path="src/components/common/Layout.tsx">
 // src/components/common/Layout.tsx
 ⋮----
@@ -1766,6 +1670,64 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
 {/* Honeypot: visually hidden but still present in DOM */}
 </file>
 
+<file path="src/components/Projects/ProjectsExplorer.tsx">
+// FILE: src/components/Projects/ProjectsExplorer.tsx
+⋮----
+import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
+import {
+  BookOpenIcon,
+  CodeBracketIcon
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
+⋮----
+type ReadmeMap = Record<string, GitHubReadme | null>;
+⋮----
+// interface AggregateStats {
+//   totalStars: number;
+//   totalForks: number;
+//   totalOpenIssues: number;
+// }
+⋮----
+// const initialAggregate: AggregateStats = {
+//   totalStars: 0,
+//   totalForks: 0,
+//   totalOpenIssues: 0,
+// };
+⋮----
+function formatDate(date: string)
+⋮----
+const load = async () =>
+⋮----
+// const aggregate = useMemo(
+//   () =>
+//     repos.reduce<AggregateStats>(
+//       (acc, repo) => {
+//         acc.totalStars += repo.stargazersCount;
+//         acc.totalForks += repo.forksCount;
+//         acc.totalOpenIssues += repo.openIssuesCount;
+//         return acc;
+//       },
+//       { ...initialAggregate },
+//     ),
+//   [repos],
+// );
+⋮----
+// Toggle off if already open
+⋮----
+// If we've already fetched (including "no readme"), just show cached
+⋮----
+{/* <div className="flex items-center gap-1">
+            <StarIcon className="h-4 w-4" />
+            <span>{aggregate.totalStars} stars</span>
+          </div> */}
+{/* <div className="flex items-center gap-1">
+            <BookOpenIcon className="h-4 w-4" />
+            <span>{aggregate.totalOpenIssues} open issues</span>
+          </div> */}
+</file>
+
 <file path="src/lib/utils.ts">
 // src/lib/utils.ts
 import { clsx, type ClassValue } from "clsx"
@@ -1776,6 +1738,41 @@ export function cn(...inputs: ClassValue[])
 export function disableDarkReader()
 ⋮----
 // Remove Dark Reader styles
+</file>
+
+<file path="next.config.ts">
+// next.config.ts
+import type { NextConfig } from 'next';
+⋮----
+// Clickjacking: modern control is CSP frame-ancestors; XFO kept for legacy
+⋮----
+// MIME sniffing
+⋮----
+// Referrer privacy
+⋮----
+// Feature gating
+⋮----
+'fullscreen=()', // allow per-page if you actually need it
+⋮----
+// Cross-origin isolation hardening
+⋮----
+// HSTS only in production
+⋮----
+// Minimum needed to fix: allow GitHub avatars host
+⋮----
+// Or, if you prefer more granularity instead of `domains`,
+// you can use this instead (and remove `domains`):
+//
+// remotePatterns: [
+//   {
+//     protocol: 'https',
+//     hostname: 'avatars.githubusercontent.com',
+//     port: '',
+//     pathname: '/u/**',
+//   },
+// ],
+⋮----
+async headers()
 </file>
 
 <file path="tailwind.config.ts">
@@ -1939,21 +1936,6 @@ onClick=
               </div> */}
 ⋮----
 {/* Snapshot stats bar */}
-</file>
-
-<file path="src/app/layout.tsx">
-import { ThemeProvider } from "@/components/common/ThemeProvider";
-import { siteMetadata } from '@/lib/metadata';
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-⋮----
-type: 'website', // Explicitly set as literal
-⋮----
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>)
 </file>
 
 <file path="README.md">
@@ -2125,6 +2107,21 @@ Contributions are welcome! Please open issues or submit pull requests if you hav
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+</file>
+
+<file path="src/app/layout.tsx">
+import { ThemeProvider } from "@/components/common/ThemeProvider";
+import { siteMetadata } from '@/lib/metadata';
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+⋮----
+type: 'website', // Explicitly set as literal
+⋮----
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>)
 </file>
 
 <file path="src/app/globals.css">
