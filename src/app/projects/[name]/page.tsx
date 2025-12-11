@@ -1,15 +1,21 @@
-// src/app/projects/[name]/page.tsx
+// FILE: src/app/projects/[name]/page.tsx
 import Layout from '@/components/common/Layout';
 import ProjectDetail from '@/components/Projects/ProjectDetail';
 
-interface ProjectPageProps {
-  params: { name: string };
+interface ProjectPageParams {
+  name: string;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
+interface ProjectPageProps {
+  params: Promise<ProjectPageParams>;
+}
+
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { name } = await params;
+
   return (
     <Layout>
-      <ProjectDetail name={params.name} />
+      <ProjectDetail name={name} />
     </Layout>
   );
 }

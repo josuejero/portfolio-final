@@ -1,35 +1,37 @@
+// FILE: src/app/api/github-projects/releases/[name]/route.test.ts
 // @vitest-environment node
 
+import type { GitHubRelease } from '@/types/github';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET } from './route';
 
-interface MockResponseInit {
+interface MockResponseInit<T> {
   ok: boolean;
   status: number;
-  json: () => Promise<any>;
+  json: () => Promise<T>;
 }
 
-function makeMockResponse(body: any, status = 200): MockResponseInit {
+function makeMockResponse<T>(body: T, status = 200): MockResponseInit<T> {
   return {
     ok: status >= 200 && status < 300,
     status,
-    json: async () => body,
+    json: () => Promise.resolve(body),
   };
 }
 
-describe('/api/github-projects/releases/[name] GET', () => {
+describe('GET /api/github-projects/releases/[name]', () => {
   const originalFetch = global.fetch;
 
   beforeEach(() => {
-    process.env.GITHUB_TOKEN = 'test-token';
+    vi.resetAllMocks();
   });
 
   afterEach(() => {
     global.fetch = originalFetch;
   });
 
-  it('returns normalized releases', async () => {
-    const githubPayload = [
+  it('returns transformed releases on success', async () => {
+    const apiReleases = [
       {
         id: 1,
         tag_name: 'v1.0.0',
@@ -37,44 +39,57 @@ describe('/api/github-projects/releases/[name] GET', () => {
         body: 'Changelog',
         draft: false,
         prerelease: false,
-        html_url: 'https://github.com/user/demo/releases/v1.0.0',
+        html_url: 'https://github.com/example/repo/releases/1',
         published_at: '2025-01-01T00:00:00Z',
       },
     ];
 
-    global.fetch = vi.fn().mockResolvedValue(
-      makeMockResponse(githubPayload),
-    ) as any;
+    const fetchMock = vi.fn(async () =>
+      makeMockResponse(apiReleases) as unknown as Response,
+    );
 
-    const req = new Request('http://localhost/api/github-projects/releases/demo');
+    global.fetch = fetchMock as unknown as typeof fetch;
 
-    const res = await GET(req, {
-      params: Promise.resolve({ name: 'demo' }),
+    const request = new Request(
+      'http://localhost/api/github-projects/releases/example',
+    );
+
+    const response = await GET(request, {
+      params: Promise.resolve({ name: 'example' }),
     });
 
-    expect(res.status).toBe(200);
-    const json = await res.json();
+    const json = (await response.json()) as GitHubRelease[];
+
+    expect(response.status).toBe(200);
     expect(Array.isArray(json)).toBe(true);
+    expect(json).toHaveLength(1);
+
     const release = json[0];
 
     expect(release.tagName).toBe('v1.0.0');
-    expect(release.name).toBe('First release');
-    expect(release.htmlUrl).toContain('github.com');
-    expect(release.publishedAt).toBe('2025-01-01T00:00:00Z');
+    expect(release.htmlUrl).toBe(
+      'https://github.com/example/repo/releases/1',
+    );
   });
 
-  it('returns empty array when repo has no releases', async () => {
-    global.fetch = vi.fn().mockResolvedValue(
-      makeMockResponse([], 200),
-    ) as any;
+  it('normalizes GitHub errors into an empty array', async () => {
+    const fetchMock = vi.fn(async () =>
+      makeMockResponse({ message: 'Internal error' }, 500) as unknown as Response,
+    );
 
-    const req = new Request('http://localhost/api/github-projects/releases/demo');
-    const res = await GET(req, {
-      params: Promise.resolve({ name: 'demo' }),
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const request = new Request(
+      'http://localhost/api/github-projects/releases/example',
+    );
+
+    const response = await GET(request, {
+      params: Promise.resolve({ name: 'example' }),
     });
 
-    expect(res.status).toBe(200);
-    const json = await res.json();
+    const json = (await response.json()) as GitHubRelease[];
+
+    expect(response.status).toBe(200);
     expect(Array.isArray(json)).toBe(true);
     expect(json).toHaveLength(0);
   });

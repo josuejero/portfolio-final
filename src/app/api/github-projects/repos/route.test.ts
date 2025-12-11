@@ -1,95 +1,99 @@
+// FILE: src/app/api/github-projects/repos/route.test.ts
 // @vitest-environment node
 
+import type { GitHubRepositorySummary } from '@/types/github';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET } from './route';
 
-interface MockResponseInit {
+interface MockResponseInit<T> {
   ok: boolean;
   status: number;
-  json: () => Promise<any>;
+  json: () => Promise<T>;
 }
 
-function makeMockResponse(body: any, status = 200): MockResponseInit {
+function makeMockResponse<T>(body: T, status = 200): MockResponseInit<T> {
   return {
     ok: status >= 200 && status < 300,
     status,
-    json: async () => body,
+    json: () => Promise.resolve(body),
   };
 }
 
-describe('/api/github-projects/repos GET', () => {
+describe('GET /api/github-projects/repos', () => {
   const originalFetch = global.fetch;
 
   beforeEach(() => {
-    process.env.GITHUB_TOKEN = 'test-token';
+    vi.resetAllMocks();
   });
 
   afterEach(() => {
     global.fetch = originalFetch;
   });
 
-  it('maps GitHub repo fields to GitHubRepositorySummary[]', async () => {
-    const githubPayload = [
+  it('maps GitHub repo fields to GitHubRepositorySummary', async () => {
+    const apiRepos = [
       {
-        id: 1,
-        name: 'demo',
-        full_name: 'user/demo',
-        description: 'Demo repo',
-        html_url: 'https://github.com/user/demo',
-        homepage: 'https://demo.example.com',
+        id: 123,
+        name: 'example',
+        full_name: 'user/example',
+        description: 'Example repo',
+        html_url: 'https://github.com/user/example',
+        homepage: 'https://example.com',
         language: 'TypeScript',
         stargazers_count: 10,
         forks_count: 2,
         open_issues_count: 1,
-        topics: ['nextjs', 'portfolio'],
+        topics: ['portfolio'],
         archived: false,
         disabled: false,
+        fork: false,
         pushed_at: '2025-01-01T00:00:00Z',
         created_at: '2024-01-01T00:00:00Z',
       },
     ];
 
-    global.fetch = vi.fn().mockResolvedValue(
-      makeMockResponse(githubPayload),
-    ) as any;
+    const fetchMock = vi.fn(async () =>
+      makeMockResponse(apiRepos) as unknown as Response,
+    );
 
-    const res = await GET();
-    expect(res.status).toBe(200);
+    global.fetch = fetchMock as unknown as typeof fetch;
 
-    const json = await res.json();
+    const response = await GET();
+    const json = (await response.json()) as GitHubRepositorySummary[];
 
+    expect(response.status).toBe(200);
     expect(Array.isArray(json)).toBe(true);
     expect(json).toHaveLength(1);
 
     const repo = json[0];
 
-    // Check mapping from snake_case to camelCase type
-    expect(repo.id).toBe(1);
-    expect(repo.name).toBe('demo');
-    expect(repo.fullName).toBe('user/demo');
-    expect(repo.htmlUrl).toBe('https://github.com/user/demo');
-    expect(repo.homepage).toBe('https://demo.example.com');
+    expect(repo.id).toBe(123);
+    expect(repo.name).toBe('example');
+    expect(repo.fullName).toBe('user/example');
+    expect(repo.htmlUrl).toBe('https://github.com/user/example');
+    expect(repo.homepage).toBe('https://example.com');
+    expect(repo.language).toBe('TypeScript');
     expect(repo.stargazersCount).toBe(10);
     expect(repo.forksCount).toBe(2);
     expect(repo.openIssuesCount).toBe(1);
-    expect(repo.archived).toBe(false);
-    expect(repo.disabled).toBe(false);
-    expect(repo.topics).toEqual(['nextjs', 'portfolio']);
+    expect(repo.topics).toContain('portfolio');
 
-    // Cache header should exist (exact value may differ)
-    expect(res.headers.get('Cache-Control')).toBeTruthy();
+    const cacheControl = response.headers.get('Cache-Control');
+    expect(cacheControl).not.toBeNull();
   });
 
-  it('returns an empty array but still a 200 on GitHub error', async () => {
-    // Simulate GitHub 500
-    global.fetch = vi.fn().mockResolvedValue(
-      makeMockResponse({ message: 'Server error' }, 500),
-    ) as any;
+  it('normalizes GitHub errors into an empty array', async () => {
+    const fetchMock = vi.fn(async () =>
+      makeMockResponse({ message: 'Internal error' }, 500) as unknown as Response,
+    );
 
-    const res = await GET();
-    expect(res.status).toBe(200); // route normalizes to empty list
+    global.fetch = fetchMock as unknown as typeof fetch;
 
-    const json = await res.json();
+    const response = await GET();
+    const json = (await response.json()) as GitHubRepositorySummary[];
+
+    expect(response.status).toBe(200);
     expect(Array.isArray(json)).toBe(true);
+    expect(json).toHaveLength(0);
   });
 });

@@ -653,64 +653,6 @@ const load = async () =>
 {/* Tabs */}
 </file>
 
-<file path="src/components/Projects/ProjectsExplorer.tsx">
-// src/components/Projects/ProjectsExplorer.tsx
-import type { GitHubRepositorySummary } from '@/types/github';
-import {
-  BookOpenIcon,
-  CodeBracketIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  StarIcon,
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-⋮----
-type SortKey = 'stars' | 'updated' | 'created';
-⋮----
-interface GitHubReadme {
-  repo: string;
-  path: string;
-  excerpt: string;
-  fullMarkdown: string;
-  lastFetched: string;
-}
-⋮----
-const fetchRepos = async (): Promise<GitHubRepositorySummary[]> =>
-⋮----
-const load = async () =>
-⋮----
-const fetchReadme = async (repoName: string) =>
-⋮----
-const toggleTopic = (topic: string) =>
-⋮----
-// ... rest of the component code including JSX ...
-// Note: The JSX code references the state variables that are now properly declared above
-⋮----
-{/* Controls */}
-⋮----
-{/* Search */}
-⋮----
-onChange=
-⋮----
-{/* Filters */}
-⋮----
-{/* Language filter */}
-⋮----
-onClick=
-⋮----
-{/* Topic filter */}
-⋮----
-{/* Sort */}
-⋮----
-{/* Results */}
-⋮----
-{/* Stats */}
-⋮----
-{/* Projects Grid */}
-</file>
-
 <file path="src/components/Snippets/SnippetsGallery.tsx">
 import { GitHubGist } from '@/types/github';
 import {
@@ -920,6 +862,48 @@ export interface DieState {
   currentSkill: Skill | null;
   currentFace: number;
 }
+</file>
+
+<file path="src/components/Projects/ProjectsExplorer.tsx">
+// FILE: src/components/Projects/ProjectsExplorer.tsx
+⋮----
+import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
+import {
+  BookOpenIcon,
+  CodeBracketIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  StarIcon,
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+⋮----
+type SortKey = 'stars' | 'updated' | 'created';
+⋮----
+type ReadmeMap = Record<string, GitHubReadme | null>;
+⋮----
+interface AggregateStats {
+  totalStars: number;
+  totalForks: number;
+  totalOpenIssues: number;
+}
+⋮----
+function formatDate(date: string)
+⋮----
+const load = async () =>
+⋮----
+// Toggle off if already open
+⋮----
+// If we've already fetched (including "no readme"), just show cached
+⋮----
+{/* Controls: search + sort */}
+⋮----
+onChange=
+⋮----
+{/* Filters */}
+⋮----
+{/* Results */}
 </file>
 
 <file path="src/hooks/useGithubStats.ts">
