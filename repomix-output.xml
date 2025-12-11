@@ -185,44 +185,6 @@ export async function POST(req: NextRequest)
 // For now, just log (Vercel logs / local console). Consider storing in a DB later.
 </file>
 
-<file path="src/app/api/github-projects/gists/route.ts">
-// src/app/api/github-projects/gists/route.ts
-import type { GitHubGist, GitHubGistFile } from '@/types/github';
-import { NextResponse } from 'next/server';
-⋮----
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 1800)
-⋮----
-interface GitHubGistResponse {
-  id: string;
-  description: string | null;
-  html_url: string;
-  created_at: string;
-  updated_at: string;
-  files: Record<string, {
-    filename: string;
-    language: string | null;
-    raw_url: string;
-    size: number;
-    content: string;
-  }>;
-}
-⋮----
-export async function GET()
-⋮----
-// Transform gists to our format with tags
-⋮----
-// Extract tags from description (looking for #tag format)
-⋮----
-// Transform files to our format
-⋮----
-// Get first file for preview
-⋮----
-return setCacheHeaders(nextResponse, 1800); // 30 minutes cache
-⋮----
-return setCacheHeaders(errorResponse, 60); // 1 minute cache on error
-</file>
-
 <file path="src/app/api/github-projects/pinned/route.ts">
 // src/app/api/github-projects/pinned/route.ts
 import type { GitHubPinnedRepo } from '@/types/github';
@@ -304,21 +266,6 @@ return setCacheHeaders(nextResponse, 86400); // 24 hour cache for READMEs
 return setCacheHeaders(errorResponse, 300); // 5 minute cache on error
 </file>
 
-<file path="src/app/api/github-projects/releases/[name]/route.test.ts">
-// @vitest-environment node
-⋮----
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { GET } from './route';
-⋮----
-interface MockResponseInit {
-  ok: boolean;
-  status: number;
-  json: () => Promise<any>;
-}
-⋮----
-function makeMockResponse(body: any, status = 200): MockResponseInit
-</file>
-
 <file path="src/app/api/github-projects/releases/[name]/route.ts">
 // FILE: src/app/api/github-projects/releases/[name]/route.ts
 import { getGitHubHeaders } from '@/lib/github-api';
@@ -361,29 +308,6 @@ return setCacheHeaders(nextResponse, 3600); // 1 hour cache
 // eslint-disable-next-line no-console
 ⋮----
 return setCacheHeaders(emptyResponse, 300); // 5 minute cache on error
-</file>
-
-<file path="src/app/api/github-projects/repos/route.test.ts">
-// @vitest-environment node
-⋮----
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { GET } from './route';
-⋮----
-interface MockResponseInit {
-  ok: boolean;
-  status: number;
-  json: () => Promise<any>;
-}
-⋮----
-function makeMockResponse(body: any, status = 200): MockResponseInit
-⋮----
-// Check mapping from snake_case to camelCase type
-⋮----
-// Cache header should exist (exact value may differ)
-⋮----
-// Simulate GitHub 500
-⋮----
-expect(res.status).toBe(200); // route normalizes to empty list
 </file>
 
 <file path="src/app/api/github-projects/repos/route.ts">
@@ -439,33 +363,6 @@ return setCacheHeaders(nextResponse, 3600); // 1 hour cache
 return setCacheHeaders(emptyResponse, 60); // 1 minute cache on error
 </file>
 
-<file path="src/app/api/github-stats/route.test.ts">
-// @vitest-environment node
-⋮----
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { GET } from './route';
-⋮----
-interface MockResponseInit {
-  ok: boolean;
-  status: number;
-  json: () => Promise<any>;
-}
-⋮----
-function makeMockResponse(body: any, status = 200): MockResponseInit
-⋮----
-// Very rough multi-call mock.
-// The route will call multiple GitHub endpoints.
-// We respond with simple, type-compatible data for each call.
-⋮----
-// User profile
-⋮----
-// Repos list
-⋮----
-// GraphQL for contributions and activity
-⋮----
-// Check a few key pieces of the GitHubStats shape
-</file>
-
 <file path="src/app/blog/loading.tsx">
 // src/app/blog/loading.tsx
 import Loading from '@/components/common/Loading';
@@ -494,18 +391,6 @@ import Contact from '@/components/Contact/Contact';
 import Layout from '@/components/common/Layout';
 ⋮----
 export default function ContactPage()
-</file>
-
-<file path="src/app/projects/[name]/page.tsx">
-// src/app/projects/[name]/page.tsx
-import Layout from '@/components/common/Layout';
-import ProjectDetail from '@/components/Projects/ProjectDetail';
-⋮----
-interface ProjectPageProps {
-  params: { name: string };
-}
-⋮----
-export default function ProjectPage(
 </file>
 
 <file path="src/app/projects/page.tsx">
@@ -751,6 +636,105 @@ export function middleware(request: NextRequest)
 
 <file path="postcss.config.mjs">
 /** @type {import('postcss-load-config').Config} */
+</file>
+
+<file path="src/app/api/github-projects/gists/route.ts">
+// FILE: src/app/api/github-projects/gists/route.ts
+// src/app/api/github-projects/gists/route.ts
+import type { GitHubGist, GitHubGistFile } from '@/types/github';
+import { NextResponse } from 'next/server';
+⋮----
+function setCacheHeaders(
+  response: NextResponse,
+  maxAge: number = 1800,
+): NextResponse
+⋮----
+interface GitHubGistResponse {
+  id: string;
+  description: string | null;
+  html_url: string;
+  created_at: string;
+  updated_at: string;
+  files: Record<
+    string,
+    {
+      filename: string;
+      language: string | null;
+      raw_url: string;
+      size: number;
+      content: string;
+    }
+  >;
+}
+⋮----
+function extractTags(description: string | null): string[]
+⋮----
+function transformFiles(
+  apiFiles: GitHubGistResponse['files'],
+): Record<string, GitHubGistFile>
+⋮----
+function resolveGitHubUsername(): string
+⋮----
+// TODO: Keep in sync with the username used elsewhere in the app.
+⋮----
+function buildGitHubHeaders(): HeadersInit
+⋮----
+export async function GET(): Promise<NextResponse>
+</file>
+
+<file path="src/app/api/github-projects/releases/[name]/route.test.ts">
+// FILE: src/app/api/github-projects/releases/[name]/route.test.ts
+// @vitest-environment node
+⋮----
+import type { GitHubRelease } from '@/types/github';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { GET } from './route';
+⋮----
+interface MockResponseInit<T> {
+  ok: boolean;
+  status: number;
+  json: () => Promise<T>;
+}
+⋮----
+function makeMockResponse<T>(body: T, status = 200): MockResponseInit<T>
+</file>
+
+<file path="src/app/api/github-projects/repos/route.test.ts">
+// FILE: src/app/api/github-projects/repos/route.test.ts
+// @vitest-environment node
+⋮----
+import type { GitHubRepositorySummary } from '@/types/github';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { GET } from './route';
+⋮----
+interface MockResponseInit<T> {
+  ok: boolean;
+  status: number;
+  json: () => Promise<T>;
+}
+⋮----
+function makeMockResponse<T>(body: T, status = 200): MockResponseInit<T>
+</file>
+
+<file path="src/app/api/github-stats/route.test.ts">
+// FILE: src/app/api/github-stats/route.test.ts
+// @vitest-environment node
+⋮----
+import type { GitHubStats } from '@/types/github';
+import { describe, expect, it } from 'vitest';
+import { GET } from './route';
+⋮----
+// Core counters
+⋮----
+// Snapshot bar metrics
+⋮----
+// Contribution calendar and derived streaks
+⋮----
+// Activity feed
+⋮----
+// Profile info
+⋮----
+// UI state
 </file>
 
 <file path="src/components/About/GithubStats.tsx">
@@ -1521,6 +1505,23 @@ return setCacheHeaders(response, 900); // 15 minutes cache
 // UI state
 ⋮----
 return setCacheHeaders(response, 60); // 1 minute cache on error
+</file>
+
+<file path="src/app/projects/[name]/page.tsx">
+// src/app/projects/[name]/page.tsx
+import Layout from '@/components/common/Layout';
+import ProjectDetail from '@/components/Projects/ProjectDetail';
+import { use } from 'react';
+⋮----
+interface ProjectPageParams {
+  name: string;
+}
+⋮----
+interface ProjectPageProps {
+  params: Promise<ProjectPageParams>;
+}
+⋮----
+export default function ProjectPage(
 </file>
 
 <file path="src/components/About/About.tsx">
