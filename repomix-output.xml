@@ -164,6 +164,26 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="src/app/about/page.tsx">
+// src/app/about/page.tsx
+import About from '@/components/About/About';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function AboutPage()
+</file>
+
 <file path="src/app/api/csp-report/route 2.ts">
 import { NextRequest, NextResponse } from 'next/server'
 ⋮----
@@ -175,7 +195,149 @@ export async function POST(req: NextRequest)
 // For now, just log (Vercel logs / local console). Consider storing in a DB later.
 </file>
 
+<file path="src/app/api/csp-report/route.ts">
+import { NextRequest, NextResponse } from 'next/server'
+⋮----
+// Accept both legacy "application/csp-report" and Reporting API "application/reports+json"
+export async function POST(req: NextRequest)
+⋮----
+// Normalize shape
+⋮----
+// For now, just log (Vercel logs / local console). Consider storing in a DB later.
+</file>
+
+<file path="src/app/api/github-projects/pinned/route.ts">
+// src/app/api/github-projects/pinned/route.ts
+import type { GitHubPinnedRepo } from '@/types/github';
+import { NextResponse } from 'next/server';
+⋮----
+// Cache control helper
+function setCacheHeaders(response: NextResponse, maxAge: number = 3600)
+⋮----
+interface GraphQLResponse {
+  data?: {
+    user?: {
+      pinnedItems?: {
+        nodes?: Array<{
+          name: string;
+          description: string | null;
+          url: string;
+          homepageUrl: string | null;
+          stargazerCount: number;
+          forkCount: number;
+          updatedAt: string;
+          primaryLanguage: {
+            name: string;
+            color: string | null;
+          } | null;
+          repositoryTopics: {
+            nodes: Array<{
+              topic: {
+                name: string;
+              };
+            }>;
+          };
+        }>;
+      };
+    };
+  };
+  errors?: Array<{ message: string }>;
+}
+⋮----
+export async function GET()
+⋮----
+// GraphQL query for pinned repositories
+⋮----
+// Transform to our format
+⋮----
+return setCacheHeaders(nextResponse, 3600); // 1 hour cache
+⋮----
+return setCacheHeaders(errorResponse, 60); // 1 minute cache on error
+</file>
+
+<file path="src/app/api/github-projects/releases/[name]/route.ts">
+// FILE: src/app/api/github-projects/releases/[name]/route.ts
+import { getGitHubHeaders } from '@/lib/github-api';
+import type { GitHubRelease } from '@/types/github';
+import { NextResponse } from 'next/server';
+⋮----
+// Cache control helper
+function setCacheHeaders(response: NextResponse, maxAge: number = 3600)
+⋮----
+interface GitHubReleaseResponse {
+  id: number;
+  tag_name: string;
+  name: string | null;
+  body: string | null;
+  draft: boolean;
+  prerelease: boolean;
+  html_url: string;
+  published_at: string | null;
+}
+⋮----
+function resolveGitHubUsername(): string
+⋮----
+// TODO: If you change your GitHub username, update this value
+// or derive it from siteMetadata so API routes stay in sync.
+⋮----
+export async function GET(
+  _req: Request,
+  context: { params: Promise<{ name: string }> },
+)
+⋮----
+// Many repos simply have no releases
+⋮----
+return setCacheHeaders(emptyResponse, 3600); // Cache "no releases" for 1 hour
+⋮----
+// Transform to our format
+⋮----
+return setCacheHeaders(nextResponse, 3600); // 1 hour cache
+⋮----
+// Return empty result on error
+// eslint-disable-next-line no-console
+⋮----
+return setCacheHeaders(emptyResponse, 300); // 5 minute cache on error
+</file>
+
+<file path="src/app/blog/loading.tsx">
+// src/app/blog/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function BlogLoading()
+</file>
+
+<file path="src/app/blog/page.tsx">
+// src/app/blog/page.tsx
+import Blog from '@/components/Blog/Blog';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function BlogPage()
+</file>
+
+<file path="src/app/contact/loading.tsx">
+// src/app/contact/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function ContactLoading()
+</file>
+
+<file path="src/app/contact/page.tsx">
+// src/app/contact/page.tsx
+import Contact from '@/components/Contact/Contact';
+import Layout from '@/components/common/Layout';
+⋮----
+export default function ContactPage()
+</file>
+
 <file path="src/app/projects/page 2.tsx">
+// src/app/projects/page.tsx
+import Layout from '@/components/common/Layout';
+import ProjectsExplorer from '@/components/Projects/ProjectsExplorer';
+⋮----
+export default function ProjectsPage()
+</file>
+
+<file path="src/app/projects/page.tsx">
 // src/app/projects/page.tsx
 import Layout from '@/components/common/Layout';
 import ProjectsExplorer from '@/components/Projects/ProjectsExplorer';
@@ -188,6 +350,100 @@ import Layout from '@/components/common/Layout';
 import SnippetsGallery from '@/components/Snippets/SnippetsGallery';
 ⋮----
 export default function SnippetsPage()
+</file>
+
+<file path="src/app/snippets/page.tsx">
+import Layout from '@/components/common/Layout';
+import SnippetsGallery from '@/components/Snippets/SnippetsGallery';
+⋮----
+export default function SnippetsPage()
+</file>
+
+<file path="src/app/error.tsx">
+// src/app/error.tsx
+⋮----
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+reset: ()
+</file>
+
+<file path="src/app/loading.tsx">
+// src/app/loading.tsx
+import Loading from '@/components/common/Loading';
+⋮----
+export default function PageLoading()
+</file>
+
+<file path="src/components/About/animations.ts">
+// src/components/About/animations.ts
+import { Variants } from 'framer-motion';
+</file>
+
+<file path="src/components/About/index.ts">
+// src/components/About/index.ts
+</file>
+
+<file path="src/components/Blog/Blog.tsx">
+// src/components/Blog/Blog.tsx
+⋮----
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { CalendarIcon, TagIcon, ClockIcon } from '@heroicons/react/24/outline';
+⋮----
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  tags: string[];
+  content: string;
+}
+⋮----
+{/* Modal for full post */}
+</file>
+
+<file path="src/components/Blog/index.ts">
+// src/components/Blog/index.ts
+</file>
+
+<file path="src/components/common/ErrorBoundary.tsx">
+// src/components/common/ErrorBoundary.tsx
+⋮----
+import { Component, ErrorInfo, ReactNode } from 'react';
+⋮----
+interface Props {
+  children: ReactNode;
+}
+⋮----
+interface State {
+  hasError: boolean;
+}
+⋮----
+class ErrorBoundary extends Component<Props, State>
+⋮----
+public static getDerivedStateFromError(_: Error): State
+⋮----
+public componentDidCatch(error: Error, errorInfo: ErrorInfo)
+⋮----
+public render()
+</file>
+
+<file path="src/components/common/Loading.tsx">
+// src/components/common/Loading.tsx
+⋮----
+const Loading = () =>
+</file>
+
+<file path="src/components/Contact/index.ts">
+// src/components/Contact/index.ts
+</file>
+
+<file path="src/components/Die/index.ts">
+// src/components/Die/index.ts
 </file>
 
 <file path="src/components/Home/GitHubProfileCard 2.tsx">
@@ -320,6 +576,10 @@ Created:
 Updated:
 </file>
 
+<file path="src/components/ui/card.tsx">
+import { cn } from "@/lib/utils"
+</file>
+
 <file path="src/lib/github-api 2.ts">
 // src/lib/github-api.ts
 import { Redis } from '@upstash/redis';
@@ -391,6 +651,24 @@ expect(headers.Accept).toContain('github'); // vnd.github+json etc
 // Bang on it enough times to cross the limit window
 </file>
 
+<file path="src/lib/github-api.test.ts">
+// @vitest-environment node
+⋮----
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  cachedFetch,
+  getCacheKey,
+  getGitHubHeaders,
+  RateLimiter,
+} from './github-api';
+⋮----
+expect(headers.Accept).toContain('github'); // vnd.github+json etc
+⋮----
+// Make sure we do not accidentally rely on Redis env
+⋮----
+// Bang on it enough times to cross the limit window
+</file>
+
 <file path="src/middleware 2.ts">
 import { NextRequest, NextResponse } from 'next/server'
 ⋮----
@@ -411,310 +689,6 @@ export function middleware(request: NextRequest)
 ⋮----
 // NOTE: no `export const config = { matcher: ... }`
 // Middleware runs on all routes by default.
-</file>
-
-<file path="public/file.svg">
-<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
-</file>
-
-<file path="public/globe.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
-</file>
-
-<file path="public/window.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
-</file>
-
-<file path="src/app/about/page.tsx">
-// src/app/about/page.tsx
-import About from '@/components/About/About';
-import Layout from '@/components/common/Layout';
-⋮----
-export default function AboutPage()
-</file>
-
-<file path="src/app/api/csp-report/route.ts">
-import { NextRequest, NextResponse } from 'next/server'
-⋮----
-// Accept both legacy "application/csp-report" and Reporting API "application/reports+json"
-export async function POST(req: NextRequest)
-⋮----
-// Normalize shape
-⋮----
-// For now, just log (Vercel logs / local console). Consider storing in a DB later.
-</file>
-
-<file path="src/app/api/github-projects/pinned/route.ts">
-// src/app/api/github-projects/pinned/route.ts
-import type { GitHubPinnedRepo } from '@/types/github';
-import { NextResponse } from 'next/server';
-⋮----
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 3600)
-⋮----
-interface GraphQLResponse {
-  data?: {
-    user?: {
-      pinnedItems?: {
-        nodes?: Array<{
-          name: string;
-          description: string | null;
-          url: string;
-          homepageUrl: string | null;
-          stargazerCount: number;
-          forkCount: number;
-          updatedAt: string;
-          primaryLanguage: {
-            name: string;
-            color: string | null;
-          } | null;
-          repositoryTopics: {
-            nodes: Array<{
-              topic: {
-                name: string;
-              };
-            }>;
-          };
-        }>;
-      };
-    };
-  };
-  errors?: Array<{ message: string }>;
-}
-⋮----
-export async function GET()
-⋮----
-// GraphQL query for pinned repositories
-⋮----
-// Transform to our format
-⋮----
-return setCacheHeaders(nextResponse, 3600); // 1 hour cache
-⋮----
-return setCacheHeaders(errorResponse, 60); // 1 minute cache on error
-</file>
-
-<file path="src/app/api/github-projects/readme/[name]/route.ts">
-// src/app/api/github-projects/readme/[name]/route.ts
-import { getGitHubHeaders } from "@/lib/github-api";
-import { NextResponse } from "next/server";
-⋮----
-function decodeBase64ToUtf8(base64: string)
-⋮----
-// GitHub may include newlines in base64 content
-⋮----
-// Node runtime
-⋮----
-// Edge runtime
-⋮----
-export async function GET(
-  _req: Request,
-  context: { params: Promise<{ name: string }> }
-)
-⋮----
-const owner = "josuejero"; // or resolveGitHubUsername()
-⋮----
-// optional: reduce GitHub calls in production
-// next: { revalidate: 60 * 60 },
-⋮----
-markdown, // <-- render THIS with react-markdown
-</file>
-
-<file path="src/app/api/github-projects/releases/[name]/route.ts">
-// FILE: src/app/api/github-projects/releases/[name]/route.ts
-import { getGitHubHeaders } from '@/lib/github-api';
-import type { GitHubRelease } from '@/types/github';
-import { NextResponse } from 'next/server';
-⋮----
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 3600)
-⋮----
-interface GitHubReleaseResponse {
-  id: number;
-  tag_name: string;
-  name: string | null;
-  body: string | null;
-  draft: boolean;
-  prerelease: boolean;
-  html_url: string;
-  published_at: string | null;
-}
-⋮----
-function resolveGitHubUsername(): string
-⋮----
-// TODO: If you change your GitHub username, update this value
-// or derive it from siteMetadata so API routes stay in sync.
-⋮----
-export async function GET(
-  _req: Request,
-  context: { params: Promise<{ name: string }> },
-)
-⋮----
-// Many repos simply have no releases
-⋮----
-return setCacheHeaders(emptyResponse, 3600); // Cache "no releases" for 1 hour
-⋮----
-// Transform to our format
-⋮----
-return setCacheHeaders(nextResponse, 3600); // 1 hour cache
-⋮----
-// Return empty result on error
-// eslint-disable-next-line no-console
-⋮----
-return setCacheHeaders(emptyResponse, 300); // 5 minute cache on error
-</file>
-
-<file path="src/app/blog/loading.tsx">
-// src/app/blog/loading.tsx
-import Loading from '@/components/common/Loading';
-⋮----
-export default function BlogLoading()
-</file>
-
-<file path="src/app/blog/page.tsx">
-// src/app/blog/page.tsx
-import Blog from '@/components/Blog/Blog';
-import Layout from '@/components/common/Layout';
-⋮----
-export default function BlogPage()
-</file>
-
-<file path="src/app/contact/loading.tsx">
-// src/app/contact/loading.tsx
-import Loading from '@/components/common/Loading';
-⋮----
-export default function ContactLoading()
-</file>
-
-<file path="src/app/contact/page.tsx">
-// src/app/contact/page.tsx
-import Contact from '@/components/Contact/Contact';
-import Layout from '@/components/common/Layout';
-⋮----
-export default function ContactPage()
-</file>
-
-<file path="src/app/projects/page.tsx">
-// src/app/projects/page.tsx
-import Layout from '@/components/common/Layout';
-import ProjectsExplorer from '@/components/Projects/ProjectsExplorer';
-⋮----
-export default function ProjectsPage()
-</file>
-
-<file path="src/app/snippets/page.tsx">
-import Layout from '@/components/common/Layout';
-import SnippetsGallery from '@/components/Snippets/SnippetsGallery';
-⋮----
-export default function SnippetsPage()
-</file>
-
-<file path="src/app/error.tsx">
-// src/app/error.tsx
-⋮----
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-reset: ()
-</file>
-
-<file path="src/app/loading.tsx">
-// src/app/loading.tsx
-import Loading from '@/components/common/Loading';
-⋮----
-export default function PageLoading()
-</file>
-
-<file path="src/components/About/animations.ts">
-// src/components/About/animations.ts
-import { Variants } from 'framer-motion';
-</file>
-
-<file path="src/components/About/index.ts">
-// src/components/About/index.ts
-</file>
-
-<file path="src/components/Blog/Blog.tsx">
-// src/components/Blog/Blog.tsx
-⋮----
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { CalendarIcon, TagIcon, ClockIcon } from '@heroicons/react/24/outline';
-⋮----
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  content: string;
-}
-⋮----
-{/* Modal for full post */}
-</file>
-
-<file path="src/components/Blog/index.ts">
-// src/components/Blog/index.ts
-</file>
-
-<file path="src/components/common/ErrorBoundary.tsx">
-// src/components/common/ErrorBoundary.tsx
-⋮----
-import { Component, ErrorInfo, ReactNode } from 'react';
-⋮----
-interface Props {
-  children: ReactNode;
-}
-⋮----
-interface State {
-  hasError: boolean;
-}
-⋮----
-class ErrorBoundary extends Component<Props, State>
-⋮----
-public static getDerivedStateFromError(_: Error): State
-⋮----
-public componentDidCatch(error: Error, errorInfo: ErrorInfo)
-⋮----
-public render()
-</file>
-
-<file path="src/components/common/Loading.tsx">
-// src/components/common/Loading.tsx
-⋮----
-const Loading = () =>
-</file>
-
-<file path="src/components/Contact/index.ts">
-// src/components/Contact/index.ts
-</file>
-
-<file path="src/components/Die/index.ts">
-// src/components/Die/index.ts
-</file>
-
-<file path="src/components/ui/card.tsx">
-import { cn } from "@/lib/utils"
-</file>
-
-<file path="src/lib/github-api.test.ts">
-// @vitest-environment node
-⋮----
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  cachedFetch,
-  getCacheKey,
-  getGitHubHeaders,
-  RateLimiter,
-} from './github-api';
-⋮----
-expect(headers.Accept).toContain('github'); // vnd.github+json etc
-⋮----
-// Make sure we do not accidentally rely on Redis env
-⋮----
-// Bang on it enough times to cross the limit window
 </file>
 
 <file path="src/middleware.ts">
@@ -808,6 +782,32 @@ function resolveGitHubUsername(): string
 function buildGitHubHeaders(): HeadersInit
 ⋮----
 export async function GET(): Promise<NextResponse>
+</file>
+
+<file path="src/app/api/github-projects/readme/[name]/route.ts">
+// src/app/api/github-projects/readme/[name]/route.ts
+import { getGitHubHeaders } from "@/lib/github-api";
+import { NextResponse } from "next/server";
+⋮----
+function decodeBase64ToUtf8(base64: string)
+⋮----
+// GitHub may include newlines in base64 content
+⋮----
+// Node runtime
+⋮----
+// Edge runtime
+⋮----
+export async function GET(
+  _req: Request,
+  context: { params: Promise<{ name: string }> }
+)
+⋮----
+const owner = "josuejero"; // or resolveGitHubUsername()
+⋮----
+// optional: reduce GitHub calls in production
+// next: { revalidate: 60 * 60 },
+⋮----
+markdown, // <-- render THIS with react-markdown
 </file>
 
 <file path="src/app/api/github-projects/releases/[name]/route.test.ts">
@@ -1007,91 +1007,6 @@ import Image from 'next/image';
 type GitHubProfileCardProps = {
   username: string;
 };
-</file>
-
-<file path="src/components/Projects/ProjectDetail.tsx">
-import type { GitHubRelease, GitHubRepositorySummary } from '@/types/github';
-import {
-  ArrowTopRightOnSquareIcon,
-  CodeBracketIcon,
-} from '@heroicons/react/24/outline';
-import { useEffect, useMemo, useState } from 'react';
-import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-⋮----
-interface ProjectDetailProps {
-  name: string;
-}
-⋮----
-type TabKey = 'overview' | 'releases';
-⋮----
-function formatDate(date: string | null | undefined): string
-⋮----
-type ReposResponseWithWrapper = {
-  repos?: GitHubRepositorySummary[];
-};
-⋮----
-type ReleasesResponseWithWrapper = {
-  releases?: GitHubRelease[];
-};
-⋮----
-// Expected from your updated readme route:
-// { readme: { repo, path, excerpt, markdown, sourceUrl, lastFetched } }
-type ReadmeData = {
-  repo?: string;
-  path?: string;
-  excerpt?: string;
-  markdown?: string;
-  sourceUrl?: string | null;
-  lastFetched?: string;
-};
-⋮----
-type ReadmeWrapper = {
-  readme?: ReadmeData | null;
-};
-⋮----
-function extractReposArray(value: unknown): GitHubRepositorySummary[]
-⋮----
-function extractReleasesArray(value: unknown): GitHubRelease[]
-⋮----
-function extractReadme(value: unknown): ReadmeData | null
-⋮----
-// Load repository summary + releases
-⋮----
-async function load()
-⋮----
-// eslint-disable-next-line no-console
-⋮----
-// Load README markdown
-⋮----
-async function loadReadme()
-⋮----
-// eslint-disable-next-line no-console
-⋮----
-// Build bases for relative link/image resolution
-⋮----
-// react-markdown v9+ uses urlTransform (transformLinkUri/transformImageUri were removed) :contentReference[oaicite:2]{index=2}
-⋮----
-// Keep on-page anchors for links
-⋮----
-// If relative URL, resolve against GitHub bases:
-// - links -> blob
-// - images -> raw
-⋮----
-// fall through to default transform
-⋮----
-// Delegate safety to react-markdown’s defaultUrlTransform
-// (Overriding urlTransform insecurely can introduce XSS) :contentReference[oaicite:3]{index=3}
-⋮----
-{/* Header */}
-⋮----
-{/* Loading / error state for overall project */}
-⋮----
-{/* Tabs */}
-⋮----
-{/* Tab content */}
-⋮----
-// eslint-disable-next-line @next/next/no-img-element
 </file>
 
 <file path="src/components/Snippets/SnippetsGallery.tsx">
@@ -1870,62 +1785,97 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
 {/* Honeypot: visually hidden but still present in DOM */}
 </file>
 
-<file path="src/components/Projects/ProjectsExplorer.tsx">
-// FILE: src/components/Projects/ProjectsExplorer.tsx
-⋮----
-import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
+<file path="src/components/Projects/ProjectDetail.tsx">
+import type { GitHubRepositorySummary } from '@/types/github';
 import {
-  BookOpenIcon,
-  CodeBracketIcon
+  ArrowTopRightOnSquareIcon,
+  CodeBracketIcon,
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 ⋮----
-type ReadmeMap = Record<string, GitHubReadme | null>;
+interface ProjectDetailProps {
+  name: string;
+}
 ⋮----
-// interface AggregateStats {
-//   totalStars: number;
-//   totalForks: number;
-//   totalOpenIssues: number;
-// }
+type TabKey = 'overview';
 ⋮----
-// const initialAggregate: AggregateStats = {
-//   totalStars: 0,
-//   totalForks: 0,
-//   totalOpenIssues: 0,
-// };
+type ReposResponseWithWrapper = { repos?: GitHubRepositorySummary[] };
 ⋮----
-function formatDate(date: string)
+type ReadmeData = {
+  repo: string;
+  path: string;
+  excerpt?: string;
+  markdown?: string; // we render this
+  html?: string; // optional, if your API returns it
+  sourceUrl?: string; // optional
+  lastFetched?: string;
+};
 ⋮----
-const load = async () =>
+markdown?: string; // we render this
+html?: string; // optional, if your API returns it
+sourceUrl?: string; // optional
 ⋮----
-// const aggregate = useMemo(
-//   () =>
-//     repos.reduce<AggregateStats>(
-//       (acc, repo) => {
-//         acc.totalStars += repo.stargazersCount;
-//         acc.totalForks += repo.forksCount;
-//         acc.totalOpenIssues += repo.openIssuesCount;
-//         return acc;
-//       },
-//       { ...initialAggregate },
-//     ),
-//   [repos],
-// );
+type ReadmeWrapper = { readme?: ReadmeData | null };
 ⋮----
-// Toggle off if already open
+function formatDate(date: string | null | undefined): string
 ⋮----
-// If we've already fetched (including "no readme"), just show cached
+function extractReposArray(value: unknown): GitHubRepositorySummary[]
 ⋮----
-{/* <div className="flex items-center gap-1">
-            <StarIcon className="h-4 w-4" />
-            <span>{aggregate.totalStars} stars</span>
-          </div> */}
-{/* <div className="flex items-center gap-1">
-            <BookOpenIcon className="h-4 w-4" />
-            <span>{aggregate.totalOpenIssues} open issues</span>
-          </div> */}
+function extractReadme(value: unknown): ReadmeData | null
+⋮----
+function normalizeRelativePath(url: string)
+⋮----
+// strip leading ./ and leading /
+⋮----
+// Load repo summary + releases
+⋮----
+async function load()
+⋮----
+// Load README markdown
+⋮----
+async function loadReadme()
+⋮----
+// Build bases for relative README links/images (best-effort)
+⋮----
+// ignore
+⋮----
+// Try to infer branch from readme.sourceUrl: .../blob/<branch>/README.md
+⋮----
+const urlTransform = (url: string, key?: string) =>
+⋮----
+// Keep safe defaults for absolute URLs
+⋮----
+// Anchors stay anchors
+⋮----
+// If it’s already absolute (http/https/mailto/etc), keep it
+⋮----
+// If we can’t compute bases, don’t rewrite
+⋮----
+// Images should point at raw, links at blob
+⋮----
+{/* Header */}
+⋮----
+{/* Loading / error state for overall project */}
+⋮----
+{/* Tabs */}
+⋮----
+{/* Overview */}
+⋮----
+const isExternal = !!href && /^https?:\/\//i.test(href);
+return (
+                        <a
+                          href={href}
+                          {...props}
+                          target={isExternal ? '_blank' : undefined}
+                          rel={isExternal ? 'noreferrer' : undefined}
+                        >
+                          {children}
+                        </a>
+                      );
+⋮----
+// eslint-disable-next-line @next/next/no-img-element
 </file>
 
 <file path="src/lib/github-api.ts">
@@ -2118,11 +2068,6 @@ import type { NextConfig } from 'next';
 async headers()
 </file>
 
-<file path="tailwind.config.ts">
-// tailwind.config.ts
-import type { Config } from "tailwindcss";
-</file>
-
 <file path="src/components/Projects/Projects.tsx">
 // src/components/Projects/Projects.tsx
 ⋮----
@@ -2139,8 +2084,70 @@ import React, { useEffect, useState } from 'react';
 const fetchPinned = async () =>
 </file>
 
+<file path="src/components/Projects/ProjectsExplorer.tsx">
+// FILE: src/components/Projects/ProjectsExplorer.tsx
+⋮----
+import type { GitHubRepositorySummary } from '@/types/github';
+import {
+  CodeBracketIcon
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+⋮----
+// interface AggregateStats {
+//   totalStars: number;
+//   totalForks: number;
+//   totalOpenIssues: number;
+// }
+⋮----
+// const initialAggregate: AggregateStats = {
+//   totalStars: 0,
+//   totalForks: 0,
+//   totalOpenIssues: 0,
+// };
+⋮----
+function formatDate(date: string)
+⋮----
+const load = async () =>
+⋮----
+// const aggregate = useMemo(
+//   () =>
+//     repos.reduce<AggregateStats>(
+//       (acc, repo) => {
+//         acc.totalStars += repo.stargazersCount;
+//         acc.totalForks += repo.forksCount;
+//         acc.totalOpenIssues += repo.openIssuesCount;
+//         return acc;
+//       },
+//       { ...initialAggregate },
+//     ),
+//   [repos],
+// );
+⋮----
+{/* <div className="flex items-center gap-1">
+            <StarIcon className="h-4 w-4" />
+            <span>{aggregate.totalStars} stars</span>
+          </div> */}
+{/* <div className="flex items-center gap-1">
+            <BookOpenIcon className="h-4 w-4" />
+            <span>{aggregate.totalOpenIssues} open issues</span>
+          </div> */}
+</file>
+
+<file path="tailwind.config.ts">
+// tailwind.config.ts
+import typography from "@tailwindcss/typography";
+import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
+</file>
+
 <file path="public/next.svg">
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
 </file>
 
 <file path="src/components/Sidebar/Sidebar.tsx">
@@ -2199,10 +2206,6 @@ setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
 {/* Main content offset */}
 </file>
 
-<file path="public/vercel.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
-</file>
-
 <file path="tsconfig.json">
 {
   "compilerOptions": {
@@ -2233,52 +2236,6 @@ setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
-</file>
-
-<file path="src/components/Home/Home.tsx">
-// src/components/Home/Home.tsx
-⋮----
-import Die from '@/components/Die';
-import { Skill } from '@/components/Die/types';
-import GitHubProfileCard from './GitHubProfileCard';
-⋮----
-import {
-  CloudIcon,
-  CodeBracketIcon,
-  CommandLineIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-⋮----
-const GITHUB_USERNAME = 'josuejero'; // change here if needed
-⋮----
-function scrollToSection(id: string)
-⋮----
-const handleSkillSelect = (skill: Skill) =>
-⋮----
-// Optional: analytics or telemetry hook
-⋮----
-{/* Subtle background glow */}
-⋮----
-{/* Hero Section */}
-⋮----
-{/* GitHub-backed profile card */}
-⋮----
-{/* Main hero content: intro, die, key areas, CTA */}
-⋮----
-{/* Intro copy */}
-⋮----
-{/* Die + focus areas */}
-⋮----
-{/* Call to Action */}
-⋮----
-onClick=
-⋮----
-{/* <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                <ArrowDownIcon className="h-4 w-4 animate-bounce-slow" />
-                <span>Scroll for GitHub activity and projects</span>
-              </div> */}
-⋮----
-{/* Snapshot stats bar */}
 </file>
 
 <file path="README.md">
@@ -2452,6 +2409,52 @@ Contributions are welcome! Please open issues or submit pull requests if you hav
 This project is licensed under the [MIT License](LICENSE).
 </file>
 
+<file path="src/components/Home/Home.tsx">
+// src/components/Home/Home.tsx
+⋮----
+import Die from '@/components/Die';
+import { Skill } from '@/components/Die/types';
+import GitHubProfileCard from './GitHubProfileCard';
+⋮----
+import {
+  CloudIcon,
+  CodeBracketIcon,
+  CommandLineIcon
+} from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+⋮----
+const GITHUB_USERNAME = 'josuejero'; // change here if needed
+⋮----
+function scrollToSection(id: string)
+⋮----
+const handleSkillSelect = (skill: Skill) =>
+⋮----
+// Optional: analytics or telemetry hook
+⋮----
+{/* Subtle background glow */}
+⋮----
+{/* Hero Section */}
+⋮----
+{/* GitHub-backed profile card */}
+⋮----
+{/* Main hero content: intro, die, key areas, CTA */}
+⋮----
+{/* Intro copy */}
+⋮----
+{/* Die + focus areas */}
+⋮----
+{/* Call to Action */}
+⋮----
+onClick=
+⋮----
+{/* <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <ArrowDownIcon className="h-4 w-4 animate-bounce-slow" />
+                <span>Scroll for GitHub activity and projects</span>
+              </div> */}
+⋮----
+{/* Snapshot stats bar */}
+</file>
+
 <file path="src/app/layout.tsx">
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { siteMetadata } from '@/lib/metadata';
@@ -2541,6 +2544,7 @@ body {
     "zod": "4.1.12"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "0.5.19",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",

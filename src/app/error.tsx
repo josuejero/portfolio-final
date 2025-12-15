@@ -1,5 +1,7 @@
 // src/app/error.tsx
-'use client';
+"use client";
+
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -8,22 +10,23 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }, [error]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
-          Something went wrong!
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          {error.message || 'An unexpected error occurred'}
-        </p>
-        <button
-          onClick={reset}
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
-        >
-          Try again
-        </button>
-      </div>
+    <div className="mx-auto max-w-2xl p-6">
+      <h2 className="text-xl font-semibold">Something went wrong</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Try again, or refresh the page.
+      </p>
+      <button
+        className="mt-4 rounded-md border px-4 py-2"
+        onClick={() => reset()}
+      >
+        Try again
+      </button>
     </div>
   );
 }
