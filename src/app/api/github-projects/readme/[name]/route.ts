@@ -1,82 +1,65 @@
-import { NextResponse } from 'next/server';
+// src/app/api/github-projects/readme/[name]/route.ts
+import { getGitHubHeaders } from "@/lib/github-api";
+import { NextResponse } from "next/server";
 
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 86400) {
-  response.headers.set('Cache-Control', `public, max-age=${maxAge}, stale-while-revalidate=300`);
-  return response;
+function decodeBase64ToUtf8(base64: string) {
+  // GitHub may include newlines in base64 content
+  const clean = base64.replace(/\s/g, "");
+
+  // Node runtime
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(clean, "base64").toString("utf8");
+  }
+
+  // Edge runtime
+  const bin = atob(clean);
+  const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
 }
 
 export async function GET(
-  request: Request,
+  _req: Request,
   context: { params: Promise<{ name: string }> }
 ) {
-  const token = process.env.GITHUB_TOKEN;
-  const { name: repoName } = await context.params;
-  
-  if (!token) {
-    return NextResponse.json(
-      { error: 'GitHub token not configured' },
-      { status: 500 }
-    );
+  const { name } = await context.params;
+
+  const owner = "josuejero"; // or resolveGitHubUsername()
+  const token = process.env.GITHUB_TOKEN ?? "";
+  const url = `https://api.github.com/repos/${owner}/${name}/readme`;
+
+  const res = await fetch(url, {
+    headers: getGitHubHeaders(token, { Accept: "application/vnd.github+json" }),
+    // optional: reduce GitHub calls in production
+    // next: { revalidate: 60 * 60 },
+  });
+
+  if (res.status === 404) {
+    return NextResponse.json({ readme: null }, { status: 200 });
+  }
+  if (!res.ok) {
+    return NextResponse.json({ readme: null }, { status: res.status });
   }
 
-  try {
-    // Fetch README from GitHub API
-    const response = await fetch(
-      `https://api.github.com/repos/josuejero/${repoName}/readme`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
-      }
-    );
+  const data = await res.json();
 
-    if (!response.ok) {
-      // If no README exists, return empty
-      const emptyResponse = NextResponse.json({
-        excerpt: '',
-        html: '',
-        path: '',
-        repo: repoName,
-        lastFetched: new Date().toISOString(),
-      });
-      return setCacheHeaders(emptyResponse, 3600); // Cache 404 for 1 hour
-    }
+  const markdown =
+    data?.encoding === "base64" && typeof data?.content === "string"
+      ? decodeBase64ToUtf8(data.content)
+      : "";
 
-    const data = await response.json();
-    
-    // Decode base64 content
-    const content = atob(data.content);
-    
-    // Extract first paragraph (text up to first double newline)
-    const excerpt = content
-      .split('\n\n')[0] // Get first paragraph
-      .replace(/[#*`]/g, '') // Remove markdown formatting
-      .substring(0, 200) // Limit length
-      .trim();
+  const excerpt = markdown
+    .split(/\n\s*\n/)[0]
+    .replace(/[#*`]/g, "")
+    .slice(0, 200);
 
-    const result = {
-      repo: repoName,
-      path: data.path,
+  return NextResponse.json({
+    readme: {
+      repo: name,
+      path: data?.path ?? "README.md",
       excerpt,
-      html: data.html_url,
+      markdown, // <-- render THIS with react-markdown
+      sourceUrl: data?.html_url ?? null,
       lastFetched: new Date().toISOString(),
-    };
-
-    const nextResponse = NextResponse.json(result);
-    return setCacheHeaders(nextResponse, 86400); // 24 hour cache for READMEs
-  } catch (error) {
-    console.error('Error fetching README:', error);
-    
-    // Return empty result on error
-    const errorResponse = NextResponse.json({
-      excerpt: '',
-      html: '',
-      path: '',
-      repo: repoName,
-      lastFetched: new Date().toISOString(),
-    });
-    return setCacheHeaders(errorResponse, 300); // 5 minute cache on error
-  }
+    },
+  });
 }

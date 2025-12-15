@@ -1,16 +1,14 @@
 // FILE: src/components/Projects/ProjectsExplorer.tsx
 'use client';
 
-import type { GitHubReadme, GitHubRepositorySummary } from '@/types/github';
+import type { GitHubRepositorySummary } from '@/types/github';
 import {
-  BookOpenIcon,
   CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-type ReadmeMap = Record<string, GitHubReadme | null>;
 
 // interface AggregateStats {
 //   totalStars: number;
@@ -41,8 +39,6 @@ export default function ProjectsExplorer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [readmes, setReadmes] = useState<ReadmeMap>({});
-  const [activeReadmeRepo, setActiveReadmeRepo] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -95,41 +91,7 @@ export default function ProjectsExplorer() {
   //   [repos],
   // );
 
-  const fetchReadme = useCallback(
-    async (repoName: string) => {
-      // Toggle off if already open
-      if (activeReadmeRepo === repoName) {
-        setActiveReadmeRepo(null);
-        return;
-      }
 
-      // If we've already fetched (including "no readme"), just show cached
-      if (readmes[repoName] !== undefined) {
-        setActiveReadmeRepo(repoName);
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `/api/github-projects/readme/${encodeURIComponent(repoName)}`,
-        );
-
-        if (!response.ok) {
-          setReadmes((prev) => ({ ...prev, [repoName]: null }));
-          setActiveReadmeRepo(repoName);
-          return;
-        }
-
-        const data: GitHubReadme = await response.json();
-        setReadmes((prev) => ({ ...prev, [repoName]: data }));
-        setActiveReadmeRepo(repoName);
-      } catch {
-        setReadmes((prev) => ({ ...prev, [repoName]: null }));
-        setActiveReadmeRepo(repoName);
-      }
-    },
-    [activeReadmeRepo, readmes],
-  );
 
   return (
     <section className="space-y-6">
@@ -172,8 +134,6 @@ export default function ProjectsExplorer() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {repos.map((repo) => {
-              const readme = readmes[repo.name];
-              const isActive = activeReadmeRepo === repo.name;
 
               return (
                 <motion.article
@@ -219,26 +179,7 @@ export default function ProjectsExplorer() {
                     </span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => fetchReadme(repo.name)}
-                    className="flex items-center gap-2 text-xs font-medium text-primary hover:underline"
-                  >
-                    <BookOpenIcon className="h-4 w-4" />
-                    {isActive ? 'Hide README highlight' : 'Show README highlight'}
-                  </button>
 
-                  {isActive && (
-                    <div className="rounded-md border bg-muted/40 p-3 text-xs leading-relaxed text-muted-foreground">
-                      {!readme ? (
-                        <p>No README preview available for this repository.</p>
-                      ) : readme.excerpt ? (
-                        <p>{readme.excerpt}</p>
-                      ) : (
-                        <p>README found, but no preview could be generated.</p>
-                      )}
-                    </div>
-                  )}
 
                   <div className="mt-auto flex items-center justify-between pt-1 text-xs">
                     <Link

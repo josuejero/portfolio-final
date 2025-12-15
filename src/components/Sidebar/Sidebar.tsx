@@ -25,7 +25,6 @@ const Sidebar = () => {
     { href: '/', icon: HomeIcon, label: 'Home' },
     { href: '/about', icon: UserIcon, label: 'About' },
     { href: '/projects', icon: FolderIcon, label: 'Projects' },
-    { href: '/snippets', icon: CodeBracketIcon, label: 'Snippets' },
     { href: '/contact', icon: EnvelopeIcon, label: 'Contact' },
   ];
 
