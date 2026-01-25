@@ -1,5 +1,3 @@
-import proofJson from '../../proof-assets/data.json';
-
 const campaignUtmParams = '?utm_source=flyer&utm_medium=qr&utm_campaign=campus_help';
 
 const calendlyLinks = {
@@ -24,20 +22,6 @@ export type SpecialService = {
   price: string;
   description: string;
 };
-
-export type ProofAsset = {
-  title: string;
-  result: string;
-  link: string;
-  linkLabel: string;
-};
-
-type ProofData = {
-  testimonial: string;
-  items: ProofAsset[];
-};
-
-const proofData = proofJson as ProofData;
 
 export const bookingInfo = {
   calendlyUrl: calendlyLinks.standard,
@@ -81,14 +65,12 @@ export const bookingInfo = {
   cancelPolicy: 'Cancel free until 12 hours before the session.',
   questions: [
     'What are you trying to accomplish? (1–2 sentences)',
-    'Link(s) / file(s) (optional)',
-    'Preferred: on campus or online?',
+    'Link(s) / file(s) + any blockers you already bumped into',
+    'Preferred session focus (debugging, design review, resume prep, etc.)',
   ],
   confirmationMessage:
     'Bring your laptop + any links/files. We’ll start by clarifying the goal and then execute.',
-  meetingMode: 'On campus (public spots) or online.',
+  meetingMode: 'Zoom only—Calendly confirmation includes the call link.',
   boundaries: "I tutor concepts and debugging; I won’t complete graded work.",
-  proofAssets: proofData.items,
-  testimonial: proofData.testimonial,
   sessionLinks: calendlyLinks,
 } as const;

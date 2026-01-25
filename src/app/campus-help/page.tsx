@@ -5,7 +5,7 @@ import StickyBookingBar from '@/components/CampusHelp/StickyBookingBar';
 import CampusHelpHero from '@/components/CampusHelp/CampusHelpHero';
 import CampusHelpServices from '@/components/CampusHelp/CampusHelpServices';
 import CampusHelpPricing from '@/components/CampusHelp/CampusHelpPricing';
-import CampusHelpProof from '@/components/CampusHelp/CampusHelpProof';
+import CampusHelpTracking from '@/components/CampusHelp/CampusHelpTracking';
 import CampusHelpHowItWorks from '@/components/CampusHelp/CampusHelpHowItWorks';
 import CampusHelpFAQ from '@/components/CampusHelp/CampusHelpFAQ';
 import CampusHelpContactSection from '@/components/CampusHelp/CampusHelpContactSection';
@@ -41,10 +41,10 @@ export default function CampusHelpPage() {
         <CampusHelpHero calendlyUrl={calendlyUrl} />
         <CampusHelpServices />
         <CampusHelpPricing specialServices={specialServices} sessionLinks={sessionLinks} />
-        <CampusHelpProof />
         <CampusHelpHowItWorks />
         <CampusHelpFAQ />
         <CampusHelpContactSection calendlyUrl={calendlyUrl} sessionLinks={sessionLinks} />
+        <CampusHelpTracking />
         <section className="space-y-3 rounded-3xl border border-border bg-card px-6 py-6">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Phase 0</p>

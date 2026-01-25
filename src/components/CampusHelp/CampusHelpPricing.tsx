@@ -112,7 +112,7 @@ export default function CampusHelpPricing({ sessionLinks, specialServices }: Cam
       </div>
       <div className="grid gap-3 rounded-3xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground sm:grid-cols-3">
         <p>Extend in 30-minute blocks at $25 each (if schedule allows).</p>
-        <p>Pay at the start via Venmo or Zelle.</p>
+        <p>Payment handles (Venmo, Cash App, or Zelle) land in the confirmation email once the session is locked.</p>
         <p>$5 off Standard Session for club officers.</p>
       </div>
       <p className="text-sm text-muted-foreground">

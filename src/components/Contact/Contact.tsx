@@ -2,7 +2,6 @@
 
 import BookingDetails from './BookingDetails';
 import ContactForm from './ContactForm';
-import ProofAssets from './ProofAssets';
 import type { FieldErrors, FormState } from './types';
 
 import { useState, type ChangeEvent, type FormEvent } from 'react';
@@ -126,7 +125,6 @@ export default function Contact() {
         <BookingDetails />
       </div>
 
-      <ProofAssets />
     </section>
   );
 }

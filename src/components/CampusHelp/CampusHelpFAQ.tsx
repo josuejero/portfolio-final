@@ -9,14 +9,14 @@ type FAQ = {
 
 const faqs: FAQ[] = [
   {
-    question: 'Can you meet on campus?',
+    question: 'Do you meet in person?',
     answer:
-      'Yes, I regularly meet at public campus spots (quads, libraries, or study lounges). Just name the building and I will find a quiet corner or move online if needed.',
+      'Sessions are remote-only on Zoom. The link is in your Calendly confirmation so we can share screens and code together.',
   },
   {
     question: 'Do you do clubs?',
     answer:
-      'Absolutely—clubs get the same prep, notes, and follow-up. Share the goals and headcount in the contact form so we can tailor the agenda.',
+      'Absolutely—clubs get the same prep, notes, and follow-up. Share the goals and headcount in the contact form so we can tailor the agenda for a Zoom meeting.',
   },
   {
     question: 'Do you offer same-day?',
@@ -31,7 +31,7 @@ const faqs: FAQ[] = [
   {
     question: 'What do I need to bring?',
     answer:
-      'Bring your laptop, charger, and repository or design files, plus screenshots of errors or drafts. If you have prompts or size requirements, drop those in the prep note.',
+      'Bring your laptop, charger, and repository or design files. Share screenshots or drafts ahead of time so we can jump right into the Zoom call.',
   },
   {
     question: 'Do you guarantee outcomes?',
@@ -42,11 +42,6 @@ const faqs: FAQ[] = [
     question: 'Do you help with homework?',
     answer:
       'Yes—think of it as guided work. I explain concepts, debug code, and coach your next steps without doing the assignment for you.',
-  },
-  {
-    question: 'What times are you available?',
-    answer:
-      'Late afternoons, evenings, and weekend windows are usually open for campus folks. Head to the contact page to see current slots and share your class/club schedule.',
   },
   {
     question: 'Can I just ask one quick question for free?',

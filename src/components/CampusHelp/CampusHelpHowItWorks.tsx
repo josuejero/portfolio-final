@@ -10,11 +10,12 @@ type Step = {
 const howItWorksSteps: Step[] = [
   {
     title: 'Send your goal + link/file',
-    detail: 'Tell me what you are trying to build or fix and drop the repo, doc, or asset so I can prep.',
+    detail:
+      'Tell me what you are trying to build or fix, drop the repo/doc/asset, and mention any blockers so Zoom can be ready.',
   },
   {
-    title: 'Meet on campus or online',
-    detail: 'We can meet at a public campus spot or hop on a call—whichever keeps you comfortable and focused.',
+    title: 'Meet on Zoom',
+    detail: 'The Calendly confirmation includes the call link; we’ll share screens and code directly during the session.',
   },
   {
     title: 'Leave with notes + next steps',

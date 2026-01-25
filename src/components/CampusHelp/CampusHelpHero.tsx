@@ -36,7 +36,9 @@ export default function CampusHelpHero({ calendlyUrl }: CampusHelpHeroProps) {
       <p className="text-sm font-medium text-foreground">
         Same-day help when available • Clear pricing • Notes + next steps after every session
       </p>
-      <p className="text-xs text-muted-foreground">On campus (public spots) or online.</p>
+      <p className="text-xs text-muted-foreground">
+        Sessions run exclusively on Zoom—details land in the Calendly confirmation.
+      </p>
     </section>
   );
 }
