@@ -1,10 +1,13 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { Banknotes, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
 
 import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
+import PricingViewTracker from '@/components/CampusHelp/PricingViewTracker';
 import StickyBookingBar from '@/components/CampusHelp/StickyBookingBar';
+import TrackedLink from '@/components/common/TrackedLink';
 import Layout from '@/components/common/Layout';
 import { bookingInfo } from '@/lib/booking';
 
@@ -12,6 +15,8 @@ const contactDetails: ContactDetail[] = [
   {
     label: 'Email',
     value: 'hi@wholesway.dev',
+    href: 'mailto:hi@wholesway.dev',
+    trackEvents: [{ name: 'email_click', params: { label: 'Campus email' } }],
     helper: 'Paste into the Calendly message or urgent note.',
   },
   {
@@ -108,6 +113,7 @@ const sessionCards = [
     duration: '30 minutes',
     price: '$25',
     description: 'Tackle a single bug, question, or setup hurdle and be back in motion.',
+    eventValue: 'quick_fix',
   },
   {
     name: 'Standard Session',
@@ -115,12 +121,14 @@ const sessionCards = [
     price: '$45',
     description: 'Pair on a feature, debug an assignment, or advance a launch with a full hour.',
     recommended: true,
+    eventValue: 'standard',
   },
   {
     name: 'Deep Work',
     duration: '2 hours',
     price: '$80',
     description: 'Dedicated block for big builds, architecture reviews, or complex debugging.',
+    eventValue: 'deep_work',
   },
 ];
 
@@ -233,7 +241,10 @@ export const metadata: Metadata = {
 };
 
 export default function CampusHelpPage() {
-  const { calendlyUrl, specialServices } = bookingInfo;
+  const { calendlyUrl, specialServices, domain } = bookingInfo;
+  const sanitizedDomain = domain.replace(/\/$/, '');
+  const qrUrl = `${sanitizedDomain}/go/campus`;
+  const fallbackUrl = `${new URL(sanitizedDomain).host}/go/campus`;
   return (
     <Layout>
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-14 px-4 py-10 sm:py-14 sm:gap-16">
@@ -246,14 +257,15 @@ export default function CampusHelpPage() {
             </p>
           </div>
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-            <a
+            <TrackedLink
               href={calendlyUrl}
               target="_blank"
               rel="noreferrer"
               className="w-full rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:w-auto"
+              events={[{ name: 'book_click', params: { label: 'Hero book button' } }]}
             >
               Book a session
-            </a>
+            </TrackedLink>
             <a
               href="#pricing"
               className="w-full rounded-full border border-border px-6 py-3 text-center text-sm font-semibold transition hover:bg-muted sm:w-auto"
@@ -321,6 +333,7 @@ export default function CampusHelpPage() {
         </section>
 
         <section id="pricing" className="space-y-6">
+          <PricingViewTracker />
           <div className="space-y-2">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Pricing</p>
             <h2 className="text-2xl font-semibold">Clear rates, no surprises</h2>
@@ -329,31 +342,39 @@ export default function CampusHelpPage() {
             </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {sessionCards.map((session) => (
-              <article
-                key={session.name}
-                className={`flex h-full flex-col gap-4 rounded-3xl border p-6 transition ${session.recommended ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
-              >
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{session.duration}</p>
-                  <p className="mt-2 text-3xl font-semibold text-foreground">{session.price}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{session.description}</p>
-                </div>
-                {session.recommended && (
-                  <span className="inline-flex w-fit items-center justify-center rounded-full border border-primary/60 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                    Standard pick
-                  </span>
-                )}
-                <a
-                  href={calendlyUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-auto inline-flex w-full items-center justify-center rounded-full border border-primary px-4 py-3 text-center text-sm font-semibold text-primary transition hover:bg-primary/10"
+            {sessionCards.map((session) => {
+              const sessionEvents = [
+                { name: 'book_click', params: { label: `${session.name} card` } },
+                ...(session.eventValue ? [{ name: 'pricing_select', params: { value: session.eventValue } }] : []),
+              ];
+
+              return (
+                <article
+                  key={session.name}
+                  className={`flex h-full flex-col gap-4 rounded-3xl border p-6 transition ${session.recommended ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
                 >
-                  Book this session
-                </a>
-              </article>
-            ))}
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{session.duration}</p>
+                    <p className="mt-2 text-3xl font-semibold text-foreground">{session.price}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{session.description}</p>
+                  </div>
+                  {session.recommended && (
+                    <span className="inline-flex w-fit items-center justify-center rounded-full border border-primary/60 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      Standard pick
+                    </span>
+                  )}
+                  <TrackedLink
+                    href={calendlyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-auto inline-flex w-full items-center justify-center rounded-full border border-primary px-4 py-3 text-center text-sm font-semibold text-primary transition hover:bg-primary/10"
+                    events={sessionEvents}
+                  >
+                    Book this session
+                  </TrackedLink>
+                </article>
+              );
+            })}
           </div>
           <div className="space-y-3">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Packages</p>
@@ -497,15 +518,44 @@ export default function CampusHelpPage() {
               <p className="font-semibold">Need to lock a session?</p>
               <p className="text-xs text-muted-foreground">Book once and the follow-up notes + payment info land in your inbox.</p>
             </div>
-            <a
+            <TrackedLink
               href={calendlyUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-3 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:mt-0"
+              events={[{ name: 'book_click', params: { label: 'Footer book button' } }]}
             >
               Book a session
-            </a>
+            </TrackedLink>
           </article>
+        </section>
+        <section className="space-y-4 rounded-3xl border border-border bg-card p-6">
+          <div className="space-y-1">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Flyer QR</p>
+            <h2 className="text-2xl font-semibold">Scan, track, and find campus help</h2>
+            <p className="text-sm text-muted-foreground">
+              Drop this QR on posters, slides, or signs. Every scan hits <span className="font-semibold text-foreground">/go/campus</span> and redirects with the campaign UTMs so we can see what works.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+            <div className="rounded-3xl border border-border bg-background/90 p-4 shadow-sm">
+              <Image
+                src="/qr-campus.png"
+                alt="QR code linking to campus help with tracking-ready UTMs"
+                width={240}
+                height={240}
+                className="h-56 w-56 sm:h-60 sm:w-60 object-contain"
+              />
+              <p className="mt-3 text-xs font-semibold text-foreground">{fallbackUrl}</p>
+              <p className="text-xs text-muted-foreground">Error correction H keeps the code scan-friendly with a clean quiet zone.</p>
+            </div>
+            <div className="flex-1 space-y-2 text-sm text-muted-foreground">
+              <p>
+                The QR encodes <span className="font-semibold text-foreground">{qrUrl}</span>, which will sit behind the /go/campus vanity URL and carry the utm_source=flyer + utm_medium=qr + utm_campaign=campus_help params.
+              </p>
+              <p className="text-xs">Print it in high contrast against a wide quiet zone so campus scanners land where the tracking can register.</p>
+            </div>
+          </div>
         </section>
       </div>
       <StickyBookingBar href={calendlyUrl} />

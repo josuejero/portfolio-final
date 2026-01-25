@@ -2,11 +2,15 @@
 
 import { ClipboardDocumentIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import TrackedLink from '@/components/common/TrackedLink';
+import type { TrackEventSpec } from '@/lib/gtag';
 
 export type ContactDetail = {
   label: string;
   value: string;
   helper?: string;
+  href?: string;
+  trackEvents?: TrackEventSpec[];
 };
 
 interface ContactStripProps {
@@ -41,7 +45,17 @@ export default function ContactStrip({ details }: ContactStripProps) {
         >
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{detail.label}</p>
           <div className="flex items-center justify-between gap-3">
-            <p className="flex-1 truncate font-semibold text-foreground">{detail.value}</p>
+            {detail.href ? (
+              <TrackedLink
+                href={detail.href}
+                events={detail.trackEvents}
+                className="flex-1 truncate font-semibold text-foreground transition hover:underline"
+              >
+                {detail.value}
+              </TrackedLink>
+            ) : (
+              <p className="flex-1 truncate font-semibold text-foreground">{detail.value}</p>
+            )}
             <button
               type="button"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:border-primary hover:text-primary"

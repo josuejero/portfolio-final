@@ -70,6 +70,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/go/campus',
+        destination: '/campus-help?utm_source=flyer&utm_medium=qr&utm_campaign=campus_help',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
