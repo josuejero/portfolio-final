@@ -2,57 +2,96 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import Layout from '@/components/common/Layout';
-
-const heroHighlights = [
-  'Tailored tech tutoring, debugging, and code walkthroughs for campus projects.',
-  'Resume, portfolio, and creative direction that helps you stand out in applications.',
-  'Fast websites, mockups, and design polish ready for student orgs, labs, and clubs.',
-];
+import { bookingInfo } from '@/lib/booking';
 
 const services = [
   {
-    title: 'Tutoring & debugging',
-    summary: 'One-on-one coaching for assignments, labs, and capstone work.',
-    detail: 'Pair-programming, architecture reviews, and exam prep with clear explanations.',
+    title: 'Portfolio + Resume (ATS-friendly)',
+    summary: 'Tight bullet points and targeted keywords for brighter applications.',
+    commonRequests: [
+      'Tighten bullet points for impact',
+      'ATS formatting + keyword alignment',
+      'Choose 2–3 best projects',
+    ],
+    whatToBring: 'Latest resume draft, job/club postings, and project notes.',
+    typicalTime: '60 minutes',
   },
   {
-    title: 'Resume & portfolio help',
-    summary: 'Feedback on real experiences so your story lands with recruiters.',
-    detail: 'Resume edits, portfolio polish, and interview-ready talking points.',
+    title: 'Personal Sites + Club Pages (Fast launch)',
+    summary: 'One-page builds, refreshes, and domains ready for the next event.',
+    commonRequests: [
+      'One-page site structure + copy',
+      'Deploy + custom domain',
+      'Update/refresh an existing page',
+    ],
+    whatToBring: 'Existing links, copy ideas, and brand colors or assets.',
+    typicalTime: '120 minutes',
   },
   {
-    title: 'Fast websites & labs',
-    summary: 'Landing pages, demos, and experimentation-ready builds.',
-    detail: 'React/Next.js sites, copies, and hosting guidance tailored to campus apps.',
+    title: 'Coding Tutoring',
+    summary: 'Pair programming, concept explanations, and code style coaching.',
+    commonRequests: [
+      'Explain a concept with examples',
+      'Pair-program a solution',
+      'Debug errors + improve code style',
+    ],
+    whatToBring: 'Repo links, assignment prompts, and error output.',
+    typicalTime: '60 minutes',
   },
   {
-    title: 'Creative support',
-    summary: 'Design direction that balances clarity and personality.',
-    detail: 'Figma mockups, motion polish, pitch decks, and documentation audits.',
+    title: 'App/DB Help',
+    summary: 'Postgres setups, migrations, and deployment troubleshooting.',
+    commonRequests: [
+      'Set up PostgreSQL locally',
+      'Fix migrations / schema issues',
+      'Deploy + env var troubleshooting',
+    ],
+    whatToBring: 'Schema snapshots, migration errors, and hosting details.',
+    typicalTime: '120 minutes',
+  },
+  {
+    title: 'Design Help',
+    summary: 'Flyers, IG posts, and tidy templates for campus teams.',
+    commonRequests: [
+      'Flyers, IG posts, simple branding',
+      'Clean up graphics / export correctly',
+      'Template creation',
+    ],
+    whatToBring: 'Brand assets, copy, and platform size requirements.',
+    typicalTime: '60 minutes',
+  },
+  {
+    title: 'Debug + Setup',
+    summary: 'Git fixes, IDE tweaks, and "it works on my machine" troubleshooting.',
+    commonRequests: [
+      'Git setup, SSH keys, repo issues',
+      'IDE configuration',
+      '"it works on my machine" fixes',
+    ],
+    whatToBring: 'Repo access, commands you tried, and terminal logs.',
+    typicalTime: '30 minutes',
   },
 ];
 
-const pricingTiers = [
+const sessionCards = [
   {
-    name: 'Drop-in support',
-    price: '$85 / hour',
-    description: 'Best for last-minute debugging or targeted questions.',
-    features: ['Live screen share + pairing', 'Quick notes + follow-up checklist', 'Flexible scheduling'],
-    cta: 'Book drop-in',
+    name: 'Quick Fix',
+    duration: '30 minutes',
+    price: '$25',
+    description: 'Tackle a single bug, question, or setup hurdle and be back in motion.',
   },
   {
-    name: 'Weekly office hours',
-    price: '$280 / week',
-    description: 'Recurring slots for steady progress on a course or project.',
-    features: ['Up to 3 hours total time', 'Priority scheduling', 'Progress summaries & action items'],
-    cta: 'Reserve office hours',
+    name: 'Standard Session',
+    duration: '60 minutes',
+    price: '$45',
+    description: 'Pair on a feature, debug an assignment, or advance a launch with a full hour.',
+    recommended: true,
   },
   {
-    name: 'Project sprint',
-    price: '$520 flat',
-    description: 'Deep-dive on a key deliverable with prep and wrap-up.',
-    features: ['2-hour focused session', 'Wireframes or prototype review', 'Follow-up draft & resources'],
-    cta: 'Start a sprint',
+    name: 'Deep Work',
+    duration: '2 hours',
+    price: '$80',
+    description: 'Dedicated block for big builds, architecture reviews, or complex debugging.',
   },
 ];
 
@@ -121,41 +160,38 @@ export const metadata: Metadata = {
 };
 
 export default function CampusHelpPage() {
+  const { calendlyUrl, specialServices } = bookingInfo;
   return (
     <Layout>
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-14 px-4 py-10 sm:py-14 sm:gap-16">
         <section className="space-y-6">
           <div className="space-y-3">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Campus help</p>
-            <h1 className="text-3xl font-semibold text-foreground sm:text-4xl">
-              Campus Tech & Creative Help that keeps your timelines sane.
-            </h1>
+            <h1 className="text-3xl font-semibold text-foreground sm:text-4xl">Tech & Creative Help on Campus</h1>
             <p className="text-base leading-relaxed text-muted-foreground">
-              Tutoring, debugging, resume help, fast websites, design help. Clear prices and quick booking so
-              you spend less time waiting and more time shipping.
+              Friendly, affordable help for students & clubs — on-call or scheduled.
             </p>
           </div>
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <a
-              href="#pricing"
+              href={calendlyUrl}
+              target="_blank"
+              rel="noreferrer"
               className="w-full rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:w-auto"
+            >
+              Book a session
+            </a>
+            <a
+              href="#pricing"
+              className="w-full rounded-full border border-border px-6 py-3 text-center text-sm font-semibold transition hover:bg-muted sm:w-auto"
             >
               See prices
             </a>
-            <Link
-              href="/contact"
-              className="w-full rounded-full border border-border px-6 py-3 text-center text-sm font-semibold transition hover:bg-muted sm:w-auto"
-            >
-              Book a session
-            </Link>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {heroHighlights.map((highlight) => (
-              <p key={highlight} className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
-                {highlight}
-              </p>
-            ))}
-          </div>
+          <p className="text-sm font-medium text-foreground">
+            Same-day help when available • Clear pricing • Notes + next steps after every session
+          </p>
+          <p className="text-xs text-muted-foreground">On campus (public spots) or online.</p>
         </section>
 
         <section className="space-y-6">
@@ -172,17 +208,43 @@ export default function CampusHelpPage() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-card px-5 py-5 shadow-sm transition hover:border-primary"
+                className="flex h-full flex-col gap-2 rounded-2xl border border-border bg-card px-5 py-5 shadow-sm transition hover:border-primary"
               >
                 <h3 className="text-lg font-semibold">{service.title}</h3>
-                <p className="text-sm font-semibold text-muted-foreground">{service.summary}</p>
-                <p className="text-sm text-foreground">{service.detail}</p>
+                <p className="text-sm text-muted-foreground">{service.summary}</p>
               </article>
             ))}
           </div>
           <p className="text-sm text-muted-foreground">
-            Need a different combo? <Link href="/contact" className="text-primary underline">Tell me what you are working on.</Link>
+            Not sure which one fits? Book a Standard Session and we will decide in the first 5 minutes.
           </p>
+          <div className="space-y-6">
+            {services.map((service) => (
+              <article
+                key={`${service.title}-details`}
+                className="space-y-3 rounded-2xl border border-border bg-card px-5 py-5"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <h3 className="text-lg font-semibold">{service.title}</h3>
+                  <span className="text-sm font-semibold text-muted-foreground">Typical time: {service.typicalTime}</span>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Common requests</p>
+                  <ul className="space-y-2 text-sm text-foreground">
+                    {service.commonRequests.map((request) => (
+                      <li key={request} className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-foreground" aria-hidden="true" />
+                        <span>{request}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground">What to bring:</span> {service.whatToBring}
+                </p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section id="pricing" className="space-y-6">
@@ -194,33 +256,54 @@ export default function CampusHelpPage() {
             </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {pricingTiers.map((tier) => (
+            {sessionCards.map((session) => (
               <article
-                key={tier.name}
-                className="flex h-full flex-col gap-4 rounded-3xl border border-border bg-gradient-to-b from-card to-background p-6"
+                key={session.name}
+                className={`flex h-full flex-col gap-4 rounded-3xl border p-6 transition ${session.recommended ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
               >
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">{tier.name}</p>
-                  <p className="mt-1 text-3xl font-semibold">{tier.price}</p>
-                  <p className="text-sm text-muted-foreground">{tier.description}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{session.duration}</p>
+                  <p className="mt-2 text-3xl font-semibold text-foreground">{session.price}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{session.description}</p>
                 </div>
-                <ul className="flex-1 space-y-2 text-sm text-foreground">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-muted-foreground">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-foreground" aria-hidden="true" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/contact"
-                  className="w-full rounded-full border border-primary px-4 py-3 text-center text-sm font-semibold text-primary transition hover:bg-primary/10"
+                {session.recommended && (
+                  <span className="inline-flex w-fit items-center justify-center rounded-full border border-primary/60 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                    Standard pick
+                  </span>
+                )}
+                <a
+                  href={calendlyUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-auto inline-flex w-full items-center justify-center rounded-full border border-primary px-4 py-3 text-center text-sm font-semibold text-primary transition hover:bg-primary/10"
                 >
-                  {tier.cta}
-                </Link>
+                  Book this session
+                </a>
               </article>
             ))}
           </div>
+          <div className="space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Packages</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              {specialServices.map((packageItem) => (
+                <article key={packageItem.name} className="rounded-2xl border border-border bg-card px-5 py-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-lg font-semibold">{packageItem.name}</h3>
+                    <span className="text-sm font-semibold text-muted-foreground">{packageItem.price}</span>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground">{packageItem.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-3 rounded-3xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground sm:grid-cols-3">
+            <p>Extend in 30-minute blocks at $25 each (if schedule allows).</p>
+            <p>Pay at the start via Venmo or Zelle.</p>
+            <p>$5 off Standard Session for club officers.</p>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            If you are unsure: choose Standard Session. It is the best fit for most people.
+          </p>
         </section>
 
         <section className="space-y-6">
