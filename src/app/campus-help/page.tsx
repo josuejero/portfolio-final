@@ -1,8 +1,37 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+import { Banknotes, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
+
+import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
+import StickyBookingBar from '@/components/CampusHelp/StickyBookingBar';
 import Layout from '@/components/common/Layout';
 import { bookingInfo } from '@/lib/booking';
+
+const contactDetails: ContactDetail[] = [
+  {
+    label: 'Email',
+    value: 'hi@wholesway.dev',
+    helper: 'Paste into the Calendly message or urgent note.',
+  },
+  {
+    label: 'Handle',
+    value: '@wholesway',
+    helper: 'Copy this for Venmo/Zelle memos.',
+  },
+];
+
+type PaymentMethod = {
+  name: string;
+  detail: string;
+  Icon: LucideIcon;
+};
+
+const paymentMethods: PaymentMethod[] = [
+  { name: 'Venmo', detail: '@wholesway', Icon: CreditCard },
+  { name: 'Zelle', detail: 'Handle shared right after you book', Icon: Banknotes },
+  { name: 'Cash', detail: 'Bring cash so we can settle when we meet', Icon: Wallet },
+];
 
 const services = [
   {
@@ -430,20 +459,56 @@ export default function CampusHelpPage() {
           </p>
         </section>
 
-        <section className="rounded-3xl border border-border bg-gradient-to-b from-card via-card to-background px-6 py-8 text-center shadow-lg">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Book / Contact</p>
-          <h2 className="mt-4 text-3xl font-semibold">Ready to build, ship, or rehearse?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Swing by the <Link href="/contact" className="text-primary underline">contact page</Link>, drop your materials, and I will book a time that fits your campus schedule.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:w-auto"
-          >
-            Schedule now
-          </Link>
+        <section className="space-y-6 border-t border-border pt-10">
+          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <article className="space-y-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Contact</p>
+              <h2 className="text-2xl font-semibold text-foreground">Book & message in one tap</h2>
+              <ContactStrip details={contactDetails} />
+              <p className="text-xs text-muted-foreground">
+                If your issue is urgent, email me with “URGENT” plus a 1-sentence goal so I can bump you up.
+              </p>
+            </article>
+            <article className="space-y-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Payments</p>
+              <div className="space-y-3">
+                {paymentMethods.map((method) => {
+                  const Icon = method.Icon;
+                  return (
+                    <div key={method.name} className="flex items-center gap-3 rounded-2xl border border-border/50 bg-background/80 px-3 py-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                        <Icon className="h-5 w-5" aria-hidden />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{method.name}</p>
+                        <p className="text-xs text-muted-foreground">{method.detail}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Venmo, Zelle, or cash—confirmation includes the current handle so paying stays seamless.
+              </p>
+            </article>
+          </div>
+          <article className="rounded-3xl border border-primary bg-gradient-to-br from-primary/10 via-card to-white px-6 py-6 shadow-sm sm:flex sm:items-center sm:justify-between">
+            <div className="space-y-1 text-sm text-foreground">
+              <p className="font-semibold">Need to lock a session?</p>
+              <p className="text-xs text-muted-foreground">Book once and the follow-up notes + payment info land in your inbox.</p>
+            </div>
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:mt-0"
+            >
+              Book a session
+            </a>
+          </article>
         </section>
       </div>
+      <StickyBookingBar href={calendlyUrl} />
     </Layout>
   );
 }
