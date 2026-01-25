@@ -8,6 +8,7 @@ import {
   EnvelopeIcon,
   FolderIcon,
   HomeIcon,
+  SparklesIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -25,6 +26,7 @@ const Sidebar = () => {
     { href: '/', icon: HomeIcon, label: 'Home' },
     { href: '/about', icon: UserIcon, label: 'About' },
     { href: '/projects', icon: FolderIcon, label: 'Projects' },
+    { href: '/campus-help', icon: SparklesIcon, label: 'Campus Help' },
     { href: '/contact', icon: EnvelopeIcon, label: 'Contact' },
   ];
 
