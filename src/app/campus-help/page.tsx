@@ -97,49 +97,93 @@ const sessionCards = [
 
 const proofItems = [
   {
-    title: '4.9 / 5 average rating',
-    detail: 'Campus volunteers, student founders, and club leaders praise the clarity of each session.',
+    title: 'Portfolio site refresh',
+    detail:
+      'Relaunched the living Next.js 15 portfolio on Vercel with refreshed copy, performance tuning, and mobile polish for the confirmed primary domain.',
+    link: 'https://portfolio-josuejero.vercel.app',
+    linkLabel: 'Live site (primary domain)',
   },
   {
-    title: '30+ campus projects launched',
-    detail: 'From mobile apps to pitching decks, I help students ship something tangible each week.',
+    title: 'Deploy + debug win',
+    detail:
+      'Stabilized the GitHub Actions/CD pipeline by tuning caching and logging so every push auto-deploys without manual intervention.',
+    link: 'https://github.com/josuejero/portfolio-final/actions',
+    linkLabel: 'CI runs',
   },
   {
-    title: 'Same-day replies',
-    detail: 'I respond to booking or rescheduling questions within one business day so you can keep momentum.',
+    title: 'Resume tune-up before/after',
+    detail:
+      'Reworked the resume layout and impact bullets, then exported a clean Word doc ready for sharing so the before/after story is obvious.',
+    link: 'https://portfolio-josuejero.vercel.app/RESUME_word.docx',
+    linkLabel: 'Download resume',
   },
 ];
 
+const microTestimonial =
+  '“Josue transformed a vague task into focused debugging and explained every step so I could keep learning.” – Product partner (anonymous)';
+
+const toolboxLine =
+  'I work in: React/Next.js, Python/Django, PostgreSQL, Git, Docker, cloud deploys, Photoshop/Illustrator.';
+
 const howItWorksSteps = [
   {
-    title: 'Book the vibe',
-    detail: 'Pick a time slot or send a quick note on the contact page—tell me what you are working on.',
+    title: 'Send your goal + link/file',
+    detail: 'Tell me what you are trying to build or fix and drop the repo, doc, or asset so I can prep.',
   },
   {
-    title: 'Prep + agenda',
-    detail: 'Share repos, docs, or slides. I review everything in advance, so sessions start with clarity.',
+    title: 'Meet on campus or online',
+    detail: 'We can meet at a public campus spot or hop on a call—whichever keeps you comfortable and focused.',
   },
   {
-    title: 'Session + follow-up',
-    detail: 'We work live, then I send a short recap with next steps, fixes, or design ideas.',
+    title: 'Leave with notes + next steps',
+    detail: 'Every session ends with a recap, prioritized action items, and follow-up so the work keeps moving.',
   },
 ];
 
 const faqs = [
   {
-    question: 'Can I book for a club or team, too?',
+    question: 'Can you meet on campus?',
     answer:
-      'Absolutely—just share the team size and goals on the contact form. We can then agree on prep work and notes for every member.',
+      'Yes, I regularly meet at public campus spots (quads, libraries, or study lounges). Just name the building and I will find a quiet corner or move online if needed.',
   },
   {
-    question: 'Do you offer evening or weekend sessions?',
+    question: 'Do you do clubs?',
     answer:
-      'Yes. I keep slots later in the day for campus schedules and do my best to stay flexible around deadlines.',
+      'Absolutely—clubs get the same prep, notes, and follow-up. Share the goals and headcount in the contact form so we can tailor the agenda.',
   },
   {
-    question: 'What is included with every session?',
+    question: 'Do you offer same-day?',
     answer:
-      'Every booking includes prep time, the live session, and concise follow-up notes so the work keeps moving forward.',
+      'Often yes when the schedule allows—shoot me a note and I will confirm within a business day. Same-day slots are limited, so it helps to follow up quickly.',
+  },
+  {
+    question: 'What if we don’t finish?',
+    answer:
+      'We end with a clear status update, action items, and any blockers I spotted. You are always welcome to book a follow-up or message for quick clarifications.',
+  },
+  {
+    question: 'What do I need to bring?',
+    answer:
+      'Bring your laptop, charger, and repository or design files, plus screenshots of errors or drafts. If you have prompts or size requirements, drop those in the prep note.',
+  },
+  {
+    question: 'Do you guarantee outcomes?',
+    answer:
+      'I don’t promise specific offers, but I guarantee honest feedback, clarity on the next moves, and follow-up notes that recap what we covered.',
+  },
+  {
+    question: 'Do you help with homework?',
+    answer:
+      'Yes—think of it as guided work. I explain concepts, debug code, and coach your next steps without doing the assignment for you.',
+  },
+  {
+    question: 'What times are you available?',
+    answer:
+      'Late afternoons, evenings, and weekend windows are usually open for campus folks. Head to the contact page to see current slots and share your class/club schedule.',
+  },
+  {
+    question: 'Can I just ask one quick question for free?',
+    answer: 'Quick Fix is built for that. If it’s truly tiny, I’ll tell you in 1 minute.',
   },
 ];
 
@@ -321,9 +365,19 @@ export default function CampusHelpPage() {
               <article key={item.title} className="rounded-2xl border border-border bg-card px-5 py-5">
                 <h3 className="text-lg font-semibold">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.detail}</p>
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-semibold text-primary underline"
+                >
+                  {item.linkLabel}
+                </a>
               </article>
             ))}
           </div>
+          <p className="text-sm text-muted-foreground">{toolboxLine}</p>
+          <p className="text-sm italic text-muted-foreground">{microTestimonial}</p>
           <p className="text-sm text-muted-foreground">
             Ready for similar proof? <Link href="/contact" className="text-primary underline">Share your deadline.</Link>
           </p>
@@ -348,6 +402,10 @@ export default function CampusHelpPage() {
                 <div className="text-sm text-primary">→</div>
               </article>
             ))}
+          </div>
+          <div className="space-y-1 text-xs text-muted-foreground">
+            <p>For code: bring the repo link or have it open locally.</p>
+            <p>For design: bring assets + required size (IG post/story, flyer size).</p>
           </div>
           <p className="text-sm text-muted-foreground">
             Questions about the flow? <Link href="/contact" className="text-primary underline">Send a note</Link> before you book.
