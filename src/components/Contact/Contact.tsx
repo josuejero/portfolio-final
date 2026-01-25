@@ -1,9 +1,12 @@
 'use client';
 
+import BookingDetails from './BookingDetails';
+import ContactForm from './ContactForm';
+import ProofAssets from './ProofAssets';
+import type { FieldErrors, FormState } from './types';
+
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { z } from 'zod';
-import ContactForm from './ContactForm';
-import type { FieldErrors, FormState } from './types';
 
 const ContactSchema = z.object({
   name: z.string().min(2, 'Please enter your full name.').max(100, 'Name is too long.'),
@@ -89,34 +92,41 @@ export default function Contact() {
   };
 
   return (
-    <section className="mx-auto max-w-2xl p-4">
-      <h1 className="text-2xl font-semibold mb-4">Contact</h1>
+    <section className="mx-auto max-w-6xl space-y-10 px-4 py-2">
+      <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+        <div className="space-y-6">
+          <h1 className="text-2xl font-semibold">Contact</h1>
 
-      {sent && (
-        <div
-          role="status"
-          className="mb-4 rounded-md border border-green-300 bg-green-50 p-3 text-green-800"
-        >
-          Thanks! Your message has been sent.
+          {sent && (
+            <div
+              role="status"
+              className="rounded-md border border-green-300 bg-green-50 p-3 text-green-800"
+            >
+              Thanks! Your message has been sent.
+            </div>
+          )}
+
+          {errors.general && (
+            <div
+              role="alert"
+              className="rounded-md border border-red-300 bg-red-50 p-3 text-red-800"
+            >
+              {errors.general}
+            </div>
+          )}
+
+          <ContactForm
+            form={form}
+            errors={errors}
+            submitting={submitting}
+            onChange={onChange}
+            onSubmit={handleSubmit}
+          />
         </div>
-      )}
+        <BookingDetails />
+      </div>
 
-      {errors.general && (
-        <div
-          role="alert"
-          className="mb-4 rounded-md border border-red-300 bg-red-50 p-3 text-red-800"
-        >
-          {errors.general}
-        </div>
-      )}
-
-      <ContactForm
-        form={form}
-        errors={errors}
-        submitting={submitting}
-        onChange={onChange}
-        onSubmit={handleSubmit}
-      />
+      <ProofAssets />
     </section>
   );
 }
