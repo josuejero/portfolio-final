@@ -1,6 +1,6 @@
 'use client';
 
-import { Banknotes, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
+import { Banknote, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
 import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
 import TrackedLink from '@/components/common/TrackedLink';
 
@@ -27,7 +27,7 @@ const contactDetails: ContactDetail[] = [
 
 const paymentMethods: PaymentMethod[] = [
   { name: 'Venmo', detail: '@wholesway', Icon: CreditCard },
-  { name: 'Zelle', detail: 'Handle shared right after you book', Icon: Banknotes },
+  { name: 'Zelle', detail: 'Handle shared right after you book', Icon: Banknote },
   { name: 'Cash', detail: 'Bring cash so we can settle when we meet', Icon: Wallet },
 ];
 
