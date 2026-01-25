@@ -1,6 +1,6 @@
 'use client';
 
-import { type SpecialService } from '@/lib/booking';
+import { type SessionLinks, type SpecialService } from '@/lib/booking';
 import PricingViewTracker from '@/components/CampusHelp/PricingViewTracker';
 import TrackedLink from '@/components/common/TrackedLink';
 
@@ -10,6 +10,7 @@ type SessionCard = {
   price: string;
   description: string;
   recommended?: boolean;
+  urlKey: keyof SessionLinks;
   eventValue?: string;
 };
 
@@ -19,6 +20,7 @@ const sessionCards: SessionCard[] = [
     duration: '30 minutes',
     price: '$25',
     description: 'Tackle a single bug, question, or setup hurdle and be back in motion.',
+    urlKey: 'quickFix',
     eventValue: 'quick_fix',
   },
   {
@@ -27,6 +29,7 @@ const sessionCards: SessionCard[] = [
     price: '$45',
     description: 'Pair on a feature, debug an assignment, or advance a launch with a full hour.',
     recommended: true,
+    urlKey: 'standard',
     eventValue: 'standard',
   },
   {
@@ -34,16 +37,17 @@ const sessionCards: SessionCard[] = [
     duration: '2 hours',
     price: '$80',
     description: 'Dedicated block for big builds, architecture reviews, or complex debugging.',
+    urlKey: 'deepWork',
     eventValue: 'deep_work',
   },
 ];
 
 type CampusHelpPricingProps = {
-  calendlyUrl: string;
+  sessionLinks: SessionLinks;
   specialServices: SpecialService[];
 };
 
-export default function CampusHelpPricing({ calendlyUrl, specialServices }: CampusHelpPricingProps) {
+export default function CampusHelpPricing({ sessionLinks, specialServices }: CampusHelpPricingProps) {
   return (
     <section id="pricing" className="space-y-6">
       <PricingViewTracker />
@@ -57,9 +61,10 @@ export default function CampusHelpPricing({ calendlyUrl, specialServices }: Camp
       <div className="grid gap-4 lg:grid-cols-3">
         {sessionCards.map((session) => {
           const sessionEvents = [
-            { name: 'book_click', params: { label: `${session.name} card` } },
+            { name: 'book_click', params: { label: session.eventValue ?? 'standard' } },
             ...(session.eventValue ? [{ name: 'pricing_select', params: { value: session.eventValue } }] : []),
           ];
+          const href = sessionLinks[session.urlKey];
 
           return (
             <article
@@ -79,13 +84,13 @@ export default function CampusHelpPricing({ calendlyUrl, specialServices }: Camp
                 </span>
               )}
               <TrackedLink
-                href={calendlyUrl}
+                href={href}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-auto inline-flex w-full items-center justify-center rounded-full border border-primary px-4 py-3 text-center text-sm font-semibold text-primary transition hover:bg-primary/10"
                 events={sessionEvents}
               >
-                Book this session
+                Book
               </TrackedLink>
             </article>
           );

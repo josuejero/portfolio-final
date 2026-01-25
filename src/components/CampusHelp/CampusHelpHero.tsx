@@ -22,7 +22,7 @@ export default function CampusHelpHero({ calendlyUrl }: CampusHelpHeroProps) {
           target="_blank"
           rel="noreferrer"
           className="w-full rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:w-auto"
-          events={[{ name: 'book_click', params: { label: 'Hero book button' } }]}
+          events={[{ name: 'book_click', params: { label: 'standard' } }]}
         >
           Book a session
         </TrackedLink>

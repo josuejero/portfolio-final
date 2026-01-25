@@ -3,6 +3,7 @@
 import { Banknote, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
 import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
 import TrackedLink from '@/components/common/TrackedLink';
+import { type SessionLinks } from '@/lib/booking';
 
 type PaymentMethod = {
   name: string;
@@ -33,9 +34,10 @@ const paymentMethods: PaymentMethod[] = [
 
 type CampusHelpContactSectionProps = {
   calendlyUrl: string;
+  sessionLinks: SessionLinks;
 };
 
-export default function CampusHelpContactSection({ calendlyUrl }: CampusHelpContactSectionProps) {
+export default function CampusHelpContactSection({ calendlyUrl, sessionLinks }: CampusHelpContactSectionProps) {
   return (
     <section className="space-y-6 border-t border-border pt-10">
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
@@ -78,15 +80,37 @@ export default function CampusHelpContactSection({ calendlyUrl }: CampusHelpCont
           <p className="font-semibold">Need to lock a session?</p>
           <p className="text-xs text-muted-foreground">Book once and the follow-up notes + payment info land in your inbox.</p>
         </div>
-        <TrackedLink
-          href={calendlyUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-3 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:mt-0"
-          events={[{ name: 'book_click', params: { label: 'Footer book button' } }]}
-        >
-          Book a session
-        </TrackedLink>
+        <div className="space-y-3">
+          <TrackedLink
+            href={calendlyUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 sm:w-auto"
+            events={[{ name: 'book_click', params: { label: 'standard' } }]}
+          >
+            Book a session
+          </TrackedLink>
+          <div className="flex flex-wrap gap-4 text-sm font-semibold text-primary">
+            <TrackedLink
+              href={sessionLinks.quickFix}
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+              events={[{ name: 'book_click', params: { label: 'quick_fix' } }]}
+            >
+              Need 30 min?
+            </TrackedLink>
+            <TrackedLink
+              href={sessionLinks.deepWork}
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+              events={[{ name: 'book_click', params: { label: 'deep_work' } }]}
+            >
+              Need 2 hours?
+            </TrackedLink>
+          </div>
+        </div>
       </article>
     </section>
   );

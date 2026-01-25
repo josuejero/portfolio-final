@@ -1,5 +1,15 @@
 import proofJson from '../../proof-assets/data.json';
 
+const campaignUtmParams = '?utm_source=flyer&utm_medium=qr&utm_campaign=campus_help';
+
+const calendlyLinks = {
+  quickFix: `https://calendly.com/josuejero/30min${campaignUtmParams}`,
+  standard: `https://calendly.com/josuejero/60-min-standard${campaignUtmParams}`,
+  deepWork: `https://calendly.com/josuejero/120-min-deep-work${campaignUtmParams}`,
+} as const;
+
+export type SessionLinks = typeof calendlyLinks;
+
 export type BookingEventType = {
   name: string;
   duration: string;
@@ -30,7 +40,7 @@ type ProofData = {
 const proofData = proofJson as ProofData;
 
 export const bookingInfo = {
-  calendlyUrl: 'https://calendly.com/wholesway/campus-help',
+  calendlyUrl: calendlyLinks.standard,
   domain: 'https://portfolio-josuejero.vercel.app',
   pricingLockedNote: 'Pricing is final for v1. No changes during this phase.',
   eventTypes: [
@@ -80,4 +90,5 @@ export const bookingInfo = {
   boundaries: "I tutor concepts and debugging; I won’t complete graded work.",
   proofAssets: proofData.items,
   testimonial: proofData.testimonial,
+  sessionLinks: calendlyLinks,
 } as const;

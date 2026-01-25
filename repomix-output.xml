@@ -80,6 +80,8 @@ src/
     blog/
       loading.tsx
       page.tsx
+    campus-help/
+      page.tsx
     contact/
       loading.tsx
       page.tsx
@@ -98,22 +100,49 @@ src/
     page.tsx
   components/
     About/
+      github-stats/
+        ActivityFeedCard.tsx
+        CommitActivityCard.tsx
+        ContributionCalendarCard.tsx
+        LanguageCard.tsx
       About.tsx
       animations.ts
+      EducationSection.tsx
+      GithubActivitySection.tsx
       GithubStats.tsx
       index.ts
+      ProfessionalSummary.tsx
+      TechnicalSkills.tsx
     Blog/
       Blog.tsx
       index.ts
+    CampusHelp/
+      CampusHelpContactSection.tsx
+      CampusHelpFAQ.tsx
+      CampusHelpFlyer.tsx
+      CampusHelpHero.tsx
+      CampusHelpHowItWorks.tsx
+      CampusHelpPhaseSix.tsx
+      CampusHelpPricing.tsx
+      CampusHelpProof.tsx
+      CampusHelpServices.tsx
+      ContactStrip.tsx
+      PricingViewTracker.tsx
+      StickyBookingBar.tsx
     common/
       ErrorBoundary.tsx
       Layout.tsx
       Loading.tsx
       ThemeProvider.tsx
       ThemeSwitcher.tsx
+      TrackedLink.tsx
     Contact/
+      BookingDetails.tsx
       Contact.tsx
+      ContactForm.tsx
       index.ts
+      ProofAssets.tsx
+      types.ts
     Die/
       Die.tsx
       DieAnimation.ts
@@ -126,7 +155,13 @@ src/
       GitHubProfileCard.tsx
       Home.tsx
     Projects/
+      hooks/
+        useProjectDetail.ts
+      PinnedProjectCard.tsx
+      project-detail-utils.ts
       ProjectDetail.tsx
+      ProjectExplorerCard.tsx
+      ProjectReadme.tsx
       Projects.tsx
       ProjectsExplorer.tsx
     Sidebar/
@@ -138,7 +173,17 @@ src/
   hooks/
     useGithubStats.ts
   lib/
+    github-api/
+      cache.ts
+      headers.ts
+      rate-limiter.ts
+    github-stats/
+      activity.ts
+      contributions.ts
+      rest.ts
+    booking.ts
     github-api.ts
+    gtag.ts
     metadata.ts
     utils.ts
   types/
@@ -350,13 +395,96 @@ import Loading from '@/components/common/Loading';
 export default function PageLoading()
 </file>
 
+<file path="src/components/About/github-stats/ActivityFeedCard.tsx">
+import type { GitHubActivityItem } from '@/types/github';
+import { motion } from 'framer-motion';
+⋮----
+interface Props {
+  activity: GitHubActivityItem[];
+}
+⋮----
+const labelForActivityType = (type: string) =>
+</file>
+
+<file path="src/components/About/github-stats/CommitActivityCard.tsx">
+import type { CommitActivity } from '@/types/github';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { motion } from 'framer-motion';
+⋮----
+interface Props {
+  commitActivity: CommitActivity[];
+}
+</file>
+
+<file path="src/components/About/github-stats/ContributionCalendarCard.tsx">
+import type { GitHubContributionCalendar } from '@/types/github';
+import { motion } from 'framer-motion';
+⋮----
+interface Props {
+  calendar: GitHubContributionCalendar | null;
+  contributionsThisYear: number;
+}
+const levelClass = (level: number) =>
+⋮----
+const levelForCount = (count: number, maxDayCount: number) =>
+⋮----
+function computeMaxCount(calendar: GitHubContributionCalendar | null)
+</file>
+
+<file path="src/components/About/github-stats/LanguageCard.tsx">
+import { motion } from 'framer-motion';
+⋮----
+interface Props {
+  topLanguages: Record<string, number>;
+}
+</file>
+
 <file path="src/components/About/animations.ts">
 // src/components/About/animations.ts
 import { Variants } from 'framer-motion';
 </file>
 
+<file path="src/components/About/EducationSection.tsx">
+import { motion } from 'framer-motion';
+import { GraduationCap } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+⋮----
+export default function EducationSection()
+</file>
+
+<file path="src/components/About/GithubActivitySection.tsx">
+import React, { Suspense } from 'react';
+import { motion } from 'framer-motion';
+import { Code2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
+import type { GitHubStats } from '@/types/github';
+⋮----
+type GithubActivitySectionProps = {
+  stats: GitHubStats;
+  username: string;
+};
+⋮----
+export default function GithubActivitySection(
+</file>
+
 <file path="src/components/About/index.ts">
 // src/components/About/index.ts
+</file>
+
+<file path="src/components/About/ProfessionalSummary.tsx">
+import { motion } from 'framer-motion';
+import { BookOpen } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+⋮----
+export default function ProfessionalSummary()
+</file>
+
+<file path="src/components/About/TechnicalSkills.tsx">
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+⋮----
+export default function TechnicalSkills()
 </file>
 
 <file path="src/components/Blog/Blog.tsx">
@@ -381,6 +509,105 @@ interface BlogPost {
 
 <file path="src/components/Blog/index.ts">
 // src/components/Blog/index.ts
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpFAQ.tsx">
+import Link from 'next/link';
+⋮----
+type FAQ = {
+  question: string;
+  answer: string;
+};
+⋮----
+export default function CampusHelpFAQ()
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpFlyer.tsx">
+import Image from 'next/image';
+⋮----
+type CampusHelpFlyerProps = {
+  qrUrl: string;
+  fallbackUrl: string;
+};
+⋮----
+export default function CampusHelpFlyer(
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpHero.tsx">
+import TrackedLink from '@/components/common/TrackedLink';
+⋮----
+type CampusHelpHeroProps = {
+  calendlyUrl: string;
+};
+⋮----
+export default function CampusHelpHero(
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpHowItWorks.tsx">
+import Link from 'next/link';
+⋮----
+type Step = {
+  title: string;
+  detail: string;
+};
+⋮----
+export default function CampusHelpHowItWorks()
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpPhaseSix.tsx">
+
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpPricing.tsx">
+import { type SpecialService } from '@/lib/booking';
+import PricingViewTracker from '@/components/CampusHelp/PricingViewTracker';
+import TrackedLink from '@/components/common/TrackedLink';
+⋮----
+type SessionCard = {
+  name: string;
+  duration: string;
+  price: string;
+  description: string;
+  recommended?: boolean;
+  eventValue?: string;
+};
+⋮----
+type CampusHelpPricingProps = {
+  calendlyUrl: string;
+  specialServices: SpecialService[];
+};
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpProof.tsx">
+import Link from 'next/link';
+⋮----
+type ProofItem = {
+  title: string;
+  detail: string;
+  link: string;
+  linkLabel: string;
+};
+⋮----
+export default function CampusHelpProof()
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpServices.tsx">
+import Link from 'next/link';
+⋮----
+type Service = {
+  title: string;
+  summary: string;
+  commonRequests: string[];
+  whatToBring: string;
+  typicalTime: string;
+};
+</file>
+
+<file path="src/components/CampusHelp/PricingViewTracker.tsx">
+import { useEffect, useRef } from 'react';
+import { trackEvent } from '@/lib/gtag';
+⋮----
+export default function PricingViewTracker()
 </file>
 
 <file path="src/components/common/ErrorBoundary.tsx">
@@ -411,8 +638,57 @@ public render()
 const Loading = () =>
 </file>
 
+<file path="src/components/common/TrackedLink.tsx">
+import type { AnchorHTMLAttributes, MouseEvent } from 'react';
+import { trackEvent, type TrackEventSpec } from '@/lib/gtag';
+⋮----
+interface TrackedLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  events?: TrackEventSpec[];
+}
+⋮----
+export default function TrackedLink(
+⋮----
+const handleClick = (event: MouseEvent<HTMLAnchorElement>) =>
+</file>
+
+<file path="src/components/Contact/BookingDetails.tsx">
+import { bookingInfo } from '@/lib/booking';
+⋮----
+const eventTypeClass = (recommended?: boolean)
+⋮----
+export default function BookingDetails()
+</file>
+
+<file path="src/components/Contact/ContactForm.tsx">
+import type { ChangeEvent, FormEvent } from 'react';
+import type { FieldErrors, FormState } from './types';
+⋮----
+interface Props {
+  form: FormState;
+  errors: FieldErrors;
+  submitting: boolean;
+  onChange: (field: keyof FormState) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}
+</file>
+
 <file path="src/components/Contact/index.ts">
 // src/components/Contact/index.ts
+</file>
+
+<file path="src/components/Contact/ProofAssets.tsx">
+import { bookingInfo } from '@/lib/booking';
+</file>
+
+<file path="src/components/Contact/types.ts">
+export type FormState = {
+  name: string;
+  email: string;
+  message: string;
+  website: string;
+};
+⋮----
+export type FieldErrors = Partial<Record<keyof FormState, string>> & { general?: string };
 </file>
 
 <file path="src/components/Die/index.ts">
@@ -435,6 +711,327 @@ import Image from 'next/image';
 type GitHubProfileCardProps = {
   username: string;
 };
+</file>
+
+<file path="src/components/Projects/hooks/useProjectDetail.ts">
+import { useEffect, useState } from 'react';
+import type { GitHubRepositorySummary } from '@/types/github';
+import { extractReadme, extractReposArray, ReadmeData } from '../project-detail-utils';
+⋮----
+export function useProjectDetail(name: string)
+⋮----
+async function loadRepos()
+⋮----
+async function loadReadme()
+</file>
+
+<file path="src/components/Projects/PinnedProjectCard.tsx">
+import type { GitHubPinnedRepo } from '@/types/github';
+import { CodeBracketIcon, GlobeAltIcon, StarIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+⋮----
+interface Props {
+  repo: GitHubPinnedRepo;
+}
+</file>
+
+<file path="src/components/Projects/project-detail-utils.ts">
+import type { GitHubRepositorySummary } from '@/types/github';
+⋮----
+export type ReadmeData = {
+  repo: string;
+  path: string;
+  excerpt?: string;
+  markdown?: string;
+  html?: string;
+  sourceUrl?: string;
+  lastFetched?: string;
+};
+⋮----
+export function formatDate(date: string | null | undefined): string
+⋮----
+export function extractReposArray(value: unknown): GitHubRepositorySummary[]
+⋮----
+export function extractReadme(value: unknown): ReadmeData | null
+⋮----
+export function normalizeRelativePath(url: string)
+</file>
+
+<file path="src/components/Projects/ProjectExplorerCard.tsx">
+import type { GitHubRepositorySummary } from '@/types/github';
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { formatDate } from './project-detail-utils';
+⋮----
+interface Props {
+  repo: GitHubRepositorySummary;
+}
+</file>
+
+<file path="src/components/Projects/ProjectReadme.tsx">
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import type { ReadmeData } from './project-detail-utils';
+⋮----
+interface Props {
+  readme: ReadmeData | null;
+  readmeLoading: boolean;
+  readmeError: string | null;
+  repoUrl: string | undefined;
+  urlTransform: (url: string, key?: string) => string;
+}
+⋮----
+export default function ProjectReadme({
+  readme,
+  readmeLoading,
+  readmeError,
+  repoUrl,
+  urlTransform,
+}: Props)
+⋮----
+const isExternal = !!href && /^https?:\/\//i.test(href);
+return (
+                  <a
+                    href={href}
+                    {...props}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer' : undefined}
+                  >
+                    {children}
+                  </a>
+                );
+⋮----
+// eslint-disable-next-line @next/next/no-img-element
+</file>
+
+<file path="src/lib/github-api/cache.ts">
+import { Redis } from '@upstash/redis';
+⋮----
+type CacheEntry<T> = {
+  value: T;
+  expiresAt: number;
+};
+⋮----
+function getRedisClient(): Redis | null
+⋮----
+export async function cachedFetch<T>(
+  key: string,
+  fetchFn: () => Promise<T>,
+  ttlSeconds: number = MEMORY_CACHE_TTL,
+): Promise<T>
+⋮----
+export function getCacheKey(
+  endpoint: string,
+  params: Record<string, string> = {},
+): string
+</file>
+
+<file path="src/lib/github-api/headers.ts">
+export function getGitHubHeaders(
+  token?: string,
+  extra: Record<string, string> = {},
+): Record<string, string>
+</file>
+
+<file path="src/lib/github-api/rate-limiter.ts">
+export class RateLimiter
+⋮----
+private static prune(endpoint: string, now: number): number[]
+⋮----
+static canMakeRequest(endpoint: string): boolean
+⋮----
+static recordRequest(endpoint: string): void
+⋮----
+static getRemainingRequests(endpoint: string): number
+</file>
+
+<file path="src/lib/github-stats/activity.ts">
+import type { GitHubActivityItem } from '@/types/github';
+import { getGitHubHeaders } from '@/lib/github-api';
+⋮----
+type GitHubActivityResponse = {
+  data?: {
+    user?: {
+      pullRequests: {
+        nodes: {
+          id: string;
+          title: string;
+          url: string;
+          mergedAt: string | null;
+          updatedAt: string;
+          repository: { nameWithOwner: string };
+        }[];
+      };
+      issues: {
+        nodes: {
+          id: string;
+          title: string;
+          url: string;
+          createdAt: string;
+          repository: { nameWithOwner: string };
+        }[];
+      };
+      repositories: {
+        nodes: {
+          id: string;
+          nameWithOwner: string;
+          url: string;
+          createdAt: string;
+        }[];
+      };
+      starredRepositories: {
+        edges: {
+          starredAt: string;
+          node: {
+            id: string;
+            nameWithOwner: string;
+            url: string;
+          };
+        }[];
+      };
+    };
+  };
+  errors?: { message: string }[];
+};
+⋮----
+export async function getActivityFeed(
+  username: string,
+  token: string,
+): Promise<GitHubActivityItem[]>
+</file>
+
+<file path="src/lib/github-stats/contributions.ts">
+import type { GitHubContributionCalendar, GitHubStreakStats } from '@/types/github';
+import { getGitHubHeaders } from '@/lib/github-api';
+⋮----
+type GitHubContributionsResponse = {
+  data?: {
+    user?: {
+      contributionsCollection?: {
+        contributionCalendar?: {
+          totalContributions: number;
+          weeks: {
+            contributionDays: {
+              date: string;
+              contributionCount: number;
+              weekday: number;
+            }[];
+          }[];
+        };
+      };
+    };
+  };
+  errors?: { message: string }[];
+};
+⋮----
+export async function getContributionCalendarAndStreaks(
+  username: string,
+  token: string,
+): Promise<
+</file>
+
+<file path="src/lib/github-stats/rest.ts">
+import { getGitHubHeaders } from '@/lib/github-api';
+⋮----
+interface GitHubUserResponse {
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  bio: string | null;
+  location: string | null;
+  company: string | null;
+  followers: number;
+  following: number;
+  public_repos: number;
+  created_at: string;
+  name: string | null;
+}
+⋮----
+interface GitHubRepo {
+  name: string;
+  full_name: string;
+  stargazers_count: number;
+  forks_count: number;
+  open_issues_count: number;
+  language: string | null;
+  fork: boolean;
+  archived: boolean;
+  pushed_at: string;
+  size: number;
+}
+⋮----
+interface GitHubCommit {
+  commit: {
+    author: {
+      date: string | null;
+    } | null;
+  } | null;
+}
+⋮----
+export async function fetchUser(
+  username: string,
+  token: string,
+): Promise<GitHubUserResponse>
+⋮----
+export async function fetchRepos(
+  username: string,
+  token: string,
+): Promise<GitHubRepo[]>
+⋮----
+export async function buildCommitActivity(
+  username: string,
+  repos: GitHubRepo[],
+  token: string,
+)
+</file>
+
+<file path="src/lib/booking.ts">
+import proofJson from '../../proof-assets/data.json';
+⋮----
+export type BookingEventType = {
+  name: string;
+  duration: string;
+  priceLabel: string;
+  description: string;
+  optional?: boolean;
+  recommended?: boolean;
+};
+⋮----
+export type SpecialService = {
+  name: string;
+  price: string;
+  description: string;
+};
+⋮----
+export type ProofAsset = {
+  title: string;
+  result: string;
+  link: string;
+  linkLabel: string;
+};
+⋮----
+type ProofData = {
+  testimonial: string;
+  items: ProofAsset[];
+};
+</file>
+
+<file path="src/lib/gtag.ts">
+export type TrackEventParams = Record<string, unknown>;
+⋮----
+export type TrackEventSpec = {
+  name: string;
+  params?: TrackEventParams;
+};
+⋮----
+interface Window {
+    dataLayer?: Array<Record<string, unknown>>;
+    gtag?: (...args: unknown[]) => void;
+  }
+⋮----
+export const trackEvent = (name: string, params?: TrackEventParams) =>
 </file>
 
 <file path="src/middleware.ts">
@@ -674,6 +1271,56 @@ export default function Error({
 reset: ()
 ⋮----
 // eslint-disable-next-line no-console
+</file>
+
+<file path="src/components/CampusHelp/CampusHelpContactSection.tsx">
+import { Banknote, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
+import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
+import TrackedLink from '@/components/common/TrackedLink';
+⋮----
+type PaymentMethod = {
+  name: string;
+  detail: string;
+  Icon: LucideIcon;
+};
+⋮----
+type CampusHelpContactSectionProps = {
+  calendlyUrl: string;
+};
+⋮----
+export default function CampusHelpContactSection(
+</file>
+
+<file path="src/components/CampusHelp/ContactStrip.tsx">
+import { ClipboardDocumentIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
+import TrackedLink from '@/components/common/TrackedLink';
+import type { TrackEventSpec } from '@/lib/gtag';
+⋮----
+export type ContactDetail = {
+  label: string;
+  value: string;
+  helper?: string;
+  href?: string;
+  trackEvents?: TrackEventSpec[];
+};
+⋮----
+interface ContactStripProps {
+  details: ContactDetail[];
+}
+⋮----
+const copyToClipboard = async (value: string) =>
+</file>
+
+<file path="src/components/CampusHelp/StickyBookingBar.tsx">
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
+import TrackedLink from '@/components/common/TrackedLink';
+⋮----
+interface StickyBookingBarProps {
+  href: string;
+}
+⋮----
+export default function StickyBookingBar(
 </file>
 
 <file path="src/components/Die/Die.tsx">
@@ -1062,232 +1709,6 @@ to_email: "josue@example.com", // Replace with your email
 // Send email via EmailJS
 </file>
 
-<file path="src/app/api/github-stats/route.ts">
-// src/app/api/github-stats/route.ts
-import type {
-  GitHubActivityItem,
-  GitHubContributionCalendar,
-  GitHubStreakStats,
-} from '@/types/github';
-import { NextResponse } from 'next/server';
-⋮----
-interface GitHubUserResponse {
-  login: string;
-  avatar_url: string;
-  html_url: string;
-  bio: string | null;
-  location: string | null;
-  company: string | null;
-  followers: number;
-  following: number;
-  public_repos: number;
-  created_at: string;
-  name: string | null;
-}
-⋮----
-interface GitHubRepo {
-  name: string;
-  full_name: string;
-  stargazers_count: number;
-  forks_count: number;
-  open_issues_count: number;
-  language: string | null;
-  fork: boolean;
-  archived: boolean;
-  pushed_at: string;
-  size: number;
-}
-⋮----
-interface GitHubCommit {
-  commit: {
-    author: {
-      date: string | null;
-    } | null;
-  } | null;
-}
-⋮----
-type GitHubContributionsResponse = {
-  data?: {
-    user?: {
-      contributionsCollection?: {
-        contributionCalendar?: {
-          totalContributions: number;
-          weeks: {
-            contributionDays: {
-              date: string;
-              contributionCount: number;
-              weekday: number;
-            }[];
-          }[];
-        };
-      };
-    };
-  };
-  errors?: { message: string }[];
-};
-⋮----
-type GitHubActivityType =
-  | 'PR_MERGED'
-  | 'ISSUE_OPENED'
-  | 'REPO_CREATED'
-  | 'STARRED_REPO';
-⋮----
-interface GitHubActivityResponse {
-  data?: {
-    user?: {
-      pullRequests: {
-        nodes: {
-          id: string;
-          title: string;
-          url: string;
-          mergedAt: string | null;
-          updatedAt: string;
-          repository: { nameWithOwner: string };
-        }[];
-      };
-      issues: {
-        nodes: {
-          id: string;
-          title: string;
-          url: string;
-          createdAt: string;
-          repository: { nameWithOwner: string };
-        }[];
-      };
-      repositories: {
-        nodes: {
-          id: string;
-          nameWithOwner: string;
-          url: string;
-          createdAt: string;
-        }[];
-      };
-      starredRepositories: {
-        edges: {
-          starredAt: string;
-          node: {
-            id: string;
-            nameWithOwner: string;
-            url: string;
-          };
-        }[];
-      };
-    };
-  };
-  errors?: { message: string }[];
-}
-⋮----
-function getGitHubHeaders(token: string, extra?: Record<string, string>)
-⋮----
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 900)
-⋮----
-// Fetch user profile
-async function fetchUser(
-  username: string,
-  token: string,
-): Promise<GitHubUserResponse>
-⋮----
-// Fetch all public repos for the user (paged)
-async function fetchRepos(
-  username: string,
-  token: string,
-): Promise<GitHubRepo[]>
-⋮----
-// Build a monthly commit activity map by hitting per repo commit lists
-async function buildCommitActivity(
-  username: string,
-  repos: GitHubRepo[],
-  token: string,
-)
-⋮----
-// Limit to non fork, non archived to avoid noisy stats
-⋮----
-// Sample only the most recent 20 repos to avoid hitting rate limits
-⋮----
-// Do not crash entire stats if one repo fails
-⋮----
-if (!response.ok) continue; // Skip if repo has no commits or error
-⋮----
-// Convert to array and sort by month
-⋮----
-// GraphQL: contribution calendar and streak stats
-async function getContributionCalendarAndStreaks(
-  username: string,
-  token: string,
-): Promise<
-⋮----
-// Calculate streaks from calendar data
-⋮----
-// Flatten all days and sort by date (newest first)
-⋮----
-// Calculate current streak
-⋮----
-// Calculate longest streak
-⋮----
-// Calculate busiest day
-⋮----
-// GraphQL: activity feed
-async function getActivityFeed(
-  username: string,
-  token: string,
-): Promise<GitHubActivityItem[]>
-⋮----
-// Add PRs
-⋮----
-// Add issues
-⋮----
-// Add created repos
-⋮----
-// Add starred repos
-⋮----
-// Sort by date (newest first) and limit to 10 items
-⋮----
-export async function GET(request: Request)
-⋮----
-// Fetch data in parallel for better performance
-⋮----
-// Calculate top languages from repos
-⋮----
-// Sort and get top 5 languages
-⋮----
-// Build commit activity
-⋮----
-// Calculate snapshot metrics
-⋮----
-// Build the complete stats object
-⋮----
-// Core counters
-⋮----
-// Snapshot metrics
-⋮----
-// Calendar and streaks
-⋮----
-// Activity feed
-⋮----
-// Profile fields
-⋮----
-// UI state
-⋮----
-return setCacheHeaders(response, 900); // 15 minutes cache
-⋮----
-// Return empty stats with error state
-⋮----
-// Core counters
-⋮----
-// Snapshot metrics
-⋮----
-// Calendar and streaks
-⋮----
-// Activity feed
-⋮----
-// Profile fields
-⋮----
-// UI state
-⋮----
-return setCacheHeaders(response, 60); // 1 minute cache on error
-</file>
-
 <file path="src/app/projects/[name]/page.tsx">
 // src/app/projects/[name]/page.tsx
 import Layout from '@/components/common/Layout';
@@ -1303,123 +1724,6 @@ interface ProjectPageProps {
 }
 ⋮----
 export default function ProjectPage(
-</file>
-
-<file path="src/components/About/About.tsx">
-// src/components/About/About.tsx
-⋮----
-import React, { Suspense } from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, GraduationCap, Code2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import useGithubStats from '@/hooks/useGithubStats';
-import ErrorBoundary from '@/components/common/ErrorBoundary';
-⋮----
-const TechnicalSkills = () =>
-⋮----
-{/* Professional Summary */}
-⋮----
-{/* Education */}
-⋮----
-{/* GitHub Activity */}
-⋮----
-{/* Technical Skills Section */}
-</file>
-
-<file path="src/components/About/GithubStats.tsx">
-// src/components/About/GithubStats.tsx
-⋮----
-import type { GitHubStats } from '@/types/github';
-import { motion } from 'framer-motion';
-import React from 'react';
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-⋮----
-interface GithubStatsProps {
-  stats: GitHubStats;
-  username: string;
-}
-⋮----
-const levelForCount = (count: number) =>
-⋮----
-const levelClass = (level: number) =>
-⋮----
-const labelForActivityType = (type: string) =>
-⋮----
-{/* Contribution calendar and streaks */}
-⋮----
-{/* <p className="mt-2 text-[11px] text-muted-foreground">
-                Darker squares represent more contributions on that day, like the
-                GitHub profile calendar.
-              </p> */}
-⋮----
-{/* <motion.div
-          className="rounded-xl border bg-card/50 p-4"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.05 }}
-        >
-          <p className="text-xs font-medium text-muted-foreground">
-            Streaks and patterns
-          </p>
-          {streaks ? (
-            <dl className="mt-3 grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Current streak
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.currentStreak}{' '}
-                  <span className="text-xs font-normal text-muted-foreground">
-                    days
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Longest streak
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.longestStreak}{' '}
-                  <span className="text-xs font-normal text-muted-foreground">
-                    days
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Busiest weekday
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.busiestDayOfWeek}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[11px] text-muted-foreground">
-                  Avg commits on active days
-                </dt>
-                <dd className="text-base font-semibold">
-                  {streaks.averageCommitsPerActiveDay.toFixed(1)}
-                </dd>
-              </div>
-            </dl>
-          ) : (
-            <p className="mt-3 text-sm text-muted-foreground">
-              Streak data is not available yet.
-            </p>
-          )}
-        </motion.div> */}
-⋮----
-{/* Monthly commit activity */}
-⋮----
-{/* Languages and activity feed */}
 </file>
 
 <file path="src/components/common/Layout.tsx">
@@ -1508,58 +1812,71 @@ setTheme(nextTheme);
 // Expanded sidebar view
 </file>
 
-<file path="src/components/Contact/Contact.tsx">
+<file path="src/lib/utils.ts">
+// src/lib/utils.ts
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+⋮----
+export function cn(...inputs: ClassValue[])
+⋮----
+export function disableDarkReader()
+⋮----
+// Remove Dark Reader styles
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="src/app/api/github-stats/route.ts">
+import { NextResponse } from 'next/server';
+import {
+  buildCommitActivity,
+  fetchRepos,
+  fetchUser,
+} from '@/lib/github-stats/rest';
+import { getContributionCalendarAndStreaks } from '@/lib/github-stats/contributions';
+import { getActivityFeed } from '@/lib/github-stats/activity';
+import type { GitHubStats } from '@/types/github';
+⋮----
+function setCacheHeaders(response: NextResponse, maxAge = 900)
+⋮----
+export async function GET(request: Request)
+</file>
+
+<file path="src/components/About/About.tsx">
+import useGithubStats from '@/hooks/useGithubStats';
+import ProfessionalSummary from './ProfessionalSummary';
+import EducationSection from './EducationSection';
+import GithubActivitySection from './GithubActivitySection';
+import TechnicalSkills from './TechnicalSkills';
+⋮----
+export default function About()
+</file>
+
+<file path="src/components/About/GithubStats.tsx">
+import type { GitHubStats } from '@/types/github';
 import React from 'react';
-import { z } from 'zod';
+import ActivityFeedCard from './github-stats/ActivityFeedCard';
+import CommitActivityCard from './github-stats/CommitActivityCard';
+import ContributionCalendarCard from './github-stats/ContributionCalendarCard';
+import LanguageCard from './github-stats/LanguageCard';
 ⋮----
-type FormState = {
-  name: string;
-  email: string;
-  message: string;
-  // Honeypot (should stay empty)
-  website: string;
-};
+interface GithubStatsProps {
+  stats: GitHubStats;
+  username: string;
+}
 ⋮----
-// Honeypot (should stay empty)
-⋮----
-type FieldErrors = Partial<Record<keyof FormState, string>> & { general?: string; };
-⋮----
-// Honeypot: allow empty only (bots tend to fill it). We won't show client error if they do.
-⋮----
-website: '', // honeypot — leave empty
-⋮----
-const onChange =
-(field: keyof FormState)
-⋮----
-// Live-clear error for this field
-⋮----
-const validate = (): boolean =>
-⋮----
-// Do not surface honeypot errors to real users
-⋮----
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
-⋮----
-// Server may return:
-// - 200 { ok: true } on success
-// - 204 (no content) if honeypot trips — treat as success silently
-// - 400 { error } on validation
-// - 429 { error } on rate-limit
-// - 502 { error } on upstream failure
-⋮----
-// ignore JSON parse errors
-⋮----
-{/* Honeypot: visually hidden but still present in DOM */}
+export default function GithubStats(
 </file>
 
 <file path="src/components/Projects/ProjectDetail.tsx">
-import type { GitHubRepositorySummary } from '@/types/github';
-import {
-  ArrowTopRightOnSquareIcon,
-  CodeBracketIcon,
-} from '@heroicons/react/24/outline';
-import { useEffect, useMemo, useState } from 'react';
-import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { useMemo, useState } from 'react';
+import { defaultUrlTransform } from 'react-markdown';
+import ProjectReadme from './ProjectReadme';
+import { formatDate, normalizeRelativePath } from './project-detail-utils';
+import { useProjectDetail } from './hooks/useProjectDetail';
 ⋮----
 interface ProjectDetailProps {
   name: string;
@@ -1567,103 +1884,15 @@ interface ProjectDetailProps {
 ⋮----
 type TabKey = 'overview';
 ⋮----
-type ReposResponseWithWrapper = { repos?: GitHubRepositorySummary[] };
-⋮----
-type ReadmeData = {
-  repo: string;
-  path: string;
-  excerpt?: string;
-  markdown?: string; // we render this
-  html?: string; // optional, if your API returns it
-  sourceUrl?: string; // optional
-  lastFetched?: string;
-};
-⋮----
-markdown?: string; // we render this
-html?: string; // optional, if your API returns it
-sourceUrl?: string; // optional
-⋮----
-type ReadmeWrapper = { readme?: ReadmeData | null };
-⋮----
-function formatDate(date: string | null | undefined): string
-⋮----
-function extractReposArray(value: unknown): GitHubRepositorySummary[]
-⋮----
-function extractReadme(value: unknown): ReadmeData | null
-⋮----
-function normalizeRelativePath(url: string)
-⋮----
-// strip leading ./ and leading /
-⋮----
-// Load repo summary + releases
-⋮----
-async function load()
-⋮----
-// Load README markdown
-⋮----
-async function loadReadme()
-⋮----
-// Build bases for relative README links/images (best-effort)
-⋮----
 // ignore
 ⋮----
-// Try to infer branch from readme.sourceUrl: .../blob/<branch>/README.md
-⋮----
 const urlTransform = (url: string, key?: string) =>
-⋮----
-// Keep safe defaults for absolute URLs
-⋮----
-// Anchors stay anchors
-⋮----
-// If it’s already absolute (http/https/mailto/etc), keep it
-⋮----
-// If we can’t compute bases, don’t rewrite
-⋮----
-// Images should point at raw, links at blob
-⋮----
-{/* Header */}
-⋮----
-{/* Loading / error state for overall project */}
-⋮----
-{/* Tabs */}
-⋮----
-{/* Overview */}
-⋮----
-const isExternal = !!href && /^https?:\/\//i.test(href);
-return (
-                        <a
-                          href={href}
-                          {...props}
-                          target={isExternal ? '_blank' : undefined}
-                          rel={isExternal ? 'noreferrer' : undefined}
-                        >
-                          {children}
-                        </a>
-                      );
-⋮----
-// eslint-disable-next-line @next/next/no-img-element
 </file>
 
 <file path="src/lib/github-api.ts">
-// FILE: src/lib/github-api.ts
-// src/lib/github-api.ts
-import { Redis } from '@upstash/redis';
-⋮----
-interface CacheEntry<T> {
-  value: T;
-  expiresAt: number;
-}
-⋮----
-// Default TTL for cache entries (in seconds)
-const MEMORY_CACHE_TTL = 15 * 60; // 15 minutes
-⋮----
-// Simple in-memory cache as a fallback when Redis is not available
-⋮----
-// Singleton Redis client so we don't create multiple instances
-⋮----
-function getRedisClient(): Redis | null
-⋮----
-// Guard against non-Node environments (e.g. browser)
+import { getGitHubHeaders } from '@/lib/github-api/headers';
+import { cachedFetch, getCacheKey } from '@/lib/github-api/cache';
+import { RateLimiter } from '@/lib/github-api/rate-limiter';
 ⋮----
 export type CiStatus = 'success' | 'failing' | 'unknown';
 ⋮----
@@ -1687,116 +1916,10 @@ type WorkflowRunsResponse = {
 };
 ⋮----
 export async function getRepoCiStatus(opts: {
-  fullName: string;       // "owner/repo"
+  fullName: string;
   defaultBranch: string;
   token?: string;
 }): Promise<CiStatus>
-⋮----
-fullName: string;       // "owner/repo"
-⋮----
-// Hit the workflow runs endpoint for this repo + branch
-⋮----
-// No completed runs on the default branch - treat as "no passing CI"
-⋮----
-/**
- * cachedFetch
- *
- * Generic cache helper that:
- * - Tries Redis first if configured
- * - Falls back to in-memory cache
- * - Falls back to live fetch on any cache failure
- */
-export async function cachedFetch<T>(
-  key: string,
-  fetchFn: () => Promise<T>,
-  ttlSeconds: number = MEMORY_CACHE_TTL,
-): Promise<T>
-⋮----
-// Try Redis cache first
-⋮----
-// Cache miss or expired: fetch fresh data
-⋮----
-// TTL in seconds for Redis
-⋮----
-// On Redis failure, just fall back to memory / live fetch
-// eslint-disable-next-line no-console
-⋮----
-// Try memory cache
-⋮----
-// Fetch fresh data
-⋮----
-// Cache in memory (TTL in ms)
-⋮----
-// Clean up old memory cache entries periodically (server-only).
-// We guard with a flag on globalThis so we don't create multiple intervals
-// during hot reloads or in test environments that re-import this module.
-⋮----
-}, 60_000); // Clean every minute
-⋮----
-/**
- * Build headers for GitHub REST / GraphQL APIs.
- *
- * - Always includes GitHub's recommended Accept + User-Agent headers.
- * - Optionally adds Authorization if a token is provided.
- * - Merges in any extra headers the caller passes.
- */
-export function getGitHubHeaders(
-  token?: string,
-  extra: Record<string, string> = {},
-): Record<string, string>
-⋮----
-// Helper to generate cache keys
-export function getCacheKey(
-  endpoint: string,
-  params: Record<string, string> = {},
-): string
-⋮----
-// Rate limiting helper
-export class RateLimiter
-⋮----
-// 1 hour window
-⋮----
-// Leave some buffer under GitHub's 5000/hr limit
-⋮----
-// Map of endpoint -> timestamps (ms) of recent requests
-⋮----
-private static prune(endpoint: string, now: number): number[]
-⋮----
-/**
-   * Check whether we can make another request for this endpoint
-   * in the current window. Does NOT record the request; caller
-   * should call recordRequest() after actually making the call.
-   */
-static canMakeRequest(endpoint: string): boolean
-⋮----
-/**
-   * Record that we have made a request to this endpoint.
-   * If we are already at the limit, this is a no-op to avoid
-   * inflating the count further.
-   */
-static recordRequest(endpoint: string): void
-⋮----
-// If already at limit, do not record a new one
-⋮----
-// Record this request and allow
-⋮----
-/**
-   * Return how many requests remain in the current window
-   * for the given endpoint.
-   */
-static getRemainingRequests(endpoint: string): number
-</file>
-
-<file path="src/lib/utils.ts">
-// src/lib/utils.ts
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-⋮----
-export function cn(...inputs: ClassValue[])
-⋮----
-export function disableDarkReader()
-⋮----
-// Remove Dark Reader styles
 </file>
 
 <file path="next.config.ts">
@@ -1832,77 +1955,7 @@ import type { NextConfig } from 'next';
 // ],
 ⋮----
 async headers()
-</file>
-
-<file path="public/next.svg">
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
-</file>
-
-<file path="src/components/Projects/Projects.tsx">
-// src/components/Projects/Projects.tsx
-⋮----
-import type { GitHubPinnedRepo } from '@/types/github';
-import {
-  CodeBracketIcon,
-  GlobeAltIcon,
-  StarIcon,
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-⋮----
-const fetchPinned = async () =>
-</file>
-
-<file path="src/components/Projects/ProjectsExplorer.tsx">
-// FILE: src/components/Projects/ProjectsExplorer.tsx
-⋮----
-import type { GitHubRepositorySummary } from '@/types/github';
-import {
-  CodeBracketIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-⋮----
-// interface AggregateStats {
-//   totalStars: number;
-//   totalForks: number;
-//   totalOpenIssues: number;
-// }
-⋮----
-// const initialAggregate: AggregateStats = {
-//   totalStars: 0,
-//   totalForks: 0,
-//   totalOpenIssues: 0,
-// };
-⋮----
-function formatDate(date: string)
-⋮----
-const load = async () =>
-⋮----
-// const aggregate = useMemo(
-//   () =>
-//     repos.reduce<AggregateStats>(
-//       (acc, repo) => {
-//         acc.totalStars += repo.stargazersCount;
-//         acc.totalForks += repo.forksCount;
-//         acc.totalOpenIssues += repo.openIssuesCount;
-//         return acc;
-//       },
-//       { ...initialAggregate },
-//     ),
-//   [repos],
-// );
-⋮----
-{/* <div className="flex items-center gap-1">
-            <StarIcon className="h-4 w-4" />
-            <span>{aggregate.totalStars} stars</span>
-          </div> */}
-{/* <div className="flex items-center gap-1">
-            <BookOpenIcon className="h-4 w-4" />
-            <span>{aggregate.totalOpenIssues} open issues</span>
-          </div> */}
+async redirects()
 </file>
 
 <file path="tailwind.config.ts">
@@ -1916,60 +1969,44 @@ import animate from "tailwindcss-animate";
 <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
 </file>
 
-<file path="src/components/Sidebar/Sidebar.tsx">
-// src/components/Sidebar/Sidebar.tsx
+<file path="src/components/Contact/Contact.tsx">
+import BookingDetails from './BookingDetails';
+import ContactForm from './ContactForm';
+import ProofAssets from './ProofAssets';
+import type { FieldErrors, FormState } from './types';
 ⋮----
-import {
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  CodeBracketIcon,
-  EnvelopeIcon,
-  FolderIcon,
-  HomeIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { z } from 'zod';
+⋮----
+const onChange =
+(field: keyof FormState)
+⋮----
+const validate = (): boolean =>
+⋮----
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>
+⋮----
+// ignore
+</file>
+
+<file path="src/components/Projects/Projects.tsx">
+import type { GitHubPinnedRepo } from '@/types/github';
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ThemeSwitcher } from '../common/ThemeSwitcher';
+import PinnedProjectCard from './PinnedProjectCard';
 ⋮----
-// Navigation items
+const fetchPinned = async () =>
+</file>
+
+<file path="src/components/Projects/ProjectsExplorer.tsx">
+import type { GitHubRepositorySummary } from '@/types/github';
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import ProjectExplorerCard from './ProjectExplorerCard';
 ⋮----
-// Handle resize events
-⋮----
-const handleResize = () =>
-⋮----
-setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
-⋮----
-// Set initial value
-⋮----
-// Add event listener
-⋮----
-// Cleanup
-⋮----
-// Mobile Bottom Navigation
-⋮----
-{/* Main content area - add padding to avoid overlap */}
-⋮----
-{/* Mobile Bottom Navigation */}
-⋮----
-{/* Mobile Theme Switcher */}
-⋮----
-{/* Safe area padding for mobile devices */}
-⋮----
-// Desktop Sidebar
-⋮----
-{/* Sidebar Toggle Button */}
-⋮----
-{/* Desktop Sidebar */}
-⋮----
-{/* Logo/Brand */}
-⋮----
-{/* Navigation */}
-⋮----
-{/* Desktop Theme Switcher */}
-⋮----
-{/* Main content offset */}
+const load = async () =>
 </file>
 
 <file path="README.md">
@@ -2175,6 +2212,82 @@ This project is licensed under the [MIT License](LICENSE).
 }
 </file>
 
+<file path="src/app/campus-help/page.tsx">
+import type { Metadata } from 'next';
+⋮----
+import Layout from '@/components/common/Layout';
+import StickyBookingBar from '@/components/CampusHelp/StickyBookingBar';
+import CampusHelpHero from '@/components/CampusHelp/CampusHelpHero';
+import CampusHelpServices from '@/components/CampusHelp/CampusHelpServices';
+import CampusHelpPricing from '@/components/CampusHelp/CampusHelpPricing';
+import CampusHelpProof from '@/components/CampusHelp/CampusHelpProof';
+import CampusHelpHowItWorks from '@/components/CampusHelp/CampusHelpHowItWorks';
+import CampusHelpFAQ from '@/components/CampusHelp/CampusHelpFAQ';
+import CampusHelpContactSection from '@/components/CampusHelp/CampusHelpContactSection';
+import CampusHelpPhaseSix from '@/components/CampusHelp/CampusHelpPhaseSix';
+import CampusHelpFlyer from '@/components/CampusHelp/CampusHelpFlyer';
+import { bookingInfo } from '@/lib/booking';
+⋮----
+export default function CampusHelpPage()
+</file>
+
+<file path="src/components/Sidebar/Sidebar.tsx">
+// src/components/Sidebar/Sidebar.tsx
+⋮----
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  CodeBracketIcon,
+  EnvelopeIcon,
+  FolderIcon,
+  HomeIcon,
+  SparklesIcon,
+  UserIcon,
+} from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ThemeSwitcher } from '../common/ThemeSwitcher';
+⋮----
+// Navigation items
+⋮----
+// Handle resize events
+⋮----
+const handleResize = () =>
+⋮----
+setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
+⋮----
+// Set initial value
+⋮----
+// Add event listener
+⋮----
+// Cleanup
+⋮----
+// Mobile Bottom Navigation
+⋮----
+{/* Main content area - add padding to avoid overlap */}
+⋮----
+{/* Mobile Bottom Navigation */}
+⋮----
+{/* Mobile Theme Switcher */}
+⋮----
+{/* Safe area padding for mobile devices */}
+⋮----
+// Desktop Sidebar
+⋮----
+{/* Sidebar Toggle Button */}
+⋮----
+{/* Desktop Sidebar */}
+⋮----
+{/* Logo/Brand */}
+⋮----
+{/* Navigation */}
+⋮----
+{/* Desktop Theme Switcher */}
+⋮----
+{/* Main content offset */}
+</file>
+
 <file path="src/components/Home/Home.tsx">
 // src/components/Home/Home.tsx
 ⋮----
@@ -2224,7 +2337,9 @@ onClick=
 <file path="src/app/layout.tsx">
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { siteMetadata } from '@/lib/metadata';
+import { GA_MEASUREMENT_ID } from '@/lib/gtag';
 import type { Metadata } from "next";
+import Script from "next/script";
 import localFont from "next/font/local";
 ⋮----
 type: 'website', // Explicitly set as literal
@@ -2234,6 +2349,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>)
+⋮----
+src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
 </file>
 
 <file path="src/app/globals.css">
