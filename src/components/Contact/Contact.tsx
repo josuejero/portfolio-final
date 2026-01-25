@@ -1,6 +1,5 @@
 'use client';
 
-import BookingDetails from './BookingDetails';
 import ContactForm from './ContactForm';
 import type { FieldErrors, FormState } from './types';
 
@@ -91,8 +90,8 @@ export default function Contact() {
   };
 
   return (
-    <section className="mx-auto max-w-6xl space-y-10 px-4 py-2">
-      <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+    <section className="mx-auto max-w-3xl space-y-10 px-4 py-6 lg:py-10">
+      <div className="space-y-10">
         <div className="space-y-6">
           <h1 className="text-2xl font-semibold">Contact</h1>
 
@@ -122,9 +121,20 @@ export default function Contact() {
             onSubmit={handleSubmit}
           />
         </div>
-        <BookingDetails />
-      </div>
 
+        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">What to expect next</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            I read every message and usually respond within two business days. If relevant materials can help explain the
+            request, share them in the form above so I can jump in with context.
+          </p>
+          <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <li>• Describe the goal, deliverables, or blockers you are trying to solve.</li>
+            <li>• Let me know your preferred tone for the engagement (strategy session, code review, etc.).</li>
+            <li>• If you have a deadline, include the most helpful date to hear back.</li>
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }
