@@ -86,7 +86,6 @@ src/
     projects/
       [name]/
         page.tsx
-      page 2.tsx
       page.tsx
     snippets/
       page 2.tsx
@@ -127,30 +126,23 @@ src/
       GitHubProfileCard.tsx
       Home.tsx
     Projects/
-      ProjectDetail 2.tsx
       ProjectDetail.tsx
       Projects.tsx
-      ProjectsExplorer 2.tsx
       ProjectsExplorer.tsx
     Sidebar/
       Sidebar.tsx
     Snippets/
-      SnippetsGallery 2.tsx
       SnippetsGallery.tsx
     ui/
       card.tsx
   hooks/
     useGithubStats.ts
   lib/
-    github-api 2.ts
-    github-api.test 2.ts
-    github-api.test.ts
     github-api.ts
     metadata.ts
     utils.ts
   types/
     github.ts
-  middleware 2.ts
   middleware.ts
 components.json
 next.config.ts
@@ -329,14 +321,6 @@ import Layout from '@/components/common/Layout';
 export default function ContactPage()
 </file>
 
-<file path="src/app/projects/page 2.tsx">
-// src/app/projects/page.tsx
-import Layout from '@/components/common/Layout';
-import ProjectsExplorer from '@/components/Projects/ProjectsExplorer';
-⋮----
-export default function ProjectsPage()
-</file>
-
 <file path="src/app/projects/page.tsx">
 // src/app/projects/page.tsx
 import Layout from '@/components/common/Layout';
@@ -357,17 +341,6 @@ import Layout from '@/components/common/Layout';
 import SnippetsGallery from '@/components/Snippets/SnippetsGallery';
 ⋮----
 export default function SnippetsPage()
-</file>
-
-<file path="src/app/error.tsx">
-// src/app/error.tsx
-⋮----
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-reset: ()
 </file>
 
 <file path="src/app/loading.tsx">
@@ -462,233 +435,6 @@ import Image from 'next/image';
 type GitHubProfileCardProps = {
   username: string;
 };
-</file>
-
-<file path="src/components/Projects/ProjectDetail 2.tsx">
-// src/components/Projects/ProjectDetail.tsx
-⋮----
-import type {
-  GitHubRelease,
-  GitHubRepositorySummary,
-} from '@/types/github';
-import {
-  ArrowTopRightOnSquareIcon,
-  CodeBracketIcon,
-  StarIcon,
-} from '@heroicons/react/24/outline';
-import React, { useEffect, useState } from 'react';
-⋮----
-interface ProjectDetailProps {
-  name: string;
-}
-⋮----
-type TabKey = 'overview' | 'releases';
-⋮----
-const load = async () =>
-⋮----
-{/* Tabs */}
-</file>
-
-<file path="src/components/Projects/ProjectsExplorer 2.tsx">
-// src/components/Projects/ProjectsExplorer.tsx
-import type { GitHubRepositorySummary } from '@/types/github';
-import {
-  BookOpenIcon,
-  CodeBracketIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  StarIcon,
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-⋮----
-type SortKey = 'stars' | 'updated' | 'created';
-⋮----
-interface GitHubReadme {
-  repo: string;
-  path: string;
-  excerpt: string;
-  fullMarkdown: string;
-  lastFetched: string;
-}
-⋮----
-const fetchRepos = async (): Promise<GitHubRepositorySummary[]> =>
-⋮----
-const load = async () =>
-⋮----
-const fetchReadme = async (repoName: string) =>
-⋮----
-const toggleTopic = (topic: string) =>
-⋮----
-// ... rest of the component code including JSX ...
-// Note: The JSX code references the state variables that are now properly declared above
-⋮----
-{/* Controls */}
-⋮----
-{/* Search */}
-⋮----
-onChange=
-⋮----
-{/* Filters */}
-⋮----
-{/* Language filter */}
-⋮----
-onClick=
-⋮----
-{/* Topic filter */}
-⋮----
-{/* Sort */}
-⋮----
-{/* Results */}
-⋮----
-{/* Stats */}
-⋮----
-{/* Projects Grid */}
-</file>
-
-<file path="src/components/Snippets/SnippetsGallery 2.tsx">
-import { GitHubGist } from '@/types/github';
-import {
-  CalendarIcon,
-  CodeBracketIcon,
-  TagIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-⋮----
-const fetchGists = async () =>
-⋮----
-{/* Tags filter */}
-⋮----
-onClick=
-⋮----
-{/* Gists grid */}
-⋮----
-{/* Tags */}
-⋮----
-{/* Preview first file content */}
-⋮----
-{/* Gist Detail Modal */}
-⋮----
-Created:
-⋮----
-Updated:
-</file>
-
-<file path="src/components/ui/card.tsx">
-import { cn } from "@/lib/utils"
-</file>
-
-<file path="src/lib/github-api 2.ts">
-// src/lib/github-api.ts
-import { Redis } from '@upstash/redis';
-⋮----
-interface CacheEntry<T> {
-  value: T;
-  expiresAt: number;
-}
-⋮----
-// Use Upstash Redis for caching if available, otherwise use in-memory cache
-⋮----
-const MEMORY_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
-⋮----
-export async function cachedFetch<T>(
-  key: string,
-  fetchFn: () => Promise<T>,
-  ttlSeconds: number = 900
-): Promise<T>
-⋮----
-// Try Redis cache first
-⋮----
-// Try memory cache
-⋮----
-// Fetch fresh data
-⋮----
-// Cache in Redis
-⋮----
-// Cache in memory
-⋮----
-// Clean up old memory cache entries periodically
-⋮----
-}, 60000); // Clean every minute
-⋮----
-export function getGitHubHeaders(token: string, extra?: Record<string, string>)
-⋮----
-// Helper to generate cache keys
-export function getCacheKey(endpoint: string, params: Record<string, string> =
-⋮----
-// Rate limiting helper
-export class RateLimiter
-⋮----
-private static readonly WINDOW_MS = 60 * 60 * 1000; // 1 hour
-private static readonly MAX_REQUESTS = 4000; // Leave some buffer under 5000 limit
-⋮----
-static canMakeRequest(endpoint: string): boolean
-⋮----
-// Clean up old requests
-⋮----
-static recordRequest(endpoint: string)
-⋮----
-static getRemainingRequests(endpoint: string): number
-</file>
-
-<file path="src/lib/github-api.test 2.ts">
-// @vitest-environment node
-⋮----
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  cachedFetch,
-  getCacheKey,
-  getGitHubHeaders,
-  RateLimiter,
-} from './github-api';
-⋮----
-expect(headers.Accept).toContain('github'); // vnd.github+json etc
-⋮----
-// Make sure we do not accidentally rely on Redis env
-⋮----
-// Bang on it enough times to cross the limit window
-</file>
-
-<file path="src/lib/github-api.test.ts">
-// @vitest-environment node
-⋮----
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  cachedFetch,
-  getCacheKey,
-  getGitHubHeaders,
-  RateLimiter,
-} from './github-api';
-⋮----
-expect(headers.Accept).toContain('github'); // vnd.github+json etc
-⋮----
-// Make sure we do not accidentally rely on Redis env
-⋮----
-// Bang on it enough times to cross the limit window
-</file>
-
-<file path="src/middleware 2.ts">
-import { NextRequest, NextResponse } from 'next/server'
-⋮----
-// Edge-safe base64 nonce
-function genNonce(): string
-⋮----
-// btoa is available in the Edge runtime; produces standard base64
-⋮----
-export function middleware(request: NextRequest)
-⋮----
-// keep it compact so it's easy to eyeball in curl
-⋮----
-// pass nonce to the app via request headers so you can read it with next/headers()
-⋮----
-// set response headers (Report-Only first)
-⋮----
-// debug header so we can confirm middleware response headers are reaching the client
-⋮----
-// NOTE: no `export const config = { matcher: ... }`
-// Middleware runs on all routes by default.
 </file>
 
 <file path="src/middleware.ts">
@@ -915,6 +661,21 @@ import { GET } from './route';
 // UI state
 </file>
 
+<file path="src/app/error.tsx">
+// src/app/error.tsx
+⋮----
+import { useEffect } from "react";
+⋮----
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+reset: ()
+⋮----
+// eslint-disable-next-line no-console
+</file>
+
 <file path="src/components/Die/Die.tsx">
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -1033,6 +794,11 @@ onClick=
 Created:
 ⋮----
 Updated:
+</file>
+
+<file path="src/components/ui/card.tsx">
+// src/components/ui/card.tsx
+import { cn } from "@/lib/utils";
 </file>
 
 <file path="src/hooks/useGithubStats.ts">
@@ -2068,6 +1834,10 @@ import type { NextConfig } from 'next';
 async headers()
 </file>
 
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
 <file path="src/components/Projects/Projects.tsx">
 // src/components/Projects/Projects.tsx
 ⋮----
@@ -2142,10 +1912,6 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 </file>
 
-<file path="public/next.svg">
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
-</file>
-
 <file path="public/vercel.svg">
 <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
 </file>
@@ -2204,38 +1970,6 @@ setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
 {/* Desktop Theme Switcher */}
 ⋮----
 {/* Main content offset */}
-</file>
-
-<file path="tsconfig.json">
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "outDir": "dist",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
-}
 </file>
 
 <file path="README.md">
@@ -2407,6 +2141,38 @@ Contributions are welcome! Please open issues or submit pull requests if you hav
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "outDir": "dist",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
 </file>
 
 <file path="src/components/Home/Home.tsx">
