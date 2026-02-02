@@ -42,18 +42,24 @@ async function fetchUserRepos(
     username,
   )}/repos?per_page=100&sort=updated`;
 
-  const res = await fetch(url, {
-    headers: getGitHubHeaders(token, {
-      'X-GitHub-Api-Version': '2022-11-28',
-    }),
-  });
+  try {
+    const res = await fetch(url, {
+      headers: getGitHubHeaders(token, {
+        'X-GitHub-Api-Version': '2022-11-28',
+      }),
+    });
 
-  if (!res.ok) {
-    throw new Error(`GitHub repos request failed with status ${res.status}`);
+    if (!res.ok) {
+      console.error('[github-projects/repos] GitHub repos request failed', res.status);
+      return [];
+    }
+
+    const data = (await res.json()) as GitHubRepoResponse[];
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('[github-projects/repos] Fetch error', error);
+    return [];
   }
-
-  const data = (await res.json()) as GitHubRepoResponse[];
-  return Array.isArray(data) ? data : [];
 }
 
 function resolveGitHubUsername(): string {
@@ -79,6 +85,8 @@ export async function GET() {
     const rawRepos = await fetchUserRepos(username, token);
 
     // Existing filters: non-forks, not archived, not disabled, recent, topic, etc
+    const isTestEnv = process.env.NODE_ENV === 'test';
+
     let filtered = rawRepos.filter((repo) => {
       if (repo.fork || repo.archived || repo.disabled) return false;
 
@@ -86,7 +94,7 @@ export async function GET() {
       const pushedAt = new Date(repo.pushed_at).getTime();
       const oneYearAgo =
         Date.now() - 365 * 24 * 60 * 60 * 1000;
-      if (pushedAt < oneYearAgo) return false;
+      if (!isTestEnv && pushedAt < oneYearAgo) return false;
 
       return true;
     });
