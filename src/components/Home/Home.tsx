@@ -1,16 +1,13 @@
 // src/components/Home/Home.tsx
 'use client';
 
-import Link from 'next/link';
 import Die from '@/components/Die';
 import { Skill } from '@/components/Die/types';
-import GitHubProfileCard from './GitHubProfileCard';
 import Projects from '@/components/Projects/Projects';
-import PricingBlock from './Conversion/PricingBlock';
-import ProofStrip from './Conversion/ProofStrip';
-import SchedulingModule from './Conversion/SchedulingModule';
-import ExamplesSection from './Conversion/ExamplesSection';
 import { trackEvent } from '@/lib/gtag';
+import Link from 'next/link';
+import SchedulingModule from './Conversion/SchedulingModule';
+import GitHubProfileCard from './GitHubProfileCard';
 
 import {
   CloudIcon,
@@ -166,11 +163,7 @@ export default function Home() {
 
           <Projects />
 
-          <div className="space-y-8">
-            <ProofStrip />
-            <PricingBlock />
-            <ExamplesSection />
-          </div>
+
 
           <SchedulingModule />
         </div>
