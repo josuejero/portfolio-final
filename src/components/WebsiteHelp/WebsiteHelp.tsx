@@ -245,7 +245,7 @@ export default function WebsiteHelp() {
       >
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
           <div className="space-y-2 text-center md:text-left">
-            <h2 className="text-2xl font-semibold text-foreground">Ready to unblock this page?</h2>
+
             <p className="text-sm text-muted-foreground">
               Prefer email? <Link href="/contact" className="font-semibold text-foreground underline">Contact me</Link> or
               leave a note before the call.

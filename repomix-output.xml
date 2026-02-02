@@ -80,8 +80,6 @@ src/
     blog/
       loading.tsx
       page.tsx
-    campus-help/
-      page.tsx
     contact/
       loading.tsx
       page.tsx
@@ -116,19 +114,6 @@ src/
     Blog/
       Blog.tsx
       index.ts
-    CampusHelp/
-      CampusHelpContactSection.tsx
-      CampusHelpFAQ.tsx
-      CampusHelpFlyer.tsx
-      CampusHelpHero.tsx
-      CampusHelpHowItWorks.tsx
-      CampusHelpPhaseSix.tsx
-      CampusHelpPricing.tsx
-      CampusHelpProof.tsx
-      CampusHelpServices.tsx
-      ContactStrip.tsx
-      PricingViewTracker.tsx
-      StickyBookingBar.tsx
     common/
       ErrorBoundary.tsx
       Layout.tsx
@@ -137,11 +122,9 @@ src/
       ThemeSwitcher.tsx
       TrackedLink.tsx
     Contact/
-      BookingDetails.tsx
       Contact.tsx
       ContactForm.tsx
       index.ts
-      ProofAssets.tsx
       types.ts
     Die/
       Die.tsx
@@ -181,7 +164,6 @@ src/
       activity.ts
       contributions.ts
       rest.ts
-    booking.ts
     github-api.ts
     gtag.ts
     metadata.ts
@@ -511,105 +493,6 @@ interface BlogPost {
 // src/components/Blog/index.ts
 </file>
 
-<file path="src/components/CampusHelp/CampusHelpFAQ.tsx">
-import Link from 'next/link';
-⋮----
-type FAQ = {
-  question: string;
-  answer: string;
-};
-⋮----
-export default function CampusHelpFAQ()
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpFlyer.tsx">
-import Image from 'next/image';
-⋮----
-type CampusHelpFlyerProps = {
-  qrUrl: string;
-  fallbackUrl: string;
-};
-⋮----
-export default function CampusHelpFlyer(
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpHero.tsx">
-import TrackedLink from '@/components/common/TrackedLink';
-⋮----
-type CampusHelpHeroProps = {
-  calendlyUrl: string;
-};
-⋮----
-export default function CampusHelpHero(
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpHowItWorks.tsx">
-import Link from 'next/link';
-⋮----
-type Step = {
-  title: string;
-  detail: string;
-};
-⋮----
-export default function CampusHelpHowItWorks()
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpPhaseSix.tsx">
-
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpPricing.tsx">
-import { type SpecialService } from '@/lib/booking';
-import PricingViewTracker from '@/components/CampusHelp/PricingViewTracker';
-import TrackedLink from '@/components/common/TrackedLink';
-⋮----
-type SessionCard = {
-  name: string;
-  duration: string;
-  price: string;
-  description: string;
-  recommended?: boolean;
-  eventValue?: string;
-};
-⋮----
-type CampusHelpPricingProps = {
-  calendlyUrl: string;
-  specialServices: SpecialService[];
-};
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpProof.tsx">
-import Link from 'next/link';
-⋮----
-type ProofItem = {
-  title: string;
-  detail: string;
-  link: string;
-  linkLabel: string;
-};
-⋮----
-export default function CampusHelpProof()
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpServices.tsx">
-import Link from 'next/link';
-⋮----
-type Service = {
-  title: string;
-  summary: string;
-  commonRequests: string[];
-  whatToBring: string;
-  typicalTime: string;
-};
-</file>
-
-<file path="src/components/CampusHelp/PricingViewTracker.tsx">
-import { useEffect, useRef } from 'react';
-import { trackEvent } from '@/lib/gtag';
-⋮----
-export default function PricingViewTracker()
-</file>
-
 <file path="src/components/common/ErrorBoundary.tsx">
 // src/components/common/ErrorBoundary.tsx
 ⋮----
@@ -651,14 +534,6 @@ export default function TrackedLink(
 const handleClick = (event: MouseEvent<HTMLAnchorElement>) =>
 </file>
 
-<file path="src/components/Contact/BookingDetails.tsx">
-import { bookingInfo } from '@/lib/booking';
-⋮----
-const eventTypeClass = (recommended?: boolean)
-⋮----
-export default function BookingDetails()
-</file>
-
 <file path="src/components/Contact/ContactForm.tsx">
 import type { ChangeEvent, FormEvent } from 'react';
 import type { FieldErrors, FormState } from './types';
@@ -674,10 +549,6 @@ interface Props {
 
 <file path="src/components/Contact/index.ts">
 // src/components/Contact/index.ts
-</file>
-
-<file path="src/components/Contact/ProofAssets.tsx">
-import { bookingInfo } from '@/lib/booking';
 </file>
 
 <file path="src/components/Contact/types.ts">
@@ -987,37 +858,6 @@ export async function buildCommitActivity(
 )
 </file>
 
-<file path="src/lib/booking.ts">
-import proofJson from '../../proof-assets/data.json';
-⋮----
-export type BookingEventType = {
-  name: string;
-  duration: string;
-  priceLabel: string;
-  description: string;
-  optional?: boolean;
-  recommended?: boolean;
-};
-⋮----
-export type SpecialService = {
-  name: string;
-  price: string;
-  description: string;
-};
-⋮----
-export type ProofAsset = {
-  title: string;
-  result: string;
-  link: string;
-  linkLabel: string;
-};
-⋮----
-type ProofData = {
-  testimonial: string;
-  items: ProofAsset[];
-};
-</file>
-
 <file path="src/lib/gtag.ts">
 export type TrackEventParams = Record<string, unknown>;
 ⋮----
@@ -1271,56 +1111,6 @@ export default function Error({
 reset: ()
 ⋮----
 // eslint-disable-next-line no-console
-</file>
-
-<file path="src/components/CampusHelp/CampusHelpContactSection.tsx">
-import { Banknote, CreditCard, Wallet, type LucideIcon } from 'lucide-react';
-import ContactStrip, { type ContactDetail } from '@/components/CampusHelp/ContactStrip';
-import TrackedLink from '@/components/common/TrackedLink';
-⋮----
-type PaymentMethod = {
-  name: string;
-  detail: string;
-  Icon: LucideIcon;
-};
-⋮----
-type CampusHelpContactSectionProps = {
-  calendlyUrl: string;
-};
-⋮----
-export default function CampusHelpContactSection(
-</file>
-
-<file path="src/components/CampusHelp/ContactStrip.tsx">
-import { ClipboardDocumentIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
-import TrackedLink from '@/components/common/TrackedLink';
-import type { TrackEventSpec } from '@/lib/gtag';
-⋮----
-export type ContactDetail = {
-  label: string;
-  value: string;
-  helper?: string;
-  href?: string;
-  trackEvents?: TrackEventSpec[];
-};
-⋮----
-interface ContactStripProps {
-  details: ContactDetail[];
-}
-⋮----
-const copyToClipboard = async (value: string) =>
-</file>
-
-<file path="src/components/CampusHelp/StickyBookingBar.tsx">
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
-import TrackedLink from '@/components/common/TrackedLink';
-⋮----
-interface StickyBookingBarProps {
-  href: string;
-}
-⋮----
-export default function StickyBookingBar(
 </file>
 
 <file path="src/components/Die/Die.tsx">
@@ -1922,6 +1712,38 @@ export async function getRepoCiStatus(opts: {
 }): Promise<CiStatus>
 </file>
 
+<file path="tailwind.config.ts">
+// tailwind.config.ts
+import typography from "@tailwindcss/typography";
+import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="src/components/Projects/Projects.tsx">
+import type { GitHubPinnedRepo } from '@/types/github';
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import PinnedProjectCard from './PinnedProjectCard';
+⋮----
+const fetchPinned = async () =>
+</file>
+
+<file path="src/components/Projects/ProjectsExplorer.tsx">
+import type { GitHubRepositorySummary } from '@/types/github';
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import ProjectExplorerCard from './ProjectExplorerCard';
+⋮----
+const load = async () =>
+</file>
+
 <file path="next.config.ts">
 // next.config.ts
 import type { NextConfig } from 'next';
@@ -1955,58 +1777,6 @@ import type { NextConfig } from 'next';
 // ],
 ⋮----
 async headers()
-async redirects()
-</file>
-
-<file path="tailwind.config.ts">
-// tailwind.config.ts
-import typography from "@tailwindcss/typography";
-import type { Config } from "tailwindcss";
-import animate from "tailwindcss-animate";
-</file>
-
-<file path="public/vercel.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
-</file>
-
-<file path="src/components/Contact/Contact.tsx">
-import BookingDetails from './BookingDetails';
-import ContactForm from './ContactForm';
-import ProofAssets from './ProofAssets';
-import type { FieldErrors, FormState } from './types';
-⋮----
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { z } from 'zod';
-⋮----
-const onChange =
-(field: keyof FormState)
-⋮----
-const validate = (): boolean =>
-⋮----
-const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>
-⋮----
-// ignore
-</file>
-
-<file path="src/components/Projects/Projects.tsx">
-import type { GitHubPinnedRepo } from '@/types/github';
-import { CodeBracketIcon } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import PinnedProjectCard from './PinnedProjectCard';
-⋮----
-const fetchPinned = async () =>
-</file>
-
-<file path="src/components/Projects/ProjectsExplorer.tsx">
-import type { GitHubRepositorySummary } from '@/types/github';
-import { CodeBracketIcon } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import ProjectExplorerCard from './ProjectExplorerCard';
-⋮----
-const load = async () =>
 </file>
 
 <file path="README.md">
@@ -2212,80 +1982,21 @@ This project is licensed under the [MIT License](LICENSE).
 }
 </file>
 
-<file path="src/app/campus-help/page.tsx">
-import type { Metadata } from 'next';
+<file path="src/components/Contact/Contact.tsx">
+import ContactForm from './ContactForm';
+import type { FieldErrors, FormState } from './types';
 ⋮----
-import Layout from '@/components/common/Layout';
-import StickyBookingBar from '@/components/CampusHelp/StickyBookingBar';
-import CampusHelpHero from '@/components/CampusHelp/CampusHelpHero';
-import CampusHelpServices from '@/components/CampusHelp/CampusHelpServices';
-import CampusHelpPricing from '@/components/CampusHelp/CampusHelpPricing';
-import CampusHelpProof from '@/components/CampusHelp/CampusHelpProof';
-import CampusHelpHowItWorks from '@/components/CampusHelp/CampusHelpHowItWorks';
-import CampusHelpFAQ from '@/components/CampusHelp/CampusHelpFAQ';
-import CampusHelpContactSection from '@/components/CampusHelp/CampusHelpContactSection';
-import CampusHelpPhaseSix from '@/components/CampusHelp/CampusHelpPhaseSix';
-import CampusHelpFlyer from '@/components/CampusHelp/CampusHelpFlyer';
-import { bookingInfo } from '@/lib/booking';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { z } from 'zod';
 ⋮----
-export default function CampusHelpPage()
-</file>
-
-<file path="src/components/Sidebar/Sidebar.tsx">
-// src/components/Sidebar/Sidebar.tsx
+const onChange =
+(field: keyof FormState)
 ⋮----
-import {
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  CodeBracketIcon,
-  EnvelopeIcon,
-  FolderIcon,
-  HomeIcon,
-  SparklesIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { ThemeSwitcher } from '../common/ThemeSwitcher';
+const validate = (): boolean =>
 ⋮----
-// Navigation items
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>
 ⋮----
-// Handle resize events
-⋮----
-const handleResize = () =>
-⋮----
-setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
-⋮----
-// Set initial value
-⋮----
-// Add event listener
-⋮----
-// Cleanup
-⋮----
-// Mobile Bottom Navigation
-⋮----
-{/* Main content area - add padding to avoid overlap */}
-⋮----
-{/* Mobile Bottom Navigation */}
-⋮----
-{/* Mobile Theme Switcher */}
-⋮----
-{/* Safe area padding for mobile devices */}
-⋮----
-// Desktop Sidebar
-⋮----
-{/* Sidebar Toggle Button */}
-⋮----
-{/* Desktop Sidebar */}
-⋮----
-{/* Logo/Brand */}
-⋮----
-{/* Navigation */}
-⋮----
-{/* Desktop Theme Switcher */}
-⋮----
-{/* Main content offset */}
+// ignore
 </file>
 
 <file path="src/components/Home/Home.tsx">
@@ -2332,6 +2043,62 @@ onClick=
               </div> */}
 ⋮----
 {/* Snapshot stats bar */}
+</file>
+
+<file path="src/components/Sidebar/Sidebar.tsx">
+// src/components/Sidebar/Sidebar.tsx
+⋮----
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  CodeBracketIcon,
+  EnvelopeIcon,
+  FolderIcon,
+  HomeIcon,
+  UserIcon,
+} from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ThemeSwitcher } from '../common/ThemeSwitcher';
+⋮----
+// Navigation items
+⋮----
+// Handle resize events
+⋮----
+const handleResize = () =>
+⋮----
+setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
+⋮----
+// Set initial value
+⋮----
+// Add event listener
+⋮----
+// Cleanup
+⋮----
+// Mobile Bottom Navigation
+⋮----
+{/* Main content area - add padding to avoid overlap */}
+⋮----
+{/* Mobile Bottom Navigation */}
+⋮----
+{/* Mobile Theme Switcher */}
+⋮----
+{/* Safe area padding for mobile devices */}
+⋮----
+// Desktop Sidebar
+⋮----
+{/* Sidebar Toggle Button */}
+⋮----
+{/* Desktop Sidebar */}
+⋮----
+{/* Logo/Brand */}
+⋮----
+{/* Navigation */}
+⋮----
+{/* Desktop Theme Switcher */}
+⋮----
+{/* Main content offset */}
 </file>
 
 <file path="src/app/layout.tsx">
