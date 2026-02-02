@@ -30,7 +30,7 @@ export default function ProofStrip() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-500">Proof</p>
-          <h2 className="text-2xl font-semibold text-foreground">'Visible improvements that moved the needle'</h2>
+          <h2 className="text-2xl font-semibold text-foreground">&lsquo;Visible improvements that moved the needle&rsquo;</h2>
         </div>
         <p className="text-xs font-medium text-muted-foreground">Screenshots + outcomes, directly tied to the experience.</p>
       </div>
