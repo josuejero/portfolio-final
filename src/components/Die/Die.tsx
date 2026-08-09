@@ -73,11 +73,11 @@ const Die: React.FC<DieProps> = ({
         animate={{ opacity: 1, y: 0 }}
         className="space-y-2 text-center"
       >
-        <h3 className="bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
+        <h3 className="bg-gradient-to-r from-brand to-brand-accent bg-clip-text text-2xl font-bold text-transparent">
           Explore My Skills
         </h3>
 
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-muted-foreground">
           Click the die to discover my tech stack
         </p>
       </motion.div>
@@ -90,13 +90,13 @@ const Die: React.FC<DieProps> = ({
         whileHover="hover"
         whileTap="tap"
       >
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 opacity-50 blur-lg transition-opacity group-hover:opacity-75" />
+        <div className="absolute inset-0 rounded-panel bg-gradient-to-r from-brand to-brand-accent opacity-50 blur-lg transition-opacity duration-normal ease-standard group-hover:opacity-75" />
 
         <motion.div
           onClick={rollDie}
-          className="perspective-1000 transform-style-preserve-3d relative flex h-40 w-40 cursor-pointer items-center justify-center rounded-2xl border border-gray-200 bg-white bg-opacity-90 shadow-xl backdrop-blur-sm transition-all dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-90"
+          className="perspective-1000 transform-style-preserve-3d relative flex h-40 w-40 cursor-pointer items-center justify-center rounded-panel border border-border/60 bg-card/90 shadow-raised backdrop-blur-sm transition-colors duration-normal ease-standard"
         >
-          <div className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text px-4 text-center text-xl font-bold text-transparent">
+          <div className="bg-gradient-to-r from-brand to-brand-accent bg-clip-text px-4 text-center text-xl font-bold text-transparent">
             {state.currentSkill
               ? state.currentSkill.name
               : 'Roll Me!'}
@@ -112,26 +112,26 @@ const Die: React.FC<DieProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800">
+            <div className="rounded-surface border border-border/60 bg-card/70 p-6 shadow-soft">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h4 className="text-lg font-semibold">
                     {state.currentSkill.name}
                   </h4>
 
-                  <span className="text-sm text-blue-600 dark:text-blue-400">
+                  <span className="text-sm text-brand">
                     {state.currentSkill.yearsOfExperience} years
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                  <div className="h-2 overflow-hidden rounded-pill bg-muted">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{
                         width: `${state.currentSkill.proficiency}%`,
                       }}
-                      className="h-full bg-gradient-to-r from-blue-500 to-violet-500"
+                      className="h-full bg-gradient-to-r from-brand to-brand-accent"
                       transition={{
                         duration: 0.8,
                         ease: 'easeOut',
@@ -139,7 +139,7 @@ const Die: React.FC<DieProps> = ({
                     />
                   </div>
 
-                  <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex justify-between text-sm text-muted-foreground">
                     <span>Proficiency</span>
                     <span>
                       {state.currentSkill.proficiency}%
@@ -160,7 +160,7 @@ const Die: React.FC<DieProps> = ({
                           href={`/projects/${encodeURIComponent(
                             project.slug,
                           )}`}
-                          className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 hover:underline dark:bg-blue-900 dark:text-blue-100"
+                          className="rounded-pill border border-brand/30 bg-brand/10 px-3 py-1 text-sm text-brand hover:underline"
                         >
                           {project.name}
                         </Link>

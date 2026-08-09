@@ -59,6 +59,8 @@ const config: Config = {
           hover: 'hsl(var(--brand-hover) / <alpha-value>)',
           foreground:
             'hsl(var(--brand-foreground) / <alpha-value>)',
+          accent:
+            'hsl(var(--brand-accent) / <alpha-value>)',
         },
 
         success: {
