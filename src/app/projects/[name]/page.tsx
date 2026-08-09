@@ -1,5 +1,4 @@
 // src/app/projects/[name]/page.tsx
-import Layout from '@/components/common/Layout';
 import ProjectDetail from '@/components/Projects/ProjectDetail';
 import { use } from 'react';
 
@@ -14,9 +13,5 @@ interface ProjectPageProps {
 export default function ProjectPage({ params }: ProjectPageProps) {
   const { name } = use(params);
 
-  return (
-    <Layout>
-      <ProjectDetail name={name} />
-    </Layout>
-  );
+  return <ProjectDetail name={name} />;
 }

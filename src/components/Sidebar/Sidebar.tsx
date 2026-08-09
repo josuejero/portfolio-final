@@ -13,137 +13,237 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
 
-const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const pathname = usePathname();
+interface SidebarProps {
+  isCollapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+}
 
-  // Navigation items
-  const navItems = [
-    { href: '/', icon: HomeIcon, label: 'Home' },
-    { href: '/about', icon: UserIcon, label: 'About' },
-    { href: '/projects', icon: FolderIcon, label: 'Projects' },
-    { href: '/website-help', icon: SparklesIcon, label: 'Website Help' },
-    { href: '/contact', icon: EnvelopeIcon, label: 'Contact' },
-  ];
+const navItems = [
+  {
+    href: '/',
+    icon: HomeIcon,
+    label: 'Home',
+  },
+  {
+    href: '/about',
+    icon: UserIcon,
+    label: 'About',
+  },
+  {
+    href: '/projects',
+    icon: FolderIcon,
+    label: 'Projects',
+  },
+  {
+    href: '/website-help',
+    icon: SparklesIcon,
+    label: 'Website Help',
+  },
+  {
+    href: '/contact',
+    icon: EnvelopeIcon,
+    label: 'Contact',
+  },
+] as const;
 
-  // Handle resize events
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // 768px is our mobile breakpoint
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true);
-      }
-    };
-
-    // Set initial value
-    handleResize();
-
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Mobile Bottom Navigation
-  if (isMobile) {
-    return (
-      <>
-        {/* Main content area - add padding to avoid overlap */}
-        <div className="pb-16" />
-
-        {/* Mobile Bottom Navigation */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 h-16">
-          <div className="h-full flex items-center justify-around">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-                    isActive
-                      ? 'text-primary bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-xs mt-1">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Mobile Theme Switcher */}
-          <div className="absolute top-2 right-2">
-            <ThemeSwitcher isOpen={true} />
-          </div>
-
-          {/* Safe area padding for mobile devices */}
-          <div className="h-safe-area" />
-        </nav>
-      </>
-    );
+function isRouteActive(
+  pathname: string,
+  href: string,
+): boolean {
+  if (href === '/') {
+    return pathname === '/';
   }
 
-  // Desktop Sidebar
+  return (
+    pathname === href ||
+    pathname.startsWith(`${href}/`)
+  );
+}
+
+export default function Sidebar({
+  isCollapsed,
+  onCollapsedChange,
+}: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <>
-      {/* Sidebar Toggle Button */}
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/60 bg-background/90 px-4 backdrop-blur sm:px-6 md:hidden">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold"
+        >
+          <CodeBracketIcon
+            className="h-5 w-5 text-brand"
+            aria-hidden="true"
+          />
+          <span>Portfolio</span>
+        </Link>
+
+        <ThemeSwitcher isOpen={false} />
+      </header>
+
+      <nav
+        aria-label="Primary navigation"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-card/95 backdrop-blur md:hidden"
+      >
+        <div className="grid min-h-16 grid-cols-5 items-stretch pb-[env(safe-area-inset-bottom)]">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = isRouteActive(
+              pathname,
+              item.href,
+            );
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={
+                  isActive ? 'page' : undefined
+                }
+                className={[
+                  'flex min-w-0 flex-col items-center justify-center gap-1 px-1 py-2',
+                  'text-[11px] font-medium',
+                  'transition-colors duration-fast ease-standard',
+                  isActive
+                    ? 'bg-brand/10 text-brand'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                ].join(' ')}
+              >
+                <Icon
+                  className="h-5 w-5 shrink-0"
+                  aria-hidden="true"
+                />
+
+                <span className="max-w-full truncate">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
       <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className={`fixed top-4 z-50 bg-card border border-border rounded-full p-2 transition-all duration-300 ${
-          isCollapsed ? 'left-4' : 'md:left-64'
-        } hover:bg-muted`}
+        type="button"
+        onClick={() =>
+          onCollapsedChange(!isCollapsed)
+        }
+        aria-expanded={!isCollapsed}
+        aria-controls="desktop-sidebar"
+        aria-label={
+          isCollapsed
+            ? 'Expand navigation'
+            : 'Collapse navigation'
+        }
+        className={[
+          'fixed top-4 z-50 hidden rounded-pill',
+          'border border-border bg-card p-2 shadow-soft',
+          'transition-[left,background-color] duration-normal ease-standard',
+          'hover:bg-muted md:block',
+          isCollapsed
+            ? 'left-3'
+            : 'left-[15rem]',
+        ].join(' ')}
       >
         {isCollapsed ? (
-          <ChevronDoubleRightIcon className="h-5 w-5" />
+          <ChevronDoubleRightIcon
+            className="h-5 w-5"
+            aria-hidden="true"
+          />
         ) : (
-          <ChevronDoubleLeftIcon className="h-5 w-5" />
+          <ChevronDoubleLeftIcon
+            className="h-5 w-5"
+            aria-hidden="true"
+          />
         )}
       </button>
 
-      {/* Desktop Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full bg-card border-r border-border z-40 transition-all duration-300 overflow-hidden ${
-          isCollapsed ? 'w-0 md:w-16' : 'w-64'
-        }`}
+        id="desktop-sidebar"
+        aria-label="Site navigation"
+        className={[
+          'fixed inset-y-0 left-0 z-40 hidden overflow-hidden',
+          'border-r border-border/60 bg-card',
+          'transition-[width] duration-normal ease-standard',
+          'md:flex md:flex-col',
+          isCollapsed ? 'w-16' : 'w-64',
+        ].join(' ')}
       >
-        <div className="h-full flex flex-col">
-          {/* Logo/Brand */}
-          <div className="p-6 border-b border-border">
-            {!isCollapsed ? (
-              <h1 className="text-xl font-bold">Portfolio</h1>
-            ) : (
-              <div className="flex justify-center">
-                <CodeBracketIcon className="h-6 w-6" />
-              </div>
-            )}
+        <div className="flex h-full flex-col">
+          <div className="flex h-16 shrink-0 items-center border-b border-border/60 px-4">
+            <Link
+              href="/"
+              className={[
+                'flex min-w-0 items-center font-semibold',
+                isCollapsed
+                  ? 'w-full justify-center'
+                  : 'gap-3',
+              ].join(' ')}
+            >
+              <CodeBracketIcon
+                className="h-6 w-6 shrink-0 text-brand"
+                aria-hidden="true"
+              />
+
+              {!isCollapsed && (
+                <span className="truncate">
+                  Portfolio
+                </span>
+              )}
+            </Link>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 p-4">
-            <ul className="space-y-2">
+          <nav
+            aria-label="Primary navigation"
+            className="flex-1 p-3"
+          >
+            <ul className="space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = pathname === item.href;
+                const isActive = isRouteActive(
+                  pathname,
+                  item.href,
+                );
+
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`flex items-center rounded-lg p-3 transition-colors ${
+                      aria-current={
                         isActive
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                      }`}
+                          ? 'page'
+                          : undefined
+                      }
+                      title={
+                        isCollapsed
+                          ? item.label
+                          : undefined
+                      }
+                      className={[
+                        'flex min-h-10 items-center rounded-control px-3',
+                        'text-sm font-medium',
+                        'transition-colors duration-fast ease-standard',
+                        isCollapsed
+                          ? 'justify-center'
+                          : 'gap-3',
+                        isActive
+                          ? 'bg-brand/10 text-brand'
+                          : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                      ].join(' ')}
                     >
-                      <Icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
-                      {!isCollapsed && <span>{item.label}</span>}
+                      <Icon
+                        className="h-5 w-5 shrink-0"
+                        aria-hidden="true"
+                      />
+
+                      {!isCollapsed && (
+                        <span>{item.label}</span>
+                      )}
                     </Link>
                   </li>
                 );
@@ -151,17 +251,13 @@ const Sidebar = () => {
             </ul>
           </nav>
 
-          {/* Desktop Theme Switcher */}
-          <div className="p-4 border-t border-border">
-            <ThemeSwitcher isOpen={!isCollapsed} />
+          <div className="border-t border-border/60 p-3">
+            <ThemeSwitcher
+              isOpen={!isCollapsed}
+            />
           </div>
         </div>
       </aside>
-
-      {/* Main content offset */}
-      <div className={`transition-all duration-300 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'}`} />
     </>
   );
-};
-
-export default Sidebar;
+}

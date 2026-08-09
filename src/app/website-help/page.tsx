@@ -1,4 +1,3 @@
-import Layout from '@/components/common/Layout';
 import WebsiteHelp from '@/components/WebsiteHelp';
 import { siteMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
@@ -35,9 +34,5 @@ export const metadata: Metadata = {
 };
 
 export default function WebsiteHelpPage() {
-  return (
-    <Layout>
-      <WebsiteHelp />
-    </Layout>
-  );
+  return <WebsiteHelp />;
 }

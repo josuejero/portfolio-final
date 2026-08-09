@@ -187,18 +187,6 @@
   }
 }
 
-/* Mobile safe area handling */
-.h-safe-area {
-  height: env(safe-area-inset-bottom, 0px);
-}
-
-/* Prevent content from being hidden under the mobile navigation bar */
-@media (max-width: 767px) {
-  body {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion-fast: 0ms;

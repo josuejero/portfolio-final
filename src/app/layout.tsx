@@ -1,3 +1,4 @@
+import AppShell from '@/components/common/AppShell';
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { siteMetadata } from '@/lib/metadata';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
@@ -94,9 +95,7 @@ export default function RootLayout({
           </>
         )}
         <ThemeProvider defaultTheme="system" enableSystem>
-          <div className="min-h-screen bg-background text-foreground relative">
-            {children}
-          </div>
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>
