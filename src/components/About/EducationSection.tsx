@@ -34,17 +34,17 @@ export default function EducationSection() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-3xl font-bold">
-            <GraduationCap className="h-10 w-10 text-blue-600" />
+            <GraduationCap className="h-10 w-10 text-brand" />
             Education
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h3 className="text-2xl font-bold mb-2">{education.degree}</h3>
-            <p className="text-gray-600 dark:text-gray-400">{education.school}</p>
-            <p className="text-gray-600 dark:text-gray-400">{education.location}</p>
-            <p className="text-gray-600 dark:text-gray-400">Graduating: {education.graduation}</p>
-            <p className="text-blue-600 dark:text-blue-400 mt-2">{education.gpa}</p>
+            <p className="text-muted-foreground">{education.school}</p>
+            <p className="text-muted-foreground">{education.location}</p>
+            <p className="text-muted-foreground">Graduating: {education.graduation}</p>
+            <p className="mt-2 text-brand">{education.gpa}</p>
           </div>
 
           <div className="mt-4">
@@ -53,7 +53,7 @@ export default function EducationSection() {
               {education.relevantCourses.map((course, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                  className="rounded-pill border border-brand/30 bg-brand/10 px-3 py-1 text-sm text-brand"
                 >
                   {course}
                 </span>

@@ -14,12 +14,12 @@ export default function ProfessionalSummary() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-3xl font-bold">
-            <BookOpen className="h-10 w-10 text-blue-600" />
+            <BookOpen className="h-10 w-10 text-brand" />
             Professional Background
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-lg text-gray-700 dark:text-gray-300">
+          <p className="text-lg text-muted-foreground">
             Results-oriented Computer Engineering graduate with 7 years of programming experience,
             including hands-on work in software development, cloud computing, and automation.
             Demonstrated strong work ethic and time management skills by working part-time to

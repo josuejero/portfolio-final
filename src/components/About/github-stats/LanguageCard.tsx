@@ -18,14 +18,14 @@ export default function LanguageCard({ topLanguages }: Props) {
 
   return (
     <motion.div
-      className="rounded-xl border bg-card/50 p-4"
+      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, delay: 0.15 }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-brand/10 text-brand">
             <span className="text-xs">&#123;&#125;</span>
           </span>
           <div>
@@ -47,9 +47,9 @@ export default function LanguageCard({ topLanguages }: Props) {
                   <span>{language}</span>
                   <span className="text-muted-foreground">{percentage.toFixed(1)}%</span>
                 </div>
-                <div className="h-1.5 rounded-full bg-muted">
+                <div className="h-1.5 rounded-pill bg-muted">
                   <div
-                    className="h-1.5 rounded-full bg-primary"
+                    className="h-1.5 rounded-pill bg-brand"
                     style={{ width: `${percentage}%` }}
                   />
                 </div>

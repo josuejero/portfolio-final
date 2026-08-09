@@ -11,14 +11,14 @@ interface Props {
 export default function CommitActivityCard({ commitActivity }: Props) {
   return (
     <motion.div
-      className="rounded-xl border bg-card/50 p-4"
+      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, delay: 0.1 }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-brand/10 text-brand">
             <span className="text-xs">&lt;/&gt;</span>
           </span>
           <div>
@@ -34,13 +34,14 @@ export default function CommitActivityCard({ commitActivity }: Props) {
         {commitActivity.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={commitActivity}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 11 }} interval={1} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
               <Tooltip contentStyle={{ fontSize: 12 }} />
               <Line
                 type="monotone"
                 dataKey="commits"
+                stroke="hsl(var(--brand))"
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 4 }}

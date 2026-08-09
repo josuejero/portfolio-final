@@ -7,6 +7,8 @@ interface Props {
   calendar: GitHubContributionCalendar | null;
   contributionsThisYear: number;
 }
+// Intentional data-visualization scale: color intensity represents
+// contribution activity rather than generic success/status semantics.
 const levelClass = (level: number) => {
   switch (level) {
     case 0:
@@ -46,7 +48,7 @@ export default function ContributionCalendarCard({ calendar, contributionsThisYe
 
   return (
     <motion.div
-      className="rounded-xl border bg-card/50 p-4"
+      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
@@ -65,7 +67,7 @@ export default function ContributionCalendarCard({ calendar, contributionsThisYe
       {calendar ? (
         <div className="mt-3">
           <div
-            className="grid grid-rows-7 gap-0.5 rounded-md bg-muted/40 p-2"
+            className="grid grid-rows-7 gap-0.5 rounded-control bg-muted/40 p-2"
             style={{
               gridTemplateColumns: `repeat(${Math.max(calendar.weeks.length, 1)}, minmax(3px, 1fr))`,
             }}

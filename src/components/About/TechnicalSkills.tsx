@@ -57,7 +57,7 @@ export default function TechnicalSkills() {
                       return (
                         <motion.div
                           key={skill.id}
-                          className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800"
+                          className="rounded-surface border border-border/60 bg-muted/30 p-4"
                           whileHover={{ scale: 1.02 }}
                           transition={{
                             type: 'spring',
@@ -69,12 +69,12 @@ export default function TechnicalSkills() {
                               {about.label ?? skill.name}
                             </span>
 
-                            <span className="text-sm text-blue-600 dark:text-blue-400">
+                            <span className="text-sm text-brand">
                               {skill.yearsOfExperience} years
                             </span>
                           </div>
 
-                          <p className="text-sm text-gray-600 dark:text-gray-300">
+                          <p className="text-sm text-muted-foreground">
                             {about.details}
                           </p>
                         </motion.div>

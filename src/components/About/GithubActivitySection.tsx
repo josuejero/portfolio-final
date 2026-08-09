@@ -25,21 +25,21 @@ export default function GithubActivitySection({ stats, username }: GithubActivit
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-3xl font-bold">
-            <Code2 className="h-10 w-10 text-blue-600" />
+            <Code2 className="h-10 w-10 text-brand" />
             GitHub Activity
           </CardTitle>
         </CardHeader>
         <CardContent>
           {stats.loading ? (
             <div className="animate-pulse space-y-4">
-              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+              <div className="h-32 rounded-surface bg-muted"></div>
+              <div className="h-64 rounded-surface bg-muted"></div>
             </div>
           ) : stats.error ? (
-            <p className="text-red-500 text-center p-4">Error: {stats.error}</p>
+            <p className="rounded-control border border-destructive/40 bg-destructive/10 p-4 text-center text-sm text-foreground">Error: {stats.error}</p>
           ) : (
             <ErrorBoundary>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div className="text-sm text-muted-foreground">Loading GitHub activity…</div>}>
                 <GithubStats stats={stats} username={username} />
               </Suspense>
             </ErrorBoundary>

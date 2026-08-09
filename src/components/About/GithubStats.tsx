@@ -25,8 +25,8 @@ export default function GithubStats({ stats, username }: GithubStatsProps) {
 
   if (stats.error) {
     return (
-      <div className="rounded-md border border-destructive/40 bg-destructive/5 p-4 text-sm">
-        <p className="font-medium text-destructive">
+      <div className="rounded-control border border-destructive/40 bg-destructive/10 p-4 text-sm">
+        <p className="font-medium text-foreground">
           GitHub data is currently unavailable.
         </p>
         <p className="mt-1 text-muted-foreground">{stats.error}</p>
@@ -39,7 +39,7 @@ export default function GithubStats({ stats, username }: GithubStatsProps) {
       <div className="flex flex-wrap items-baseline justify-between gap-4">
         <h3 className="text-lg font-semibold tracking-tight">
           GitHub activity for{' '}
-          <span className="font-mono text-primary">@{username}</span>
+          <span className="font-mono text-brand">@{username}</span>
         </h3>
         <p className="text-xs text-muted-foreground">
           {stats.contributionsThisYear.toLocaleString()} contributions in the last 12 months
