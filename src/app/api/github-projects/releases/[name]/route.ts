@@ -90,7 +90,6 @@ export async function GET(
     return setCacheHeaders(nextResponse, 3600); // 1 hour cache
   } catch (error) {
     // Return empty result on error
-    // eslint-disable-next-line no-console
     console.error('Error fetching GitHub releases', error);
 
     return setCacheHeaders(emptyResponse, 300); // 5 minute cache on error
