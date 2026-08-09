@@ -1,0 +1,40 @@
+
+> portfolio-final@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.22
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.101:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1164ms
+ ✓ Compiled /middleware in 205ms (115 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 2.2s (1580 modules)
+ GET / 200 in 2415ms
+ ✓ Compiled in 89ms (702 modules)
+ GET / 200 in 21ms
+ GET / 200 in 65ms
+ ○ Compiling /api/github-projects/pinned ...
+ ✓ Compiled /api/github-projects/pinned in 543ms (877 modules)
+ ✓ Compiled in 158ms (689 modules)
+ GET /favicon.ico 200 in 928ms
+ GET /api/github-projects/pinned 200 in 1018ms
+ GET /api/github-projects/pinned 200 in 347ms
+ GET /api/github-stats 200 in 8255ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ GET /api/github-stats 200 in 4310ms
+ ✓ Compiled /_not-found in 204ms (1588 modules)
+ GET /llms.txt 404 in 304ms
+ GET /robots.txt 404 in 17ms
+ GET / 200 in 77ms
+ GET / 200 in 112ms
+ GET /favicon.ico 200 in 10ms
+ GET /api/github-projects/pinned 200 in 431ms
+ GET /api/github-projects/pinned 200 in 282ms
+ GET /api/github-stats 200 in 4523ms
+ GET /llms.txt 404 in 19ms
+ GET /api/github-stats 200 in 4135ms
+ GET /robots.txt 404 in 17ms
+ GET / 200 in 24ms
