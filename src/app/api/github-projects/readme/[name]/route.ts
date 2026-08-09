@@ -1,5 +1,5 @@
 // src/app/api/github-projects/readme/[name]/route.ts
-import { getGitHubHeaders } from "@/lib/github-api";
+import { GITHUB_API_BASE, getGitHubHeaders } from "@/lib/github-api";
 import { NextResponse } from "next/server";
 
 function decodeBase64ToUtf8(base64: string) {
@@ -25,7 +25,7 @@ export async function GET(
 
   const owner = "josuejero"; // or resolveGitHubUsername()
   const token = process.env.GITHUB_TOKEN ?? "";
-  const url = `https://api.github.com/repos/${owner}/${name}/readme`;
+  const url = `${GITHUB_API_BASE}/repos/${owner}/${name}/readme`;
 
   const res = await fetch(url, {
     headers: getGitHubHeaders(token, { Accept: "application/vnd.github+json" }),

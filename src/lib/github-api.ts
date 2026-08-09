@@ -34,7 +34,7 @@ export async function getRepoCiStatus(opts: {
   token?: string;
 }): Promise<CiStatus> {
   const { fullName, defaultBranch, token } = opts;
-  const url = new URL(`https://api.github.com/repos/${fullName}/actions/runs`);
+  const url = new URL(`${GITHUB_API_BASE}/repos/${fullName}/actions/runs`);
   url.searchParams.set('branch', defaultBranch);
   url.searchParams.set('status', 'completed');
   url.searchParams.set('per_page', '1');

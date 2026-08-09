@@ -1,18 +1,9 @@
 // FILE: src/app/api/github-projects/gists/route.ts
 // src/app/api/github-projects/gists/route.ts
+import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
+import { GITHUB_API_BASE, getGitHubHeaders } from '@/lib/github-api';
 import type { GitHubGist, GitHubGistFile } from '@/types/github';
 import { NextResponse } from 'next/server';
-
-function setCacheHeaders(
-  response: NextResponse,
-  maxAge: number = 1800,
-): NextResponse {
-  response.headers.set(
-    'Cache-Control',
-    `public, max-age=${maxAge}, stale-while-revalidate=${maxAge}`,
-  );
-  return response;
-}
 
 interface GitHubGistResponse {
   id: string;
@@ -63,35 +54,27 @@ function resolveGitHubUsername(): string {
   return 'josuejero';
 }
 
-function buildGitHubHeaders(): HeadersInit {
-  const headers: Record<string, string> = {
-    Accept: 'application/vnd.github+json',
-    'User-Agent': 'portfolio-site',
-  };
-
-  const token = process.env.GITHUB_TOKEN ?? process.env.GITHUB_ACCESS_TOKEN;
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  return headers;
-}
-
 export async function GET(): Promise<NextResponse> {
   const username = resolveGitHubUsername();
 
   try {
     const response = await fetch(
-      `https://api.github.com/users/${encodeURIComponent(username)}/gists`,
+      `${GITHUB_API_BASE}/users/${encodeURIComponent(username)}/gists`,
       {
-        headers: buildGitHubHeaders(),
+        headers: getGitHubHeaders(
+          process.env.GITHUB_TOKEN ?? process.env.GITHUB_ACCESS_TOKEN,
+          { 'User-Agent': 'portfolio-site' },
+        ),
         cache: 'no-store',
       },
     );
 
     if (!response.ok) {
       const errorResponse = NextResponse.json<GitHubGist[]>([]);
-      return setCacheHeaders(errorResponse, 60);
+      return setPublicCacheHeaders(errorResponse, {
+        maxAge: 60,
+        scope: 'browser',
+      });
     }
 
     const data = (await response.json()) as GitHubGistResponse[];
@@ -107,9 +90,15 @@ export async function GET(): Promise<NextResponse> {
     }));
 
     const nextResponse = NextResponse.json<GitHubGist[]>(gists);
-    return setCacheHeaders(nextResponse, 1800);
+    return setPublicCacheHeaders(nextResponse, {
+      maxAge: 1800,
+      scope: 'browser',
+    });
   } catch {
     const errorResponse = NextResponse.json<GitHubGist[]>([]);
-    return setCacheHeaders(errorResponse, 60);
+    return setPublicCacheHeaders(errorResponse, {
+        maxAge: 60,
+        scope: 'browser',
+      });
   }
 }

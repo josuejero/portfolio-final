@@ -1,18 +1,9 @@
 // FILE: src/app/api/github-projects/repos/route.ts
-import { getGitHubHeaders, getRepoCiStatus } from '@/lib/github-api';
+import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
+import { GITHUB_API_BASE, getGitHubHeaders, getRepoCiStatus } from '@/lib/github-api';
 import type { GitHubRepositorySummary } from '@/types/github';
 import { NextResponse } from 'next/server';
 
-const GITHUB_API_BASE = 'https://api.github.com';
-
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 3600) {
-  response.headers.set(
-    'Cache-Control',
-    `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge}`,
-  );
-  return response;
-}
 
 interface GitHubRepoResponse {
   id: number;
@@ -143,7 +134,9 @@ export async function GET() {
       }),
     );
 
-    return setCacheHeaders(NextResponse.json(payload), 3600);
+    return setPublicCacheHeaders(NextResponse.json(payload), {
+      maxAge: 3600,
+    });
   } catch (error) {
     console.error('[github-projects/repos] error', error);
     return NextResponse.json(

@@ -1,12 +1,8 @@
 // src/app/api/github-projects/pinned/route.ts
+import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
+import { GITHUB_GRAPHQL_URL, getGitHubHeaders } from '@/lib/github-api';
 import type { GitHubPinnedRepo } from '@/types/github';
 import { NextResponse } from 'next/server';
-
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 3600) {
-  response.headers.set('Cache-Control', `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`);
-  return response;
-}
 
 interface GraphQLResponse {
   data?: {
@@ -77,13 +73,12 @@ export async function GET() {
       }
     `;
 
-    const response = await fetch('https://api.github.com/graphql', {
+    const response = await fetch(GITHUB_GRAPHQL_URL, {
       method: 'POST',
-      headers: {
-        'Authorization': `bearer ${token}`,
+      headers: getGitHubHeaders(token, {
         'Content-Type': 'application/json',
         'User-Agent': 'portfolio-app',
-      },
+      }),
       body: JSON.stringify({ query }),
     });
 
@@ -111,13 +106,19 @@ export async function GET() {
     }));
 
     const nextResponse = NextResponse.json(pinnedRepos);
-    return setCacheHeaders(nextResponse, 3600); // 1 hour cache
+    return setPublicCacheHeaders(nextResponse, {
+      maxAge: 3600,
+      staleWhileRevalidate: 7200,
+    }); // 1 hour cache
   } catch (error: unknown) {
     console.error('Failed to fetch pinned repos:', error);
     const errorResponse = NextResponse.json(
       { error: 'Failed to fetch pinned repos', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
-    return setCacheHeaders(errorResponse, 60); // 1 minute cache on error
+    return setPublicCacheHeaders(errorResponse, {
+      maxAge: 60,
+      staleWhileRevalidate: 120,
+    }); // 1 minute cache on error
   }
 }

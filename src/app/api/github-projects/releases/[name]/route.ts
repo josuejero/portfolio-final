@@ -1,18 +1,9 @@
 // FILE: src/app/api/github-projects/releases/[name]/route.ts
-import { getGitHubHeaders } from '@/lib/github-api';
+import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
+import { GITHUB_API_BASE, getGitHubHeaders } from '@/lib/github-api';
 import type { GitHubRelease } from '@/types/github';
 import { NextResponse } from 'next/server';
 
-const GITHUB_API_BASE = 'https://api.github.com';
-
-// Cache control helper
-function setCacheHeaders(response: NextResponse, maxAge: number = 3600) {
-  response.headers.set(
-    'Cache-Control',
-    `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge}`,
-  );
-  return response;
-}
 
 interface GitHubReleaseResponse {
   id: number;
@@ -62,7 +53,9 @@ export async function GET(
 
     // Many repos simply have no releases
     if (res.status === 404) {
-      return setCacheHeaders(emptyResponse, 3600); // Cache "no releases" for 1 hour
+      return setPublicCacheHeaders(emptyResponse, {
+        maxAge: 3600,
+      }); // Cache "no releases" for 1 hour
     }
 
     if (!res.ok) {
@@ -87,11 +80,15 @@ export async function GET(
     }));
 
     const nextResponse = NextResponse.json(mapped);
-    return setCacheHeaders(nextResponse, 3600); // 1 hour cache
+    return setPublicCacheHeaders(nextResponse, {
+      maxAge: 3600,
+    }); // 1 hour cache
   } catch (error) {
     // Return empty result on error
     console.error('Error fetching GitHub releases', error);
 
-    return setCacheHeaders(emptyResponse, 300); // 5 minute cache on error
+    return setPublicCacheHeaders(emptyResponse, {
+      maxAge: 300,
+    }); // 5 minute cache on error
   }
 }

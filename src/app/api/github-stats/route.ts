@@ -1,3 +1,4 @@
+import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
 import { NextResponse } from 'next/server';
 import {
   buildCommitActivity,
@@ -7,15 +8,6 @@ import {
 import { getContributionCalendarAndStreaks } from '@/lib/github-stats/contributions';
 import { getActivityFeed } from '@/lib/github-stats/activity';
 import type { GitHubStats } from '@/types/github';
-
-function setCacheHeaders(response: NextResponse, maxAge = 900) {
-  response.headers.set(
-    'Cache-Control',
-    `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`
-  );
-  response.headers.set('Vary', 'Accept-Encoding');
-  return response;
-}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -95,7 +87,11 @@ export async function GET(request: Request) {
     };
 
     const response = NextResponse.json(stats);
-    return setCacheHeaders(response, 900);
+    return setPublicCacheHeaders(response, {
+      maxAge: 900,
+      staleWhileRevalidate: 1800,
+      varyAcceptEncoding: true,
+    });
   } catch (error) {
     console.error('Failed to fetch GitHub stats:', error);
 
@@ -125,6 +121,10 @@ export async function GET(request: Request) {
     };
 
     const response = NextResponse.json(emptyStats);
-    return setCacheHeaders(response, 60);
+    return setPublicCacheHeaders(response, {
+      maxAge: 60,
+      staleWhileRevalidate: 120,
+      varyAcceptEncoding: true,
+    });
   }
 }
