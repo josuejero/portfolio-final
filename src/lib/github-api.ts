@@ -12,7 +12,6 @@ export {
 };
 
 export const GITHUB_API_BASE = 'https://api.github.com';
-export const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 
 export type CiStatus = 'success' | 'failing' | 'unknown';
 

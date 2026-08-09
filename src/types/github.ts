@@ -85,21 +85,6 @@ export interface GitHubStats {
 }
 
 // Repository cards / explorer
-export interface GitHubPinnedRepo {
-  name: string;
-  description: string | null;
-  url: string;
-  homepageUrl: string | null;
-  stargazerCount: number;
-  forkCount: number;
-  updatedAt: string;
-  primaryLanguage: {
-    name: string;
-    color: string | null;
-  } | null;
-  topics: string[];
-}
-
 export interface GitHubRepositorySummary {
   id: number;
   name: string;

@@ -1,15 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import type {
-  GitHubPinnedRepo,
-  GitHubRepositorySummary,
-} from '@/types/github';
+import type { GitHubRepositorySummary } from '@/types/github';
 
 import {
   findRepositorySummaryForReference,
   getCatalogProjectForReference,
-  parseGitHubRepositoryUrl,
-  toPinnedProjectViewModel,
   toRepositoryProjectViewModel,
 } from './view-model';
 
@@ -37,21 +32,6 @@ function makeRepository(
 }
 
 describe('project view-model adapter', () => {
-  it('parses GitHub repository URLs', () => {
-    expect(
-      parseGitHubRepositoryUrl(
-        'https://github.com/josuejero/finance-tracker',
-      ),
-    ).toEqual({
-      owner: 'josuejero',
-      name: 'finance-tracker',
-    });
-
-    expect(
-      parseGitHubRepositoryUrl('https://example.com/repository'),
-    ).toBeNull();
-  });
-
   it('maps catalogued repository summaries to stable project slugs', () => {
     const view = toRepositoryProjectViewModel(makeRepository());
 
@@ -76,29 +56,6 @@ describe('project view-model adapter', () => {
     expect(view.slug).toBe('experimental-repo');
     expect(view.name).toBe('experimental-repo');
     expect(view.catalogProject).toBeNull();
-  });
-
-  it('maps pinned repositories through the same catalog', () => {
-    const repo: GitHubPinnedRepo = {
-      name: 'portfolio-final',
-      description: 'Portfolio',
-      url: 'https://github.com/josuejero/portfolio-final',
-      homepageUrl: 'https://portfolio.example.com',
-      stargazerCount: 5,
-      forkCount: 2,
-      updatedAt: '2026-01-01T00:00:00Z',
-      primaryLanguage: {
-        name: 'TypeScript',
-        color: '#3178c6',
-      },
-      topics: ['nextjs'],
-    };
-
-    const view = toPinnedProjectViewModel(repo);
-
-    expect(view.slug).toBe('portfolio-website');
-    expect(view.name).toBe('Portfolio Website');
-    expect(view.liveUrl).toBe('https://portfolio-josuejero.vercel.app');
   });
 
   it('resolves both canonical slugs and legacy repository names', () => {
