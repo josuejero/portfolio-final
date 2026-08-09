@@ -94,7 +94,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="mx-auto max-w-3xl space-y-10 px-4 py-6 lg:py-10">
+    <section className="mx-auto max-w-reading space-y-10 py-6 lg:py-10">
       <div className="space-y-10">
         <div className="space-y-6">
           <h1 className="text-2xl font-semibold">Contact</h1>

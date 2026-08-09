@@ -63,7 +63,7 @@ export default function Home() {
         className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-background"
       />
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
+      <div className="flex flex-col gap-10 pb-24 pt-16">
         <div className="space-y-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-start">
             <GitHubProfileCard username={siteConfig.github.username} />

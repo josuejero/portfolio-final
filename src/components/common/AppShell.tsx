@@ -50,8 +50,10 @@ export default function AppShell({
       >
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
-            <div className="min-w-0 overflow-x-clip px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-              {children}
+            <div className="min-w-0 overflow-x-clip px-page-gutter py-4 sm:py-6 lg:py-8">
+              <div className="mx-auto w-full max-w-site">
+                {children}
+              </div>
             </div>
           </Suspense>
         </ErrorBoundary>

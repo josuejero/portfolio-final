@@ -104,7 +104,7 @@ const heroHighlights = [
 
 export default function WebsiteHelp() {
   return (
-    <section className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-6 sm:py-10">
+    <section className="flex flex-col gap-10 py-6 sm:py-10">
       <div className="space-y-6 rounded-2xl border border-border bg-card/60 p-6 sm:p-8 shadow-sm">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           <div className="space-y-5">

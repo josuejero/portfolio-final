@@ -177,10 +177,6 @@
 }
 
 @layer utilities {
-  .max-w-content {
-    max-width: calc(100vw - var(--sidebar-width, 4rem));
-  }
-
   .overflow-prevent {
     overflow-x: clip;
     overflow-y: visible;

@@ -12,7 +12,7 @@ export default function About() {
   const stats = useGithubStats(username);
 
   return (
-    <div className="max-w-[calc(100vw-5rem)] mx-auto space-y-12 py-8 px-4">
+    <div className="space-y-12 py-8">
       <ProfessionalSummary />
       <EducationSection />
       <GithubActivitySection stats={stats} username={username} />
