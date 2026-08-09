@@ -72,7 +72,7 @@ export async function POST(req: Request) {
         from_name: name,
         from_email: email,
         message: message,
-        to_email: "josue@example.com", // Replace with your email
+        to_email: process.env.CONTACT_TO_EMAIL!,
         reply_to: email,
       },
     };
