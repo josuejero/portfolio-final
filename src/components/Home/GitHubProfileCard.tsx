@@ -21,10 +21,10 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
       <Card className="w-full max-w-md animate-pulse">
         <CardContent className="p-6">
           <div className="flex items-center space-x-4">
-            <div className="h-16 w-16 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            <div className="h-16 w-16 rounded-full bg-muted"></div>
             <div className="flex-1 space-y-2">
-              <div className="h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700"></div>
-              <div className="h-3 w-1/2 rounded bg-gray-200 dark:bg-gray-700"></div>
+              <div className="h-4 w-3/4 rounded bg-muted"></div>
+              <div className="h-3 w-1/2 rounded bg-muted"></div>
             </div>
           </div>
         </CardContent>

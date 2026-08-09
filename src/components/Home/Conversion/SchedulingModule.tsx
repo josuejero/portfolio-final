@@ -161,7 +161,7 @@ export default function SchedulingModule() {
         </div>
       </form>
 
-      <div className="mt-6 rounded-3xl border border-border/60 bg-slate-900/80">
+      <div className="mt-6 rounded-panel border border-border/60 bg-surface-raised/80">
         <iframe
           title="Schedulable meeting"
           src={iframeSrc}
