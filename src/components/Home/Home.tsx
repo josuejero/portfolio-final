@@ -1,21 +1,24 @@
 // src/components/Home/Home.tsx
 'use client';
 
-import Die from '@/components/Die';
-import type { PortfolioSkill } from '@/types/skill';
-import Projects from '@/components/Projects/Projects';
-import { siteConfig } from '@/config/site';
-import { trackEvent } from '@/lib/gtag';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+
+import Die from '@/components/Die';
+import Projects from '@/components/Projects/Projects';
+import { buttonVariants } from '@/components/ui/button';
+import { siteConfig } from '@/config/site';
+import { ROLE_LENSES } from '@/data/role-lenses';
+import { trackEvent } from '@/lib/gtag';
+import { cn } from '@/lib/utils';
+
 import SchedulingModule from './Conversion/SchedulingModule';
 import GitHubProfileCard from './GitHubProfileCard';
 
-import {
-  CloudIcon,
-  CodeBracketIcon,
-  CommandLineIcon
-} from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
+const orderedRoleLenses = [...ROLE_LENSES].sort(
+  (left, right) =>
+    left.presentation.order - right.presentation.order,
+);
 
 const SERVICES_TEASER_BULLETS = [
   'Pair with a 60-minute Website Help session to test every CTA, form, and layout.',
@@ -23,149 +26,208 @@ const SERVICES_TEASER_BULLETS = [
   'Leave with a priority list and launch checklist so you ship confidently the same day.',
 ];
 
-function scrollToSection(id: string) {
-  if (typeof window === 'undefined') return;
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const offset = 80;
-  const top = el.getBoundingClientRect().top + window.scrollY - offset;
-
-  window.scrollTo({ top, behavior: 'smooth' });
-}
-
 export default function Home() {
-
-  const handleSkillSelect = (skill: PortfolioSkill) => {
-    // Optional: analytics or telemetry hook
-    console.debug('[Die] selected skill', skill.name);
-  };
-
   const trackHeroCta = (name: string) => {
-    trackEvent('hero_cta_click', { location: 'hero', name });
-  };
-
-  const handleViewProjectsClick = () => {
-    trackHeroCta('view-projects');
-    scrollToSection('projects');
-  };
-
-  const handleGetInTouchClick = () => {
-    trackHeroCta('get-in-touch');
-    scrollToSection('schedule');
+    trackEvent('hero_cta_click', {
+      location: 'hero',
+      name,
+    });
   };
 
   return (
-    <section id="home" className="relative overflow-hidden">
-      {/* Subtle background glow */}
+    <section
+      id="home"
+      className="relative overflow-hidden"
+    >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-background"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[36rem] bg-gradient-to-b from-brand/10 via-background to-background"
       />
 
-      <div className="flex flex-col gap-10 pb-24 pt-16">
-        <div className="space-y-12">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-start">
-            <GitHubProfileCard username={siteConfig.github.username} />
+      <div className="flex flex-col gap-16 pb-24 pt-12 sm:pt-16">
+        <section
+          aria-labelledby="home-heading"
+          className="max-w-4xl space-y-8"
+        >
+          <div className="space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+              {siteConfig.person.name}
+            </p>
 
-            <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-3"
-              >
-                <p className="text-sm font-medium uppercase tracking-wide text-brand">
-                  Software engineer • Cloud • Frontend
-                </p>
-                <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                  I build reliable, observable systems with clean developer
-                  experiences.
-                </h1>
-                <p className="max-w-xl text-sm text-muted-foreground sm:text-base">
-                  From APIs and infrastructure to polished interfaces, I like to
-                  ship production-ready features backed by data, telemetry, and
-                  tight feedback loops.
-                </p>
-              </motion.div>
+            <p className="text-sm font-medium text-muted-foreground">
+              Software Engineering · Frontend &amp; Developer
+              Experience · Cloud &amp; Automation
+            </p>
 
-              <div className="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.05 }}
-                  className="rounded-2xl border border-border/60 bg-background/60 p-4 shadow-sm backdrop-blur"
-                >
-                  <Die onSkillSelect={handleSkillSelect} />
-                </motion.div>
+            <h1
+              id="home-heading"
+              className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+            >
+              Software engineering across applications,
+              frontend systems, and cloud automation.
+            </h1>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.1 }}
-                  className="space-y-4"
-                >
-                  <FeatureRow
-                    icon={CodeBracketIcon}
-                    title="Frontend & DX"
-                    body="Modern React, TypeScript, and component systems that are a joy to work in."
-                  />
-                  <FeatureRow
-                    icon={CloudIcon}
-                    title="Cloud & infra"
-                    body="APIs and services deployed with sensible observability and guardrails."
-                  />
-                  <FeatureRow
-                    icon={CommandLineIcon}
-                    title="Automation"
-                    body="Tooling and scripts that keep the boring parts out of the way."
-                  />
-                </motion.div>
-              </div>
-
-              <motion.div
-                className="flex flex-wrap items-center gap-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.15 }}
-              >
-                <button
-                  type="button"
-                  data-cta-location="hero"
-                  data-cta-name="view-projects"
-                  onClick={handleViewProjectsClick}
-                  className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2 text-sm font-medium text-brand-foreground shadow-sm transition hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-                >
-                  View projects
-                </button>
-                <button
-                  type="button"
-                  data-cta-location="hero"
-                  data-cta-name="get-in-touch"
-                  onClick={handleGetInTouchClick}
-                  className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-medium text-foreground/90 hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-                >
-                  Get in touch
-                </button>
-                <Link
-                  href="/website-help"
-                  onClick={() => trackHeroCta('website-help')}
-                  className="text-sm font-semibold text-muted-foreground underline-offset-4 transition hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-                >
-                  Explore Website Help
-                </Link>
-              </motion.div>
-            </div>
+            <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+              I work across Python and Java applications,
+              React and Next.js interfaces, and cloud and
+              automation workflows—with project repositories
+              you can inspect directly.
+            </p>
           </div>
 
-          <ServicesTeaser />
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/projects"
+              data-cta-location="hero"
+              data-cta-name="view-projects"
+              onClick={() =>
+                trackHeroCta('view-projects')
+              }
+              className={cn(
+                buttonVariants({
+                  variant: 'default',
+                  size: 'lg',
+                }),
+                'gap-2',
+              )}
+            >
+              View projects
+              <ArrowRightIcon
+                className="h-4 w-4"
+                aria-hidden="true"
+              />
+            </Link>
 
-          <Projects />
+            <Link
+              href="/contact"
+              data-cta-location="hero"
+              data-cta-name="contact"
+              onClick={() => trackHeroCta('contact')}
+              className={buttonVariants({
+                variant: 'outline',
+                size: 'lg',
+              })}
+            >
+              Get in touch
+            </Link>
 
+            <a
+              href={siteConfig.github.profileUrl}
+              target="_blank"
+              rel="noreferrer"
+              data-cta-location="hero"
+              data-cta-name="github"
+              onClick={() => trackHeroCta('github')}
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'lg',
+              })}
+            >
+              GitHub
+            </a>
+          </div>
+        </section>
 
+        <RoleLensSection />
 
-          <SchedulingModule />
-        </div>
+        <Projects />
+
+        <section
+          aria-labelledby="technical-proof-heading"
+          className="space-y-6"
+        >
+          <div className="max-w-2xl space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
+              Technical proof
+            </p>
+
+            <h2
+              id="technical-proof-heading"
+              className="text-2xl font-semibold tracking-tight sm:text-3xl"
+            >
+              Repository activity and technical range
+            </h2>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              GitHub activity provides a live view of the
+              work, while the skill explorer connects the
+              stack back to projects in the portfolio.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <GitHubProfileCard
+              username={siteConfig.github.username}
+            />
+
+            <div className="rounded-panel border border-border/60 bg-card/50 p-6 shadow-soft">
+              <Die />
+            </div>
+          </div>
+        </section>
+
+        <ServicesTeaser />
+
+        <SchedulingModule />
+      </div>
+    </section>
+  );
+}
+
+function RoleLensSection() {
+  return (
+    <section
+      aria-labelledby="role-lenses-heading"
+      className="space-y-6"
+    >
+      <div className="max-w-2xl space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
+          Focus areas
+        </p>
+
+        <h2
+          id="role-lenses-heading"
+          className="text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
+          Three ways to explore the work
+        </h2>
+
+        <p className="text-sm leading-6 text-muted-foreground">
+          Each lens maps directly to skills and projects
+          already represented in the portfolio.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {orderedRoleLenses.map((lens) => (
+          <article
+            key={lens.id}
+            className="flex h-full flex-col rounded-panel border border-border/60 bg-card/60 p-5 shadow-soft"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+              {lens.shortLabel}
+            </p>
+
+            <h3 className="mt-3 text-lg font-semibold text-foreground">
+              {lens.label}
+            </h3>
+
+            <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
+              {lens.summary}
+            </p>
+
+            <Link
+              href={`/projects?lens=${lens.slug}`}
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-fast hover:text-brand-hover"
+            >
+              See matched projects
+              <ArrowRightIcon
+                className="h-4 w-4"
+                aria-hidden="true"
+              />
+            </Link>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -173,68 +235,67 @@ export default function Home() {
 
 function ServicesTeaser() {
   const handleServiceLinkClick = () => {
-    trackEvent('hero_cta_click', { location: 'services', name: 'website-help' });
+    trackEvent('hero_cta_click', {
+      location: 'services',
+      name: 'website-help',
+    });
   };
 
   return (
     <section
-      aria-label="Website Help services teaser"
-      className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-soft backdrop-blur"
+      aria-labelledby="website-help-heading"
+      className="rounded-panel border border-border/60 bg-card/70 p-6 shadow-soft backdrop-blur"
     >
       <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Services</p>
-          <h2 className="text-2xl font-semibold text-foreground">Need a Website Help review?</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
+            Services
+          </p>
+
+          <h2
+            id="website-help-heading"
+            className="text-2xl font-semibold text-foreground"
+          >
+            Need a Website Help review?
+          </h2>
+
           <p className="text-sm text-muted-foreground">
-            Short, sharp diagnostics that surface layout fixes, copy polish, and CTA clarity before you launch.
+            Short, focused diagnostics for layout, copy,
+            forms, hosting, and CTA clarity before launch.
           </p>
         </div>
-        <span className="mt-3 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:mt-0">
+
+        <span className="mt-3 rounded-pill border border-border/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:mt-0">
           60-minute focus
         </span>
       </div>
 
       <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
         {SERVICES_TEASER_BULLETS.map((item) => (
-          <li key={item} className="flex items-start gap-2">
-            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
+          <li
+            key={item}
+            className="flex items-start gap-2"
+          >
+            <span
+              className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-pill bg-brand"
+              aria-hidden="true"
+            />
             <span>{item}</span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      <div className="mt-6">
         <Link
           href="/website-help"
           onClick={handleServiceLinkClick}
-          className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground transition hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className={buttonVariants({
+            variant: 'default',
+          })}
         >
-          Book Website Help
+          Explore Website Help
         </Link>
-        <p className="text-xs font-medium text-muted-foreground">
-          Or keep scrolling for projects, proof, and the scheduler.
-        </p>
       </div>
     </section>
-  );
-}
-
-type FeatureRowProps = {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  title: string;
-  body: string;
-};
-
-function FeatureRow({ icon: Icon, title, body }: FeatureRowProps) {
-  return (
-    <div className="flex gap-3 rounded-2xl border border-border/60 bg-background/60 p-3 text-sm">
-      <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border border-border/70">
-        <Icon className="h-4 w-4 text-brand" />
-      </div>
-      <div className="space-y-1">
-        <h2 className="text-sm font-medium">{title}</h2>
-        <p className="text-xs text-muted-foreground">{body}</p>
-      </div>
-    </div>
   );
 }

@@ -48,15 +48,15 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="mt-12 rounded-panel border border-border/60 bg-card/50 p-6 shadow-soft backdrop-blur"
+      className="rounded-panel border border-border/60 bg-card/50 p-6 shadow-soft backdrop-blur"
     >
       <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Featured GitHub projects
+            Selected GitHub work
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Controlled by your pinned repositories on GitHub.
+            Pulled from the repositories currently pinned on my GitHub profile.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export default function Projects() {
           href="/projects"
           className="inline-flex items-center gap-1.5 rounded-pill border border-border px-3 py-1 text-xs font-medium text-foreground transition-colors duration-fast hover:border-brand/50 hover:bg-muted hover:text-brand"
         >
-          <span>Open repo explorer</span>
+          <span>Explore all projects</span>
           <CodeBracketIcon className="h-4 w-4" />
         </Link>
       </div>

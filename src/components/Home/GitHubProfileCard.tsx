@@ -18,7 +18,7 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
 
   if (stats.loading) {
     return (
-      <Card className="w-full max-w-md animate-pulse">
+      <Card className="h-full w-full animate-pulse">
         <CardContent className="p-6">
           <div className="flex items-center space-x-4">
             <div className="h-16 w-16 rounded-full bg-muted"></div>
@@ -41,9 +41,9 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-md"
+      className="h-full w-full"
     >
-      <Card className="overflow-hidden">
+      <Card className="h-full overflow-hidden">
         <CardHeader className="pb-0">
           <CardTitle className="flex items-center justify-between">
             <span>GitHub Profile</span>
