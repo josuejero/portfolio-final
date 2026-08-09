@@ -10,7 +10,7 @@ function genNonce(): string {
   return btoa(s)
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const nonce = genNonce()
   const origin = request.nextUrl.origin
   const isDev = process.env.NODE_ENV !== 'production'
