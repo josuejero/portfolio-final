@@ -5,7 +5,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import Die from '@/components/Die';
-import Projects from '@/components/Projects/Projects';
+import FeaturedProjects from '@/components/Projects/FeaturedProjects';
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { ROLE_LENSES } from '@/data/role-lenses';
@@ -130,7 +130,7 @@ export default function Home() {
 
         <RoleLensSection />
 
-        <Projects />
+        <FeaturedProjects />
 
         <section
           aria-labelledby="technical-proof-heading"
