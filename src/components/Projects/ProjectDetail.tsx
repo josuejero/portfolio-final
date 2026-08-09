@@ -16,6 +16,7 @@ type TabKey = 'overview';
 export default function ProjectDetail({ name }: ProjectDetailProps) {
   const [tab, setTab] = useState<TabKey>('overview');
   const {
+    project,
     repo,
     loading,
     error,
@@ -24,9 +25,9 @@ export default function ProjectDetail({ name }: ProjectDetailProps) {
     readmeError,
   } = useProjectDetail(name);
 
-  const repoName = repo?.name ?? name;
-  const repoDescription = repo?.description;
-  const repoUrl = repo?.htmlUrl;
+  const repoName = project?.name ?? repo?.name ?? name;
+  const repoDescription = project?.summary ?? repo?.description;
+  const repoUrl = project?.links.source ?? repo?.htmlUrl;
 
   const { blobBase, rawBase } = useMemo(() => {
     let owner = '';

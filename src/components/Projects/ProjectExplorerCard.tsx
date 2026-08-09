@@ -1,9 +1,12 @@
 'use client';
 
-import type { GitHubRepositorySummary } from '@/types/github';
 import { CodeBracketIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+
+import { toRepositoryProjectViewModel } from '@/lib/projects/view-model';
+import type { GitHubRepositorySummary } from '@/types/github';
+
 import { formatDate } from './project-detail-utils';
 
 interface Props {
@@ -11,6 +14,8 @@ interface Props {
 }
 
 export default function ProjectExplorerCard({ repo }: Props) {
+  const project = toRepositoryProjectViewModel(repo);
+
   return (
     <motion.article
       layout
@@ -20,25 +25,30 @@ export default function ProjectExplorerCard({ repo }: Props) {
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
           <h3 className="text-sm font-semibold leading-tight">
-            <Link href={`/projects/${encodeURIComponent(repo.name)}`} className="hover:underline">
-              {repo.name}
+            <Link
+              href={`/projects/${encodeURIComponent(project.slug)}`}
+              className="hover:underline"
+            >
+              {project.name}
             </Link>
           </h3>
-          {repo.description && (
+
+          {project.description && (
             <p className="line-clamp-2 text-xs text-muted-foreground">
-              {repo.description}
+              {project.description}
             </p>
           )}
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-        {repo.language && (
+        {project.language && (
           <span className="rounded-full border border-border px-2 py-0.5">
-            {repo.language}
+            {project.language.name}
           </span>
         )}
-        {repo.topics.slice(0, 3).map((topic) => (
+
+        {project.topics.slice(0, 3).map((topic) => (
           <span
             key={topic}
             className="rounded-full border border-border px-2 py-0.5"
@@ -46,12 +56,15 @@ export default function ProjectExplorerCard({ repo }: Props) {
             #{topic}
           </span>
         ))}
-        <span className="ml-auto">Updated {formatDate(repo.pushedAt)}</span>
+
+        <span className="ml-auto">
+          Updated {formatDate(project.updatedAt)}
+        </span>
       </div>
 
       <div className="mt-auto flex items-center justify-between pt-1 text-xs">
         <Link
-          href={repo.htmlUrl}
+          href={project.sourceUrl}
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
@@ -59,9 +72,10 @@ export default function ProjectExplorerCard({ repo }: Props) {
           <CodeBracketIcon className="h-4 w-4" />
           <span>View on GitHub</span>
         </Link>
-        {repo.homepage && (
+
+        {project.liveUrl && (
           <Link
-            href={repo.homepage}
+            href={project.liveUrl}
             target="_blank"
             rel="noreferrer"
             className="text-muted-foreground hover:text-foreground"

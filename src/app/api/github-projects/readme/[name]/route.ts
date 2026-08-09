@@ -22,14 +22,18 @@ function decodeBase64ToUtf8(base64: string) {
 }
 
 export async function GET(
-  _req: Request,
+  req: Request,
   context: { params: Promise<{ name: string }> }
 ) {
   const { name } = await context.params;
 
-  const owner = resolveGitHubUsername();
+  const requestedOwner =
+    new URL(req.url).searchParams.get("owner")?.trim();
+
+  const owner = requestedOwner || resolveGitHubUsername();
   const token = process.env.GITHUB_TOKEN ?? "";
-  const url = `${GITHUB_API_BASE}/repos/${owner}/${name}/readme`;
+  const url =
+    `${GITHUB_API_BASE}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/readme`;
 
   const res = await fetch(url, {
     headers: getGitHubHeaders(token, { Accept: "application/vnd.github+json" }),
