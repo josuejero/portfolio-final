@@ -2,7 +2,7 @@
 'use client';
 
 import Die from '@/components/Die';
-import { Skill } from '@/components/Die/types';
+import type { PortfolioSkill } from '@/types/skill';
 import Projects from '@/components/Projects/Projects';
 import { siteConfig } from '@/config/site';
 import { trackEvent } from '@/lib/gtag';
@@ -36,7 +36,7 @@ function scrollToSection(id: string) {
 
 export default function Home() {
 
-  const handleSkillSelect = (skill: Skill) => {
+  const handleSkillSelect = (skill: PortfolioSkill) => {
     // Optional: analytics or telemetry hook
     console.debug('[Die] selected skill', skill.name);
   };

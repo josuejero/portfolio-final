@@ -1,136 +1,169 @@
-import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Skill, DieProps } from './types';
-import { SKILLS_DATA } from './skillsData';
+import React, { useCallback, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+
+import { getProjectsForSkill, SKILLS } from '@/data/skills';
+import type { PortfolioSkill } from '@/types/skill';
+
 import { dieAnimationVariants } from './DieAnimation';
 
-const Die: React.FC<DieProps> = ({ onSkillSelect, className = '' }) => {
+interface DieProps {
+  onSkillSelect?: (skill: PortfolioSkill) => void;
+  className?: string;
+}
+
+const Die: React.FC<DieProps> = ({
+  onSkillSelect,
+  className = '',
+}) => {
   const [state, setState] = useState({
     isRolling: false,
-    currentSkill: null as Skill | null,
-    previousSkill: null as Skill | null,
+    currentSkill: null as PortfolioSkill | null,
+    previousSkill: null as PortfolioSkill | null,
   });
 
   const rollDie = useCallback(() => {
     if (state.isRolling) return;
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isRolling: true,
-      previousSkill: prev.currentSkill
+      previousSkill: prev.currentSkill,
     }));
 
     let rollCount = 0;
     const maxRolls = 10;
+
     const rollInterval = setInterval(() => {
-      const randomSkill = SKILLS_DATA[Math.floor(Math.random() * SKILLS_DATA.length)];
-      setState(prev => ({ ...prev, currentSkill: randomSkill }));
-      
+      const randomSkill =
+        SKILLS[Math.floor(Math.random() * SKILLS.length)];
+
+      setState((prev) => ({
+        ...prev,
+        currentSkill: randomSkill,
+      }));
+
       rollCount++;
+
       if (rollCount >= maxRolls) {
         clearInterval(rollInterval);
-        const finalSkill = SKILLS_DATA[Math.floor(Math.random() * SKILLS_DATA.length)];
-        setState(prev => ({
+
+        const finalSkill =
+          SKILLS[Math.floor(Math.random() * SKILLS.length)];
+
+        setState((prev) => ({
           ...prev,
           isRolling: false,
-          currentSkill: finalSkill
+          currentSkill: finalSkill,
         }));
+
         onSkillSelect?.(finalSkill);
       }
     }, 200);
   }, [state.isRolling, onSkillSelect]);
 
+  const relatedProjects = state.currentSkill
+    ? getProjectsForSkill(state.currentSkill)
+    : [];
+
   return (
     <div className={`flex flex-col items-center space-y-8 ${className}`}>
-      {/* Section Title */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-2"
+        className="space-y-2 text-center"
       >
-        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">
+        <h3 className="bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
           Explore My Skills
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">Click the die to discover my tech stack</p>
+
+        <p className="text-gray-600 dark:text-gray-400">
+          Click the die to discover my tech stack
+        </p>
       </motion.div>
 
-      {/* Die Container with Glow Effect */}
       <motion.div
-        className="relative group"
+        className="group relative"
         variants={dieAnimationVariants}
         initial="initial"
-        animate={state.isRolling ? "rolling" : "initial"}
+        animate={state.isRolling ? 'rolling' : 'initial'}
         whileHover="hover"
         whileTap="tap"
       >
-        {/* Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-        
-        {/* Main Die */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 opacity-50 blur-lg transition-opacity group-hover:opacity-75" />
+
         <motion.div
           onClick={rollDie}
-          className="relative w-40 h-40 bg-white dark:bg-gray-800 rounded-2xl shadow-xl 
-                     cursor-pointer backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90
-                     flex items-center justify-center transform transition-all
-                     border border-gray-200 dark:border-gray-700
-                     perspective-1000 transform-style-preserve-3d"
+          className="perspective-1000 transform-style-preserve-3d relative flex h-40 w-40 cursor-pointer items-center justify-center rounded-2xl border border-gray-200 bg-white bg-opacity-90 shadow-xl backdrop-blur-sm transition-all dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-90"
         >
-          <div className="text-xl font-bold text-center bg-gradient-to-r from-blue-600 to-violet-600 
-                         bg-clip-text text-transparent px-4">
-            {state.currentSkill ? state.currentSkill.name : 'Roll Me!'}
+          <div className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text px-4 text-center text-xl font-bold text-transparent">
+            {state.currentSkill
+              ? state.currentSkill.name
+              : 'Roll Me!'}
           </div>
         </motion.div>
       </motion.div>
 
-      {/* Skill Details with AnimatePresence */}
       <AnimatePresence mode="wait">
         {state.currentSkill && !state.isRolling && (
-          <motion.div 
+          <motion.div
             className="w-full max-w-md"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg
-                          border border-gray-200 dark:border-gray-700">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800">
               <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <h4 className="text-lg font-semibold">{state.currentSkill.name}</h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="text-lg font-semibold">
+                    {state.currentSkill.name}
+                  </h4>
+
                   <span className="text-sm text-blue-600 dark:text-blue-400">
                     {state.currentSkill.yearsOfExperience} years
                   </span>
                 </div>
-                
+
                 <div className="space-y-2">
-                  <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${state.currentSkill.proficiency}%` }}
+                      animate={{
+                        width: `${state.currentSkill.proficiency}%`,
+                      }}
                       className="h-full bg-gradient-to-r from-blue-500 to-violet-500"
-                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      transition={{
+                        duration: 0.8,
+                        ease: 'easeOut',
+                      }}
                     />
                   </div>
+
                   <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                     <span>Proficiency</span>
-                    <span>{state.currentSkill.proficiency}%</span>
+                    <span>
+                      {state.currentSkill.proficiency}%
+                    </span>
                   </div>
                 </div>
 
-                {state.currentSkill.projects && (
+                {relatedProjects.length > 0 && (
                   <div className="pt-4">
-                    <h5 className="font-semibold mb-2">Related Projects:</h5>
+                    <h5 className="mb-2 font-semibold">
+                      Related Projects:
+                    </h5>
+
                     <div className="flex flex-wrap gap-2">
-                      {state.currentSkill.projects.map((project) => (
-                        <a
-                          key={project.name}
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 
-                                   dark:text-blue-100 rounded-full text-sm hover:underline"
+                      {relatedProjects.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={`/projects/${encodeURIComponent(
+                            project.slug,
+                          )}`}
+                          className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 hover:underline dark:bg-blue-900 dark:text-blue-100"
                         >
                           {project.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
