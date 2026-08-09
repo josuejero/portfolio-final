@@ -80,9 +80,9 @@ describe('project view-model adapter', () => {
 
   it('maps pinned repositories through the same catalog', () => {
     const repo: GitHubPinnedRepo = {
-      name: 'portfolio',
+      name: 'portfolio-final',
       description: 'Portfolio',
-      url: 'https://github.com/josuejero/portfolio',
+      url: 'https://github.com/josuejero/portfolio-final',
       homepageUrl: 'https://portfolio.example.com',
       stargazerCount: 5,
       forkCount: 2,
@@ -98,7 +98,7 @@ describe('project view-model adapter', () => {
 
     expect(view.slug).toBe('portfolio-website');
     expect(view.name).toBe('Portfolio Website');
-    expect(view.liveUrl).toBe('https://portfolio.example.com');
+    expect(view.liveUrl).toBe('https://portfolio-josuejero.vercel.app');
   });
 
   it('resolves both canonical slugs and legacy repository names', () => {

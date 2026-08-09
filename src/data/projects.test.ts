@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   PROJECTS,
+  getFeaturedProjects,
   getProjectByFullRepositoryName,
   getProjectById,
   getProjectByRepository,
@@ -11,15 +12,23 @@ import {
 
 describe('project catalog', () => {
   it('has unique project ids', () => {
-    const values = PROJECTS.map((project) => project.id.toLowerCase());
+    const values = PROJECTS.map(
+      (project) => project.id.toLowerCase(),
+    );
 
-    expect(new Set(values).size).toBe(values.length);
+    expect(new Set(values).size).toBe(
+      values.length,
+    );
   });
 
   it('has unique stable slugs', () => {
-    const values = PROJECTS.map((project) => project.slug.toLowerCase());
+    const values = PROJECTS.map(
+      (project) => project.slug.toLowerCase(),
+    );
 
-    expect(new Set(values).size).toBe(values.length);
+    expect(new Set(values).size).toBe(
+      values.length,
+    );
   });
 
   it('has unique GitHub repository identities', () => {
@@ -27,7 +36,9 @@ describe('project catalog', () => {
       `${project.repository.owner}/${project.repository.name}`.toLowerCase(),
     );
 
-    expect(new Set(values).size).toBe(values.length);
+    expect(new Set(values).size).toBe(
+      values.length,
+    );
   });
 
   it('keeps source links aligned with repository identities', () => {
@@ -35,8 +46,12 @@ describe('project catalog', () => {
       const expected =
         `https://github.com/${project.repository.owner}/${project.repository.name}`;
 
-      expect(project.repository.url).toBe(expected);
-      expect(project.links.source).toBe(expected);
+      expect(project.repository.url).toBe(
+        expected,
+      );
+      expect(project.links.source).toBe(
+        expected,
+      );
 
       expect(project.evidence).toContainEqual({
         id: 'source-repository',
@@ -48,18 +63,29 @@ describe('project catalog', () => {
   });
 
   it('resolves projects by id and stable slug', () => {
-    expect(getProjectById('finance-tracker')?.name).toBe('Finance Tracker');
+    expect(
+      getProjectById('finance-tracker')?.name,
+    ).toBe('Finance Tracker');
 
-    expect(getProjectBySlug('cheapest-grocery-finder')?.repository.name)
-      .toBe('grocery-finder');
+    expect(
+      getProjectBySlug(
+        'cheapest-grocery-finder',
+      )?.repository.name,
+    ).toBe('grocery-finder');
 
-    expect(getProjectBySlug('portfolio-website')?.repository.name)
-      .toBe('portfolio');
+    expect(
+      getProjectBySlug(
+        'portfolio-website',
+      )?.repository.name,
+    ).toBe('portfolio-final');
   });
 
   it('resolves GitHub repository identities case-insensitively', () => {
     expect(
-      getProjectByRepository('josuejero', 'FrameCast-Web-Portal')?.id,
+      getProjectByRepository(
+        'josuejero',
+        'FrameCast-Web-Portal',
+      )?.id,
     ).toBe('framecast-web-portal');
 
     expect(
@@ -68,17 +94,55 @@ describe('project catalog', () => {
       )?.slug,
     ).toBe('ozzie-gonzalez-photography');
 
-    expect(getProjectByRepositoryName('FLUDDE')?.name).toBe('Fludde');
+    expect(
+      getProjectByRepositoryName('FLUDDE')
+        ?.name,
+    ).toBe('Fludde');
+  });
+
+  it('returns featured projects in explicit presentation order', () => {
+    expect(
+      getFeaturedProjects().map(
+        (project) => project.id,
+      ),
+    ).toEqual([
+      'selestino',
+      'framecast-web-portal',
+      'ozzie-gonzalez-photography',
+    ]);
+  });
+
+  it('keeps every featured project evidence-backed', () => {
+    for (const project of getFeaturedProjects()) {
+      expect(project.summary).toBeTruthy();
+
+      expect(
+        project.evidence.some(
+          (evidence) =>
+            evidence.type === 'readme',
+        ),
+      ).toBe(true);
+    }
   });
 
   it('rejects malformed or unknown repository identities', () => {
-    expect(getProjectByFullRepositoryName('invalid')).toBeUndefined();
     expect(
-      getProjectByFullRepositoryName('owner/repo/extra'),
+      getProjectByFullRepositoryName(
+        'invalid',
+      ),
     ).toBeUndefined();
 
     expect(
-      getProjectByRepository('unknown', 'unknown'),
+      getProjectByFullRepositoryName(
+        'owner/repo/extra',
+      ),
+    ).toBeUndefined();
+
+    expect(
+      getProjectByRepository(
+        'unknown',
+        'unknown',
+      ),
     ).toBeUndefined();
 
     expect(

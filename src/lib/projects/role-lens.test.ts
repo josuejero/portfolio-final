@@ -37,8 +37,8 @@ describe('role-lens repository partitioning', () => {
 
     const repos = [
       makeRepository(
-        'portfolio',
-        'josuejero/portfolio',
+        'portfolio-final',
+        'josuejero/portfolio-final',
         1,
       ),
       makeRepository(
@@ -61,7 +61,7 @@ describe('role-lens repository partitioning', () => {
     expect(result.matched.map((repo) => repo.name)).toEqual([
       'finance-tracker',
       'grocery-finder',
-      'portfolio',
+      'portfolio-final',
     ]);
 
     expect(result.other).toEqual([]);
@@ -73,8 +73,8 @@ describe('role-lens repository partitioning', () => {
     expect(lens).toBeDefined();
 
     const portfolio = makeRepository(
-      'portfolio',
-      'josuejero/portfolio',
+      'portfolio-final',
+      'josuejero/portfolio-final',
       1,
     );
 
@@ -90,7 +90,7 @@ describe('role-lens repository partitioning', () => {
     );
 
     expect(result.matched.map((repo) => repo.name)).toEqual([
-      'portfolio',
+      'portfolio-final',
     ]);
 
     expect(result.other.map((repo) => repo.name)).toEqual([
