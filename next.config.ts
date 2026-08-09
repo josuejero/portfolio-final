@@ -25,7 +25,7 @@ const securityHeaders = [
       'usb=()',
       'magnetometer=()',
       'gyroscope=()',
-      'fullscreen=()', // allow per-page if you actually need it
+      'fullscreen=()',
     ].join(', '),
   },
 
@@ -46,20 +46,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
-    // Minimum needed to fix: allow GitHub avatars host
-    domains: ['avatars.githubusercontent.com'],
-
-    // Or, if you prefer more granularity instead of `domains`,
-    // you can use this instead (and remove `domains`):
-    //
-    // remotePatterns: [
-    //   {
-    //     protocol: 'https',
-    //     hostname: 'avatars.githubusercontent.com',
-    //     port: '',
-    //     pathname: '/u/**',
-    //   },
-    // ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/u/**',
+      },
+    ],
   },
 
   async headers() {
