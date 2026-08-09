@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 
-import { getProjectsForSkill, SKILLS } from '@/data/skills';
+import { DIE_SKILLS, getProjectsForSkill } from '@/data/skills';
 import type { PortfolioSkill } from '@/types/skill';
 
 import { dieAnimationVariants } from './DieAnimation';
@@ -36,7 +36,7 @@ const Die: React.FC<DieProps> = ({
 
     const rollInterval = setInterval(() => {
       const randomSkill =
-        SKILLS[Math.floor(Math.random() * SKILLS.length)];
+        DIE_SKILLS[Math.floor(Math.random() * DIE_SKILLS.length)];
 
       setState((prev) => ({
         ...prev,
@@ -49,7 +49,7 @@ const Die: React.FC<DieProps> = ({
         clearInterval(rollInterval);
 
         const finalSkill =
-          SKILLS[Math.floor(Math.random() * SKILLS.length)];
+          DIE_SKILLS[Math.floor(Math.random() * DIE_SKILLS.length)];
 
         setState((prev) => ({
           ...prev,

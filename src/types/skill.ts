@@ -2,7 +2,33 @@ export type SkillCategory =
   | 'language'
   | 'framework'
   | 'tool'
-  | 'cloud';
+  | 'cloud'
+  | 'database'
+  | 'devops';
+
+export type AboutSkillGroupId =
+  | 'core-languages-frameworks'
+  | 'cloud-devops'
+  | 'databases-tools';
+
+export interface SkillAboutPresentation {
+  group: AboutSkillGroupId;
+  order: number;
+  label?: string;
+  details: string;
+}
+
+export interface SkillPresentation {
+  /**
+   * Include this skill in the interactive skill die.
+   */
+  showInDie?: boolean;
+
+  /**
+   * Presentation metadata for the About page.
+   */
+  about?: SkillAboutPresentation;
+}
 
 export interface PortfolioSkill {
   /**
@@ -11,8 +37,16 @@ export interface PortfolioSkill {
   id: string;
 
   name: string;
+  aliases?: readonly string[];
+
   category: SkillCategory;
-  proficiency: number;
+
+  /**
+   * Optional because not every existing skill claim has a numeric
+   * proficiency rating.
+   */
+  proficiency?: number;
+
   yearsOfExperience: number;
 
   /**
@@ -21,4 +55,6 @@ export interface PortfolioSkill {
    * Project names, slugs, and URLs must not be duplicated here.
    */
   projectIds: readonly string[];
+
+  presentation?: SkillPresentation;
 }
