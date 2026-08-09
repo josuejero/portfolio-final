@@ -4,6 +4,7 @@
 import Die from '@/components/Die';
 import { Skill } from '@/components/Die/types';
 import Projects from '@/components/Projects/Projects';
+import { siteConfig } from '@/config/site';
 import { trackEvent } from '@/lib/gtag';
 import Link from 'next/link';
 import SchedulingModule from './Conversion/SchedulingModule';
@@ -15,8 +16,6 @@ import {
   CommandLineIcon
 } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-
-const GITHUB_USERNAME = 'josuejero'; // change here if needed
 
 const SERVICES_TEASER_BULLETS = [
   'Pair with a 60-minute Website Help session to test every CTA, form, and layout.',
@@ -67,7 +66,7 @@ export default function Home() {
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
         <div className="space-y-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-start">
-            <GitHubProfileCard username={GITHUB_USERNAME} />
+            <GitHubProfileCard username={siteConfig.github.username} />
 
             <div className="space-y-8">
               <motion.div

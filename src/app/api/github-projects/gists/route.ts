@@ -1,7 +1,11 @@
 // FILE: src/app/api/github-projects/gists/route.ts
 // src/app/api/github-projects/gists/route.ts
 import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
-import { GITHUB_API_BASE, getGitHubHeaders } from '@/lib/github-api';
+import {
+  GITHUB_API_BASE,
+  getGitHubHeaders,
+  resolveGitHubUsername,
+} from '@/lib/github-api';
 import type { GitHubGist, GitHubGistFile } from '@/types/github';
 import { NextResponse } from 'next/server';
 
@@ -44,14 +48,6 @@ function transformFiles(
     };
   }
   return result;
-}
-
-function resolveGitHubUsername(): string {
-  if (process.env.NEXT_PUBLIC_GITHUB_USERNAME) {
-    return process.env.NEXT_PUBLIC_GITHUB_USERNAME;
-  }
-  // TODO: Keep in sync with the username used elsewhere in the app.
-  return 'josuejero';
 }
 
 export async function GET(): Promise<NextResponse> {

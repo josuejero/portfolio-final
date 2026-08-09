@@ -1,9 +1,10 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import { siteConfig } from '@/config/site';
 import { trackEvent } from '@/lib/gtag';
 
-const BASE_CALENDLY_URL = 'https://calendly.com/josuejero/60-min-standard';
+const BASE_CALENDLY_URL = siteConfig.services.websiteHelp.calendlyUrl;
 
 type IntakeForm = {
   siteType: string;
@@ -21,7 +22,7 @@ const initialForm: IntakeForm = {
 
 export default function SchedulingModule() {
   const [formData, setFormData] = useState(initialForm);
-  const [iframeSrc, setIframeSrc] = useState(BASE_CALENDLY_URL);
+  const [iframeSrc, setIframeSrc] = useState<string>(BASE_CALENDLY_URL);
   const [status, setStatus] = useState(
     'Share a few details so the scheduler loads with context and I can prep the right questions.'
   );

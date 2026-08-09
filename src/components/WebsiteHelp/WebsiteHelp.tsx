@@ -1,9 +1,10 @@
 import Link from 'next/link';
 
 import TrackedLink from '@/components/common/TrackedLink';
+import { siteConfig } from '@/config/site';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-const CTA_LINK = 'https://calendly.com/josuejero/60-min-standard';
+const CTA_LINK = siteConfig.services.websiteHelp.calendlyUrl;
 
 const services = [
   {

@@ -1,8 +1,15 @@
 import { getGitHubHeaders } from '@/lib/github-api/headers';
 import { cachedFetch, getCacheKey } from '@/lib/github-api/cache';
+import { resolveGitHubUsername } from '@/lib/github-api/config';
 import { RateLimiter } from '@/lib/github-api/rate-limiter';
 
-export { cachedFetch, getCacheKey, getGitHubHeaders, RateLimiter };
+export {
+  cachedFetch,
+  getCacheKey,
+  getGitHubHeaders,
+  RateLimiter,
+  resolveGitHubUsername,
+};
 
 export const GITHUB_API_BASE = 'https://api.github.com';
 export const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';

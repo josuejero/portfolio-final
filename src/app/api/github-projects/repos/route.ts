@@ -1,6 +1,12 @@
 // FILE: src/app/api/github-projects/repos/route.ts
+import { isGitHubPassingCiRequired } from '@/config/features';
 import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
-import { GITHUB_API_BASE, getGitHubHeaders, getRepoCiStatus } from '@/lib/github-api';
+import {
+  GITHUB_API_BASE,
+  getGitHubHeaders,
+  getRepoCiStatus,
+  resolveGitHubUsername,
+} from '@/lib/github-api';
 import type { GitHubRepositorySummary } from '@/types/github';
 import { NextResponse } from 'next/server';
 
@@ -53,25 +59,11 @@ async function fetchUserRepos(
   }
 }
 
-function resolveGitHubUsername(): string {
-  const envUsername =
-    process.env.GITHUB_USERNAME ?? process.env.NEXT_PUBLIC_GITHUB_USERNAME;
-
-  if (envUsername && envUsername.trim().length > 0) {
-    return envUsername.trim();
-  }
-
-  // TODO: If you change your GitHub username, update this value
-  // or derive it from siteMetadata so API routes stay in sync.
-  return 'josuejero';
-}
-
 export async function GET() {
   try {
     const username = resolveGitHubUsername();
     const token = process.env.GITHUB_TOKEN;
-    const requirePassingCi =
-      process.env.GITHUB_REQUIRE_PASSING_CI === 'true';
+    const requirePassingCi = isGitHubPassingCiRequired();
 
     const rawRepos = await fetchUserRepos(username, token);
 

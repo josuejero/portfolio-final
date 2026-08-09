@@ -1,6 +1,10 @@
 // src/app/api/github-projects/pinned/route.ts
 import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
-import { GITHUB_GRAPHQL_URL, getGitHubHeaders } from '@/lib/github-api';
+import {
+  GITHUB_GRAPHQL_URL,
+  getGitHubHeaders,
+  resolveGitHubUsername,
+} from '@/lib/github-api';
 import type { GitHubPinnedRepo } from '@/types/github';
 import { NextResponse } from 'next/server';
 
@@ -36,6 +40,7 @@ interface GraphQLResponse {
 
 export async function GET() {
   try {
+    const username = resolveGitHubUsername();
     const token = process.env.GITHUB_TOKEN;
     if (!token) {
       return NextResponse.json({ error: 'GitHub token not configured' }, { status: 500 });
@@ -43,8 +48,8 @@ export async function GET() {
 
     // GraphQL query for pinned repositories
     const query = `
-      query {
-        user(login: "josuejero") {
+      query($username: String!) {
+        user(login: $username) {
           pinnedItems(first: 6, types: REPOSITORY) {
             nodes {
               ... on Repository {
@@ -79,7 +84,7 @@ export async function GET() {
         'Content-Type': 'application/json',
         'User-Agent': 'portfolio-app',
       }),
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, variables: { username } }),
     });
 
     if (!response.ok) {

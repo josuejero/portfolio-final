@@ -1,4 +1,5 @@
 import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
+import { resolveGitHubUsername } from '@/lib/github-api';
 import { NextResponse } from 'next/server';
 import {
   buildCommitActivity,
@@ -11,7 +12,7 @@ import type { GitHubStats } from '@/types/github';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get('username') || 'josuejero';
+  const username = searchParams.get('username') || resolveGitHubUsername();
   const token = process.env.GITHUB_TOKEN;
 
   if (!token) {

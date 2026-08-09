@@ -1,6 +1,10 @@
 // FILE: src/app/api/github-projects/releases/[name]/route.ts
 import { setPublicCacheHeaders } from '@/lib/http/cache-headers';
-import { GITHUB_API_BASE, getGitHubHeaders } from '@/lib/github-api';
+import {
+  GITHUB_API_BASE,
+  getGitHubHeaders,
+  resolveGitHubUsername,
+} from '@/lib/github-api';
 import type { GitHubRelease } from '@/types/github';
 import { NextResponse } from 'next/server';
 
@@ -14,19 +18,6 @@ interface GitHubReleaseResponse {
   prerelease: boolean;
   html_url: string;
   published_at: string | null;
-}
-
-function resolveGitHubUsername(): string {
-  const envUsername =
-    process.env.GITHUB_USERNAME ?? process.env.NEXT_PUBLIC_GITHUB_USERNAME;
-
-  if (envUsername && envUsername.trim().length > 0) {
-    return envUsername.trim();
-  }
-
-  // TODO: If you change your GitHub username, update this value
-  // or derive it from siteMetadata so API routes stay in sync.
-  return 'josuejero';
 }
 
 export async function GET(
