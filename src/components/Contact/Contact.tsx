@@ -1,6 +1,9 @@
 'use client';
 
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
+
 import ContactForm from './ContactForm';
 import type { FieldErrors, FormState } from './types';
 
@@ -99,7 +102,7 @@ export default function Contact() {
           {sent && (
             <div
               role="status"
-              className="rounded-md border border-green-300 bg-green-50 p-3 text-green-800"
+              className="rounded-control border border-success/40 bg-success/10 p-3 text-sm text-foreground"
             >
               Thanks! Your message has been sent.
             </div>
@@ -108,7 +111,7 @@ export default function Contact() {
           {errors.general && (
             <div
               role="alert"
-              className="rounded-md border border-red-300 bg-red-50 p-3 text-red-800"
+              className="rounded-control border border-destructive/40 bg-destructive/10 p-3 text-sm text-foreground"
             >
               {errors.general}
             </div>
@@ -123,27 +126,33 @@ export default function Contact() {
           />
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">What to expect next</h2>
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+        <div className="space-y-4 rounded-panel border border-border/60 bg-card/60 p-6 shadow-soft">
+          <h2 className="text-lg font-semibold text-foreground">What to expect next</h2>
+          <p className="text-sm text-muted-foreground">
             I read every message and usually respond within two business days. If relevant materials can help explain the
             request, share them in the form above so I can jump in with context.
           </p>
-          <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li>• Describe the goal, deliverables, or blockers you are trying to solve.</li>
             <li>• Let me know your preferred tone for the engagement (strategy session, code review, etc.).</li>
             <li>• If you have a deadline, include the most helpful date to hear back.</li>
           </ul>
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-950">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Need a faster website refresh?</h2>
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+        <div className="space-y-4 rounded-panel border border-border/60 bg-surface-raised/60 p-6 shadow-soft">
+          <h2 className="text-lg font-semibold text-foreground">Need a faster website refresh?</h2>
+          <p className="text-sm text-muted-foreground">
             Visit the Website Help page to book a 60-minute review that sharpens copy, layout, and CTAs before launch.
           </p>
           <Link
             href="/website-help"
-            className="inline-flex items-center justify-center rounded-full border border-slate-400 px-4 py-2 text-sm font-semibold text-foreground transition hover:border-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'default',
+              }),
+              'w-fit font-semibold',
+            )}
           >
             Explore Website Help
           </Link>
