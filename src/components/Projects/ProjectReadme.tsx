@@ -20,7 +20,7 @@ export default function ProjectReadme({
   urlTransform,
 }: Props) {
   if (readmeLoading) {
-    return <p className="animate-pulse text-neutral-500">Loading README…</p>;
+    return <p className="animate-pulse text-muted-foreground">Loading README…</p>;
   }
 
   if (readme?.markdown) {
@@ -28,10 +28,10 @@ export default function ProjectReadme({
       <>
         <article
           className="prose prose-neutral dark:prose-invert max-w-none
-                     prose-headings:text-neutral-50
-                     prose-a:text-emerald-400 prose-a:no-underline hover:prose-a:underline
-                     prose-strong:text-neutral-100
-                     prose-pre:bg-neutral-950/60 prose-pre:border prose-pre:border-neutral-800"
+                     prose-headings:text-foreground
+                     prose-a:text-brand prose-a:no-underline hover:prose-a:underline
+                     prose-strong:text-foreground
+                     prose-pre:bg-surface-raised prose-pre:border prose-pre:border-border"
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
@@ -56,21 +56,21 @@ export default function ProjectReadme({
                   <img
                     alt={alt ?? ''}
                     loading="lazy"
-                    className="rounded-lg border border-neutral-800"
+                    className="rounded-surface border border-border"
                     {...props}
                   />
                 );
               },
               code({ children, ...props }) {
                 return (
-                  <code className="rounded bg-neutral-900/60 px-1 py-0.5" {...props}>
+                  <code className="rounded-control bg-muted/60 px-1 py-0.5" {...props}>
                     {children}
                   </code>
                 );
               },
               pre({ children, ...props }) {
                 return (
-                  <pre className="overflow-x-auto rounded-lg p-3" {...props}>
+                  <pre className="overflow-x-auto rounded-surface p-3" {...props}>
                     {children}
                   </pre>
                 );
@@ -82,13 +82,13 @@ export default function ProjectReadme({
         </article>
 
         {repoUrl && (
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             README from{' '}
             <a
               href={`${repoUrl}#readme`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+              className="inline-flex items-center gap-1 text-brand transition-colors duration-fast hover:text-brand-hover"
             >
               GitHub
             </a>
@@ -99,8 +99,8 @@ export default function ProjectReadme({
   }
 
   if (readmeError) {
-    return <p className="text-xs text-red-400">{readmeError}</p>;
+    return <p className="text-xs text-foreground">{readmeError}</p>;
   }
 
-  return <p className="text-neutral-400">No README found for this repository.</p>;
+  return <p className="text-muted-foreground">No README found for this repository.</p>;
 }

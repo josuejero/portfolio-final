@@ -26,16 +26,16 @@ export default function PinnedProjectCard({ repo }: Props) {
   return (
     <motion.article
       variants={itemVariants}
-      className="group relative flex flex-col rounded-xl border border-neutral-800/80 bg-neutral-900/70 p-4 transition hover:border-neutral-500 hover:bg-neutral-900"
+      className="group relative flex flex-col rounded-surface border border-border/70 bg-card/70 p-4 shadow-soft transition-colors duration-fast ease-standard hover:border-foreground/20 hover:bg-card"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold text-neutral-50">
+          <h3 className="text-sm font-semibold text-foreground">
             {project.name}
           </h3>
 
           {project.language && (
-            <div className="mt-1 inline-flex items-center gap-1 text-xs text-neutral-400">
+            <div className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground">
               <span
                 className="inline-block h-2 w-2 rounded-full"
                 style={{
@@ -48,7 +48,7 @@ export default function PinnedProjectCard({ repo }: Props) {
           )}
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-neutral-400">
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <StarIcon className="h-3.5 w-3.5" />
             <span>{project.stars ?? 0}</span>
@@ -62,7 +62,7 @@ export default function PinnedProjectCard({ repo }: Props) {
       </div>
 
       {project.description && (
-        <p className="mt-2 line-clamp-3 text-xs text-neutral-300">
+        <p className="mt-2 line-clamp-3 text-xs text-muted-foreground">
           {project.description}
         </p>
       )}
@@ -72,7 +72,7 @@ export default function PinnedProjectCard({ repo }: Props) {
           {project.topics.slice(0, 5).map((topic) => (
             <span
               key={topic}
-              className="rounded-full bg-neutral-800/80 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-neutral-300"
+              className="rounded-pill border border-border/60 bg-muted/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground"
             >
               {topic}
             </span>
@@ -86,7 +86,7 @@ export default function PinnedProjectCard({ repo }: Props) {
             href={project.sourceUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-neutral-300 hover:text-neutral-50"
+            className="inline-flex items-center gap-1 text-muted-foreground transition-colors duration-fast hover:text-foreground"
           >
             <CodeBracketIcon className="h-3.5 w-3.5" />
             <span>Source</span>
@@ -97,7 +97,7 @@ export default function PinnedProjectCard({ repo }: Props) {
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 text-neutral-300 hover:text-neutral-50"
+              className="inline-flex items-center gap-1 text-muted-foreground transition-colors duration-fast hover:text-foreground"
             >
               <GlobeAltIcon className="h-3.5 w-3.5" />
               <span>Live</span>
@@ -107,7 +107,7 @@ export default function PinnedProjectCard({ repo }: Props) {
 
         <Link
           href={`/projects/${encodeURIComponent(project.slug)}`}
-          className="inline-flex items-center gap-1 rounded-full border border-neutral-700 px-2 py-0.5 text-[11px] font-medium text-neutral-200 hover:border-neutral-500"
+          className="inline-flex items-center gap-1 rounded-pill border border-border px-2 py-0.5 text-[11px] font-medium text-foreground transition-colors duration-fast hover:border-brand/50 hover:text-brand"
         >
           <span>Releases & details</span>
         </Link>

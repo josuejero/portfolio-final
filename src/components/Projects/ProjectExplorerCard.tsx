@@ -20,7 +20,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
     <motion.article
       layout
       whileHover={{ y: -2 }}
-      className="flex flex-col gap-3 rounded-xl border bg-card/80 p-4 shadow-sm backdrop-blur"
+      className="flex flex-col gap-3 rounded-surface border bg-card/80 p-4 shadow-soft backdrop-blur"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
@@ -43,7 +43,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
 
       <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
         {project.language && (
-          <span className="rounded-full border border-border px-2 py-0.5">
+          <span className="rounded-pill border border-border px-2 py-0.5">
             {project.language.name}
           </span>
         )}
@@ -51,7 +51,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
         {project.topics.slice(0, 3).map((topic) => (
           <span
             key={topic}
-            className="rounded-full border border-border px-2 py-0.5"
+            className="rounded-pill border border-border px-2 py-0.5"
           >
             #{topic}
           </span>

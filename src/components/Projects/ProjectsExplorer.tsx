@@ -196,7 +196,7 @@ export default function ProjectsExplorer() {
       </header>
 
       {error && (
-        <div className="rounded-md border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-200">
+        <div className="rounded-control border border-destructive/40 bg-destructive/10 p-3 text-sm text-foreground">
           {error}
         </div>
       )}

@@ -73,22 +73,22 @@ export default function ProjectDetail({ name }: ProjectDetailProps) {
     <div className="space-y-6">
       <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div className="space-y-2">
-          <h1 className="text-xl font-semibold text-neutral-50 sm:text-2xl">
+          <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
             {repoName}
           </h1>
 
           {repoDescription && (
-            <p className="max-w-2xl text-sm text-neutral-300">{repoDescription}</p>
+            <p className="max-w-2xl text-sm text-muted-foreground">{repoDescription}</p>
           )}
 
           {repo && (
-            <div className="flex flex-wrap gap-3 text-xs text-neutral-400">
+            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
               {repo.language && (
-                <span className="rounded-full bg-neutral-900/70 px-2 py-0.5">
+                <span className="rounded-pill border border-border/60 bg-muted/60 px-2 py-0.5">
                   {repo.language}
                 </span>
               )}
-              <span className="rounded-full bg-neutral-900/70 px-2 py-0.5">
+              <span className="rounded-pill border border-border/60 bg-muted/60 px-2 py-0.5">
                 Updated {formatDate(repo.pushedAt)}
               </span>
             </div>
@@ -100,7 +100,7 @@ export default function ProjectDetail({ name }: ProjectDetailProps) {
             href={repoUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 self-start rounded-lg border border-neutral-800 bg-neutral-950/60 px-3 py-2 text-xs font-medium text-neutral-100 hover:border-neutral-700 hover:bg-neutral-900"
+            className="inline-flex items-center gap-2 self-start rounded-control border border-border bg-surface-raised/70 px-3 py-2 text-xs font-medium text-foreground transition-colors duration-fast hover:border-brand/50 hover:bg-muted"
           >
             <CodeBracketIcon className="h-4 w-4" />
             <span>View on GitHub</span>
@@ -110,26 +110,26 @@ export default function ProjectDetail({ name }: ProjectDetailProps) {
       </header>
 
       {loading && !repo && (
-        <div className="rounded-lg border border-neutral-900 bg-neutral-950/70 p-4 text-sm text-neutral-400">
+        <div className="rounded-surface border border-border/70 bg-card/50 p-4 text-sm text-muted-foreground">
           Loading project details from GitHub…
         </div>
       )}
 
       {!loading && error && (
-        <div className="rounded-lg border border-red-900/60 bg-red-950/40 p-4 text-sm text-red-100">
+        <div className="rounded-surface border border-destructive/40 bg-destructive/10 p-4 text-sm text-foreground">
           {error}
         </div>
       )}
 
-      <div className="border-b border-neutral-800">
+      <div className="border-b border-border">
         <nav className="flex gap-2 text-xs">
           <button
             type="button"
             onClick={() => setTab('overview')}
             className={`rounded-t-lg px-3 py-2 ${
               tab === 'overview'
-                ? 'bg-neutral-900 text-neutral-100'
-                : 'text-neutral-400 hover:text-neutral-100'
+                ? 'bg-muted text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Overview
@@ -138,7 +138,7 @@ export default function ProjectDetail({ name }: ProjectDetailProps) {
       </div>
 
       {tab === 'overview' && (
-        <section className="space-y-4 text-sm text-neutral-300">
+        <section className="space-y-4 text-sm text-muted-foreground">
           <ProjectReadme
             readme={readme}
             readmeLoading={readmeLoading}
