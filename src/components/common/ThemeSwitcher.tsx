@@ -27,7 +27,7 @@ export function ThemeSwitcher({ isOpen }: ThemeSwitcherProps) {
           const nextTheme = themes[(currentIndex + 1) % themes.length];
           setTheme(nextTheme);
         }}
-        className="p-2 rounded-md hover:bg-gray-700 transition-colors"
+        className="p-2 rounded-md hover:bg-muted transition-colors"
         aria-label={`Current theme: ${theme}. Click to change.`}
       >
         <ActiveIcon className="h-5 w-5" />
@@ -46,8 +46,8 @@ export function ThemeSwitcher({ isOpen }: ThemeSwitcherProps) {
         <button
           key={themeOption}
           onClick={() => setTheme(themeOption as 'light' | 'dark' | 'system')}
-          className={`p-2 rounded-md hover:bg-gray-700 transition-colors
-                     ${theme === themeOption ? 'bg-gray-700' : ''}`}
+          className={`p-2 rounded-md hover:bg-muted transition-colors
+                     ${theme === themeOption ? 'bg-muted' : ''}`}
           aria-label={label}
         >
           <Icon className="h-5 w-5" />

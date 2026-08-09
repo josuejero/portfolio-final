@@ -60,7 +60,7 @@ export default function Home() {
       {/* Subtle background glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-sky-500/10 via-background to-background"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-background"
       />
 
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
@@ -75,7 +75,7 @@ export default function Home() {
                 transition={{ duration: 0.4 }}
                 className="space-y-3"
               >
-                <p className="text-sm font-medium uppercase tracking-wide text-sky-500">
+                <p className="text-sm font-medium uppercase tracking-wide text-brand">
                   Software engineer • Cloud • Frontend
                 </p>
                 <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
@@ -134,7 +134,7 @@ export default function Home() {
                   data-cta-location="hero"
                   data-cta-name="view-projects"
                   onClick={handleViewProjectsClick}
-                  className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2 text-sm font-medium text-sky-950 shadow-sm transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                  className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2 text-sm font-medium text-brand-foreground shadow-sm transition hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
                   View projects
                 </button>
@@ -143,14 +143,14 @@ export default function Home() {
                   data-cta-location="hero"
                   data-cta-name="get-in-touch"
                   onClick={handleGetInTouchClick}
-                  className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-medium text-foreground/90 hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                  className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-medium text-foreground/90 hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
                   Get in touch
                 </button>
                 <Link
                   href="/website-help"
                   onClick={() => trackHeroCta('website-help')}
-                  className="text-sm font-semibold text-muted-foreground underline-offset-4 transition hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                  className="text-sm font-semibold text-muted-foreground underline-offset-4 transition hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
                   Explore Website Help
                 </Link>
@@ -179,11 +179,11 @@ function ServicesTeaser() {
   return (
     <section
       aria-label="Website Help services teaser"
-      className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-sm shadow-slate-900/10 backdrop-blur"
+      className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-soft backdrop-blur"
     >
       <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-500">Services</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Services</p>
           <h2 className="text-2xl font-semibold text-foreground">Need a Website Help review?</h2>
           <p className="text-sm text-muted-foreground">
             Short, sharp diagnostics that surface layout fixes, copy polish, and CTA clarity before you launch.
@@ -197,7 +197,7 @@ function ServicesTeaser() {
       <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
         {SERVICES_TEASER_BULLETS.map((item) => (
           <li key={item} className="flex items-start gap-2">
-            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-sky-500" aria-hidden />
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
             <span>{item}</span>
           </li>
         ))}
@@ -207,7 +207,7 @@ function ServicesTeaser() {
         <Link
           href="/website-help"
           onClick={handleServiceLinkClick}
-          className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2 text-sm font-semibold text-sky-950 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+          className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground transition hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Book Website Help
         </Link>
@@ -229,7 +229,7 @@ function FeatureRow({ icon: Icon, title, body }: FeatureRowProps) {
   return (
     <div className="flex gap-3 rounded-2xl border border-border/60 bg-background/60 p-3 text-sm">
       <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border border-border/70">
-        <Icon className="h-4 w-4 text-sky-500" />
+        <Icon className="h-4 w-4 text-brand" />
       </div>
       <div className="space-y-1">
         <h2 className="text-sm font-medium">{title}</h2>

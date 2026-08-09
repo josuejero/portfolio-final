@@ -74,11 +74,11 @@ export default function SchedulingModule() {
   return (
     <section
       id="schedule"
-      className="rounded-3xl border border-border/60 bg-background/85 p-6 shadow-sm shadow-slate-900/5 backdrop-blur"
+      className="rounded-3xl border border-border/60 bg-background/85 p-6 shadow-soft backdrop-blur"
     >
       <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-500">Schedule</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Schedule</p>
           <h2 className="text-2xl font-semibold text-foreground">Mini intake + inline Calendly</h2>
           <p className="text-sm text-muted-foreground">
             Drop in a few project facts so the booking call is focused on the right outcomes.
@@ -95,7 +95,7 @@ export default function SchedulingModule() {
               name="siteType"
               value={formData.siteType}
               onChange={handleChange}
-              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-sky-500 focus:outline-none"
+              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-brand focus:outline-none"
             >
               <option value="">Pick a category</option>
               <option value="portfolio">Portfolio / personal brand</option>
@@ -112,7 +112,7 @@ export default function SchedulingModule() {
               name="deadline"
               value={formData.deadline}
               onChange={handleChange}
-              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-sky-500 focus:outline-none"
+              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-brand focus:outline-none"
             />
           </label>
         </div>
@@ -126,7 +126,7 @@ export default function SchedulingModule() {
               placeholder="https://example.com"
               value={formData.currentLink}
               onChange={handleChange}
-              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-sky-500 focus:outline-none"
+              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-brand focus:outline-none"
             />
           </label>
           <label className="space-y-1 text-sm">
@@ -137,7 +137,7 @@ export default function SchedulingModule() {
               placeholder="List the key pages you can’t launch without"
               value={formData.mustHavePages}
               onChange={handleChange}
-              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-sky-500 focus:outline-none"
+              className="w-full rounded-xl border border-border/60 bg-background/80 px-4 py-2 text-sm focus:border-brand focus:outline-none"
             />
           </label>
         </div>
@@ -145,7 +145,7 @@ export default function SchedulingModule() {
         <div className="flex flex-wrap gap-3">
           <button
             type="submit"
-            className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2 text-sm font-semibold text-sky-950 shadow-sm transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+            className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-sm transition hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Refresh scheduler
           </button>
@@ -154,7 +154,7 @@ export default function SchedulingModule() {
             data-cta-location="footer"
             data-cta-name="schedule-call"
             onClick={handleOpenScheduler}
-            className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+            className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Open Calendly (mobile ready)
           </button>

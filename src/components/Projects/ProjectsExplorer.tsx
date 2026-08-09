@@ -177,7 +177,7 @@ export default function ProjectsExplorer() {
                   onClick={() => selectLens(lens)}
                   className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                     selected
-                      ? 'border-sky-500 bg-sky-500/15 text-sky-400'
+                      ? 'border-brand bg-brand/10 text-brand'
                       : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
                   }`}
                 >
