@@ -26,6 +26,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
         <div className="space-y-1">
           <h3 className="text-sm font-semibold leading-tight">
             <Link
+              prefetch={false}
               href={`/projects/${encodeURIComponent(project.slug)}`}
               className="hover:underline"
             >
@@ -64,6 +65,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
 
       <div className="mt-auto flex items-center justify-between pt-1 text-xs">
         <Link
+          prefetch={false}
           href={project.sourceUrl}
           target="_blank"
           rel="noreferrer"
@@ -75,6 +77,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
 
         {project.liveUrl && (
           <Link
+            prefetch={false}
             href={project.liveUrl}
             target="_blank"
             rel="noreferrer"
