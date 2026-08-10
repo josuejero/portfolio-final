@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import { motion } from 'framer-motion';
 import { Code2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
@@ -16,10 +15,7 @@ type GithubActivitySectionProps = {
 
 export default function GithubActivitySection({ stats, username }: GithubActivitySectionProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
+    <section
       className="space-y-6"
     >
       <Card>
@@ -46,6 +42,6 @@ export default function GithubActivitySection({ stats, username }: GithubActivit
           )}
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 }

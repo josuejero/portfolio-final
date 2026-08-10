@@ -1,7 +1,6 @@
 'use client';
 
 import type { GitHubActivityItem } from '@/types/github';
-import { motion } from 'framer-motion';
 
 interface Props {
   activity: GitHubActivityItem[];
@@ -26,11 +25,8 @@ export default function ActivityFeedCard({ activity }: Props) {
   const recentActivity = activity.slice(0, 8);
 
   return (
-    <motion.div
+    <div
       className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: 0.2 }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -78,6 +74,6 @@ export default function ActivityFeedCard({ activity }: Props) {
           No recent GitHub activity from this account that can be shown yet.
         </p>
       )}
-    </motion.div>
+    </div>
   );
 }

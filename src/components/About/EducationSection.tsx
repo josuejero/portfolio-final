@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { GraduationCap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -25,10 +24,7 @@ const education = {
 
 export default function EducationSection() {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
+    <section
       className="space-y-6"
     >
       <Card>
@@ -62,6 +58,6 @@ export default function EducationSection() {
           </div>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 }

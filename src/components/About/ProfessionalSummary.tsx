@@ -1,14 +1,11 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ProfessionalSummary() {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <section
       className="space-y-6"
     >
       <Card>
@@ -27,6 +24,6 @@ export default function ProfessionalSummary() {
           </p>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 }

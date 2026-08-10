@@ -1,7 +1,6 @@
 'use client';
 
 import type { GitHubContributionCalendar } from '@/types/github';
-import { motion } from 'framer-motion';
 
 interface Props {
   calendar: GitHubContributionCalendar | null;
@@ -47,11 +46,8 @@ export default function ContributionCalendarCard({ calendar, contributionsThisYe
   const maxDayCount = computeMaxCount(calendar);
 
   return (
-    <motion.div
+    <div
       className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
     >
       <div className="flex items-center justify-between gap-2 text-xs">
         <span className="font-medium text-muted-foreground">
@@ -95,6 +91,6 @@ export default function ContributionCalendarCard({ calendar, contributionsThisYe
           Calendar data is not available. Check that your GitHub token includes GraphQL read access.
         </p>
       )}
-    </motion.div>
+    </div>
   );
 }

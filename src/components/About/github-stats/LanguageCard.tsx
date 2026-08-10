@@ -1,7 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
 interface Props {
   topLanguages: Record<string, number>;
 }
@@ -17,11 +15,8 @@ export default function LanguageCard({ topLanguages }: Props) {
   );
 
   return (
-    <motion.div
+    <div
       className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: 0.15 }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -62,6 +57,6 @@ export default function LanguageCard({ topLanguages }: Props) {
           No language data yet. Once you have some non empty repositories, they will show up here.
         </p>
       )}
-    </motion.div>
+    </div>
   );
 }

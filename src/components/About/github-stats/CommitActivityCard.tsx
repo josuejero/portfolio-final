@@ -2,7 +2,6 @@
 
 import type { CommitActivity } from '@/types/github';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { motion } from 'framer-motion';
 
 interface Props {
   commitActivity: CommitActivity[];
@@ -10,11 +9,8 @@ interface Props {
 
 export default function CommitActivityCard({ commitActivity }: Props) {
   return (
-    <motion.div
+    <div
       className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: 0.1 }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -54,6 +50,6 @@ export default function CommitActivityCard({ commitActivity }: Props) {
           </p>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
