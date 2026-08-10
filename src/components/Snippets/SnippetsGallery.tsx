@@ -73,9 +73,9 @@ export default function SnippetsGallery() {
                 </a>
               </div>
               
-              <h3 className="font-semibold text-lg mb-2">
+              <h2 className="font-semibold text-lg mb-2">
                 {gist.description || Object.keys(gist.files)[0]}
-              </h3>
+              </h2>
               
               <div className="mb-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
