@@ -5,7 +5,6 @@ import {
   CalendarIcon,
   CodeBracketIcon
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function SnippetsGallery() {
@@ -39,25 +38,20 @@ export default function SnippetsGallery() {
 
   return (
     <div className="py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">Code Snippets</h1>
         <p className="text-lg text-muted-foreground">
           A collection of useful code snippets, algorithms, and utilities from my gists.
         </p>
-      </motion.div>
+      </div>
 
       {/* Gists grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {gists.map((gist, index) => (
-          <motion.div
+        {gists.map((gist) => (
+          <div
             key={gist.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
             className="bg-card rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow"
           >
             <div className="p-6">
@@ -123,7 +117,7 @@ export default function SnippetsGallery() {
                 View Code
               </button>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
