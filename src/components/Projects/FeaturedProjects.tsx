@@ -38,6 +38,7 @@ export default function FeaturedProjects() {
         </div>
 
         <Link
+          prefetch={false}
           href="/projects"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-fast hover:text-brand-hover"
         >
@@ -73,6 +74,7 @@ export default function FeaturedProjects() {
                 <div className="space-y-2">
                   <h3 className="text-xl font-semibold tracking-tight text-foreground">
                     <Link
+                      prefetch={false}
                       href={`/projects/${project.slug}`}
                       className="transition-colors duration-fast hover:text-brand"
                     >
@@ -127,6 +129,7 @@ export default function FeaturedProjects() {
 
               <div className="mt-auto flex flex-wrap gap-x-4 gap-y-2 border-t border-border/60 pt-5 text-xs font-medium">
                 <Link
+                  prefetch={false}
                   href={`/projects/${project.slug}`}
                   className="inline-flex items-center gap-1.5 text-brand transition-colors duration-fast hover:text-brand-hover"
                 >

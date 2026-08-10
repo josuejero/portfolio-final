@@ -18,12 +18,14 @@ interface TrackedLinkProps
   > {
   href: string;
   events?: TrackEventSpec[];
+  prefetch?: boolean | null;
 }
 
 export default function TrackedLink({
   href,
   events,
   onClick,
+  prefetch,
   ...props
 }: TrackedLinkProps) {
   const handleClick = (
@@ -43,6 +45,7 @@ export default function TrackedLink({
     return (
       <Link
         href={href}
+        prefetch={prefetch}
         {...props}
         onClick={handleClick}
       />

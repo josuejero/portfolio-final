@@ -73,6 +73,7 @@ export default function Sidebar({
     <>
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/60 bg-background/90 px-4 backdrop-blur sm:px-6 md:hidden">
         <Link
+          prefetch={false}
           href="/"
           className="flex items-center gap-2 font-semibold"
         >
@@ -100,6 +101,7 @@ export default function Sidebar({
 
             return (
               <Link
+                prefetch={false}
                 key={item.href}
                 href={item.href}
                 aria-current={
@@ -177,6 +179,7 @@ export default function Sidebar({
         <div className="flex h-full flex-col">
           <div className="flex h-16 shrink-0 items-center border-b border-border/60 px-4">
             <Link
+              prefetch={false}
               href="/"
               className={[
                 'flex min-w-0 items-center font-semibold',
@@ -213,6 +216,7 @@ export default function Sidebar({
                 return (
                   <li key={item.href}>
                     <Link
+                      prefetch={false}
                       href={item.href}
                       aria-current={
                         isActive

@@ -69,6 +69,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-3">
             <TrackedLink
               href="/projects"
+              prefetch={false}
               data-cta-location="hero"
               data-cta-name="view-projects"
               events={[
@@ -97,6 +98,7 @@ export default function Home() {
 
             <TrackedLink
               href="/contact"
+              prefetch={false}
               data-cta-location="hero"
               data-cta-name="contact"
               events={[
@@ -230,6 +232,7 @@ function RoleLensSection() {
             </p>
 
             <Link
+              prefetch={false}
               href={`/projects?lens=${lens.slug}`}
               className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-fast hover:text-brand-hover"
             >
@@ -294,6 +297,7 @@ function ServicesTeaser() {
       <div className="mt-6">
         <TrackedLink
           href="/website-help"
+          prefetch={false}
           events={[
             {
               name: 'hero_cta_click',
