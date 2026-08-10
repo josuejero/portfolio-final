@@ -9,7 +9,6 @@ import {
 } from '@/data/role-lenses';
 import { partitionRepositoriesForRoleLens } from '@/lib/projects/role-lens';
 import { CodeBracketIcon } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import {
   useEffect,
   useMemo,
@@ -17,17 +16,6 @@ import {
 } from 'react';
 
 import ProjectExplorerCard from './ProjectExplorerCard';
-
-const gridVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: 'beforeChildren',
-      staggerChildren: 0.04,
-    },
-  },
-};
 
 const orderedRoleLenses = [...ROLE_LENSES].sort(
   (left, right) =>
@@ -276,11 +264,8 @@ function RepositoryGrid({
   repos: readonly GitHubRepositorySummary[];
 }) {
   return (
-    <motion.div
+    <div
       className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
-      variants={gridVariants}
-      initial="hidden"
-      animate="visible"
     >
       {repos.map((repo) => (
         <ProjectExplorerCard
@@ -288,6 +273,6 @@ function RepositoryGrid({
           repo={repo}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }

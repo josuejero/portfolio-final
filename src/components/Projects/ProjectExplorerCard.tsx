@@ -1,7 +1,6 @@
 'use client';
 
 import { CodeBracketIcon } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { toRepositoryProjectViewModel } from '@/lib/projects/view-model';
@@ -17,9 +16,7 @@ export default function ProjectExplorerCard({ repo }: Props) {
   const project = toRepositoryProjectViewModel(repo);
 
   return (
-    <motion.article
-      layout
-      whileHover={{ y: -2 }}
+    <article
       className="flex flex-col gap-3 rounded-surface border bg-card/80 p-4 shadow-soft backdrop-blur"
     >
       <div className="flex items-start justify-between gap-3">
@@ -87,6 +84,6 @@ export default function ProjectExplorerCard({ repo }: Props) {
           </Link>
         )}
       </div>
-    </motion.article>
+    </article>
   );
 }
