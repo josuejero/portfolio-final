@@ -2,13 +2,35 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { CONTACT_FIELD_LIMITS } from '@/lib/contact/validation';
 
 const contactSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
+  name: z
+    .string()
+    .min(
+      CONTACT_FIELD_LIMITS.name.min,
+      "Please enter your full name.",
+    )
+    .max(
+      CONTACT_FIELD_LIMITS.name.max,
+      "Name is too long.",
+    ),
   email: z.string().email("Invalid email address"),
-  message: z.string().min(1, "Message is required").max(2000),
+  message: z
+    .string()
+    .min(
+      CONTACT_FIELD_LIMITS.message.min,
+      "Message must be at least 10 characters.",
+    )
+    .max(
+      CONTACT_FIELD_LIMITS.message.max,
+      "Message is too long.",
+    ),
   // Good on Edge; works with Upstash over HTTP
-  website: z.string().max(0).optional(), // simple honeypot field (leave blank in the UI)
+  website: z
+    .string()
+    .max(CONTACT_FIELD_LIMITS.website.max)
+    .optional(), // simple honeypot field (leave blank in the UI)
 });
 
 // Initialize rate limiter only if Redis is available

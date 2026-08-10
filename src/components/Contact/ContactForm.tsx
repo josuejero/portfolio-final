@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { CONTACT_FIELD_LIMITS } from '@/lib/contact/validation';
 import {
   useState,
   type ChangeEvent,
@@ -44,17 +45,17 @@ function validateForm(
 
   // Preserve the existing honeypot behavior:
   // populated bot submissions fail silently.
-  if (form.website.length > 0) {
+  if (form.website.length > CONTACT_FIELD_LIMITS.website.max) {
     return {
       valid: false,
       errors,
     };
   }
 
-  if (form.name.length < 2) {
+  if (form.name.length < CONTACT_FIELD_LIMITS.name.min) {
     errors.name =
       'Please enter your full name.';
-  } else if (form.name.length > 100) {
+  } else if (form.name.length > CONTACT_FIELD_LIMITS.name.max) {
     errors.name =
       'Name is too long.';
   }
@@ -71,10 +72,10 @@ function validateForm(
       'Invalid email address';
   }
 
-  if (form.message.length < 10) {
+  if (form.message.length < CONTACT_FIELD_LIMITS.message.min) {
     errors.message =
       'Message must be at least 10 characters.';
-  } else if (form.message.length > 5000) {
+  } else if (form.message.length > CONTACT_FIELD_LIMITS.message.max) {
     errors.message =
       'Message is too long.';
   }
@@ -282,8 +283,8 @@ export default function ContactForm() {
                 : undefined
             }
             required
-            minLength={2}
-            maxLength={100}
+            minLength={CONTACT_FIELD_LIMITS.name.min}
+            maxLength={CONTACT_FIELD_LIMITS.name.max}
           />
 
           {errors.name && (
@@ -360,8 +361,8 @@ export default function ContactForm() {
                 : undefined
             }
             required
-            minLength={10}
-            maxLength={5000}
+            minLength={CONTACT_FIELD_LIMITS.message.min}
+            maxLength={CONTACT_FIELD_LIMITS.message.max}
           />
 
           {errors.message && (
