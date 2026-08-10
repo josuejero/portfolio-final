@@ -1,14 +1,34 @@
 'use client';
 
-import type { AnchorHTMLAttributes, MouseEvent } from 'react';
-import { trackEvent, type TrackEventSpec } from '@/lib/gtag';
+import Link from 'next/link';
+import type {
+  AnchorHTMLAttributes,
+  MouseEvent,
+} from 'react';
 
-interface TrackedLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+import {
+  trackEvent,
+  type TrackEventSpec,
+} from '@/lib/gtag';
+
+interface TrackedLinkProps
+  extends Omit<
+    AnchorHTMLAttributes<HTMLAnchorElement>,
+    'href'
+  > {
+  href: string;
   events?: TrackEventSpec[];
 }
 
-export default function TrackedLink({ events, onClick, ...props }: TrackedLinkProps) {
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+export default function TrackedLink({
+  href,
+  events,
+  onClick,
+  ...props
+}: TrackedLinkProps) {
+  const handleClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+  ) => {
     events?.forEach(({ name, params }) => {
       trackEvent(name, params);
     });
@@ -16,5 +36,24 @@ export default function TrackedLink({ events, onClick, ...props }: TrackedLinkPr
     onClick?.(event);
   };
 
-  return <a {...props} onClick={handleClick} />;
+  const isInternalRoute =
+    href.startsWith('/') && !href.startsWith('//');
+
+  if (isInternalRoute) {
+    return (
+      <Link
+        href={href}
+        {...props}
+        onClick={handleClick}
+      />
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      {...props}
+      onClick={handleClick}
+    />
+  );
 }

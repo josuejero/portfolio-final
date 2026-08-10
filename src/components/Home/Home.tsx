@@ -1,15 +1,13 @@
 // src/components/Home/Home.tsx
-'use client';
-
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import Die from '@/components/Die';
+import TrackedLink from '@/components/common/TrackedLink';
 import FeaturedProjects from '@/components/Projects/FeaturedProjects';
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { ROLE_LENSES } from '@/data/role-lenses';
-import { trackEvent } from '@/lib/gtag';
 import { cn } from '@/lib/utils';
 
 import SchedulingModule from './Conversion/SchedulingModule';
@@ -27,13 +25,6 @@ const SERVICES_TEASER_BULLETS = [
 ];
 
 export default function Home() {
-  const trackHeroCta = (name: string) => {
-    trackEvent('hero_cta_click', {
-      location: 'hero',
-      name,
-    });
-  };
-
   return (
     <section
       id="home"
@@ -76,13 +67,19 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link
+            <TrackedLink
               href="/projects"
               data-cta-location="hero"
               data-cta-name="view-projects"
-              onClick={() =>
-                trackHeroCta('view-projects')
-              }
+              events={[
+                {
+                  name: 'hero_cta_click',
+                  params: {
+                    location: 'hero',
+                    name: 'view-projects',
+                  },
+                },
+              ]}
               className={cn(
                 buttonVariants({
                   variant: 'default',
@@ -96,35 +93,51 @@ export default function Home() {
                 className="h-4 w-4"
                 aria-hidden="true"
               />
-            </Link>
+            </TrackedLink>
 
-            <Link
+            <TrackedLink
               href="/contact"
               data-cta-location="hero"
               data-cta-name="contact"
-              onClick={() => trackHeroCta('contact')}
+              events={[
+                {
+                  name: 'hero_cta_click',
+                  params: {
+                    location: 'hero',
+                    name: 'contact',
+                  },
+                },
+              ]}
               className={buttonVariants({
                 variant: 'outline',
                 size: 'lg',
               })}
             >
               Get in touch
-            </Link>
+            </TrackedLink>
 
-            <a
+            <TrackedLink
               href={siteConfig.github.profileUrl}
               target="_blank"
               rel="noreferrer"
               data-cta-location="hero"
               data-cta-name="github"
-              onClick={() => trackHeroCta('github')}
+              events={[
+                {
+                  name: 'hero_cta_click',
+                  params: {
+                    location: 'hero',
+                    name: 'github',
+                  },
+                },
+              ]}
               className={buttonVariants({
                 variant: 'ghost',
                 size: 'lg',
               })}
             >
               GitHub
-            </a>
+            </TrackedLink>
           </div>
         </section>
 
@@ -234,13 +247,6 @@ function RoleLensSection() {
 }
 
 function ServicesTeaser() {
-  const handleServiceLinkClick = () => {
-    trackEvent('hero_cta_click', {
-      location: 'services',
-      name: 'website-help',
-    });
-  };
-
   return (
     <section
       aria-labelledby="website-help-heading"
@@ -286,15 +292,23 @@ function ServicesTeaser() {
       </ul>
 
       <div className="mt-6">
-        <Link
+        <TrackedLink
           href="/website-help"
-          onClick={handleServiceLinkClick}
+          events={[
+            {
+              name: 'hero_cta_click',
+              params: {
+                location: 'services',
+                name: 'website-help',
+              },
+            },
+          ]}
           className={buttonVariants({
             variant: 'default',
           })}
         >
           Explore Website Help
-        </Link>
+        </TrackedLink>
       </div>
     </section>
   );

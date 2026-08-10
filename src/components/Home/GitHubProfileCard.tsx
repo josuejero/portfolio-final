@@ -1,4 +1,6 @@
 // src/components/Home/GitHubProfileCard.tsx
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import useGithubStats from '@/hooks/useGithubStats';
 import {
