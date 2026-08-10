@@ -261,13 +261,12 @@ export default function FrameCastDemo() {
     <div className="rounded-panel border border-border/60 bg-card/60 p-5 shadow-soft">
       <div
         className="flex flex-wrap gap-2"
-        role="tablist"
+        role="group"
         aria-label="FrameCast simulator mode"
       >
         <button
           type="button"
-          role="tab"
-          aria-selected={
+          aria-pressed={
             mode === 'devices'
           }
           onClick={() =>
@@ -284,8 +283,7 @@ export default function FrameCastDemo() {
 
         <button
           type="button"
-          role="tab"
-          aria-selected={
+          aria-pressed={
             mode === 'photos'
           }
           onClick={() =>
