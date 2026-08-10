@@ -3,7 +3,7 @@
 import type { GitHubStats } from '@/types/github';
 import React from 'react';
 import ActivityFeedCard from './github-stats/ActivityFeedCard';
-import CommitActivityCard from './github-stats/CommitActivityCard';
+import DeferredCommitActivityCard from './github-stats/DeferredCommitActivityCard';
 import ContributionCalendarCard from './github-stats/ContributionCalendarCard';
 import LanguageCard from './github-stats/LanguageCard';
 
@@ -53,7 +53,7 @@ export default function GithubStats({ stats, username }: GithubStatsProps) {
         />
       </div>
 
-      <CommitActivityCard commitActivity={stats.commitActivity} />
+      <DeferredCommitActivityCard commitActivity={stats.commitActivity} />
 
       <div className="grid gap-6 md:grid-cols-2">
         <LanguageCard topLanguages={stats.topLanguages} />
