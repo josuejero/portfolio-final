@@ -6,7 +6,6 @@ import {
   ClockIcon,
   TagIcon,
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -50,22 +49,17 @@ const Blog = () => {
 
   return (
     <div className="mx-auto max-w-reading space-y-12 py-8">
-      <motion.h1
+      <h1
         className="mb-8 text-center text-4xl font-bold"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
       >
         Technical Blog
-      </motion.h1>
+      </h1>
 
       <div className="grid gap-8">
-        {SAMPLE_POSTS.map((post, index) => (
-          <motion.article
+        {SAMPLE_POSTS.map((post) => (
+          <article
             key={post.id}
             className="overflow-hidden rounded-surface border border-border/60 bg-card/70 shadow-soft"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
           >
             <div className="p-6">
               <h2
@@ -110,16 +104,14 @@ const Blog = () => {
                 </div>
               </div>
             </div>
-          </motion.article>
+          </article>
         ))}
       </div>
 
       {selectedPost && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
-          <motion.div
+          <div
             className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-panel border border-border/60 bg-card shadow-raised"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
           >
             <div className="p-6">
               <h2 className="mb-4 text-2xl font-bold">
@@ -137,7 +129,7 @@ const Blog = () => {
                 Close
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
     </div>
