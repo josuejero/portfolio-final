@@ -54,8 +54,8 @@ This repository contains the source code for my personal portfolio website, buil
 
 ### Prerequisites
 
-- Node.js 18.x or newer
-- npm, yarn, or pnpm (choose one for dependency management)
+- Node.js 20.17 or newer
+- npm 11.x (this repository uses npm and `package-lock.json`)
 - A GitHub personal access token (optional) if you want the GitHub stats feature to function
 
 ### Installation
@@ -68,11 +68,7 @@ This repository contains the source code for my personal portfolio website, buil
 
 2. **Install dependencies:**
    ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
+   npm ci
    ```
 
 3. **Set environment variables:**
@@ -95,10 +91,6 @@ To run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -111,20 +103,12 @@ To create a production build:
 
 ```bash
 npm run build
-# or
-yarn build
-# or
-pnpm build
 ```
 
 Then, start the production server:
 
 ```bash
 npm run start
-# or
-yarn start
-# or
-pnpm start
 ```
 
 ### Deployment
