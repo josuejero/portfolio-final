@@ -125,10 +125,12 @@ export default function WebsiteHelp() {
               >
                 Book a 60-min Zoom
               </TrackedLink>
-              <Link href="/contact" className="text-sm font-semibold text-muted-foreground transition hover:text-foreground">
+              <Link
+          prefetch={false} href="/contact" className="text-sm font-semibold text-muted-foreground transition hover:text-foreground">
                 Contact me
               </Link>
-              <Link href="/projects" className="text-sm font-semibold text-muted-foreground transition hover:text-foreground">
+              <Link
+          prefetch={false} href="/projects" className="text-sm font-semibold text-muted-foreground transition hover:text-foreground">
                 See my work
               </Link>
             </div>
@@ -248,7 +250,8 @@ export default function WebsiteHelp() {
           <div className="space-y-2 text-center md:text-left">
 
             <p className="text-sm text-muted-foreground">
-              Prefer email? <Link href="/contact" className="font-semibold text-foreground underline">Contact me</Link> or
+              Prefer email? <Link
+          prefetch={false} href="/contact" className="font-semibold text-foreground underline">Contact me</Link> or
               leave a note before the call.
             </p>
           </div>
