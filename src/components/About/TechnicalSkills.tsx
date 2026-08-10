@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ABOUT_SKILL_GROUPS,
   getAboutSkillsForGroup,

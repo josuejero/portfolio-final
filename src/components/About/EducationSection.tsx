@@ -1,5 +1,3 @@
-'use client';
-
 import { GraduationCap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
