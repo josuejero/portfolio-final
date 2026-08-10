@@ -125,6 +125,27 @@ describe('project catalog', () => {
     }
   });
 
+  it('attaches the interactive simulator only to FrameCast', () => {
+    const framecast =
+      getProjectById('framecast-web-portal');
+
+    expect(framecast?.demo?.type).toBe(
+      'framecast-configurator',
+    );
+
+    expect(framecast?.demo?.disclaimer).toMatch(
+      /simulation/i,
+    );
+
+    expect(
+      PROJECTS.filter(
+        (project) => project.demo,
+      ).map((project) => project.id),
+    ).toEqual([
+      'framecast-web-portal',
+    ]);
+  });
+
   it('rejects malformed or unknown repository identities', () => {
     expect(
       getProjectByFullRepositoryName(

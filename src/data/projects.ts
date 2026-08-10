@@ -1,6 +1,7 @@
 import type {
   PortfolioProject,
   ProjectCaseStudy,
+  ProjectDemo,
   ProjectPresentation,
 } from '@/types/project';
 
@@ -19,6 +20,7 @@ type GitHubProjectInput = {
   liveUrl?: string;
   readme?: ReadmeEvidenceInput;
   caseStudy?: ProjectCaseStudy;
+  demo?: ProjectDemo;
   presentation?: ProjectPresentation;
 };
 
@@ -32,6 +34,7 @@ function createGitHubProject({
   liveUrl,
   readme,
   caseStudy,
+  demo,
   presentation,
 }: GitHubProjectInput): PortfolioProject {
   const sourceUrl =
@@ -89,6 +92,7 @@ function createGitHubProject({
     ],
 
     ...(caseStudy ? { caseStudy } : {}),
+    ...(demo ? { demo } : {}),
     ...(presentation ? { presentation } : {}),
   };
 }
@@ -163,6 +167,14 @@ export const PROJECTS = [
         'REST operations for retrieving devices, uploading photos, and saving device and photo configuration.',
         'Bluetooth and Wi-Fi communication modules plus Python and JavaScript test coverage.',
       ],
+    },
+    demo: {
+      type: 'framecast-configurator',
+      label: 'FrameCast configuration simulator',
+      description:
+        'Assign photos to digital frames and experiment with the display configuration model used by the original FrameCast portal.',
+      disclaimer:
+        'In-browser portfolio simulation only — it does not connect to Bluetooth, Wi-Fi, Raspberry Pi hardware, or the original Flask backend.',
     },
     presentation: {
       featured: true,

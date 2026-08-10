@@ -42,6 +42,16 @@ export interface ProjectPresentation {
   image?: string;
 }
 
+export type ProjectDemoType =
+  | 'framecast-configurator';
+
+export interface ProjectDemo {
+  type: ProjectDemoType;
+  label: string;
+  description: string;
+  disclaimer?: string;
+}
+
 export interface PortfolioProject {
   /**
    * Stable internal identifier.
@@ -73,5 +83,6 @@ export interface PortfolioProject {
   evidence: readonly ProjectEvidence[];
 
   caseStudy?: ProjectCaseStudy;
+  demo?: ProjectDemo;
   presentation?: ProjectPresentation;
 }

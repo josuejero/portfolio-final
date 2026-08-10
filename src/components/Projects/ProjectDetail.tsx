@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { defaultUrlTransform } from 'react-markdown';
 
 import ProjectCaseStudy from './ProjectCaseStudy';
+import ProjectInteractiveDemo from './demos/ProjectInteractiveDemo';
 import ProjectReadme from './ProjectReadme';
 import {
   formatDate,
@@ -220,6 +221,12 @@ export default function ProjectDetail({
 
       {project && (
         <ProjectCaseStudy
+          project={project}
+        />
+      )}
+
+      {project?.demo && (
+        <ProjectInteractiveDemo
           project={project}
         />
       )}
