@@ -1,149 +1,53 @@
-'use client';
-
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 import ContactForm from './ContactForm';
-import type { FieldErrors, FormState } from './types';
-
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { z } from 'zod';
-
-const ContactSchema = z.object({
-  name: z.string().min(2, 'Please enter your full name.').max(100, 'Name is too long.'),
-  email: z.string().email(),
-  message: z.string().min(10, 'Message must be at least 10 characters.').max(5000, 'Message is too long.'),
-  website: z.string().max(0).optional(),
-});
 
 export default function Contact() {
-  const [form, setForm] = useState<FormState>({
-    name: '',
-    email: '',
-    message: '',
-    website: '',
-  });
-  const [errors, setErrors] = useState<FieldErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  const onChange =
-    (field: keyof FormState) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const value = e.target.value;
-      setForm((f) => ({ ...f, [field]: value }));
-      setErrors((prev) => ({ ...prev, [field]: undefined, general: undefined }));
-    };
-
-  const validate = (): boolean => {
-    const parsed = ContactSchema.safeParse(form);
-    if (parsed.success) return true;
-
-    const fieldErrors: FieldErrors = {};
-    for (const issue of parsed.error.issues) {
-      const pathKey = issue.path[0] as keyof FormState | undefined;
-      if (pathKey && pathKey !== 'website') {
-        fieldErrors[pathKey] = issue.message;
-      }
-    }
-    setErrors(fieldErrors);
-    return false;
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-    setSent(false);
-
-    if (!validate()) return;
-
-    setSubmitting(true);
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-
-      if (res.status === 204) {
-        setSent(true);
-        setForm({ name: '', email: '', message: '', website: '' });
-        return;
-      }
-
-      if (!res.ok) {
-        let detail = 'Failed to send message.';
-        try {
-          const data = await res.json();
-          if (data?.error) detail = data.error;
-        } catch {
-          // ignore
-        }
-        setErrors({ general: detail });
-        return;
-      }
-
-      setSent(true);
-      setForm({ name: '', email: '', message: '', website: '' });
-    } catch {
-      setErrors({ general: 'Network error. Please try again.' });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <section className="mx-auto max-w-reading space-y-10 py-6 lg:py-10">
       <div className="space-y-10">
         <div className="space-y-6">
-          <h1 className="text-2xl font-semibold">Contact</h1>
+          <h1 className="text-2xl font-semibold">
+            Contact
+          </h1>
 
-          {sent && (
-            <div
-              role="status"
-              className="rounded-control border border-success/40 bg-success/10 p-3 text-sm text-foreground"
-            >
-              Thanks! Your message has been sent.
-            </div>
-          )}
-
-          {errors.general && (
-            <div
-              role="alert"
-              className="rounded-control border border-destructive/40 bg-destructive/10 p-3 text-sm text-foreground"
-            >
-              {errors.general}
-            </div>
-          )}
-
-          <ContactForm
-            form={form}
-            errors={errors}
-            submitting={submitting}
-            onChange={onChange}
-            onSubmit={handleSubmit}
-          />
+          <ContactForm />
         </div>
 
         <div className="space-y-4 rounded-panel border border-border/60 bg-card/60 p-6 shadow-soft">
-          <h2 className="text-lg font-semibold text-foreground">What to expect next</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            What to expect next
+          </h2>
+
           <p className="text-sm text-muted-foreground">
             I read every message and usually respond within two business days. If relevant materials can help explain the
             request, share them in the form above so I can jump in with context.
           </p>
+
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Describe the goal, deliverables, or blockers you are trying to solve.</li>
-            <li>• Let me know your preferred tone for the engagement (strategy session, code review, etc.).</li>
-            <li>• If you have a deadline, include the most helpful date to hear back.</li>
+            <li>
+              • Describe the goal, deliverables, or blockers you are trying to solve.
+            </li>
+            <li>
+              • Let me know your preferred tone for the engagement (strategy session, code review, etc.).
+            </li>
+            <li>
+              • If you have a deadline, include the most helpful date to hear back.
+            </li>
           </ul>
         </div>
 
         <div className="space-y-4 rounded-panel border border-border/60 bg-surface-raised/60 p-6 shadow-soft">
-          <h2 className="text-lg font-semibold text-foreground">Need a faster website refresh?</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            Need a faster website refresh?
+          </h2>
+
           <p className="text-sm text-muted-foreground">
             Visit the Website Help page to book a 60-minute review that sharpens copy, layout, and CTAs before launch.
           </p>
+
           <Link
             href="/website-help"
             className={cn(
