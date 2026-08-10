@@ -8,7 +8,6 @@ import {
   BuildingOffice2Icon,
   MapPinIcon
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 type GitHubProfileCardProps = {
@@ -39,12 +38,7 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="h-full w-full"
-    >
+    <div className="h-full w-full">
       <Card className="h-full overflow-hidden">
         <CardHeader className="pb-0">
           <CardTitle className="flex items-center justify-between">
@@ -102,7 +96,7 @@ const GitHubProfileCard = ({ username }: GitHubProfileCardProps) => {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 
