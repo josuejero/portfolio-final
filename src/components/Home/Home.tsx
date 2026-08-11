@@ -46,23 +46,18 @@ export default function Home() {
             </p>
 
             <p className="text-sm font-medium text-muted-foreground">
-              Software Engineering · Frontend &amp; Developer
-              Experience · Cloud &amp; Automation
+              Software Engineering · QA Automation · Data Quality · Platform Support
             </p>
 
             <h1
               id="home-heading"
               className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
             >
-              Software engineering across applications,
-              frontend systems, and cloud automation.
+              Software engineering across applications, quality systems, data operations, and platform tooling.
             </h1>
 
             <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-              I work across Python and Java applications,
-              React and Next.js interfaces, and cloud and
-              automation workflows—with project repositories
-              you can inspect directly.
+              I build TypeScript, React, and Python systems with automated testing, release evidence, data-quality workflows, and operational tooling you can inspect directly.
             </p>
           </div>
 
@@ -204,7 +199,7 @@ function RoleLensSection() {
           id="role-lenses-heading"
           className="text-2xl font-semibold tracking-tight sm:text-3xl"
         >
-          Three ways to explore the work
+          Four ways to explore the work
         </h2>
 
         <p className="text-sm leading-6 text-muted-foreground">
@@ -213,7 +208,7 @@ function RoleLensSection() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {orderedRoleLenses.map((lens) => (
           <article
             key={lens.id}

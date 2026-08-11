@@ -33,15 +33,23 @@ const contactSchema = z.object({
     .optional(), // simple honeypot field (leave blank in the UI)
 });
 
-// Initialize rate limiter only if Redis is available
+// Rate limiting is optional. Do not construct an Upstash client
+// unless both credentials are configured.
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
 let ratelimit: Ratelimit | null = null;
-try {
-  ratelimit = new Ratelimit({
-    redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(5, "1 m"), // 5 requests / minute / IP (tune to your liking)
+
+if (redisUrl && redisToken) {
+  const redis = new Redis({
+    url: redisUrl,
+    token: redisToken,
   });
-} catch (error) {
-  console.warn("Redis not available for rate limiting:", error);
+
+  ratelimit = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, "1 m"),
+  });
 }
 
 export async function POST(req: Request) {
