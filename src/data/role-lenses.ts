@@ -11,17 +11,21 @@ export const ROLE_LENSES: readonly RoleLens[] = [
     label: 'Software Engineering',
     shortLabel: 'Software',
     summary:
-      'Application development across Python, Java, and modern web technologies.',
+      'Full-stack and application development across TypeScript, React, Python, backend APIs, relational data, and delivery tooling.',
     skillIds: [
       'python',
       'java',
       'javascript-typescript',
       'react',
-      'django',
-      'nextjs',
+      'docker',
+      'ci-cd',
       'git-github',
     ],
     projectIds: [
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
+      'cycleready',
       'finance-tracker',
       'product-affordability-predictor',
       'selestino',
@@ -37,6 +41,80 @@ export const ROLE_LENSES: readonly RoleLens[] = [
     },
   },
 
+  {
+    id: 'quality-engineering',
+    slug: 'quality-engineering',
+    label: 'QA & Test Automation',
+    shortLabel: 'QA',
+    summary:
+      'Release readiness, regression coverage, API and browser automation, requirements traceability, and evidence-backed quality decisions.',
+    skillIds: [
+      'python',
+      'javascript-typescript',
+      'react',
+      'ci-cd',
+      'git-github',
+    ],
+    projectIds: [
+      'cycleready',
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
+    ],
+    presentation: {
+      order: 2,
+    },
+  },
+
+  {
+    id: 'data-quality',
+    slug: 'data-quality',
+    label: 'Data Quality & Operations',
+    shortLabel: 'Data',
+    summary:
+      'Data validation, issue detection, explainable quality scoring, regression fixtures, and automated reporting pipelines.',
+    skillIds: [
+      'python',
+      'ci-cd',
+      'git-github',
+    ],
+    projectIds: [
+      'dqsentry',
+    ],
+    presentation: {
+      order: 3,
+    },
+  },
+
+  {
+    id: 'platform-support',
+    slug: 'platform-support',
+    label: 'Platform & Technical Support',
+    shortLabel: 'Platform',
+    summary:
+      'Operational tooling for diagnostics, support workflows, incident triage, secure application behavior, and reliable delivery.',
+    skillIds: [
+      'javascript-typescript',
+      'react',
+      'cloud',
+      'docker',
+      'ci-cd',
+      'git-github',
+    ],
+    projectIds: [
+      'botmedic',
+      'hostdesk',
+      'cycleready',
+    ],
+    presentation: {
+      order: 4,
+    },
+  },
+];
+
+// Preserve old query-string/deep-link lookups without exposing these
+// retired lenses in the primary ROLE_LENSES UI.
+const LEGACY_ROLE_LENSES: readonly RoleLens[] = [
   {
     id: 'frontend-dx',
     slug: 'frontend-dx',
@@ -55,10 +133,9 @@ export const ROLE_LENSES: readonly RoleLens[] = [
       'ozzie-gonzalez-photography',
     ],
     presentation: {
-      order: 2,
+      order: 90,
     },
   },
-
   {
     id: 'cloud-automation',
     slug: 'cloud-automation',
@@ -79,9 +156,14 @@ export const ROLE_LENSES: readonly RoleLens[] = [
       'product-affordability-predictor',
     ],
     presentation: {
-      order: 3,
+      order: 91,
     },
   },
+];
+
+const ALL_ROLE_LENSES: readonly RoleLens[] = [
+  ...ROLE_LENSES,
+  ...LEGACY_ROLE_LENSES,
 ];
 
 function normalize(value: string): string {
@@ -93,7 +175,7 @@ export function getRoleLensById(
 ): RoleLens | undefined {
   const normalizedId = normalize(id);
 
-  return ROLE_LENSES.find(
+  return ALL_ROLE_LENSES.find(
     (lens) => normalize(lens.id) === normalizedId,
   );
 }
@@ -103,7 +185,7 @@ export function getRoleLensBySlug(
 ): RoleLens | undefined {
   const normalizedSlug = normalize(slug);
 
-  return ROLE_LENSES.find(
+  return ALL_ROLE_LENSES.find(
     (lens) => normalize(lens.slug) === normalizedSlug,
   );
 }

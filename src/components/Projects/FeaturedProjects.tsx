@@ -31,9 +31,9 @@ export default function FeaturedProjects() {
           </h2>
 
           <p className="text-sm leading-6 text-muted-foreground">
-            Selected projects with repository and README
-            evidence behind the technologies, architecture,
-            and implementation described here.
+            Selected projects with repository, metric, and release
+            evidence behind the architecture, implementation,
+            and quality claims described here.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function FeaturedProjects() {
         </Link>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2">
         {featuredProjects.map((project, index) => {
           const readmeEvidence =
             project.evidence.find(
@@ -60,6 +60,14 @@ export default function FeaturedProjects() {
 
           const implementation =
             project.caseStudy?.implementation ?? [];
+
+          const proofEvidence =
+            project.evidence.find(
+              (evidence) =>
+                evidence.type === 'metric' ||
+                evidence.type === 'release' ||
+                evidence.type === 'case-study',
+            );
 
           return (
             <article
@@ -98,6 +106,18 @@ export default function FeaturedProjects() {
 
                   <p className="mt-2 text-sm leading-6 text-foreground/90">
                     {project.caseStudy.approach}
+                  </p>
+                </div>
+              )}
+
+              {proofEvidence?.value && (
+                <div className="mt-5 rounded-surface border border-border/60 bg-surface/60 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Evidence
+                  </p>
+
+                  <p className="mt-2 text-sm font-medium leading-6 text-foreground">
+                    {proofEvidence.value}
                   </p>
                 </div>
               )}

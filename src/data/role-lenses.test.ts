@@ -12,6 +12,17 @@ import {
 import { getSkillById } from './skills';
 
 describe('role lens catalog', () => {
+  it('exposes the four employer-facing role lenses', () => {
+    expect(
+      ROLE_LENSES.map((lens) => lens.label),
+    ).toEqual([
+      'Software Engineering',
+      'QA & Test Automation',
+      'Data Quality & Operations',
+      'Platform & Technical Support',
+    ]);
+  });
+
   it('has unique role lens ids', () => {
     const ids = ROLE_LENSES.map((lens) =>
       lens.id.toLowerCase(),
@@ -93,7 +104,11 @@ describe('role lens catalog', () => {
     ).toBe('software-engineering');
 
     expect(
-      getRoleLensBySlug('FRONTEND-DX')?.id,
+      getRoleLensBySlug('QUALITY-ENGINEERING')?.id,
+    ).toBe('quality-engineering');
+
+    expect(
+      getRoleLensById('FRONTEND-DX')?.slug,
     ).toBe('frontend-dx');
   });
 
@@ -103,29 +118,32 @@ describe('role lens catalog', () => {
     );
   });
 
-  it('resolves canonical skills and projects for a lens', () => {
-    const frontend = getRoleLensById('frontend-dx');
+  it('resolves canonical skills and projects for the QA lens', () => {
+    const qa = getRoleLensById('quality-engineering');
 
-    expect(frontend).toBeDefined();
+    expect(qa).toBeDefined();
 
     expect(
-      getSkillsForRoleLens(frontend!).map(
+      getSkillsForRoleLens(qa!).map(
         (skill) => skill.id,
       ),
     ).toEqual([
-      'react',
-      'nextjs',
+      'python',
       'javascript-typescript',
+      'react',
+      'ci-cd',
       'git-github',
     ]);
 
     expect(
-      getProjectsForRoleLens(frontend!).map(
+      getProjectsForRoleLens(qa!).map(
         (project) => project.id,
       ),
     ).toEqual([
-      'portfolio-website',
-      'ozzie-gonzalez-photography',
+      'cycleready',
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
     ]);
   });
 });

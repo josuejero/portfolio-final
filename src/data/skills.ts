@@ -37,6 +37,7 @@ export const SKILLS: readonly PortfolioSkill[] = [
     proficiency: 90,
     yearsOfExperience: 6,
     projectIds: [
+      'dqsentry',
       'finance-tracker',
       'product-affordability-predictor',
       'selestino',
@@ -77,6 +78,8 @@ export const SKILLS: readonly PortfolioSkill[] = [
     proficiency: 80,
     yearsOfExperience: 3,
     projectIds: [
+      'hostdesk',
+      'cycleready',
       'portfolio-website',
       'ozzie-gonzalez-photography',
     ],
@@ -94,6 +97,7 @@ export const SKILLS: readonly PortfolioSkill[] = [
     proficiency: 85,
     yearsOfExperience: 3,
     projectIds: [
+      'hostdesk',
       'selestino',
       'finance-tracker',
       'product-affordability-predictor',
@@ -115,6 +119,7 @@ export const SKILLS: readonly PortfolioSkill[] = [
     proficiency: 80,
     yearsOfExperience: 3,
     projectIds: [
+      'botmedic',
       'selestino',
       'finance-tracker',
       'product-affordability-predictor',
@@ -164,7 +169,13 @@ export const SKILLS: readonly PortfolioSkill[] = [
     ],
     category: 'language',
     yearsOfExperience: 5,
-    projectIds: [],
+    projectIds: [
+      'hostdesk',
+      'botmedic',
+      'cycleready',
+      'portfolio-website',
+      'ozzie-gonzalez-photography',
+    ],
     presentation: {
       about: {
         group: 'core-languages-frameworks',
@@ -209,7 +220,13 @@ export const SKILLS: readonly PortfolioSkill[] = [
     name: 'CI/CD',
     category: 'devops',
     yearsOfExperience: 2,
-    projectIds: [],
+    projectIds: [
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
+      'cycleready',
+      'selestino',
+    ],
     presentation: {
       about: {
         group: 'cloud-devops',
@@ -273,7 +290,18 @@ export const SKILLS: readonly PortfolioSkill[] = [
     ],
     category: 'tool',
     yearsOfExperience: 5,
-    projectIds: [],
+    projectIds: [
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
+      'cycleready',
+      'selestino',
+      'framecast-web-portal',
+      'cheapest-grocery-finder',
+      'fludde',
+      'portfolio-website',
+      'ozzie-gonzalez-photography',
+    ],
     presentation: {
       about: {
         group: 'databases-tools',

@@ -106,20 +106,31 @@ describe('project catalog', () => {
         (project) => project.id,
       ),
     ).toEqual([
-      'selestino',
-      'framecast-web-portal',
-      'ozzie-gonzalez-photography',
+      'hostdesk',
+      'botmedic',
+      'dqsentry',
+      'cycleready',
     ]);
   });
 
   it('keeps every featured project evidence-backed', () => {
     for (const project of getFeaturedProjects()) {
       expect(project.summary).toBeTruthy();
+      expect(project.caseStudy).toBeDefined();
 
       expect(
         project.evidence.some(
           (evidence) =>
             evidence.type === 'readme',
+        ),
+      ).toBe(true);
+
+      expect(
+        project.evidence.some(
+          (evidence) =>
+            evidence.type === 'metric' ||
+            evidence.type === 'release' ||
+            evidence.type === 'case-study',
         ),
       ).toBe(true);
     }

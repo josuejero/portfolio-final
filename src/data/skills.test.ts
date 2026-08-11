@@ -120,6 +120,7 @@ describe('skill catalog', () => {
     const projects = getProjectsForSkill(python!);
 
     expect(projects.map((project) => project.name)).toEqual([
+      'DQSentry',
       'Finance Tracker',
       'Product Affordability Predictor',
       'Selestino',
