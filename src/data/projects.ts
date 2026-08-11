@@ -370,6 +370,14 @@ export const PROJECTS = [
       outcome:
         'The recorded metrics snapshot reports 28 automated tests at a 100% pass rate, 76.68% line coverage, and 85.71% function coverage.',
     },
+    demo: {
+      type: 'botmedic-triage',
+      label: 'BotMedic incident-triage console',
+      description:
+        'Run the documented BotMedic command surfaces, replay representative support incidents, inspect matched diagnostic guidance, and watch browser-only telemetry accumulate.',
+      disclaimer:
+        'In-browser portfolio simulation only — it does not connect to Discord, Cloudflare Workers, Workers KV, or the deployed BotMedic service. Representative incident fixtures are intentionally labeled and do not claim to reproduce all ten repository rule cases verbatim.',
+    },
     presentation: {
       featured: true,
       order: 2,

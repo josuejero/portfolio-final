@@ -136,11 +136,13 @@ describe('project catalog', () => {
     }
   });
 
-  it('attaches typed interactive demos to FrameCast and HostDesk', () => {
+  it('attaches typed interactive demos to the three implemented project workspaces', () => {
     const framecast =
       getProjectById('framecast-web-portal');
     const hostdesk =
       getProjectById('hostdesk');
+    const botmedic =
+      getProjectById('botmedic');
 
     expect(framecast?.demo?.type).toBe(
       'framecast-configurator',
@@ -148,6 +150,10 @@ describe('project catalog', () => {
 
     expect(hostdesk?.demo?.type).toBe(
       'hostdesk-operations',
+    );
+
+    expect(botmedic?.demo?.type).toBe(
+      'botmedic-triage',
     );
 
     expect(framecast?.demo?.disclaimer).toMatch(
@@ -158,6 +164,10 @@ describe('project catalog', () => {
       /portfolio simulation/i,
     );
 
+    expect(botmedic?.demo?.disclaimer).toMatch(
+      /portfolio simulation/i,
+    );
+
     expect(
       PROJECTS.filter(
         (project) => project.demo,
@@ -165,6 +175,7 @@ describe('project catalog', () => {
     ).toEqual([
       'framecast-web-portal',
       'hostdesk',
+      'botmedic',
     ]);
   });
 

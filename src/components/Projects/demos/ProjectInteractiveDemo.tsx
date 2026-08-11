@@ -13,6 +13,10 @@ const HostDeskDemo = lazy(
   () => import('./HostDeskDemo'),
 );
 
+const BotMedicDemo = lazy(
+  () => import('./BotMedicDemo'),
+);
+
 function DemoLoadingState() {
   return (
     <div className="rounded-panel border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground shadow-soft">
@@ -76,6 +80,14 @@ export default function ProjectInteractiveDemo({
           fallback={<DemoLoadingState />}
         >
           <HostDeskDemo />
+        </Suspense>
+      )}
+
+      {demo.type === 'botmedic-triage' && (
+        <Suspense
+          fallback={<DemoLoadingState />}
+        >
+          <BotMedicDemo />
         </Suspense>
       )}
     </section>
