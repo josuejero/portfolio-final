@@ -43,7 +43,8 @@ export interface ProjectPresentation {
 }
 
 export type ProjectDemoType =
-  | 'framecast-configurator';
+  | 'framecast-configurator'
+  | 'hostdesk-operations';
 
 export interface ProjectDemo {
   type: ProjectDemoType;

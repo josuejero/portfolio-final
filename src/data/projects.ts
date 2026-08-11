@@ -311,6 +311,14 @@ export const PROJECTS = [
       outcome:
         'The recorded evidence snapshot shows 71.36% line coverage, CSRF rejection coverage for all ten state-changing routes, and Lighthouse scores of 100 for performance and accessibility.',
     },
+    demo: {
+      type: 'hostdesk-operations',
+      label: 'HostDesk operations workspace',
+      description:
+        'Work a seeded prospect queue, log a note, complete a cadence task, and exercise a representative handoff gate while inspecting the evidence behind the full-stack project.',
+      disclaimer:
+        'Portfolio simulation only. It uses seeded browser state and does not authenticate against or mutate the HostDesk PHP/MySQL backend. The handoff prerequisite shown here is intentionally representative rather than a verbatim production stage rule.',
+    },
     presentation: {
       featured: true,
       order: 1,

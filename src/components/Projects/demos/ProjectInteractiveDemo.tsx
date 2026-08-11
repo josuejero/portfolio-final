@@ -1,6 +1,25 @@
+import {
+  lazy,
+  Suspense,
+} from 'react';
+
 import type { PortfolioProject } from '@/types/project';
 
-import FrameCastDemo from './FrameCastDemo';
+const FrameCastDemo = lazy(
+  () => import('./FrameCastDemo'),
+);
+
+const HostDeskDemo = lazy(
+  () => import('./HostDeskDemo'),
+);
+
+function DemoLoadingState() {
+  return (
+    <div className="rounded-panel border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground shadow-soft">
+      Loading interactive workspace…
+    </div>
+  );
+}
 
 interface ProjectInteractiveDemoProps {
   project: PortfolioProject;
@@ -45,7 +64,19 @@ export default function ProjectInteractiveDemo({
 
       {demo.type ===
         'framecast-configurator' && (
-        <FrameCastDemo />
+        <Suspense
+          fallback={<DemoLoadingState />}
+        >
+          <FrameCastDemo />
+        </Suspense>
+      )}
+
+      {demo.type === 'hostdesk-operations' && (
+        <Suspense
+          fallback={<DemoLoadingState />}
+        >
+          <HostDeskDemo />
+        </Suspense>
       )}
     </section>
   );

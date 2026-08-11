@@ -136,16 +136,26 @@ describe('project catalog', () => {
     }
   });
 
-  it('attaches the interactive simulator only to FrameCast', () => {
+  it('attaches typed interactive demos to FrameCast and HostDesk', () => {
     const framecast =
       getProjectById('framecast-web-portal');
+    const hostdesk =
+      getProjectById('hostdesk');
 
     expect(framecast?.demo?.type).toBe(
       'framecast-configurator',
     );
 
+    expect(hostdesk?.demo?.type).toBe(
+      'hostdesk-operations',
+    );
+
     expect(framecast?.demo?.disclaimer).toMatch(
       /simulation/i,
+    );
+
+    expect(hostdesk?.demo?.disclaimer).toMatch(
+      /portfolio simulation/i,
     );
 
     expect(
@@ -154,6 +164,7 @@ describe('project catalog', () => {
       ).map((project) => project.id),
     ).toEqual([
       'framecast-web-portal',
+      'hostdesk',
     ]);
   });
 
