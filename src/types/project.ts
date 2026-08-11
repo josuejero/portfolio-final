@@ -45,7 +45,8 @@ export interface ProjectPresentation {
 export type ProjectDemoType =
   | 'framecast-configurator'
   | 'hostdesk-operations'
-  | 'botmedic-triage';
+  | 'botmedic-triage'
+  | 'dqsentry-validator';
 
 export interface ProjectDemo {
   type: ProjectDemoType;

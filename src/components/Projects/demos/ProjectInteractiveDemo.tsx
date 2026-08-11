@@ -17,6 +17,10 @@ const BotMedicDemo = lazy(
   () => import('./BotMedicDemo'),
 );
 
+const DQSentryDemo = lazy(
+  () => import('./DQSentryDemo'),
+);
+
 function DemoLoadingState() {
   return (
     <div className="rounded-panel border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground shadow-soft">
@@ -88,6 +92,14 @@ export default function ProjectInteractiveDemo({
           fallback={<DemoLoadingState />}
         >
           <BotMedicDemo />
+        </Suspense>
+      )}
+
+      {demo.type === 'dqsentry-validator' && (
+        <Suspense
+          fallback={<DemoLoadingState />}
+        >
+          <DQSentryDemo />
         </Suspense>
       )}
     </section>

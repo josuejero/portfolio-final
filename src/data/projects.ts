@@ -438,6 +438,14 @@ export const PROJECTS = [
       outcome:
         'The recorded synthetic run scored 98.22, surfaced five failed checks, and produced root-cause plus recommended-fix guidance for all five sampled issue previews.',
     },
+    demo: {
+      type: 'dqsentry-validator',
+      label: 'DQSentry validation workspace',
+      description:
+        'Run representative data-quality scenarios, inspect scoring and gate decisions, drill into issue previews, and review the artifacts produced by the documented DQSentry workflow.',
+      disclaimer:
+        'In-browser portfolio simulation only. It models documented DQSentry scoring, gating, datasets, and issue concepts with representative fixtures; it does not upload files to or execute the Python, DuckDB, Great Expectations, or Streamlit pipeline.',
+    },
     presentation: {
       featured: true,
       order: 3,

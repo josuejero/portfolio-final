@@ -136,13 +136,15 @@ describe('project catalog', () => {
     }
   });
 
-  it('attaches typed interactive demos to the three implemented project workspaces', () => {
+  it('attaches typed interactive demos to the four implemented project workspaces', () => {
     const framecast =
       getProjectById('framecast-web-portal');
     const hostdesk =
       getProjectById('hostdesk');
     const botmedic =
       getProjectById('botmedic');
+    const dqsentry =
+      getProjectById('dqsentry');
 
     expect(framecast?.demo?.type).toBe(
       'framecast-configurator',
@@ -154,6 +156,10 @@ describe('project catalog', () => {
 
     expect(botmedic?.demo?.type).toBe(
       'botmedic-triage',
+    );
+
+    expect(dqsentry?.demo?.type).toBe(
+      'dqsentry-validator',
     );
 
     expect(framecast?.demo?.disclaimer).toMatch(
@@ -168,6 +174,10 @@ describe('project catalog', () => {
       /portfolio simulation/i,
     );
 
+    expect(dqsentry?.demo?.disclaimer).toMatch(
+      /portfolio simulation/i,
+    );
+
     expect(
       PROJECTS.filter(
         (project) => project.demo,
@@ -176,6 +186,7 @@ describe('project catalog', () => {
       'framecast-web-portal',
       'hostdesk',
       'botmedic',
+      'dqsentry',
     ]);
   });
 
