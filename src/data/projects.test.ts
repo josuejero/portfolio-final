@@ -136,7 +136,7 @@ describe('project catalog', () => {
     }
   });
 
-  it('attaches typed interactive demos to the four implemented project workspaces', () => {
+  it('attaches typed interactive demos to the five implemented project workspaces', () => {
     const framecast =
       getProjectById('framecast-web-portal');
     const hostdesk =
@@ -145,6 +145,8 @@ describe('project catalog', () => {
       getProjectById('botmedic');
     const dqsentry =
       getProjectById('dqsentry');
+    const cycleready =
+      getProjectById('cycleready');
 
     expect(framecast?.demo?.type).toBe(
       'framecast-configurator',
@@ -160,6 +162,10 @@ describe('project catalog', () => {
 
     expect(dqsentry?.demo?.type).toBe(
       'dqsentry-validator',
+    );
+
+    expect(cycleready?.demo?.type).toBe(
+      'cycleready-release-room',
     );
 
     expect(framecast?.demo?.disclaimer).toMatch(
@@ -178,6 +184,10 @@ describe('project catalog', () => {
       /portfolio simulation/i,
     );
 
+    expect(cycleready?.demo?.disclaimer).toMatch(
+      /portfolio simulation/i,
+    );
+
     expect(
       PROJECTS.filter(
         (project) => project.demo,
@@ -187,6 +197,7 @@ describe('project catalog', () => {
       'hostdesk',
       'botmedic',
       'dqsentry',
+      'cycleready',
     ]);
   });
 

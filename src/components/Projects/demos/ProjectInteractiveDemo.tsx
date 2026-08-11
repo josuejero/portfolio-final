@@ -21,6 +21,10 @@ const DQSentryDemo = lazy(
   () => import('./DQSentryDemo'),
 );
 
+const CycleReadyDemo = lazy(
+  () => import('./CycleReadyDemo'),
+);
+
 function DemoLoadingState() {
   return (
     <div className="rounded-panel border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground shadow-soft">
@@ -100,6 +104,15 @@ export default function ProjectInteractiveDemo({
           fallback={<DemoLoadingState />}
         >
           <DQSentryDemo />
+        </Suspense>
+      )}
+
+      {demo.type ===
+        'cycleready-release-room' && (
+        <Suspense
+          fallback={<DemoLoadingState />}
+        >
+          <CycleReadyDemo />
         </Suspense>
       )}
     </section>

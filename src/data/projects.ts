@@ -505,6 +505,14 @@ export const PROJECTS = [
       outcome:
         'Applying the recorded severity-based release criteria produced a no-go decision because one Sev1 and two Sev2 defects remained open.',
     },
+    demo: {
+      type: 'cycleready-release-room',
+      label: 'CycleReady release-readiness explorer',
+      description:
+        'Trace representative requirements into manual, automated, UAT, and defect evidence, then experiment with severity-based release blockers.',
+      disclaimer:
+        'Browser-only portfolio simulation. Requirement titles and defect names are representative fixtures; the recorded 15/15 traceability, 25 manual cases, 27/27 Playwright run, 13/15 automation coverage, and no-go blocker counts come from the CycleReady project evidence.',
+    },
     presentation: {
       featured: true,
       order: 4,
