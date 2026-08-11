@@ -5,14 +5,14 @@ This repository contains the source code for my personal portfolio website, buil
 
 ## Features
 
-- **Modern Frontend Stack**: Built with Next.js 15 and React 18, taking advantage of the latest app directory and server-side rendering capabilities.
+- **Modern Frontend Stack**: Built with Next.js 16, React 19, TypeScript, and the App Router.
 - **TypeScript**: Ensures type safety and improved developer experience.
 - **Tailwind CSS**: Rapidly style UI components with a utility-first CSS framework.
-- **Framer Motion**: Adds subtle animations and transitions throughout the site.
+- **Interactive Project Workspaces**: Lazy-loaded browser simulations provide hands-on evidence for selected flagship projects.
 - **Dark Mode Support**: Easily switch between light and dark themes.
 - **GitHub Stats Integration**: Retrieves and displays GitHub repository, commit activity, and language usage statistics (requires a GitHub token).
 - **Modular & Scalable Architecture**: Organized into structured directories for pages, components, hooks, and utilities, simplifying maintenance and scalability.
-- **Contact Form Integration**: Uses EmailJS on the frontend to handle contact form submissions.
+- **Contact Form Integration**: Submits through a server-side API route with validation, honeypot protection, optional Upstash rate limiting, and EmailJS REST delivery.
 - **Responsive & Mobile-Friendly**: Adapts to various screen sizes, with a responsive sidebar and mobile navigation.
 
 ## Project Structure
@@ -26,7 +26,7 @@ This repository contains the source code for my personal portfolio website, buil
 │   │   ├── about/          # About page
 │   │   ├── blog/           # Blog page & loader
 │   │   ├── contact/        # Contact page & loader
-│   │   ├── api/            # Serverless functions for GitHub stats & contact handling
+│   │   ├── api/            # Server routes for GitHub data, contact, and CSP reporting
 │   │   ├── error.tsx       # Custom error page
 │   │   ├── layout.tsx      # Root layout with ThemeProvider
 │   │   ├── loading.tsx     # Global loading state
@@ -34,7 +34,7 @@ This repository contains the source code for my personal portfolio website, buil
 │   ├── components/         # Reusable UI components
 │   │   ├── About/          # About page components & GitHubStats integration
 │   │   ├── Blog/           # Blog listing & modal viewer
-│   │   ├── Contact/        # Contact form & integration with EmailJS
+│   │   ├── Contact/        # Contact form interface
 │   │   ├── Die/            # Interactive skill "die" component
 │   │   ├── Home/           # Home section (hero, skills preview, call-to-action)
 │   │   ├── Projects/       # Featured projects listing
@@ -76,14 +76,23 @@ This repository contains the source code for my personal portfolio website, buil
    Create a `.env.local` file at the root of the project to configure environment variables:
 
    ```env
-   GITHUB_TOKEN=your_github_pat_here
-   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_emailjs_service_id
-   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
-   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+   # Optional GitHub API token
+   GITHUB_TOKEN=
+
+   # Server-side contact delivery
+   EMAILJS_SERVICE_ID=
+   EMAILJS_TEMPLATE_ID=
+   EMAILJS_PUBLIC_KEY=
+   EMAILJS_PRIVATE_KEY=
+   CONTACT_TO_EMAIL=
+
+   # Optional Redis caching and contact rate limiting
+   UPSTASH_REDIS_REST_URL=
+   UPSTASH_REDIS_REST_TOKEN=
    ```
 
-   - **GITHUB_TOKEN**: Required for GitHub stats to display. Create a [GitHub PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `read:user` permissions.
-   - **EmailJS Keys**: Required for the contact form integration. Sign up at [EmailJS](https://www.emailjs.com/) to get these keys.
+   - **GITHUB_TOKEN**: Optional token used by GitHub-backed portfolio features.
+   - **EmailJS variables**: Used by the server-side contact route. `EMAILJS_PRIVATE_KEY` is optional depending on the EmailJS configuration.
 
 ### Running Locally
 
@@ -130,12 +139,15 @@ For Vercel:
 
 ## Technologies Used
 
-- **Next.js 15**
-- **React 18**
+- **Next.js 16**
+- **React 19**
 - **TypeScript**
 - **Tailwind CSS**
-- **Framer Motion**
-- **EmailJS**
+- **Vitest**
+- **React Markdown**
+- **Recharts**
+- **EmailJS REST API**
+- **Upstash Redis**
 - **GitHub API**
 - **Vercel Deployment**
 
