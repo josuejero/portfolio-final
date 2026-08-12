@@ -1,0 +1,966 @@
+.chapter {
+  --cycle-ink: #11120f;
+  --cycle-bone: #f1ede4;
+  --cycle-line: color-mix(
+    in srgb,
+    var(--cycle-ink) 24%,
+    transparent
+  );
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--portfolio-acid);
+  color: var(--cycle-ink);
+}
+
+.chapter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      to right,
+      var(--cycle-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--cycle-line) 1px,
+      transparent 1px
+    );
+  background-size:
+    calc(100% / 8) 100%,
+    100% 8rem;
+  opacity: 0.3;
+}
+
+.chapterInner {
+  position: relative;
+  z-index: 1;
+  padding:
+    clamp(5rem, 8vw, 8rem)
+    clamp(1rem, 2.8vw, 3rem)
+    clamp(5rem, 8vw, 8rem);
+}
+
+.chapterMeta {
+  display: grid;
+  grid-template-columns:
+    minmax(5rem, 0.4fr)
+    1fr
+    auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cycle-line);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.titleGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.6fr)
+    minmax(18rem, 0.4fr);
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: end;
+  padding:
+    clamp(4rem, 8vw, 8rem)
+    0
+    clamp(4rem, 7vw, 7rem);
+}
+
+.titleKicker,
+.sectionLabel,
+.sequenceIntro > span,
+.evidenceStep > span,
+.evidenceStep p,
+.detailHeader,
+.detailEvidence span,
+.detailLabel,
+.defectMeta,
+.defectIndex,
+.defectToggle,
+.verdictMeta,
+.verdictCounts span,
+.recordedBand span,
+.endTrace {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.titleKicker {
+  margin: 0 0 1.5rem;
+  font-size: 0.61rem;
+}
+
+.projectName {
+  margin: 0;
+  font-size: clamp(
+    4.6rem,
+    13.4vw,
+    14rem
+  );
+  font-weight: 880;
+  letter-spacing: -0.09em;
+  line-height: 0.72;
+  text-transform: uppercase;
+}
+
+.summary {
+  max-width: 31rem;
+  margin: 0;
+  font-size: clamp(
+    1rem,
+    1.4vw,
+    1.28rem
+  );
+  font-weight: 570;
+  letter-spacing: -0.025em;
+  line-height: 1.42;
+}
+
+.evidenceSequence {
+  display: grid;
+  grid-template-columns:
+    minmax(15rem, 1.2fr)
+    repeat(4, minmax(8rem, 0.5fr));
+  border-top: 1px solid var(--cycle-line);
+  border-bottom: 1px solid var(--cycle-line);
+}
+
+.sequenceIntro,
+.evidenceStep {
+  min-height: 14rem;
+  padding: 1.3rem;
+}
+
+.sequenceIntro {
+  padding-left: 0;
+}
+
+.sequenceIntro > span,
+.evidenceStep > span,
+.evidenceStep p {
+  font-size: 0.53rem;
+}
+
+.sequenceIntro p {
+  max-width: 28rem;
+  margin: 2.8rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.evidenceStep {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid var(--cycle-line);
+}
+
+.evidenceStep strong {
+  font-size: clamp(
+    3rem,
+    5.4vw,
+    5.7rem
+  );
+  font-weight: 860;
+  letter-spacing: -0.09em;
+  line-height: 0.78;
+}
+
+.evidenceStep p {
+  margin: 0;
+}
+
+.traceabilitySection,
+.blockerSection {
+  display: grid;
+  grid-template-columns:
+    minmax(14rem, 0.42fr)
+    minmax(0, 1.58fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  padding:
+    clamp(6rem, 10vw, 11rem)
+    0;
+}
+
+.traceabilityIntro h3,
+.blockerIntro h3 {
+  max-width: 24rem;
+  margin: 1.5rem 0 0;
+  font-size: clamp(
+    1.8rem,
+    3vw,
+    3rem
+  );
+  font-weight: 780;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.traceabilityIntro p,
+.blockerIntro p {
+  max-width: 24rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.sectionLabel {
+  font-size: 0.56rem;
+}
+
+.requirementField {
+  min-width: 0;
+}
+
+.requirementGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(5, 1fr);
+  border-top: 1px solid var(--cycle-line);
+  border-left: 1px solid var(--cycle-line);
+}
+
+.requirementCell {
+  min-width: 0;
+  aspect-ratio: 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border: 0;
+  border-right: 1px solid var(--cycle-line);
+  border-bottom: 1px solid var(--cycle-line);
+  background: transparent;
+  color: var(--cycle-ink);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.requirementCell:hover,
+.requirementCell:focus-visible,
+.requirementCellSelected {
+  background: var(--cycle-ink);
+  color: var(--portfolio-acid);
+}
+
+.requirementCell:focus-visible {
+  outline: 3px solid var(--portfolio-cobalt);
+  outline-offset: -3px;
+}
+
+.requirementCellBlocked {
+  box-shadow:
+    inset 0 -5px 0
+    var(--portfolio-cobalt);
+}
+
+.requirementNumber,
+.requirementState {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.requirementCell strong {
+  font-size: clamp(
+    0.8rem,
+    1vw,
+    0.95rem
+  );
+}
+
+.requirementState {
+  opacity: 0.7;
+}
+
+.requirementDetail {
+  margin-top: 2rem;
+  padding: clamp(
+    1.3rem,
+    2.5vw,
+    2.4rem
+  );
+  border: 1px solid var(--cycle-line);
+  background: color-mix(
+    in srgb,
+    var(--cycle-bone) 60%,
+    transparent
+  );
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.54rem;
+}
+
+.requirementDetail > h3 {
+  max-width: 42rem;
+  margin: 2rem 0 0;
+  font-size: clamp(
+    1.7rem,
+    3vw,
+    3rem
+  );
+  font-weight: 760;
+  letter-spacing: -0.055em;
+  line-height: 1.03;
+}
+
+.detailEvidence {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  margin-top: 3rem;
+  border-top: 1px solid var(--cycle-line);
+  border-bottom: 1px solid var(--cycle-line);
+}
+
+.detailEvidence > div {
+  min-height: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.detailEvidence > div + div {
+  border-left: 1px solid var(--cycle-line);
+}
+
+.detailEvidence span {
+  font-size: 0.51rem;
+}
+
+.detailEvidence strong {
+  font-size: clamp(
+    2rem,
+    4vw,
+    4rem
+  );
+  font-weight: 830;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.linkedDefects {
+  margin-top: 2rem;
+}
+
+.detailLabel {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 0.51rem;
+}
+
+.linkedDefect {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--cycle-line);
+  font-size: 0.78rem;
+}
+
+.linkedDefect:last-child {
+  border-bottom: 1px solid var(--cycle-line);
+}
+
+.noDefects {
+  margin: 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--cycle-line);
+  border-bottom: 1px solid var(--cycle-line);
+  font-size: 0.82rem;
+}
+
+.restoreButton {
+  min-height: 2.75rem;
+  margin-top: 2rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--cycle-ink);
+  background: transparent;
+  color: var(--cycle-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 720;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.restoreButton:hover,
+.restoreButton:focus-visible {
+  background: var(--cycle-ink);
+  color: var(--portfolio-acid);
+}
+
+.restoreButton:focus-visible {
+  outline: 3px solid var(--portfolio-cobalt);
+  outline-offset: 3px;
+}
+
+.defectList {
+  border-top: 1px solid var(--cycle-line);
+}
+
+.defect {
+  display: grid;
+  grid-template-columns:
+    3rem
+    minmax(0, 1fr)
+    auto;
+  gap: 1.5rem;
+  align-items: stretch;
+  border-bottom: 1px solid var(--cycle-line);
+  transition:
+    opacity 180ms ease,
+    background 180ms ease;
+}
+
+.defectOpen {
+  background: transparent;
+}
+
+.defectResolved {
+  opacity: 0.48;
+}
+
+.defectIndex {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 0;
+  font-size: 0.51rem;
+}
+
+.defectBody {
+  padding: 1.2rem 0;
+}
+
+.defectMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.51rem;
+}
+
+.defectBody h4 {
+  max-width: 37rem;
+  margin: 1rem 0 0;
+  font-size: clamp(
+    1.15rem,
+    1.8vw,
+    1.6rem
+  );
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.defectBody > p {
+  margin: 0.8rem 0 0;
+  font-size: 0.73rem;
+}
+
+.defectToggle {
+  min-width: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem;
+  border: 0;
+  border-left: 1px solid var(--cycle-line);
+  background: transparent;
+  color: var(--cycle-ink);
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.51rem;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.defectToggle:hover,
+.defectToggle:focus-visible {
+  background: var(--cycle-ink);
+  color: var(--portfolio-acid);
+}
+
+.defectToggle:focus-visible {
+  outline: 3px solid var(--portfolio-cobalt);
+  outline-offset: -3px;
+}
+
+.verdict {
+  position: relative;
+  min-height: min(
+    86svh,
+    62rem
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding:
+    clamp(1.5rem, 3vw, 3rem);
+  margin-inline:
+    calc(
+      clamp(1rem, 2.8vw, 3rem) * -1
+    );
+  transition:
+    background 240ms ease,
+    color 240ms ease;
+}
+
+.verdictNoGo {
+  background: var(--cycle-ink);
+  color: var(--cycle-bone);
+}
+
+.verdictGo {
+  background: var(--portfolio-cobalt);
+  color: var(--cycle-bone);
+}
+
+.verdictMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.56rem;
+}
+
+.verdictMain {
+  overflow: hidden;
+}
+
+.verdictMain strong {
+  display: block;
+  font-size: clamp(
+    7rem,
+    24vw,
+    25rem
+  );
+  font-weight: 900;
+  letter-spacing: -0.105em;
+  line-height: 0.64;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.verdictCounts {
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      currentColor 28%,
+      transparent
+    );
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      currentColor 28%,
+      transparent
+    );
+}
+
+.verdictCounts > div {
+  min-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.verdictCounts > div + div {
+  border-left: 1px solid
+    color-mix(
+      in srgb,
+      currentColor 28%,
+      transparent
+    );
+}
+
+.verdictCounts span {
+  font-size: 0.51rem;
+}
+
+.verdictCounts strong {
+  font-size: clamp(
+    2.5rem,
+    5vw,
+    5rem
+  );
+  font-weight: 840;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+}
+
+.verdictReasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.82rem;
+}
+
+.goReason {
+  margin: 2rem 0 0;
+  font-size: 0.82rem;
+}
+
+.recordedBand {
+  display: grid;
+  grid-template-columns:
+    1.4fr
+    repeat(3, 0.6fr);
+  margin-top: clamp(
+    5rem,
+    9vw,
+    9rem
+  );
+  border-top: 1px solid var(--cycle-line);
+  border-bottom: 1px solid var(--cycle-line);
+}
+
+.recordedBand > div {
+  min-height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.recordedBand > div:first-child {
+  padding-left: 0;
+}
+
+.recordedBand > div + div {
+  border-left: 1px solid var(--cycle-line);
+}
+
+.recordedBand span {
+  font-size: 0.51rem;
+}
+
+.recordedBand strong {
+  font-size: clamp(
+    2.5rem,
+    5vw,
+    5rem
+  );
+  font-weight: 850;
+  letter-spacing: -0.08em;
+  line-height: 0.82;
+}
+
+.recordedBand > div:first-child strong {
+  font-size: clamp(
+    3rem,
+    6vw,
+    6rem
+  );
+}
+
+.chapterEnd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  padding-top: 4rem;
+}
+
+.endTrace {
+  font-size: 0.56rem;
+}
+
+.projectLink {
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-bottom: 2px solid
+    var(--cycle-ink);
+  color: var(--cycle-ink);
+  font-size: 0.78rem;
+  font-weight: 740;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.projectLink span {
+  color: var(--portfolio-cobalt);
+  transition: transform 180ms ease;
+}
+
+.projectLink:hover span,
+.projectLink:focus-visible span {
+  transform:
+    translate(
+      0.18rem,
+      -0.18rem
+    );
+}
+
+.projectLink:focus-visible {
+  outline: 2px solid
+    var(--portfolio-cobalt);
+  outline-offset: 4px;
+}
+
+@supports (
+  animation-timeline: view()
+) {
+  .projectName {
+    animation:
+      cycleready-title linear both;
+    animation-timeline: view();
+    animation-range:
+      entry 0%
+      cover 30%;
+  }
+
+  .verdictMain strong {
+    animation:
+      cycleready-verdict linear both;
+    animation-timeline: view();
+    animation-range:
+      entry 0%
+      cover 45%;
+  }
+}
+
+@keyframes cycleready-title {
+  from {
+    opacity: 0.2;
+    transform: translateX(-6vw);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cycleready-verdict {
+  from {
+    transform:
+      translateX(14vw);
+  }
+
+  to {
+    transform:
+      translateX(0);
+  }
+}
+
+@media (max-width: 1080px) {
+  .evidenceSequence {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .sequenceIntro {
+    grid-column: 1 / -1;
+    min-height: auto;
+    padding-left: 0;
+  }
+
+  .evidenceStep {
+    border-top: 1px solid var(--cycle-line);
+  }
+
+  .evidenceStep:nth-child(2),
+  .evidenceStep:nth-child(4) {
+    border-left: 0;
+  }
+
+  .requirementGrid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 980px) {
+  .titleGrid,
+  .traceabilitySection,
+  .blockerSection {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    max-width: 42rem;
+  }
+
+  .verdict {
+    min-height: 68svh;
+  }
+
+  .verdictCounts,
+  .recordedBand {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .recordedBand > div:first-child {
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chapterInner {
+    padding:
+      4.5rem
+      1rem
+      5rem;
+  }
+
+  .chapterMeta {
+    grid-template-columns:
+      auto
+      1fr;
+  }
+
+  .chapterMeta span:nth-child(2) {
+    display: none;
+  }
+
+  .chapterMeta span:last-child {
+    text-align: right;
+  }
+
+  .projectName {
+    font-size: clamp(
+      4rem,
+      19vw,
+      6.5rem
+    );
+  }
+
+  .evidenceSequence {
+    grid-template-columns: 1fr;
+  }
+
+  .evidenceStep {
+    min-height: 9rem;
+    border-left: 0;
+    border-top: 1px solid var(--cycle-line);
+  }
+
+  .requirementGrid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .requirementCell {
+    aspect-ratio: 0.95;
+    padding: 0.65rem;
+  }
+
+  .detailEvidence {
+    grid-template-columns: 1fr;
+  }
+
+  .detailEvidence > div {
+    min-height: 6rem;
+  }
+
+  .detailEvidence > div + div {
+    border-left: 0;
+    border-top: 1px solid var(--cycle-line);
+  }
+
+  .defect {
+    grid-template-columns:
+      2rem
+      1fr;
+  }
+
+  .defectToggle {
+    grid-column: 1 / -1;
+    min-width: 0;
+    min-height: 4rem;
+    flex-direction: row;
+    align-items: center;
+    border-left: 0;
+    border-top: 1px solid var(--cycle-line);
+  }
+
+  .verdict {
+    min-height: 60svh;
+    margin-inline: -1rem;
+    padding: 1rem;
+  }
+
+  .verdictMain strong {
+    font-size: clamp(
+      6rem,
+      31vw,
+      11rem
+    );
+    line-height: 0.68;
+    white-space: normal;
+  }
+
+  .verdictCounts,
+  .recordedBand {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .verdictCounts > div,
+  .recordedBand > div {
+    min-height: 7rem;
+  }
+
+  .chapterEnd {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .requirementCell,
+  .restoreButton,
+  .defect,
+  .defectToggle,
+  .verdict,
+  .projectLink span {
+    transition: none;
+  }
+
+  .projectName,
+  .verdictMain strong {
+    animation: none;
+  }
+}

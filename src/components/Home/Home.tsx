@@ -1,4 +1,5 @@
 import BotMedicChapter from './BotMedicChapter';
+import CycleReadyChapter from './CycleReadyChapter';
 import DQSentryChapter from './DQSentryChapter';
 import HostDeskChapter from './HostDeskChapter';
 import PortfolioHero from './PortfolioHero';
@@ -10,6 +11,7 @@ export default function Home() {
       <HostDeskChapter />
       <BotMedicChapter />
       <DQSentryChapter />
+      <CycleReadyChapter />
     </>
   );
 }
