@@ -25,7 +25,7 @@ export function proxy(request: NextRequest) {
     "img-src 'self' blob: data:",
     "font-src 'self'",
     "form-action 'self'",
-    "frame-src 'self' https://calendly.com",
+    "frame-src 'self'",
     "report-to csp-endpoint",
     "report-uri /api/csp-report"
   ].join('; ')

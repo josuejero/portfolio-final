@@ -1,5 +1,8 @@
-const personName = 'Josue Sebastian Jeronimo';
-const githubUsername = 'josuejero';
+const personName =
+  'Josue Sebastian Jeronimo';
+
+const githubUsername =
+  'josuejero';
 
 export const siteConfig = {
   person: {
@@ -7,31 +10,34 @@ export const siteConfig = {
   },
 
   site: {
-    title: `${personName} - Portfolio`,
+    title:
+      `${personName} — Engineering Portfolio`,
+
     description:
-      'Full-Stack Developer specializing in Python, Java, and Cloud Technologies',
-    url: 'https://portfolio-josuejero.vercel.app',
+      'Software, QA, data quality, and platform support engineering work focused on systems that have to work.',
+
+    url:
+      'https://portfolio-josuejero.vercel.app',
+
     locale: 'en_US',
+
     image: {
       url: '/og-image.jpg',
       width: 1200,
       height: 630,
-      alt: `${personName} - Full-Stack Developer`,
+      alt:
+        `${personName} — Engineering Portfolio`,
     },
   },
 
   github: {
     username: githubUsername,
-    profileUrl: `https://github.com/${githubUsername}`,
+    profileUrl:
+      `https://github.com/${githubUsername}`,
   },
 
   social: {
-    linkedin: 'https://linkedin.com/in/josue-jeronimo',
-  },
-
-  services: {
-    websiteHelp: {
-      calendlyUrl: `https://calendly.com/${githubUsername}/60-min-standard`,
-    },
+    linkedin:
+      'https://linkedin.com/in/josue-jeronimo',
   },
 } as const;
