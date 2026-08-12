@@ -4,23 +4,27 @@
       clamp(1rem, 2.8vw, 3rem) * -1
     );
   padding:
-    clamp(6rem, 10vw, 10rem)
+    clamp(7rem, 11vw, 11rem)
     clamp(1rem, 2.8vw, 3rem);
-  background: var(--portfolio-ink);
-  color: var(--portfolio-bone);
+  background:
+    var(--portfolio-ink);
+  color:
+    var(--portfolio-bone);
 }
 
 .heading {
   display: grid;
   grid-template-columns:
-    minmax(0, 1.2fr)
-    minmax(18rem, 0.8fr);
-  gap: clamp(3rem, 7vw, 8rem);
+    minmax(10rem, 0.32fr)
+    minmax(0, 1.68fr);
+  gap:
+    clamp(3rem, 7vw, 8rem);
   align-items: end;
   margin-bottom:
     clamp(4rem, 7vw, 7rem);
   padding-bottom: 2rem;
-  border-bottom: 1px solid
+  border-bottom:
+    1px solid
     color-mix(
       in srgb,
       var(--portfolio-bone) 18%,
@@ -28,78 +32,462 @@
     );
 }
 
-.heading span {
-  color: var(--portfolio-acid);
+.label,
+.disclaimer,
+.loading {
   font-family:
     var(--font-geist-mono),
     ui-monospace,
     monospace;
-  font-size: 0.54rem;
-  font-weight: 650;
+}
+
+.label {
+  color:
+    var(--portfolio-acid);
+  font-size: 0.53rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.heading h2 {
+.title {
   max-width: 12ch;
-  margin: 1rem 0 0;
-  font-size: clamp(
-    3rem,
-    7vw,
-    7rem
-  );
-  font-weight: 830;
-  letter-spacing: -0.075em;
-  line-height: 0.9;
+  margin:
+    0.9rem
+    0
+    0;
+  font-size:
+    clamp(
+      3.5rem,
+      7.5vw,
+      7.5rem
+    );
+  font-weight: 850;
+  letter-spacing: -0.08em;
+  line-height: 0.86;
 }
 
-.description p {
+.description {
+  max-width: 48rem;
   margin: 0;
-  font-size: clamp(
-    1rem,
-    1.5vw,
-    1.3rem
-  );
-  font-weight: 570;
-  letter-spacing: -0.03em;
-  line-height: 1.43;
-}
-
-.description small {
-  display: block;
-  margin-top: 1.5rem;
-  color: color-mix(
-    in srgb,
-    var(--portfolio-bone) 52%,
-    transparent
-  );
-  font-size: 0.72rem;
+  color:
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 72%,
+      transparent
+    );
+  font-size:
+    clamp(
+      1rem,
+      1.5vw,
+      1.3rem
+    );
   line-height: 1.5;
 }
 
+.disclaimer {
+  max-width: 48rem;
+  margin:
+    1.4rem
+    0
+    0;
+  padding-top: 1rem;
+  border-top:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 14%,
+      transparent
+    );
+  color:
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 48%,
+      transparent
+    );
+  font-size: 0.54rem;
+  letter-spacing: 0.045em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
 .demoSurface {
-  padding:
-    clamp(1rem, 2vw, 2rem);
-  background: var(--portfolio-bone);
-  color: var(--portfolio-ink);
-}
-
-.demoSurface > :global(div) {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.loading {
-  padding:
-    clamp(3rem, 6vw, 6rem);
-  border: 1px solid
+  --demo-line:
     color-mix(
       in srgb,
       var(--portfolio-ink) 18%,
       transparent
     );
-  color: var(--portfolio-muted);
-  font-size: 0.85rem;
+
+  --demo-line-strong:
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 38%,
+      transparent
+    );
+
+  --demo-accent:
+    var(--portfolio-cobalt);
+
+  --demo-action:
+    var(--portfolio-cobalt);
+
+  --demo-action-text:
+    var(--portfolio-bone);
+
+  position: relative;
+  max-width: 108rem;
+  margin:
+    0
+    auto;
+  padding:
+    clamp(1rem, 2.5vw, 2.5rem);
+  border-top:
+    3px solid
+    var(--portfolio-acid);
+  background:
+    var(--portfolio-bone);
+  color:
+    var(--portfolio-ink);
+}
+
+/*
+ * BotMedic and CycleReady should feel
+ * slightly more like operational consoles
+ * while staying inside the shared system.
+ */
+.demoSurface[data-demo='botmedic-triage'],
+.demoSurface[data-demo='cycleready-release-room'] {
+  --demo-action:
+    var(--portfolio-ink);
+
+  --demo-action-text:
+    var(--portfolio-acid);
+}
+
+/*
+ * The direct child is each existing
+ * simulator root. Neutralize its legacy
+ * panel shell without touching its logic.
+ */
+.demoSurface > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    transparent !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Remove the old soft-dashboard geometry.
+ * These selectors are deliberately scoped
+ * to the demo surface.
+ */
+.demoSurface [class~='rounded-panel'],
+.demoSurface [class~='rounded-surface'],
+.demoSurface [class~='rounded-control'],
+.demoSurface [class~='rounded-pill'],
+.demoSurface [class~='rounded-full'],
+.demoSurface [class~='rounded-lg'],
+.demoSurface [class~='rounded'] {
+  border-radius: 0 !important;
+}
+
+.demoSurface [class~='shadow-soft'],
+.demoSurface [class~='shadow-raised'],
+.demoSurface [class~='shadow-sm'],
+.demoSurface [class~='shadow-md'],
+.demoSurface [class~='shadow-lg'],
+.demoSurface [class~='shadow-xl'] {
+  box-shadow: none !important;
+}
+
+/*
+ * Reinterpret old neutral surfaces as
+ * editorial planes rather than cards.
+ */
+.demoSurface [class~='bg-card'],
+.demoSurface [class~='bg-card/60'],
+.demoSurface [class~='bg-card/50'],
+.demoSurface [class~='bg-card/70'],
+.demoSurface [class~='bg-surface'],
+.demoSurface [class~='bg-surface/50'],
+.demoSurface [class~='bg-surface/60'],
+.demoSurface [class~='bg-surface/70'],
+.demoSurface [class~='bg-surface/80'],
+.demoSurface [class~='bg-surface-raised'],
+.demoSurface [class~='bg-surface-raised/80'],
+.demoSurface [class~='bg-surface-raised/90'] {
+  background:
+    transparent !important;
+}
+
+/*
+ * Legacy neutral borders become one
+ * consistent ink rule.
+ */
+.demoSurface [class~='border-border'],
+.demoSurface [class~='border-border/40'],
+.demoSurface [class~='border-border/50'],
+.demoSurface [class~='border-border/60'],
+.demoSurface [class~='border-border/70'] {
+  border-color:
+    var(--demo-line) !important;
+}
+
+/*
+ * Existing selected-state classes become
+ * the new cobalt system signal.
+ */
+.demoSurface [class~='border-brand'],
+.demoSurface [class~='border-brand/30'],
+.demoSurface [class~='border-brand/40'],
+.demoSurface [class~='border-brand/50'] {
+  border-color:
+    var(--demo-accent) !important;
+}
+
+.demoSurface [class~='bg-brand/5'],
+.demoSurface [class~='bg-brand/10'],
+.demoSurface [class~='bg-brand/15'] {
+  background:
+    color-mix(
+      in srgb,
+      var(--demo-accent) 9%,
+      transparent
+    ) !important;
+}
+
+/*
+ * Primary actions retain semantic weight,
+ * but lose the old pill/button aesthetic.
+ */
+.demoSurface [class~='bg-brand'] {
+  border-color:
+    var(--demo-action) !important;
+  background:
+    var(--demo-action) !important;
+  color:
+    var(--demo-action-text) !important;
+}
+
+.demoSurface [class~='text-brand'] {
+  color:
+    var(--demo-accent) !important;
+}
+
+.demoSurface [class~='text-brand-foreground'] {
+  color:
+    var(--demo-action-text) !important;
+}
+
+.demoSurface [class~='text-foreground'],
+.demoSurface [class~='text-foreground/90'] {
+  color:
+    var(--portfolio-ink) !important;
+}
+
+.demoSurface [class~='text-muted-foreground'] {
+  color:
+    var(--portfolio-muted) !important;
+}
+
+/*
+ * Controls should read as instrumentation,
+ * not generic component-library widgets.
+ */
+.demoSurface button,
+.demoSurface input,
+.demoSurface select,
+.demoSurface textarea {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.demoSurface button {
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    sans-serif;
+}
+
+.demoSurface input,
+.demoSurface select,
+.demoSurface textarea {
+  border-color:
+    var(--demo-line-strong) !important;
+  background:
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 94%,
+      white
+    ) !important;
+  color:
+    var(--portfolio-ink) !important;
+}
+
+.demoSurface input:focus-visible,
+.demoSurface select:focus-visible,
+.demoSurface textarea:focus-visible,
+.demoSurface button:focus-visible,
+.demoSurface a:focus-visible {
+  outline:
+    2px solid
+    var(--demo-accent) !important;
+  outline-offset:
+    3px !important;
+}
+
+/*
+ * Generic old pill metadata becomes
+ * compact technical labeling.
+ */
+.demoSurface [class~='rounded-pill'] {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size:
+    0.61rem !important;
+  font-weight:
+    650 !important;
+  letter-spacing:
+    0.055em;
+  text-transform:
+    uppercase;
+}
+
+/*
+ * Preserve hierarchy while removing the
+ * feeling of nested independent cards.
+ */
+.demoSurface article {
+  box-shadow: none !important;
+}
+
+.demoSurface h3,
+.demoSurface h4 {
+  letter-spacing:
+    -0.035em;
+}
+
+.demoSurface h3 {
+  font-weight: 740;
+}
+
+.demoSurface h4 {
+  font-weight: 700;
+}
+
+/*
+ * Lists and tables become evidence ledgers.
+ */
+.demoSurface table {
+  width: 100%;
+  border-collapse:
+    collapse;
+}
+
+.demoSurface thead {
+  background:
+    transparent !important;
+}
+
+.demoSurface th {
+  padding:
+    0.75rem !important;
+  color:
+    var(--portfolio-muted) !important;
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size:
+    0.58rem !important;
+  font-weight:
+    650 !important;
+  letter-spacing:
+    0.06em;
+  text-transform:
+    uppercase;
+}
+
+.demoSurface td {
+  padding:
+    0.8rem
+    0.75rem !important;
+  border-color:
+    var(--demo-line) !important;
+}
+
+.demoSurface tbody tr {
+  border-color:
+    var(--demo-line) !important;
+}
+
+/*
+ * Root-level status output is a system
+ * trace, not another card.
+ */
+.demoSurface
+  > div
+  > [aria-live='polite']:last-child {
+  margin-top:
+    clamp(2rem, 4vw, 4rem) !important;
+  padding-top:
+    1rem !important;
+  border-top:
+    2px solid
+    var(--portfolio-ink) !important;
+  color:
+    var(--portfolio-muted) !important;
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size:
+    0.61rem !important;
+  letter-spacing:
+    0.035em;
+  line-height:
+    1.6;
+}
+
+/*
+ * Inputs and action rows remain usable
+ * on touch devices.
+ */
+.demoSurface button,
+.demoSurface select,
+.demoSurface input {
+  min-height:
+    2.65rem;
+}
+
+.loading {
+  min-height:
+    15rem;
+  display: grid;
+  place-items: center;
+  padding:
+    clamp(3rem, 6vw, 6rem);
+  border:
+    1px solid
+    var(--demo-line);
+  background:
+    var(--portfolio-bone);
+  color:
+    var(--portfolio-muted);
+  font-size:
+    0.72rem;
+  font-weight: 650;
+  letter-spacing:
+    0.07em;
+  text-align: center;
+  text-transform:
+    uppercase;
 }
 
 @media (max-width: 800px) {
@@ -108,6 +496,55 @@
   }
 
   .demoSurface {
-    padding: 0.7rem;
+    padding:
+      1rem;
+  }
+
+  .demoSurface button,
+  .demoSurface input,
+  .demoSurface select {
+    min-height:
+      2.85rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .section {
+    padding:
+      6rem
+      1rem;
+  }
+
+  .title {
+    font-size:
+      clamp(
+        3.4rem,
+        17vw,
+        5.5rem
+      );
+  }
+
+  .demoSurface {
+    margin-inline: -1rem;
+    padding:
+      1rem;
+  }
+
+  .demoSurface th,
+  .demoSurface td {
+    padding:
+      0.7rem
+      0.55rem !important;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .demoSurface *,
+  .demoSurface *::before,
+  .demoSurface *::after {
+    scroll-behavior:
+      auto !important;
   }
 }

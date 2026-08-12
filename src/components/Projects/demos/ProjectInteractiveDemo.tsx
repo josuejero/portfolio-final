@@ -77,7 +77,10 @@ export default function ProjectInteractiveDemo({
         </div>
       </div>
 
-      <div className={styles.demoSurface}>
+      <div
+        className={styles.demoSurface}
+        data-demo={demo.type}
+      >
         {demo.type ===
         'framecast-configurator' ? (
           <Suspense
