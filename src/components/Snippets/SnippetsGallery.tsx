@@ -1,186 +1,709 @@
 'use client';
 
-import { GitHubGist } from '@/types/github';
+import type {
+  GitHubGist,
+  GitHubGistFile,
+} from '@/types/github';
+
 import {
-  CalendarIcon,
-  CodeBracketIcon
-} from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
-export default function SnippetsGallery() {
-  const [gists, setGists] = useState<GitHubGist[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedGist, setSelectedGist] = useState<GitHubGist | null>(null);
+import styles from './SnippetsGallery.module.css';
 
-  useEffect(() => {
-    fetchGists();
-  }, []);
+function formatDate(
+  value: string,
+): string {
+  const date = new Date(value);
 
-  const fetchGists = async () => {
-    try {
-      const response = await fetch('/api/github-projects/gists');
-      const data = await response.json();
-      setGists(data);
-    } catch (error) {
-      console.error('Failed to fetch gists:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return 'UNKNOWN';
+  }
 
-  if (loading) {
-    return (
-      <div className="py-12">
-        <div className="text-center">Loading snippets...</div>
-      </div>
-    );
+  return new Intl.DateTimeFormat(
+    'en-US',
+    {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+  )
+    .format(date)
+    .toUpperCase();
+}
+
+function gistTitle(
+  gist: GitHubGist,
+): string {
+  const description =
+    gist.description?.trim();
+
+  if (description) {
+    return description;
   }
 
   return (
-    <div className="py-12">
-      <div
-        className="mb-12"
+    Object.values(gist.files)[0]
+      ?.filename ??
+    'Untitled gist'
+  );
+}
+
+function gistLanguages(
+  gist: GitHubGist,
+): string[] {
+  return Array.from(
+    new Set(
+      Object.values(gist.files)
+        .map(
+          (file) =>
+            file.language,
+        )
+        .filter(
+          (
+            language,
+          ): language is string =>
+            Boolean(language),
+        ),
+    ),
+  );
+}
+
+function filePreview(
+  file:
+    | GitHubGistFile
+    | undefined,
+): string {
+  const content =
+    file?.content?.trim();
+
+  if (!content) {
+    return 'Preview unavailable in the GitHub list response.';
+  }
+
+  return content.length > 260
+    ? `${content.slice(0, 260)}…`
+    : content;
+}
+
+export default function SnippetsGallery() {
+  const [gists, setGists] =
+    useState<GitHubGist[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState<string | null>(null);
+
+  const [
+    selectedGist,
+    setSelectedGist,
+  ] =
+    useState<GitHubGist | null>(
+      null,
+    );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchGists =
+      async () => {
+        try {
+          setLoading(true);
+          setError(null);
+
+          const response =
+            await fetch(
+              '/api/github-projects/gists',
+            );
+
+          if (!response.ok) {
+            throw new Error(
+              `Gist request failed with status ${response.status}.`,
+            );
+          }
+
+          const data =
+            (await response.json()) as
+              GitHubGist[];
+
+          if (!cancelled) {
+            setGists(data);
+          }
+        } catch (caught) {
+          if (!cancelled) {
+            setError(
+              caught instanceof Error
+                ? caught.message
+                : 'Unable to load GitHub Gists.',
+            );
+          }
+        } finally {
+          if (!cancelled) {
+            setLoading(false);
+          }
+        }
+      };
+
+    void fetchGists();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedGist) {
+      return;
+    }
+
+    const previousOverflow =
+      document.body.style
+        .overflow;
+
+    document.body.style.overflow =
+      'hidden';
+
+    const onKeyDown = (
+      event: KeyboardEvent,
+    ) => {
+      if (
+        event.key === 'Escape'
+      ) {
+        setSelectedGist(null);
+      }
+    };
+
+    window.addEventListener(
+      'keydown',
+      onKeyDown,
+    );
+
+    return () => {
+      document.body.style.overflow =
+        previousOverflow;
+
+      window.removeEventListener(
+        'keydown',
+        onKeyDown,
+      );
+    };
+  }, [selectedGist]);
+
+  const totalFiles =
+    useMemo(
+      () =>
+        gists.reduce(
+          (total, gist) =>
+            total +
+            Object.keys(
+              gist.files,
+            ).length,
+          0,
+        ),
+      [gists],
+    );
+
+  return (
+    <section
+      className={styles.page}
+      aria-labelledby="snippets-heading"
+    >
+      <header
+        className={styles.hero}
       >
-        <h1 className="text-4xl font-bold mb-4">Code Snippets</h1>
-        <p className="text-lg text-muted-foreground">
-          A collection of useful code snippets, algorithms, and utilities from my gists.
-        </p>
-      </div>
+        <div
+          className={
+            styles.heroMeta
+          }
+        >
+          <span>CODE NOTES</span>
 
-      {/* Gists grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {gists.map((gist) => (
-          <div
-            key={gist.id}
-            className="bg-card rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <CodeBracketIcon className="w-6 h-6 text-primary" />
-                <a
-                  href={gist.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary"
-                >
-                  View on GitHub
-                </a>
-              </div>
-              
-              <h2 className="font-semibold text-lg mb-2">
-                {gist.description || Object.keys(gist.files)[0]}
-              </h2>
-              
-              <div className="mb-4">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                  <CalendarIcon className="w-4 h-4" />
-                  <span>
-                    {new Date(gist.created_at).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Files: </span>
-                  {Object.keys(gist.files).join(', ')}
-                </div>
-              </div>
+          <span>
+            LIVE GITHUB GISTS
+          </span>
 
-              {/* Tags */}
-              {gist.tags && gist.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {gist.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 text-xs bg-muted rounded"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+          <span>
+            SOURCE / FRAGMENTS
+          </span>
+        </div>
 
-              {/* Preview first file content */}
-              <div className="mt-4">
-                <div className="text-sm font-medium mb-2">Preview:</div>
-                <pre className="text-xs bg-muted p-3 rounded overflow-x-auto max-h-32">
-                  {(
-                    Object.values(gist.files)[0]?.content ??
-                    'Preview not available for this gist'
-                  ).substring(0, 200)}
-                  ...
-                </pre>
-              </div>
+        <div
+          className={
+            styles.heroGrid
+          }
+        >
+          <div>
+            <p
+              className={
+                styles.kicker
+              }
+            >
+              SMALL PIECES / REAL SOURCE
+            </p>
 
-              <button
-                onClick={() => setSelectedGist(gist)}
-                className="mt-4 w-full py-2 text-sm bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
-              >
-                View Code
-              </button>
-            </div>
+            <h1
+              id="snippets-heading"
+              className={styles.title}
+            >
+              <span>CODE</span>
+              <span>NOTES.</span>
+            </h1>
           </div>
-        ))}
-      </div>
 
-      {/* Gist Detail Modal */}
-      {selectedGist && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-card rounded-lg border shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            <div className="p-6 border-b">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold">
-                  {selectedGist.description || 'Code Snippet'}
-                </h3>
-                <button
-                  onClick={() => setSelectedGist(null)}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  ✕
-                </button>
+          <div
+            className={
+              styles.heroAside
+            }
+          >
+            <p>
+              Public Gists for utilities,
+              experiments, fragments, and
+              implementation notes that
+              do not need a full project
+              case study.
+            </p>
+
+            <div
+              className={
+                styles.counts
+              }
+            >
+              <div>
+                <strong>
+                  {loading
+                    ? '—'
+                    : gists.length}
+                </strong>
+
+                <span>GISTS</span>
               </div>
-              <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                <span>
-                  Created: {new Date(selectedGist.created_at).toLocaleDateString()}
-                </span>
-                <span>•</span>
-                <span>
-                  Updated: {new Date(selectedGist.updated_at).toLocaleDateString()}
-                </span>
+
+              <div>
+                <strong>
+                  {loading
+                    ? '—'
+                    : totalFiles}
+                </strong>
+
+                <span>FILES</span>
               </div>
-            </div>
-            
-            <div className="p-6 overflow-y-auto max-h-[70vh]">
-              {Object.entries(selectedGist.files).map(([filename, file]) => (
-                <div key={filename} className="mb-8 last:mb-0">
-                  <div className="flex items-center gap-2 mb-3">
-                    <CodeBracketIcon className="w-5 h-5" />
-                    <h4 className="font-medium">{filename}</h4>
-                    {file.language && (
-                      <span className="text-xs px-2 py-1 bg-muted rounded">
-                        {file.language}
-                      </span>
-                    )}
-                  </div>
-                  <pre className="text-sm bg-muted p-4 rounded overflow-x-auto">
-                    {file.content}
-                  </pre>
-                </div>
-              ))}
-            </div>
-            
-            <div className="p-6 border-t">
-              <a
-                href={selectedGist.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
-              >
-                View on GitHub
-                <span>↗</span>
-              </a>
             </div>
           </div>
         </div>
-      )}
-    </div>
+      </header>
+
+      <section
+        className={
+          styles.indexSection
+        }
+        aria-labelledby="gist-index-heading"
+      >
+        <div
+          className={
+            styles.sectionHeading
+          }
+        >
+          <div>
+            <span>
+              LIVE INDEX
+            </span>
+
+            <h2
+              id="gist-index-heading"
+            >
+              GitHub Gists
+            </h2>
+          </div>
+
+          <p>
+            Select an entry to inspect
+            the source without leaving
+            the portfolio.
+          </p>
+        </div>
+
+        {loading ? (
+          <div
+            className={
+              styles.state
+            }
+            role="status"
+          >
+            <span>
+              READING GITHUB
+            </span>
+
+            <strong>
+              LOADING GISTS…
+            </strong>
+          </div>
+        ) : error ? (
+          <div
+            className={
+              styles.state
+            }
+            role="alert"
+          >
+            <span>
+              GIST FEED ERROR
+            </span>
+
+            <strong>
+              Unable to read the
+              feed.
+            </strong>
+
+            <p>{error}</p>
+          </div>
+        ) : gists.length === 0 ? (
+          <div
+            className={
+              styles.state
+            }
+          >
+            <span>
+              LIVE INDEX
+            </span>
+
+            <strong>
+              No public Gists are
+              currently available.
+            </strong>
+          </div>
+        ) : (
+          <div
+            className={
+              styles.gistIndex
+            }
+          >
+            {gists.map(
+              (gist, index) => {
+                const files =
+                  Object.values(
+                    gist.files,
+                  );
+
+                const languages =
+                  gistLanguages(gist);
+
+                const preview =
+                  filePreview(
+                    files[0],
+                  );
+
+                return (
+                  <article
+                    key={gist.id}
+                    className={
+                      styles.gistRow
+                    }
+                  >
+                    <span
+                      className={
+                        styles.index
+                      }
+                    >
+                      {String(
+                        index + 1,
+                      ).padStart(
+                        2,
+                        '0',
+                      )}
+                    </span>
+
+                    <div
+                      className={
+                        styles.gistMain
+                      }
+                    >
+                      <button
+                        type="button"
+                        className={
+                          styles.gistTitle
+                        }
+                        onClick={() =>
+                          setSelectedGist(
+                            gist,
+                          )
+                        }
+                      >
+                        {gistTitle(
+                          gist,
+                        )}
+                      </button>
+
+                      <pre
+                        className={
+                          styles.preview
+                        }
+                      >
+                        {preview}
+                      </pre>
+
+                      {gist.tags &&
+                      gist.tags.length >
+                        0 ? (
+                        <div
+                          className={
+                            styles.tags
+                          }
+                        >
+                          {gist.tags.map(
+                            (tag) => (
+                              <span
+                                key={tag}
+                              >
+                                #{tag}
+                              </span>
+                            ),
+                          )}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div
+                      className={
+                        styles.gistMeta
+                      }
+                    >
+                      <span>
+                        {formatDate(
+                          gist.updated_at,
+                        )}
+                      </span>
+
+                      <span>
+                        {
+                          files.length
+                        }{' '}
+                        {files.length ===
+                        1
+                          ? 'FILE'
+                          : 'FILES'}
+                      </span>
+
+                      <span>
+                        {languages.length >
+                        0
+                          ? languages.join(
+                              ' / ',
+                            )
+                          : 'LANGUAGE UNKNOWN'}
+                      </span>
+
+                      <div
+                        className={
+                          styles.actions
+                        }
+                      >
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSelectedGist(
+                              gist,
+                            )
+                          }
+                        >
+                          Inspect
+                          <span
+                            aria-hidden="true"
+                          >
+                            →
+                          </span>
+                        </button>
+
+                        <a
+                          href={
+                            gist.html_url
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          GitHub
+                          <span
+                            aria-hidden="true"
+                          >
+                            ↗
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                );
+              },
+            )}
+          </div>
+        )}
+      </section>
+
+      {selectedGist ? (
+        <div
+          className={
+            styles.dialogBackdrop
+          }
+          role="presentation"
+          onMouseDown={(
+            event,
+          ) => {
+            if (
+              event.target ===
+              event.currentTarget
+            ) {
+              setSelectedGist(
+                null,
+              );
+            }
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="gist-dialog-title"
+            className={
+              styles.dialog
+            }
+          >
+            <header
+              className={
+                styles.dialogHeader
+              }
+            >
+              <div>
+                <span>
+                  SOURCE INSPECTOR
+                </span>
+
+                <h2
+                  id="gist-dialog-title"
+                >
+                  {gistTitle(
+                    selectedGist,
+                  )}
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                className={
+                  styles.closeButton
+                }
+                onClick={() =>
+                  setSelectedGist(
+                    null,
+                  )
+                }
+                aria-label="Close source inspector"
+              >
+                CLOSE
+                <span
+                  aria-hidden="true"
+                >
+                  ×
+                </span>
+              </button>
+            </header>
+
+            <div
+              className={
+                styles.dialogMeta
+              }
+            >
+              <span>
+                CREATED{' '}
+                {formatDate(
+                  selectedGist.created_at,
+                )}
+              </span>
+
+              <span>
+                UPDATED{' '}
+                {formatDate(
+                  selectedGist.updated_at,
+                )}
+              </span>
+
+              <a
+                href={
+                  selectedGist.html_url
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                OPEN ON GITHUB ↗
+              </a>
+            </div>
+
+            <div
+              className={
+                styles.files
+              }
+            >
+              {Object.entries(
+                selectedGist.files,
+              ).map(
+                ([
+                  filename,
+                  file,
+                ],
+                fileIndex) => (
+                  <section
+                    key={filename}
+                    className={
+                      styles.file
+                    }
+                  >
+                    <div
+                      className={
+                        styles.fileHeading
+                      }
+                    >
+                      <span>
+                        {String(
+                          fileIndex + 1,
+                        ).padStart(
+                          2,
+                          '0',
+                        )}
+                      </span>
+
+                      <strong>
+                        {filename}
+                      </strong>
+
+                      <span>
+                        {file.language ??
+                          'TEXT'}
+                      </span>
+
+                      <span>
+                        {file.size.toLocaleString()}
+                        {' '}BYTES
+                      </span>
+                    </div>
+
+                    <pre
+                      className={
+                        styles.code
+                      }
+                    >
+                      {file.content ||
+                        'Source content is not included in this GitHub list response. Open the Gist on GitHub to inspect the complete file.'}
+                    </pre>
+                  </section>
+                ),
+              )}
+            </div>
+          </section>
+        </div>
+      ) : null}
+    </section>
   );
 }

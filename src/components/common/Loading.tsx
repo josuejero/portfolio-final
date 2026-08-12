@@ -1,23 +1,42 @@
-// src/components/common/Loading.tsx
 'use client';
 
-const Loading = () => {
+import styles from './SystemState.module.css';
+
+export default function Loading() {
   return (
     <div
-      className="flex min-h-32 items-center justify-center"
+      className={styles.loading}
       role="status"
       aria-live="polite"
     >
-      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+      <div
+        className={
+          styles.loadingInner
+        }
+      >
         <span
-          className="h-5 w-5 animate-spin rounded-pill border-2 border-border border-t-brand"
-          aria-hidden="true"
-        />
+          className={styles.label}
+        >
+          SYSTEM STATE
+        </span>
 
-        <span>Loading...</span>
+        <div
+          className={
+            styles.loadingText
+          }
+        >
+          <span>
+            Loading
+          </span>
+
+          <span
+            className={styles.pulse}
+            aria-hidden="true"
+          >
+            ●
+          </span>
+        </div>
       </div>
     </div>
   );
-};
-
-export default Loading;
+}

@@ -1,0 +1,263 @@
+.loading {
+  min-height:
+    min(55svh, 34rem);
+  display: grid;
+  place-items: center;
+  padding:
+    clamp(6rem, 10vw, 10rem)
+    clamp(1rem, 2.8vw, 3rem);
+  background:
+    var(--portfolio-bone);
+  color:
+    var(--portfolio-ink);
+}
+
+.loadingInner {
+  width: 100%;
+  display: grid;
+  grid-template-columns:
+    minmax(8rem, 0.35fr)
+    minmax(0, 1.65fr);
+  gap:
+    clamp(2rem, 6vw, 7rem);
+  padding:
+    1.5rem
+    0;
+  border-top:
+    2px solid
+    var(--portfolio-ink);
+  border-bottom:
+    1px solid
+    var(--portfolio-line);
+}
+
+.label,
+.loadingText,
+.errorCode {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.label {
+  color:
+    var(--portfolio-cobalt);
+  font-size: 0.52rem;
+}
+
+.loadingText {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  font-size:
+    clamp(
+      1.4rem,
+      3vw,
+      3rem
+    );
+  font-weight: 760;
+  letter-spacing: -0.05em;
+}
+
+.pulse {
+  color:
+    var(--portfolio-cobalt);
+  animation:
+    state-pulse
+    1.1s
+    steps(2, end)
+    infinite;
+}
+
+.error {
+  min-height:
+    min(70svh, 48rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding:
+    clamp(7rem, 10vw, 10rem)
+    clamp(1rem, 2.8vw, 3rem);
+  background:
+    var(--portfolio-bone);
+  color:
+    var(--portfolio-ink);
+}
+
+.errorTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  border-bottom:
+    1px solid
+    var(--portfolio-line);
+}
+
+.errorCode {
+  color:
+    var(--portfolio-muted);
+  font-size: 0.5rem;
+}
+
+.errorBody {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.4fr)
+    minmax(17rem, 0.6fr);
+  gap:
+    clamp(3rem, 8vw, 10rem);
+  align-items: end;
+  padding:
+    clamp(4rem, 8vw, 8rem)
+    0;
+}
+
+.errorBody h2 {
+  max-width: 11ch;
+  margin: 0;
+  font-size:
+    clamp(
+      4rem,
+      10vw,
+      10rem
+    );
+  font-weight: 860;
+  letter-spacing: -0.09em;
+  line-height: 0.76;
+  text-transform: uppercase;
+}
+
+.errorBody h2 span {
+  display: block;
+  color:
+    var(--portfolio-cobalt);
+}
+
+.errorAside {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.errorAside p {
+  margin: 0;
+  color:
+    var(--portfolio-muted);
+  font-size:
+    clamp(
+      1rem,
+      1.4vw,
+      1.2rem
+    );
+  line-height: 1.5;
+}
+
+.action {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding:
+    0
+    0
+    0.25rem;
+  border: 0;
+  border-bottom:
+    2px solid
+    var(--portfolio-cobalt);
+  background: transparent;
+  color:
+    var(--portfolio-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 720;
+}
+
+.action span {
+  color:
+    var(--portfolio-cobalt);
+}
+
+.action:hover,
+.action:focus-visible {
+  color:
+    var(--portfolio-cobalt);
+}
+
+.action:focus-visible {
+  outline:
+    2px solid
+    var(--portfolio-cobalt);
+  outline-offset: 4px;
+}
+
+.boundary {
+  margin:
+    clamp(4rem, 8vw, 8rem)
+    clamp(1rem, 2.8vw, 3rem);
+  padding:
+    clamp(2rem, 4vw, 4rem)
+    0;
+  border-top:
+    3px solid
+    var(--portfolio-cobalt);
+  border-bottom:
+    1px solid
+    var(--portfolio-line);
+  color:
+    var(--portfolio-ink);
+}
+
+.boundary .errorBody {
+  padding:
+    clamp(2rem, 4vw, 4rem)
+    0;
+}
+
+.boundary .errorBody h2 {
+  font-size:
+    clamp(
+      2.8rem,
+      6vw,
+      6rem
+    );
+}
+
+@keyframes state-pulse {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@media (max-width: 760px) {
+  .loadingInner,
+  .errorBody {
+    grid-template-columns: 1fr;
+  }
+
+  .loadingText {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .pulse {
+    animation: none;
+  }
+}

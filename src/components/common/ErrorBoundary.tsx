@@ -1,8 +1,12 @@
-// src/components/common/ErrorBoundary.tsx
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Component, type ErrorInfo, type ReactNode } from 'react';
+import {
+  Component,
+  type ErrorInfo,
+  type ReactNode,
+} from 'react';
+
+import styles from './SystemState.module.css';
 
 interface Props {
   children: ReactNode;
@@ -12,46 +16,112 @@ interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<
+  Props,
+  State
+> {
   public state: State = {
     hasError: false,
   };
 
-  public static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
+  public static getDerivedStateFromError(
+    _: Error,
+  ): State {
+    return {
+      hasError: true,
+    };
   }
 
   public componentDidCatch(
     error: Error,
     errorInfo: ErrorInfo,
   ) {
-    console.error('Uncaught error:', error, errorInfo);
+    console.error(
+      'Uncaught error:',
+      error,
+      errorInfo,
+    );
   }
 
   public render() {
-    if (this.state.hasError) {
+    if (
+      this.state.hasError
+    ) {
       return (
-        <div className="rounded-surface border border-destructive/40 bg-destructive/10 p-6 text-center shadow-soft">
-          <p className="text-xl font-semibold text-foreground">
-            Something went wrong.
-          </p>
-
-          <p className="mt-2 text-sm text-muted-foreground">
-            Try the action again. If the problem continues,
-            refreshing the page may help.
-          </p>
-
-          <Button
-            className="mt-4"
-            onClick={() =>
-              this.setState({
-                hasError: false,
-              })
+        <section
+          className={
+            styles.boundary
+          }
+          role="alert"
+        >
+          <div
+            className={
+              styles.errorTop
             }
           >
-            Try again
-          </Button>
-        </div>
+            <span
+              className={
+                styles.label
+              }
+            >
+              RUNTIME EXCEPTION
+            </span>
+
+            <span
+              className={
+                styles.errorCode
+              }
+            >
+              RECOVERABLE
+            </span>
+          </div>
+
+          <div
+            className={
+              styles.errorBody
+            }
+          >
+            <h2>
+              Something
+              <span>
+                failed.
+              </span>
+            </h2>
+
+            <div
+              className={
+                styles.errorAside
+              }
+            >
+              <p>
+                Try the action again.
+                If the problem
+                continues, refreshing
+                the page may help.
+              </p>
+
+              <button
+                type="button"
+                className={
+                  styles.action
+                }
+                onClick={() =>
+                  this.setState({
+                    hasError:
+                      false,
+                  })
+                }
+              >
+                Try again
+                <span
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </button>
+            </div>
+          </div>
+        </section>
       );
     }
 

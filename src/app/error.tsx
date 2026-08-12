@@ -1,13 +1,18 @@
-// src/app/error.tsx
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
+
+import styles from '@/components/common/SystemState.module.css';
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
+  error:
+    Error & {
+      digest?: string;
+    };
+
   reset: () => void;
 }) {
   useEffect(() => {
@@ -15,17 +20,76 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h2 className="text-xl font-semibold">Something went wrong</h2>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Try again, or refresh the page.
-      </p>
-      <button
-        className="mt-4 rounded-md border px-4 py-2"
-        onClick={() => reset()}
+    <section
+      className={styles.error}
+      aria-labelledby="app-error-heading"
+    >
+      <div
+        className={
+          styles.errorTop
+        }
       >
-        Try again
-      </button>
-    </div>
+        <span
+          className={
+            styles.label
+          }
+        >
+          APPLICATION ERROR
+        </span>
+
+        <span
+          className={
+            styles.errorCode
+          }
+        >
+          {error.digest
+            ? `TRACE ${error.digest}`
+            : 'RECOVERY AVAILABLE'}
+        </span>
+      </div>
+
+      <div
+        className={
+          styles.errorBody
+        }
+      >
+        <h2
+          id="app-error-heading"
+        >
+          Something
+          <span>
+            failed.
+          </span>
+        </h2>
+
+        <div
+          className={
+            styles.errorAside
+          }
+        >
+          <p>
+            The page hit an
+            unexpected runtime error.
+            Retry the render before
+            refreshing the browser.
+          </p>
+
+          <button
+            type="button"
+            className={
+              styles.action
+            }
+            onClick={reset}
+          >
+            Retry
+            <span
+              aria-hidden="true"
+            >
+              ↗
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
