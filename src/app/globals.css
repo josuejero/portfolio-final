@@ -4,7 +4,12 @@
 @tailwind utilities;
 
 :root {
-  /* Existing shadcn semantic colors */
+  color-scheme: light;
+  /*
+   * Compatibility tokens for the established interactive
+   * project workspaces. Primary portfolio surfaces use the
+   * scoped editorial variables in PortfolioShell.module.css.
+   */
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
 
@@ -36,7 +41,7 @@
   /*
    * Portfolio brand.
    *
-   * Kept separate from shadcn's neutral `primary` token so existing
+   * Kept separate from the neutral `primary` token so existing
    * components do not change meaning simply because the portfolio uses
    * sky as its visual accent.
    */
@@ -86,60 +91,6 @@
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
-.dark {
-  --background: 0 0% 3.9%;
-  --foreground: 0 0% 98%;
-
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
-
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-
-  --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
-
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
-  --ring: 0 0% 83.1%;
-
-  --brand: 198 93% 60%;
-  --brand-hover: 199 89% 48%;
-  --brand-foreground: 202 80% 12%;
-  --brand-accent: 258 90% 66%;
-
-  --success: 142 70% 45%;
-  --success-foreground: 144 70% 10%;
-
-  --warning: 43 96% 56%;
-  --warning-foreground: 26 83% 14%;
-
-  --surface: 0 0% 6%;
-  --surface-raised: 0 0% 9%;
-
-  --shadow-color: 0 0% 0%;
-  --shadow-soft:
-    0 1px 2px hsl(var(--shadow-color) / 0.20),
-    0 8px 24px hsl(var(--shadow-color) / 0.18);
-  --shadow-raised:
-    0 4px 8px hsl(var(--shadow-color) / 0.24),
-    0 18px 48px hsl(var(--shadow-color) / 0.28);
-  --shadow-brand-glow:
-    0 0 36px hsl(var(--brand) / 0.16);
-}
-
 @media (min-width: 640px) {
   :root {
     --page-gutter: 1.5rem;
@@ -149,12 +100,6 @@
 @media (min-width: 1024px) {
   :root {
     --page-gutter: 2rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
   }
 }
 
@@ -169,11 +114,6 @@
       background-color var(--motion-normal) var(--ease-standard),
       color var(--motion-normal) var(--ease-standard);
   }
-}
-
-.dark body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
 }
 
 @layer utilities {

@@ -1,164 +1,187 @@
+# Josue Sebastian Jeronimo — Engineering Portfolio
 
-# Portfolio Website
+A kinetic editorial engineering portfolio built with Next.js, React, and TypeScript.
 
-This repository contains the source code for my personal portfolio website, built with [Next.js](https://nextjs.org) and TypeScript. The site showcases my professional background, projects, technical skills, and provides ways to get in touch. It also integrates GitHub API data to display commit activity, language distribution, and repository statistics.
+The site presents software engineering, QA/test automation, data quality, and platform/support work through evidence-backed case studies and interactive browser simulations rather than a conventional card-based portfolio.
 
-## Features
+## Portfolio Structure
 
-- **Modern Frontend Stack**: Built with Next.js 16, React 19, TypeScript, and the App Router.
-- **TypeScript**: Ensures type safety and improved developer experience.
-- **Tailwind CSS**: Rapidly style UI components with a utility-first CSS framework.
-- **Interactive Project Workspaces**: Lazy-loaded browser simulations provide hands-on evidence for selected flagship projects.
-- **Dark Mode Support**: Easily switch between light and dark themes.
-- **GitHub Stats Integration**: Retrieves and displays GitHub repository, commit activity, and language usage statistics (requires a GitHub token).
-- **Modular & Scalable Architecture**: Organized into structured directories for pages, components, hooks, and utilities, simplifying maintenance and scalability.
-- **Contact Form Integration**: Submits through a server-side API route with validation, honeypot protection, optional Upstash rate limiting, and EmailJS REST delivery.
-- **Responsive & Mobile-Friendly**: Adapts to various screen sizes, with a responsive sidebar and mobile navigation.
+Primary public routes:
 
-## Project Structure
+- `/` — immersive portfolio home and four flagship engineering chapters
+- `/projects` — role-aware engineering work index
+- `/projects/[name]` — project case studies, evidence, interactive demos, and repository documentation
+- `/about` — engineering background, education, technical skills, and live GitHub activity
+- `/contact` — direct inquiry form
+- `/snippets` — live GitHub Gist index and source inspector
 
-```
-.
-├── public/                 # Public assets (images, icons, etc.)
-├── src/
-│   ├── app/                # Next.js App Router structure
-│   │   ├── page.tsx        # Homepage
-│   │   ├── about/          # About page
-│   │   ├── blog/           # Blog page & loader
-│   │   ├── contact/        # Contact page & loader
-│   │   ├── api/            # Server routes for GitHub data, contact, and CSP reporting
-│   │   ├── error.tsx       # Custom error page
-│   │   ├── layout.tsx      # Root layout with ThemeProvider
-│   │   ├── loading.tsx     # Global loading state
-│   │   └── globals.css     # Global styles
-│   ├── components/         # Reusable UI components
-│   │   ├── About/          # About page components & GitHubStats integration
-│   │   ├── Blog/           # Blog listing & modal viewer
-│   │   ├── Contact/        # Contact form interface
-│   │   ├── Die/            # Interactive skill "die" component
-│   │   ├── Home/           # Home section (hero, skills preview, call-to-action)
-│   │   ├── Projects/       # Featured projects listing
-│   │   ├── Sidebar/        # Sidebar and mobile navigation
-│   │   ├── common/         # Common utilities (ErrorBoundary, Layout, Loading, ThemeProvider)
-│   │   └── ui/             # UI primitives (Card, etc.)
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Metadata, utility functions
-│   └── types/              # Type definitions (GitHub stats, etc.)
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-└── ... (other config files)
-```
+The primary visual system uses a warm bone background, deep ink, cobalt, and acid-lime accents with large editorial typography and restrained technical labeling.
 
-## Getting Started
+## Flagship Interactive Workspaces
 
-### Prerequisites
+The portfolio includes browser-based simulations for:
+
+- **HostDesk** — prospect operations, cadence work, notes, and handoff gating
+- **BotMedic** — incident triage and recovery workflow
+- **DQSentry** — data-quality validation, scoring, and publish gates
+- **CycleReady** — requirements traceability, defects, and release readiness
+- **FrameCast** — frame assignment and photo/device configuration
+
+Simulation state stays local to the browser. Model logic is isolated from presentation and covered by Vitest suites.
+
+## Architecture
+
+    src/
+    ├── app/
+    │   ├── api/
+    │   │   ├── contact/
+    │   │   ├── csp-report/
+    │   │   ├── github-projects/
+    │   │   └── github-stats/
+    │   ├── about/
+    │   ├── contact/
+    │   ├── projects/
+    │   │   └── [name]/
+    │   ├── snippets/
+    │   ├── error.tsx
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   ├── loading.tsx
+    │   └── page.tsx
+    ├── components/
+    │   ├── About/
+    │   ├── Contact/
+    │   ├── Home/
+    │   ├── Projects/
+    │   │   └── demos/
+    │   ├── Snippets/
+    │   └── common/
+    ├── config/
+    ├── data/
+    ├── hooks/
+    ├── lib/
+    └── types/
+
+Canonical project, role-lens, skill, evidence, and presentation data live under `src/data` rather than being duplicated across page components.
+
+## Technology
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- CSS Modules
+- Vitest
+- React Markdown
+- remark-gfm
+- Recharts
+- Zod
+- GitHub API
+- Upstash Redis / rate limiting
+- EmailJS REST delivery
+
+Tailwind remains primarily for the established interactive-demo implementation. The redesigned portfolio surfaces use scoped CSS Modules and the portfolio editorial token system.
+
+## GitHub Integration
+
+GitHub-backed routes provide:
+
+- public repository metadata
+- README content
+- release data
+- public Gists
+- contribution and activity statistics
+
+A GitHub token is optional but recommended for authenticated API limits.
+
+## Contact Pipeline
+
+The contact form submits through `/api/contact` and includes:
+
+- server-side validation
+- honeypot protection
+- optional Upstash rate limiting
+- EmailJS REST delivery
+
+## Environment Variables
+
+Create `.env.local` as needed:
+
+    # Optional authenticated GitHub requests
+    GITHUB_TOKEN=
+
+    # Contact delivery
+    EMAILJS_SERVICE_ID=
+    EMAILJS_TEMPLATE_ID=
+    EMAILJS_PUBLIC_KEY=
+    EMAILJS_PRIVATE_KEY=
+    CONTACT_TO_EMAIL=
+
+    # Optional Redis caching and contact rate limiting
+    UPSTASH_REDIS_REST_URL=
+    UPSTASH_REDIS_REST_TOKEN=
+
+`EMAILJS_PRIVATE_KEY` is optional depending on the EmailJS configuration.
+
+## Local Development
+
+Requirements:
 
 - Node.js 20.17 or newer
-- npm 11.x (this repository uses npm and `package-lock.json`)
-- A GitHub personal access token (optional) if you want the GitHub stats feature to function
+- npm 11.x
 
-### Installation
+Install:
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/josuejero/portfolio-final.git
-   cd portfolio-final
-   ```
+    npm ci
 
-2. **Install dependencies:**
-   ```bash
-   npm ci
-   ```
+Run development:
 
-3. **Set environment variables:**
+    npm run dev
 
-   Create a `.env.local` file at the root of the project to configure environment variables:
+Production build:
 
-   ```env
-   # Optional GitHub API token
-   GITHUB_TOKEN=
+    npm run build
 
-   # Server-side contact delivery
-   EMAILJS_SERVICE_ID=
-   EMAILJS_TEMPLATE_ID=
-   EMAILJS_PUBLIC_KEY=
-   EMAILJS_PRIVATE_KEY=
-   CONTACT_TO_EMAIL=
+Start the production server:
 
-   # Optional Redis caching and contact rate limiting
-   UPSTASH_REDIS_REST_URL=
-   UPSTASH_REDIS_REST_TOKEN=
-   ```
+    npm run start
 
-   - **GITHUB_TOKEN**: Optional token used by GitHub-backed portfolio features.
-   - **EmailJS variables**: Used by the server-side contact route. `EMAILJS_PRIVATE_KEY` is optional depending on the EmailJS configuration.
+## Validation
 
-### Running Locally
+Lint:
 
-To run the development server:
+    npm run lint
 
-```bash
-npm run dev
-```
+Run the complete test suite:
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+    npm test -- --run
 
-The site will automatically reload whenever you make changes to the code.
+Generate Next.js route types:
 
-### Building & Production
+    npx next typegen
 
-To create a production build:
+Coverage:
 
-```bash
-npm run build
-```
+    npm run test:coverage
 
-Then, start the production server:
+## Security
 
-```bash
-npm run start
-```
+The application configures response hardening headers including:
 
-### Deployment
+- `X-Frame-Options`
+- `X-Content-Type-Options`
+- `Referrer-Policy`
+- `Permissions-Policy`
+- cross-origin opener/resource policies
+- production HSTS
 
-The site can be easily deployed to [Vercel](https://vercel.com/) (recommended) or any other hosting platform that supports Next.js.
+A Content Security Policy is currently emitted in **report-only** mode through `src/proxy.ts` and reports violations to `/api/csp-report`. It should not be promoted to enforcing mode until production CSP reports have been reviewed.
 
-For Vercel:
+## Deployment
 
-1. Push your repository to GitHub, GitLab, or Bitbucket.
-2. [Import the repository into Vercel](https://vercel.com/new).
-3. Add your environment variables on Vercel.
-4. Vercel handles builds, previews, and deployments automatically on every git push.
+The current portfolio URL is configured in `src/config/site.ts`.
 
-## Customization
-
-- **Branding & Content**: Update `siteMetadata` in `src/lib/metadata.ts` for SEO, social links, and site title.
-- **Styling**: Customize styles via Tailwind classes in `globals.css` or component-level styling.
-- **Components & Pages**: Modify or add new pages under `src/app/` and respective components under `src/components/`.
-
-## Technologies Used
-
-- **Next.js 16**
-- **React 19**
-- **TypeScript**
-- **Tailwind CSS**
-- **Vitest**
-- **React Markdown**
-- **Recharts**
-- **EmailJS REST API**
-- **Upstash Redis**
-- **GitHub API**
-- **Vercel Deployment**
-
-## Contributing
-
-Contributions are welcome! Please open issues or submit pull requests if you have improvements, suggestions, or bug fixes.
-
-1. Fork the repository
-2. Create a new branch for your changes (`git checkout -b feature/my-feature`)
-3. Commit and push your changes
-4. Open a pull request
+The project is compatible with Vercel deployment and other environments that support Next.js.
 
 ## License
 
