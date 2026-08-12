@@ -1,0 +1,523 @@
+.hero {
+  min-height: 100svh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  padding:
+    clamp(7rem, 10vw, 9.5rem)
+    clamp(1rem, 2.8vw, 3rem)
+    clamp(2rem, 4vw, 4rem);
+  border-bottom: 1px solid var(--portfolio-line);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 4.75rem;
+  right: clamp(1rem, 2.8vw, 3rem);
+  bottom: 0;
+  width: 1px;
+  background: var(--portfolio-line);
+  pointer-events: none;
+}
+
+.heroInner {
+  width: 100%;
+  min-height: calc(
+    100svh - clamp(9rem, 13vw, 12rem)
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(4rem, 8vw, 8rem);
+}
+
+.titleBlock {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.kickerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(2rem, 4vw, 4rem);
+  padding-right: clamp(1rem, 3vw, 3rem);
+}
+
+.kicker,
+.modeIndex {
+  margin: 0;
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--portfolio-muted);
+}
+
+.modeIndex {
+  color: var(--portfolio-ink);
+}
+
+.title {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.name {
+  display: block;
+  margin-bottom: clamp(1rem, 2vw, 1.8rem);
+  color: var(--portfolio-ink);
+  font-size: clamp(0.8rem, 1.15vw, 1.12rem);
+  font-weight: 780;
+  letter-spacing: 0.19em;
+  line-height: 1;
+}
+
+.statement {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  color: var(--portfolio-ink);
+  font-size: clamp(4.1rem, 10.9vw, 11.2rem);
+  font-weight: 860;
+  letter-spacing: -0.078em;
+  line-height: 0.78;
+  text-wrap: nowrap;
+}
+
+.statementOffset {
+  margin-left: clamp(0rem, 4.5vw, 5rem);
+  font-size: clamp(4.1rem, 9.35vw, 9.9rem);
+}
+
+.lowerGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(14rem, 0.55fr)
+    minmax(0, 1.45fr);
+  gap: clamp(2.5rem, 6vw, 7rem);
+  align-items: end;
+}
+
+.modePanel {
+  min-width: 0;
+  padding-bottom: 0.2rem;
+}
+
+.panelLabel {
+  margin: 0 0 1.25rem;
+  color: var(--portfolio-muted);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.modeList {
+  border-top: 1px solid var(--portfolio-line);
+}
+
+.modeButton {
+  width: 100%;
+  min-height: 3.3rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--portfolio-line);
+  background: transparent;
+  color: var(--portfolio-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  text-align: left;
+  transition:
+    color 180ms ease,
+    padding-left 180ms ease;
+}
+
+.modeButton:hover,
+.modeButton:focus-visible {
+  color: var(--portfolio-ink);
+  padding-left: 0.35rem;
+}
+
+.modeButton:focus-visible {
+  outline: 2px solid var(--portfolio-cobalt);
+  outline-offset: 3px;
+}
+
+.modeButtonActive {
+  color: var(--portfolio-ink);
+}
+
+.modeButtonActive::after {
+  content: '';
+  justify-self: end;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.15rem;
+  border-radius: 50%;
+  background: var(--portfolio-acid);
+  box-shadow:
+    0 0 0 1px
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 85%,
+      transparent
+    );
+}
+
+.modeButtonIndex {
+  color: var(--portfolio-muted);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.activeModeMeta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.activeModeDot {
+  flex: 0 0 auto;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.35rem;
+  border-radius: 50%;
+  background: var(--portfolio-cobalt);
+}
+
+.activeModeTitle,
+.activeModeFlow {
+  margin: 0;
+}
+
+.activeModeTitle {
+  color: var(--portfolio-ink);
+  font-size: 0.9rem;
+  font-weight: 720;
+  letter-spacing: -0.025em;
+}
+
+.activeModeFlow {
+  margin-top: 0.2rem;
+  color: var(--portfolio-muted);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.6rem;
+  margin-top: 2rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--portfolio-ink);
+  font-size: 0.75rem;
+  font-weight: 720;
+  letter-spacing: 0.035em;
+  text-decoration: none;
+}
+
+.primaryAction {
+  border-bottom: 2px solid var(--portfolio-ink);
+}
+
+.primaryAction span {
+  transition: transform 180ms ease;
+}
+
+.primaryAction:hover span,
+.primaryAction:focus-visible span {
+  transform: translate(0.15rem, -0.15rem);
+}
+
+.secondaryAction {
+  color: var(--portfolio-muted);
+}
+
+.primaryAction:focus-visible,
+.secondaryAction:focus-visible {
+  outline: 2px solid var(--portfolio-cobalt);
+  outline-offset: 4px;
+}
+
+.traceFrame {
+  min-width: 0;
+  min-height: clamp(22rem, 42vw, 38rem);
+  position: relative;
+  border-top: 1px solid var(--portfolio-line);
+  border-bottom: 1px solid var(--portfolio-line);
+  overflow: hidden;
+}
+
+.traceFrame::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 33.333%;
+  bottom: 0;
+  width: 1px;
+  background: var(--portfolio-line);
+}
+
+.traceFrame::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 66.666%;
+  bottom: 0;
+  width: 1px;
+  background: var(--portfolio-line);
+}
+
+.traceMeta,
+.traceLegend {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.traceMeta {
+  top: 1rem;
+}
+
+.traceLegend {
+  bottom: 1rem;
+}
+
+.traceMeta span,
+.traceLegend span {
+  color: var(--portfolio-muted);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.56rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.traceSvg {
+  position: absolute;
+  z-index: 1;
+  inset: 3.5rem 0 2.75rem;
+  width: 100%;
+  height: calc(100% - 6.25rem);
+  overflow: visible;
+}
+
+.tracePath {
+  fill: none;
+  stroke: var(--portfolio-line);
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+  transition:
+    stroke 260ms ease,
+    opacity 260ms ease;
+}
+
+.tracePathActive {
+  stroke: var(--portfolio-cobalt);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 7 11;
+  animation: traceFlow 1.8s linear infinite;
+}
+
+.traceNode circle {
+  fill: var(--portfolio-bone);
+  stroke: var(--portfolio-line);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition:
+    fill 220ms ease,
+    stroke 220ms ease,
+    r 220ms ease;
+}
+
+.traceNodeActive circle {
+  r: 10;
+  stroke: var(--portfolio-cobalt);
+  stroke-width: 2;
+}
+
+.traceNodeTerminal circle {
+  r: 12;
+  fill: var(--portfolio-acid);
+  stroke: var(--portfolio-ink);
+  stroke-width: 1.5;
+}
+
+.traceLabel {
+  fill: var(--portfolio-ink);
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+@keyframes traceFlow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@media (max-width: 960px) {
+  .hero {
+    min-height: auto;
+    padding-top: 7rem;
+  }
+
+  .heroInner {
+    min-height: auto;
+  }
+
+  .statement {
+    font-size: clamp(4rem, 13.8vw, 8rem);
+  }
+
+  .statementOffset {
+    margin-left: 0;
+  }
+
+  .lowerGrid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .modePanel {
+    max-width: 34rem;
+  }
+
+  .traceFrame {
+    min-height: clamp(22rem, 67vw, 34rem);
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    padding:
+      6.5rem
+      1rem
+      1.5rem;
+  }
+
+  .hero::before {
+    display: none;
+  }
+
+  .heroInner {
+    gap: 4.5rem;
+  }
+
+  .kickerRow {
+    margin-bottom: 2.2rem;
+    padding-right: 0;
+  }
+
+  .kicker {
+    max-width: 12rem;
+    line-height: 1.45;
+  }
+
+  .statement {
+    width: auto;
+    font-size: clamp(3.55rem, 17.8vw, 6rem);
+    letter-spacing: -0.072em;
+    line-height: 0.81;
+    text-wrap: balance;
+  }
+
+  .modeButton {
+    min-height: 3.65rem;
+    font-size: 1rem;
+  }
+
+  .traceFrame {
+    min-height: 21rem;
+  }
+
+  .traceMeta {
+    top: 0.8rem;
+  }
+
+  .traceLegend {
+    bottom: 0.75rem;
+  }
+
+  .traceSvg {
+    inset:
+      3.1rem
+      -4.5rem
+      2.5rem;
+    width: calc(100% + 9rem);
+    height: calc(100% - 5.6rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modeButton,
+  .primaryAction span,
+  .tracePath,
+  .traceNode circle {
+    transition: none;
+  }
+
+  .tracePathActive {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}

@@ -1,0 +1,56 @@
+.shell {
+  --portfolio-bone: #f1ede4;
+  --portfolio-ink: #11120f;
+  --portfolio-cobalt: #2457ff;
+  --portfolio-acid: #d8ff43;
+  --portfolio-muted: #6d6d65;
+  --portfolio-line: color-mix(
+    in srgb,
+    var(--portfolio-ink) 16%,
+    transparent
+  );
+
+  min-height: 100dvh;
+  position: relative;
+  isolation: isolate;
+  background: var(--portfolio-bone);
+  color: var(--portfolio-ink);
+}
+
+.shell ::selection {
+  background: var(--portfolio-acid);
+  color: #11120f;
+}
+
+.main {
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: clip;
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(-180%);
+  padding: 0.7rem 0.95rem;
+  background: var(--portfolio-ink);
+  color: var(--portfolio-bone);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease;
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--portfolio-acid);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skipLink {
+    transition: none;
+  }
+}
