@@ -2,95 +2,118 @@
 
 import type { GitHubContributionCalendar } from '@/types/github';
 
+import styles from '../GithubActivity.module.css';
+
 interface Props {
-  calendar: GitHubContributionCalendar | null;
+  calendar:
+    GitHubContributionCalendar | null;
   contributionsThisYear: number;
 }
-// Intentional data-visualization scale: color intensity represents
-// contribution activity rather than generic success/status semantics.
-const levelClass = (level: number) => {
-  switch (level) {
-    case 0:
-      return 'bg-muted';
-    case 1:
-      return 'bg-emerald-900/30 dark:bg-emerald-500/20';
-    case 2:
-      return 'bg-emerald-700/60 dark:bg-emerald-500/40';
-    case 3:
-      return 'bg-emerald-600 dark:bg-emerald-400';
-    case 4:
-    default:
-      return 'bg-emerald-500 dark:bg-emerald-300';
-  }
-};
 
-const levelForCount = (count: number, maxDayCount: number) => {
+const levelForCount = (
+  count: number,
+  maxDayCount: number,
+) => {
   if (count === 0) return 0;
   if (!maxDayCount) return 1;
-  const ratio = count / maxDayCount;
+
+  const ratio =
+    count / maxDayCount;
+
   if (ratio < 0.25) return 1;
   if (ratio < 0.5) return 2;
   if (ratio < 0.75) return 3;
+
   return 4;
 };
 
-function computeMaxCount(calendar: GitHubContributionCalendar | null) {
+function computeMaxCount(
+  calendar:
+    GitHubContributionCalendar | null,
+) {
   if (!calendar) return 0;
-  return calendar.weeks.reduce((max, week) => {
-    const candidate = Math.max(...week.days.map((day) => day.count));
-    return Math.max(max, candidate);
-  }, 0);
+
+  return calendar.weeks.reduce(
+    (max, week) => {
+      const candidate = Math.max(
+        ...week.days.map(
+          (day) => day.count,
+        ),
+      );
+
+      return Math.max(
+        max,
+        candidate,
+      );
+    },
+    0,
+  );
 }
 
-export default function ContributionCalendarCard({ calendar, contributionsThisYear }: Props) {
-  const maxDayCount = computeMaxCount(calendar);
+export default function ContributionCalendarCard({
+  calendar,
+  contributionsThisYear,
+}: Props) {
+  const maxDayCount =
+    computeMaxCount(calendar);
 
   return (
-    <div
-      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-    >
-      <div className="flex items-center justify-between gap-2 text-xs">
-        <span className="font-medium text-muted-foreground">
-          Contribution calendar
-        </span>
-        {calendar && (
-          <span className="text-muted-foreground">
-            {contributionsThisYear.toLocaleString()} contributions
-          </span>
-        )}
+    <section className={styles.panel}>
+      <div className={styles.panelHeading}>
+        <span>CONTRIBUTION CALENDAR</span>
+
+        {calendar ? (
+          <strong>
+            {contributionsThisYear.toLocaleString()}
+          </strong>
+        ) : null}
       </div>
 
       {calendar ? (
-        <div className="mt-3">
-          <div
-            className="grid grid-rows-7 gap-0.5 rounded-control bg-muted/40 p-2"
-            style={{
-              gridTemplateColumns: `repeat(${Math.max(calendar.weeks.length, 1)}, minmax(3px, 1fr))`,
-            }}
-          >
-            {calendar.weeks.flatMap((week, weekIndex) =>
+        <div
+          className={styles.calendar}
+          style={{
+            gridTemplateColumns:
+              `repeat(${Math.max(
+                calendar.weeks.length,
+                1,
+              )}, minmax(3px, 1fr))`,
+          }}
+        >
+          {calendar.weeks.flatMap(
+            (week, weekIndex) =>
               week.days.map((day) => {
-                const level = levelForCount(day.count, maxDayCount);
+                const level =
+                  levelForCount(
+                    day.count,
+                    maxDayCount,
+                  );
+
                 return (
                   <div
                     key={`${weekIndex}-${day.date}`}
-                    className={`h-3 w-3 rounded-[2px] ${levelClass(level)}`}
+                    className={
+                      styles.calendarDay
+                    }
+                    data-level={level}
                     style={{
-                      gridColumnStart: weekIndex + 1,
-                      gridRowStart: day.weekday + 1,
+                      gridColumnStart:
+                        weekIndex + 1,
+                      gridRowStart:
+                        day.weekday + 1,
                     }}
                     title={`${day.date}: ${day.count} contribution${day.count === 1 ? '' : 's'}`}
                   />
                 );
               }),
-            )}
-          </div>
+          )}
         </div>
       ) : (
-        <p className="mt-3 text-sm text-muted-foreground">
-          Calendar data is not available. Check that your GitHub token includes GraphQL read access.
+        <p className={styles.empty}>
+          Contribution calendar data is
+          currently unavailable.
         </p>
       )}
-    </div>
+    </section>
   );
 }

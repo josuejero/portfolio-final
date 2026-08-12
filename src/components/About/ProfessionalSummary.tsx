@@ -1,27 +1,59 @@
-import { BookOpen } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ROLE_LENSES } from '@/data/role-lenses';
+
+import styles from './AboutSections.module.css';
+
+const roleLenses = [
+  ...ROLE_LENSES,
+].sort(
+  (left, right) =>
+    left.presentation.order -
+    right.presentation.order,
+);
 
 export default function ProfessionalSummary() {
   return (
     <section
-      className="space-y-6"
+      className={styles.section}
+      aria-labelledby="background-heading"
     >
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-3xl font-bold">
-            <BookOpen className="h-10 w-10 text-brand" />
-            Professional Background
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-lg text-muted-foreground">
-            Results-oriented Computer Engineering graduate with 7 years of programming experience,
-            including hands-on work in software development, cloud computing, and automation.
-            Demonstrated strong work ethic and time management skills by working part-time to
-            self-finance college education while pursuing a full-time degree.
-          </p>
-        </CardContent>
-      </Card>
+      <div className={styles.sectionIntro}>
+        <span>01 / BACKGROUND</span>
+
+        <h2 id="background-heading">
+          Engineering with a practical
+          bias.
+        </h2>
+      </div>
+
+      <div className={styles.statement}>
+        <p>
+          Computer Engineering graduate
+          with hands-on work spanning
+          software development, cloud
+          computing, and automation.
+          The through-line is practical:
+          build systems that can be tested,
+          explained, and maintained.
+        </p>
+      </div>
+
+      <div className={styles.roleIndex}>
+        {roleLenses.map(
+          (lens, index) => (
+            <div key={lens.id}>
+              <span>
+                {String(
+                  index + 1,
+                ).padStart(2, '0')}
+              </span>
+
+              <strong>
+                {lens.shortLabel}
+              </strong>
+            </div>
+          ),
+        )}
+      </div>
     </section>
   );
 }

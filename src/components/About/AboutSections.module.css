@@ -1,0 +1,373 @@
+.section {
+  padding:
+    clamp(7rem, 11vw, 11rem)
+    0;
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.sectionIntro {
+  display: grid;
+  grid-template-columns:
+    minmax(11rem, 0.35fr)
+    minmax(0, 1.65fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  margin-bottom:
+    clamp(4rem, 7vw, 7rem);
+}
+
+.sectionIntro > span,
+.subLabel,
+.roleIndex span,
+.educationMeta dt,
+.courseList span,
+.skillGroupHeading > span,
+.skillRow > span {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sectionIntro > span,
+.subLabel {
+  color: var(--portfolio-cobalt);
+  font-size: 0.53rem;
+}
+
+.sectionIntro h2 {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(
+    3rem,
+    7vw,
+    7rem
+  );
+  font-weight: 830;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+}
+
+.statement {
+  display: grid;
+  grid-template-columns:
+    minmax(11rem, 0.35fr)
+    minmax(0, 1.65fr);
+  gap: clamp(3rem, 7vw, 8rem);
+}
+
+.statement p {
+  grid-column: 2;
+  max-width: 54rem;
+  margin: 0;
+  font-size: clamp(
+    1.6rem,
+    3vw,
+    3rem
+  );
+  font-weight: 650;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}
+
+.roleIndex {
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+  margin-top:
+    clamp(5rem, 8vw, 8rem);
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.roleIndex > div {
+  min-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.roleIndex > div + div {
+  border-left: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.roleIndex span {
+  color: var(--portfolio-muted);
+  font-size: 0.49rem;
+}
+
+.roleIndex strong {
+  font-size: clamp(
+    1.15rem,
+    1.8vw,
+    1.6rem
+  );
+  letter-spacing: -0.04em;
+}
+
+.educationGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(18rem, 0.75fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  padding:
+    2rem
+    0;
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.degree strong {
+  display: block;
+  max-width: 18ch;
+  font-size: clamp(
+    2rem,
+    4vw,
+    4rem
+  );
+  font-weight: 760;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.degree p {
+  margin: 1.4rem 0 0;
+  color: var(--portfolio-muted);
+}
+
+.educationMeta {
+  margin: 0;
+}
+
+.educationMeta > div {
+  display: grid;
+  grid-template-columns:
+    8rem
+    1fr;
+  gap: 1rem;
+  padding:
+    0.9rem
+    0;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.educationMeta dt {
+  color: var(--portfolio-muted);
+  font-size: 0.48rem;
+}
+
+.educationMeta dd {
+  margin: 0;
+  font-size: 0.83rem;
+}
+
+.coursework {
+  margin-top:
+    clamp(4rem, 7vw, 7rem);
+}
+
+.courseList {
+  margin-top: 1.3rem;
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.courseList > div {
+  display: grid;
+  grid-template-columns:
+    3rem
+    1fr;
+  gap: 1rem;
+  padding:
+    1rem
+    0;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.courseList span,
+.skillGroupHeading > span,
+.skillRow > span {
+  color: var(--portfolio-muted);
+  font-size: 0.48rem;
+}
+
+.courseList strong {
+  font-size: clamp(
+    1rem,
+    1.5vw,
+    1.3rem
+  );
+  font-weight: 620;
+}
+
+.skillGroups {
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.skillGroup {
+  display: grid;
+  grid-template-columns:
+    minmax(13rem, 0.35fr)
+    minmax(0, 1.65fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  padding:
+    2.5rem
+    0;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.skillGroupHeading h3 {
+  margin: 0.8rem 0 0;
+  font-size: clamp(
+    1.5rem,
+    2.8vw,
+    2.6rem
+  );
+  font-weight: 730;
+  letter-spacing: -0.05em;
+}
+
+.skillList {
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.skillRow {
+  display: grid;
+  grid-template-columns:
+    minmax(10rem, 0.5fr)
+    minmax(0, 1.25fr)
+    auto;
+  gap: 1.5rem;
+  align-items: start;
+  padding:
+    1rem
+    0;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.skillRow strong {
+  font-size: 0.95rem;
+}
+
+.skillRow p {
+  margin: 0;
+  color: var(--portfolio-muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.skillRow > span {
+  color: var(--portfolio-cobalt);
+  white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+  .sectionIntro,
+  .statement,
+  .educationGrid,
+  .skillGroup {
+    grid-template-columns: 1fr;
+  }
+
+  .statement p {
+    grid-column: auto;
+  }
+
+  .roleIndex {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .roleIndex {
+    grid-template-columns: 1fr;
+  }
+
+  .roleIndex > div + div {
+    border-left: 0;
+    border-top: 1px solid
+      color-mix(
+        in srgb,
+        var(--portfolio-ink) 18%,
+        transparent
+      );
+  }
+
+  .educationMeta > div,
+  .skillRow {
+    grid-template-columns: 1fr;
+  }
+
+  .skillRow {
+    gap: 0.6rem;
+  }
+}

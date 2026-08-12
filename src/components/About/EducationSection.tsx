@@ -1,12 +1,14 @@
-import { GraduationCap } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import styles from './AboutSections.module.css';
 
 const education = {
-  degree: 'Bachelor of Science in Computer Engineering',
-  school: 'Florida International University (FIU)',
+  degree:
+    'Bachelor of Science in Computer Engineering',
+  school:
+    'Florida International University (FIU)',
   location: 'Miami, Florida',
   graduation: 'July 2024',
-  gpa: "Dean's List (Spring 2020)",
+  recognition:
+    "Dean's List · Spring 2020",
   relevantCourses: [
     'Data Structures',
     'Operating Systems',
@@ -18,44 +20,78 @@ const education = {
     'IoT Security',
     'Deep Learning in ECE',
   ],
-};
+} as const;
 
 export default function EducationSection() {
   return (
     <section
-      className="space-y-6"
+      className={styles.section}
+      aria-labelledby="education-heading"
     >
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-3xl font-bold">
-            <GraduationCap className="h-10 w-10 text-brand" />
-            Education
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className={styles.sectionIntro}>
+        <span>02 / EDUCATION</span>
+
+        <h2 id="education-heading">
+          Computer Engineering.
+        </h2>
+      </div>
+
+      <div className={styles.educationGrid}>
+        <div className={styles.degree}>
+          <strong>
+            {education.degree}
+          </strong>
+
+          <p>{education.school}</p>
+        </div>
+
+        <dl className={styles.educationMeta}>
           <div>
-            <h3 className="text-2xl font-bold mb-2">{education.degree}</h3>
-            <p className="text-muted-foreground">{education.school}</p>
-            <p className="text-muted-foreground">{education.location}</p>
-            <p className="text-muted-foreground">Graduating: {education.graduation}</p>
-            <p className="mt-2 text-brand">{education.gpa}</p>
+            <dt>LOCATION</dt>
+            <dd>
+              {education.location}
+            </dd>
           </div>
 
-          <div className="mt-4">
-            <h4 className="text-xl font-semibold mb-2">Relevant Coursework:</h4>
-            <div className="flex flex-wrap gap-2">
-              {education.relevantCourses.map((course, index) => (
-                <span
-                  key={index}
-                  className="rounded-pill border border-brand/30 bg-brand/10 px-3 py-1 text-sm text-brand"
-                >
-                  {course}
-                </span>
-              ))}
-            </div>
+          <div>
+            <dt>GRADUATED</dt>
+            <dd>
+              {education.graduation}
+            </dd>
           </div>
-        </CardContent>
-      </Card>
+
+          <div>
+            <dt>RECOGNITION</dt>
+            <dd>
+              {education.recognition}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className={styles.coursework}>
+        <span className={styles.subLabel}>
+          SELECTED COURSEWORK
+        </span>
+
+        <div className={styles.courseList}>
+          {education.relevantCourses.map(
+            (course, index) => (
+              <div key={course}>
+                <span>
+                  {String(
+                    index + 1,
+                  ).padStart(2, '0')}
+                </span>
+
+                <strong>
+                  {course}
+                </strong>
+              </div>
+            ),
+          )}
+        </div>
+      </div>
     </section>
   );
 }

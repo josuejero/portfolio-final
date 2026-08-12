@@ -10,6 +10,8 @@ import {
 
 import type { CommitActivity } from '@/types/github';
 
+import styles from '../GithubActivity.module.css';
+
 const CommitActivityCard = lazy(
   () => import('./CommitActivityCard'),
 );
@@ -20,67 +22,72 @@ interface Props {
 
 function CommitActivityPlaceholder() {
   return (
-    <div
-      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
+    <section
+      className={styles.panel}
       aria-busy="true"
       aria-label="Commit activity chart loading"
     >
-      <div className="space-y-1">
-        <p className="text-sm font-medium">
-          Commit activity
-        </p>
-
-        <p className="text-xs text-muted-foreground">
-          Last 12 months across your own repositories
-        </p>
+      <div className={styles.panelHeading}>
+        <span>COMMIT ACTIVITY</span>
+        <strong>LOADING</strong>
       </div>
 
-      <div className="mt-4 flex h-56 items-center justify-center rounded-control bg-muted/30 px-4 text-center">
-        <p className="text-xs text-muted-foreground">
-          The commit chart loads as this section approaches the viewport.
-        </p>
+      <div className={styles.chartPlaceholder}>
+        The commit chart loads as this
+        section approaches the viewport.
       </div>
-    </div>
+    </section>
   );
 }
 
 export default function DeferredCommitActivityCard({
   commitActivity,
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const containerRef =
+    useRef<HTMLDivElement>(null);
+
+  const [shouldLoad, setShouldLoad] =
+    useState(false);
 
   useEffect(() => {
     if (shouldLoad) {
       return;
     }
 
-    const element = containerRef.current;
+    const element =
+      containerRef.current;
 
     if (!element) {
       return;
     }
 
-    if (!('IntersectionObserver' in window)) {
+    if (
+      !(
+        'IntersectionObserver' in
+        window
+      )
+    ) {
       setShouldLoad(true);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries.some(
-            (entry) => entry.isIntersecting,
-          )
-        ) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: '300px 0px',
-      },
-    );
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+          if (
+            entries.some(
+              (entry) =>
+                entry.isIntersecting,
+            )
+          ) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        },
+        {
+          rootMargin: '300px 0px',
+        },
+      );
 
     observer.observe(element);
 
@@ -98,7 +105,9 @@ export default function DeferredCommitActivityCard({
           }
         >
           <CommitActivityCard
-            commitActivity={commitActivity}
+            commitActivity={
+              commitActivity
+            }
           />
         </Suspense>
       ) : (

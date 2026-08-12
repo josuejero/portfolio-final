@@ -2,11 +2,16 @@
 
 import type { GitHubActivityItem } from '@/types/github';
 
+import styles from '../GithubActivity.module.css';
+
 interface Props {
-  activity: GitHubActivityItem[];
+  activity:
+    GitHubActivityItem[];
 }
 
-const labelForActivityType = (type: string) => {
+const labelForActivityType = (
+  type: string,
+) => {
   switch (type) {
     case 'PR_MERGED':
       return 'Merged PR';
@@ -21,59 +26,72 @@ const labelForActivityType = (type: string) => {
   }
 };
 
-export default function ActivityFeedCard({ activity }: Props) {
-  const recentActivity = activity.slice(0, 8);
+export default function ActivityFeedCard({
+  activity,
+}: Props) {
+  const recentActivity =
+    activity.slice(0, 8);
 
   return (
-    <div
-      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-    >
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-brand/10 text-brand">
-            <span className="text-xs">*</span>
-          </span>
-          <div>
-            <p className="text-sm font-medium">Recent activity</p>
-            <p className="text-xs text-muted-foreground">
-              Latest PRs, issues, and repositories
-            </p>
-          </div>
-        </div>
+    <section className={styles.panel}>
+      <div className={styles.panelHeading}>
+        <span>RECENT ACTIVITY</span>
+        <strong>
+          {String(
+            recentActivity.length,
+          ).padStart(2, '0')}
+        </strong>
       </div>
 
       {recentActivity.length > 0 ? (
-        <ul className="mt-4 space-y-3 text-sm">
-          {recentActivity.map((item) => (
-            <li key={`${item.type}-${item.id}`} className="flex gap-3">
-              <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-pill bg-brand" />
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-1 text-xs">
-                  <span className="font-medium">{labelForActivityType(item.type)}</span>
-                  <span className="text-muted-foreground">
-                    in <span className="font-mono">{item.repoName}</span>
-                  </span>
+        <ol className={styles.activityList}>
+          {recentActivity.map(
+            (item, index) => (
+              <li
+                key={`${item.type}-${item.id}`}
+              >
+                <span>
+                  {String(
+                    index + 1,
+                  ).padStart(2, '0')}
+                </span>
+
+                <div>
+                  <strong>
+                    {labelForActivityType(
+                      item.type,
+                    )}
+                  </strong>
+
+                  <p>
+                    {item.repoName}
+                  </p>
+
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {item.title}
+                    {' '}↗
+                  </a>
+
+                  <time>
+                    {new Date(
+                      item.date,
+                    ).toLocaleString()}
+                  </time>
                 </div>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="line-clamp-1 text-xs text-brand hover:underline"
-                >
-                  {item.title}
-                </a>
-                <p className="text-[11px] text-muted-foreground">
-                  {new Date(item.date).toLocaleString()}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ),
+          )}
+        </ol>
       ) : (
-        <p className="mt-4 text-sm text-muted-foreground">
-          No recent GitHub activity from this account that can be shown yet.
+        <p className={styles.empty}>
+          No recent GitHub activity
+          available.
         </p>
       )}
-    </div>
+    </section>
   );
 }

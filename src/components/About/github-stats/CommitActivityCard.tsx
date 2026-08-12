@@ -1,55 +1,101 @@
 'use client';
 
 import type { CommitActivity } from '@/types/github';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+
+import styles from '../GithubActivity.module.css';
 
 interface Props {
   commitActivity: CommitActivity[];
 }
 
-export default function CommitActivityCard({ commitActivity }: Props) {
+export default function CommitActivityCard({
+  commitActivity,
+}: Props) {
   return (
-    <div
-      className="rounded-surface border border-border/60 bg-card/50 p-4 shadow-soft"
-    >
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-brand/10 text-brand">
-            <span className="text-xs">&lt;/&gt;</span>
-          </span>
-          <div>
-            <p className="text-sm font-medium">Commit activity</p>
-            <p className="text-xs text-muted-foreground">
-              Last 12 months across your own repositories
-            </p>
-          </div>
-        </div>
+    <section className={styles.panel}>
+      <div className={styles.panelHeading}>
+        <span>COMMIT ACTIVITY</span>
+
+        <strong>
+          12 MONTHS
+        </strong>
       </div>
 
-      <div className="mt-4 h-56 w-full">
+      <div className={styles.chart}>
         {commitActivity.length > 0 ? (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={commitActivity}>
-              <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="month" tick={{ fontSize: 11 }} interval={1} tickLine={false} />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
-              <Tooltip contentStyle={{ fontSize: 12 }} />
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+            <LineChart
+              data={commitActivity}
+            >
+              <CartesianGrid
+                stroke="rgba(241, 237, 228, 0.14)"
+                strokeDasharray="3 3"
+                vertical={false}
+              />
+
+              <XAxis
+                dataKey="month"
+                tick={{
+                  fontSize: 11,
+                  fill:
+                    'rgba(241, 237, 228, 0.55)',
+                }}
+                interval={1}
+                tickLine={false}
+                axisLine={false}
+              />
+
+              <YAxis
+                tick={{
+                  fontSize: 11,
+                  fill:
+                    'rgba(241, 237, 228, 0.55)',
+                }}
+                tickLine={false}
+                axisLine={false}
+                allowDecimals={false}
+              />
+
+              <Tooltip
+                contentStyle={{
+                  fontSize: 12,
+                  background: '#f1ede4',
+                  border: '0',
+                  color: '#11120f',
+                }}
+              />
+
               <Line
                 type="monotone"
                 dataKey="commits"
-                stroke="hsl(var(--brand))"
+                stroke="#d8ff43"
                 strokeWidth={2}
                 dot={false}
-                activeDot={{ r: 4 }}
+                activeDot={{
+                  r: 4,
+                }}
               />
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            No recent commits found for this account.
+          <p className={styles.empty}>
+            No recent commits found for
+            this account.
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }
