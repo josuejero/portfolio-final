@@ -1,0 +1,881 @@
+.chapter {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--portfolio-ink);
+  color: var(--portfolio-bone);
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 16%,
+      transparent
+    );
+}
+
+.chapter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: clamp(1rem, 2.8vw, 3rem);
+  right: clamp(1rem, 2.8vw, 3rem);
+  height: 2px;
+  background: var(--portfolio-cobalt);
+}
+
+.chapterInner {
+  width: 100%;
+  padding:
+    clamp(4.5rem, 8vw, 8rem)
+    clamp(1rem, 2.8vw, 3rem)
+    clamp(5rem, 8vw, 8rem);
+}
+
+.chapterMeta {
+  display: grid;
+  grid-template-columns:
+    minmax(5rem, 0.4fr)
+    1fr
+    auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 16%,
+      transparent
+    );
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 58%,
+    transparent
+  );
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.titleGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(18rem, 0.55fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: end;
+  padding:
+    clamp(3rem, 6vw, 6rem)
+    0
+    clamp(4rem, 8vw, 8rem);
+}
+
+.projectName {
+  margin: 0;
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    5.2rem,
+    15.6vw,
+    16.5rem
+  );
+  font-weight: 860;
+  letter-spacing: -0.085em;
+  line-height: 0.72;
+  text-transform: uppercase;
+  transform-origin: left center;
+}
+
+.summaryBlock {
+  max-width: 33rem;
+  padding-bottom: 0.45rem;
+}
+
+.summaryLabel,
+.panelLabel,
+.endLabel {
+  margin: 0;
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 55%,
+    transparent
+  );
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.61rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.summary {
+  margin: 1rem 0 0;
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    1rem,
+    1.35vw,
+    1.3rem
+  );
+  font-weight: 540;
+  letter-spacing: -0.025em;
+  line-height: 1.38;
+}
+
+.systemGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(15rem, 0.55fr)
+    minmax(0, 1.45fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: stretch;
+}
+
+.flowPanel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelLabel {
+  margin-bottom: 1.25rem;
+}
+
+.flowSteps {
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.flowButton {
+  width: 100%;
+  min-height: 4.8rem;
+  display: grid;
+  grid-template-columns:
+    2.1rem
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+  background: transparent;
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 48%,
+    transparent
+  );
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    color 180ms ease,
+    padding-left 180ms ease,
+    background 180ms ease;
+}
+
+.flowButton:hover,
+.flowButton:focus-visible {
+  color: var(--portfolio-bone);
+  padding-left: 0.4rem;
+}
+
+.flowButton:focus-visible {
+  outline: 2px solid
+    var(--portfolio-acid);
+  outline-offset: 3px;
+}
+
+.flowButtonActive {
+  color: var(--portfolio-bone);
+  background: color-mix(
+    in srgb,
+    var(--portfolio-bone) 4%,
+    transparent
+  );
+}
+
+.flowIndex,
+.flowState {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.57rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+}
+
+.flowIndex {
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 42%,
+    transparent
+  );
+}
+
+.flowLabel {
+  font-size: clamp(
+    1rem,
+    1.4vw,
+    1.25rem
+  );
+  font-weight: 720;
+  letter-spacing: -0.035em;
+}
+
+.flowState {
+  color: var(--portfolio-acid);
+}
+
+.progressTrack {
+  position: relative;
+  height: 1px;
+  margin-top: 2rem;
+  background: color-mix(
+    in srgb,
+    var(--portfolio-bone) 20%,
+    transparent
+  );
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--portfolio-cobalt);
+  transition: width 320ms ease;
+}
+
+.progressMarker {
+  position: absolute;
+  top: 50%;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid
+    var(--portfolio-ink);
+  border-radius: 50%;
+  background: var(--portfolio-acid);
+  box-shadow:
+    0 0 0 1px
+    var(--portfolio-acid);
+  transform:
+    translate(-50%, -50%);
+  transition: left 320ms ease;
+}
+
+.proofRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: auto;
+  padding-top: clamp(3rem, 6vw, 7rem);
+}
+
+.proof {
+  min-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding:
+    1.2rem
+    1rem
+    1rem
+    0;
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.proof + .proof {
+  padding-left: 1rem;
+  border-left: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.proof strong {
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    2.8rem,
+    5vw,
+    5.4rem
+  );
+  font-weight: 820;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+}
+
+.proof span {
+  margin-top: 0.85rem;
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 52%,
+    transparent
+  );
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.55rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+.workspace {
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 22%,
+      transparent
+    );
+  background: color-mix(
+    in srgb,
+    var(--portfolio-bone) 3%,
+    transparent
+  );
+}
+
+.workspace::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 66.666%;
+  width: 1px;
+  background: color-mix(
+    in srgb,
+    var(--portfolio-bone) 12%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.workspaceHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(
+    1.25rem,
+    2.4vw,
+    2.25rem
+  );
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.workspaceEyebrow,
+.dataLabel,
+.workspaceFooter,
+.queueBadge span,
+.queueBadge strong {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.workspaceEyebrow,
+.dataLabel,
+.queueBadge span {
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 52%,
+    transparent
+  );
+  font-size: 0.56rem;
+}
+
+.workspaceHeader h3 {
+  margin: 0.6rem 0 0;
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    2rem,
+    4.7vw,
+    5.4rem
+  );
+  font-weight: 780;
+  letter-spacing: -0.065em;
+  line-height: 0.9;
+}
+
+.queueBadge {
+  flex: 0 0 auto;
+  min-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.queueBadge strong {
+  margin-top: 0.55rem;
+  color: var(--portfolio-acid);
+  font-size: 0.68rem;
+}
+
+.workspaceBody {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: grid;
+  grid-template-columns:
+    1fr
+    minmax(10rem, 0.65fr);
+}
+
+.contactBlock,
+.scoreBlock,
+.attributeGrid,
+.systemNote {
+  padding: clamp(
+    1.25rem,
+    2.4vw,
+    2.25rem
+  );
+}
+
+.contactBlock {
+  min-height: 13rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-right: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.contactBlock strong {
+  margin-top: 1.25rem;
+  font-size: clamp(
+    1.6rem,
+    3vw,
+    3.2rem
+  );
+  font-weight: 730;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.dataSecondary {
+  margin-top: 0.45rem;
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 55%,
+    transparent
+  );
+  font-size: 0.82rem;
+}
+
+.scoreBlock {
+  min-height: 13rem;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.score {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--portfolio-acid);
+  font-size: clamp(
+    4rem,
+    8.5vw,
+    8.5rem
+  );
+  font-weight: 830;
+  letter-spacing: -0.085em;
+  line-height: 0.78;
+}
+
+.scoreScale {
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 45%,
+    transparent
+  );
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-size: 0.58rem;
+}
+
+.attributeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  border-right: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.attributeGrid > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.attributeGrid strong {
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    1rem,
+    1.6vw,
+    1.35rem
+  );
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.systemNote {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.systemNote p {
+  margin: 0;
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    0.95rem,
+    1.35vw,
+    1.18rem
+  );
+  font-weight: 520;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.workspaceFooter {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem
+    clamp(
+      1.25rem,
+      2.4vw,
+      2.25rem
+    );
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+  color: color-mix(
+    in srgb,
+    var(--portfolio-bone) 42%,
+    transparent
+  );
+  font-size: 0.5rem;
+}
+
+.workspaceFooter span:nth-child(2) {
+  text-align: center;
+}
+
+.workspaceFooter span:last-child {
+  text-align: right;
+}
+
+.chapterEnd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3rem;
+  margin-top: clamp(
+    5rem,
+    9vw,
+    10rem
+  );
+  padding-top: 1.25rem;
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-bone) 18%,
+      transparent
+    );
+}
+
+.endCopy {
+  max-width: 39rem;
+  margin: 0.85rem 0 0;
+  color: var(--portfolio-bone);
+  font-size: clamp(
+    1rem,
+    1.45vw,
+    1.3rem
+  );
+  font-weight: 530;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+}
+
+.caseStudyLink {
+  flex: 0 0 auto;
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 2px solid
+    var(--portfolio-acid);
+  color: var(--portfolio-bone);
+  font-size: 0.78rem;
+  font-weight: 720;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.caseStudyLink span {
+  color: var(--portfolio-acid);
+  transition: transform 180ms ease;
+}
+
+.caseStudyLink:hover span,
+.caseStudyLink:focus-visible span {
+  transform:
+    translate(
+      0.18rem,
+      -0.18rem
+    );
+}
+
+.caseStudyLink:focus-visible {
+  outline: 2px solid
+    var(--portfolio-acid);
+  outline-offset: 4px;
+}
+
+@supports (
+  animation-timeline: view()
+) {
+  .projectName {
+    animation:
+      hostdesk-name linear both;
+    animation-timeline: view();
+    animation-range:
+      entry 0%
+      cover 32%;
+  }
+
+  .workspace {
+    animation:
+      hostdesk-workspace linear both;
+    animation-timeline: view();
+    animation-range:
+      entry 4%
+      cover 32%;
+  }
+}
+
+@keyframes hostdesk-name {
+  from {
+    opacity: 0.25;
+    transform: translateX(-4vw);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hostdesk-workspace {
+  from {
+    opacity: 0.2;
+    transform: translateY(4rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .titleGrid,
+  .systemGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .titleGrid {
+    gap: 2.5rem;
+  }
+
+  .summaryBlock {
+    max-width: 42rem;
+  }
+
+  .flowPanel {
+    max-width: 42rem;
+  }
+
+  .proofRow {
+    padding-top: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chapterInner {
+    padding:
+      4.5rem
+      1rem
+      5rem;
+  }
+
+  .chapterMeta {
+    grid-template-columns:
+      auto
+      1fr;
+  }
+
+  .chapterMeta span:nth-child(2) {
+    display: none;
+  }
+
+  .chapterMeta span:last-child {
+    text-align: right;
+  }
+
+  .titleGrid {
+    padding:
+      3.5rem
+      0
+      4.5rem;
+  }
+
+  .projectName {
+    font-size: clamp(
+      5rem,
+      25vw,
+      8rem
+    );
+    line-height: 0.76;
+    overflow-wrap: anywhere;
+  }
+
+  .flowButton {
+    min-height: 4.4rem;
+  }
+
+  .workspaceHeader {
+    align-items: flex-start;
+  }
+
+  .workspaceHeader h3 {
+    font-size: clamp(
+      2.15rem,
+      10vw,
+      4rem
+    );
+  }
+
+  .queueBadge {
+    min-width: 7.5rem;
+  }
+
+  .workspaceBody {
+    grid-template-columns: 1fr;
+  }
+
+  .contactBlock,
+  .scoreBlock,
+  .attributeGrid {
+    border-right: 0;
+  }
+
+  .attributeGrid,
+  .systemNote {
+    border-bottom: 1px solid
+      color-mix(
+        in srgb,
+        var(--portfolio-bone) 18%,
+        transparent
+      );
+  }
+
+  .workspace::before {
+    display: none;
+  }
+
+  .workspaceFooter {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceFooter span,
+  .workspaceFooter span:nth-child(2),
+  .workspaceFooter span:last-child {
+    text-align: left;
+  }
+
+  .chapterEnd {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flowButton,
+  .progressFill,
+  .progressMarker,
+  .caseStudyLink span {
+    transition: none;
+  }
+
+  .projectName,
+  .workspace {
+    animation: none;
+  }
+}
