@@ -84,7 +84,7 @@ function filePreview(
     file?.content?.trim();
 
   if (!content) {
-    return 'Preview unavailable in the GitHub list response.';
+    return 'Open on GitHub to inspect the source.';
   }
 
   return content.length > 260
@@ -324,9 +324,9 @@ export default function SnippetsGallery() {
           </div>
 
           <p>
-            Select an entry to inspect
-            the source without leaving
-            the portfolio.
+            Inspect inline source when
+            available, or open the
+            original Gist on GitHub.
           </p>
         </div>
 
@@ -399,6 +399,15 @@ export default function SnippetsGallery() {
                     files[0],
                   );
 
+                const canInspect =
+                  files.some(
+                    (file) =>
+                      Boolean(
+                        file.content
+                          ?.trim(),
+                      ),
+                  );
+
                 return (
                   <article
                     key={gist.id}
@@ -424,21 +433,36 @@ export default function SnippetsGallery() {
                         styles.gistMain
                       }
                     >
-                      <button
-                        type="button"
-                        className={
-                          styles.gistTitle
-                        }
-                        onClick={() =>
-                          setSelectedGist(
+                      {canInspect ? (
+                        <button
+                          type="button"
+                          className={
+                            styles.gistTitle
+                          }
+                          onClick={() =>
+                            setSelectedGist(
+                              gist,
+                            )
+                          }
+                        >
+                          {gistTitle(
                             gist,
-                          )
-                        }
-                      >
-                        {gistTitle(
-                          gist,
-                        )}
-                      </button>
+                          )}
+                        </button>
+                      ) : (
+                        <a
+                          className={
+                            styles.gistTitle
+                          }
+                          href={gist.html_url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {gistTitle(
+                            gist,
+                          )}
+                        </a>
+                      )}
 
                       <pre
                         className={
@@ -504,21 +528,23 @@ export default function SnippetsGallery() {
                           styles.actions
                         }
                       >
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedGist(
-                              gist,
-                            )
-                          }
-                        >
-                          Inspect
-                          <span
-                            aria-hidden="true"
+                        {canInspect ? (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedGist(
+                                gist,
+                              )
+                            }
                           >
-                            →
-                          </span>
-                        </button>
+                            Inspect
+                            <span
+                              aria-hidden="true"
+                            >
+                              →
+                            </span>
+                          </button>
+                        ) : null}
 
                         <a
                           href={
@@ -695,7 +721,7 @@ export default function SnippetsGallery() {
                       }
                     >
                       {file.content ||
-                        'Source content is not included in this GitHub list response. Open the Gist on GitHub to inspect the complete file.'}
+                        'Open this Gist on GitHub to inspect the complete source file.'}
                     </pre>
                   </section>
                 ),

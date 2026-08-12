@@ -389,7 +389,6 @@ export default function ProjectDetail({
             <span>
               REPOSITORY DOCUMENTATION
             </span>
-
             <h2
               id="repository-readme-heading"
             >
@@ -398,19 +397,37 @@ export default function ProjectDetail({
           </div>
 
           <p>
-            Original repository
-            documentation preserved for
-            deeper technical inspection.
+            Full repository documentation is
+            available on demand for deeper
+            technical inspection.
           </p>
         </div>
 
-        <ProjectReadme
-          readme={readme}
-          readmeLoading={readmeLoading}
-          readmeError={readmeError}
-          repoUrl={repoUrl}
-          urlTransform={urlTransform}
-        />
+        <details
+          className={styles.readmeDisclosure}
+        >
+          <summary
+            className={styles.readmeSummary}
+          >
+            <span>
+              Expand full repository README
+            </span>
+
+            <span aria-hidden="true">
+              ＋
+            </span>
+          </summary>
+
+          <div className={styles.readmeBody}>
+            <ProjectReadme
+              readme={readme}
+              readmeLoading={readmeLoading}
+              readmeError={readmeError}
+              repoUrl={repoUrl}
+              urlTransform={urlTransform}
+            />
+          </div>
+        </details>
       </section>
 
       <footer className={styles.pageEnd}>

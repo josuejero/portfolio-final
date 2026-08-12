@@ -127,7 +127,10 @@
   font-weight: 880;
   letter-spacing: -0.09em;
   line-height: 0.75;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
   text-transform: uppercase;
 }
 
@@ -166,7 +169,7 @@
   border-bottom: 2px solid
     var(--detail-accent);
   color: var(--portfolio-ink);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 720;
   text-decoration: none;
 }
@@ -309,9 +312,9 @@ a.evidenceEntry:focus-visible {
 
 .documentation {
   padding:
-    clamp(7rem, 11vw, 11rem)
+    clamp(5rem, 8vw, 8rem)
     0
-    clamp(6rem, 10vw, 10rem);
+    clamp(4rem, 7vw, 7rem);
   border-top: 1px solid
     var(--detail-line);
 }
@@ -324,7 +327,7 @@ a.evidenceEntry:focus-visible {
   gap: clamp(3rem, 7vw, 8rem);
   align-items: end;
   margin-bottom:
-    clamp(4rem, 7vw, 7rem);
+    clamp(2.5rem, 4vw, 4rem);
 }
 
 .documentationHeading span {
@@ -352,6 +355,66 @@ a.evidenceEntry:focus-visible {
   line-height: 1.5;
 }
 
+.readmeDisclosure {
+  border-top: 1px solid
+    var(--detail-line);
+  border-bottom: 1px solid
+    var(--detail-line);
+}
+
+.readmeSummary {
+  min-height: 5.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  color: var(--portfolio-ink);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 720;
+}
+
+.readmeSummary::-webkit-details-marker {
+  display: none;
+}
+
+.readmeSummary::marker {
+  content: '';
+}
+
+.readmeSummary span:last-child {
+  color: var(--detail-accent);
+  font-size: 1.45rem;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.readmeDisclosure[open]
+.readmeSummary span:last-child {
+  transform: rotate(45deg);
+}
+
+.readmeSummary:hover,
+.readmeSummary:focus-visible {
+  color: var(--detail-accent);
+}
+
+.readmeSummary:focus-visible {
+  outline: 2px solid
+    var(--detail-accent);
+  outline-offset: 4px;
+}
+
+.readmeBody {
+  padding:
+    clamp(2.5rem, 4vw, 4rem)
+    0
+    clamp(3rem, 6vw, 6rem);
+  border-top: 1px solid
+    var(--detail-line);
+}
+
 .pageEnd {
   display: flex;
   justify-content: space-between;
@@ -368,7 +431,7 @@ a.evidenceEntry:focus-visible {
   align-items: center;
   padding-bottom: 0.25rem;
   color: var(--portfolio-ink);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 720;
   text-decoration: none;
 }
@@ -468,7 +531,8 @@ a.evidenceEntry:focus-visible {
 @media (
   prefers-reduced-motion: reduce
 ) {
-  a.evidenceEntry {
+  a.evidenceEntry,
+  .readmeSummary span:last-child {
     transition: none;
   }
 

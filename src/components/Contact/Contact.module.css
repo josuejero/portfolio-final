@@ -55,11 +55,11 @@
     minmax(18rem, 0.45fr);
   gap: clamp(3rem, 7vw, 8rem);
   align-items: end;
-  min-height: min(76svh, 58rem);
+  min-height: min(62svh, 46rem);
   padding:
-    clamp(4rem, 7vw, 7rem)
+    clamp(3rem, 5vw, 5rem)
     0
-    clamp(5rem, 8vw, 8rem);
+    clamp(3.5rem, 5vw, 5rem);
 }
 
 .kicker {
@@ -128,6 +128,45 @@
   font-size: 0.52rem;
 }
 
+.heroCta {
+  min-height: 3.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  border: 1px solid
+    var(--portfolio-ink);
+  color: var(--portfolio-ink);
+  font-size: 0.8rem;
+  font-weight: 720;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.heroCta span:last-child {
+  color: var(--portfolio-cobalt);
+  font-size: 1rem;
+}
+
+.heroCta:hover,
+.heroCta:focus-visible {
+  background: var(--portfolio-ink);
+  color: var(--portfolio-bone);
+}
+
+.heroCta:focus-visible {
+  outline: 2px solid
+    var(--portfolio-cobalt);
+  outline-offset: 3px;
+}
+
+.formColumn {
+  scroll-margin-top: 7rem;
+}
+
 .contactGrid {
   display: grid;
   grid-template-columns:
@@ -135,7 +174,7 @@
     minmax(17rem, 0.55fr);
   gap: clamp(4rem, 8vw, 10rem);
   padding:
-    clamp(6rem, 10vw, 10rem)
+    clamp(4rem, 7vw, 7rem)
     0;
   border-top: 1px solid
     var(--contact-line);
@@ -362,7 +401,8 @@
 @media (
   prefers-reduced-motion: reduce
 ) {
-  .profileLinks a {
+  .profileLinks a,
+  .heroCta {
     transition: none;
   }
 

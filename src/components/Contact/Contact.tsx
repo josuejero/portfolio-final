@@ -40,6 +40,16 @@ export default function Contact() {
               trying to move forward.
             </p>
 
+            <a
+              href="#contact-form"
+              className={styles.heroCta}
+            >
+              <span>Start message</span>
+              <span aria-hidden="true">
+                ↓
+              </span>
+            </a>
+
             <span>
               BUILD / TEST / DATA / PLATFORM
             </span>
@@ -48,7 +58,10 @@ export default function Contact() {
       </header>
 
       <div className={styles.contactGrid}>
-        <div className={styles.formColumn}>
+        <div
+          id="contact-form"
+          className={styles.formColumn}
+        >
           <div className={styles.sectionHeading}>
             <span>01 / MESSAGE</span>
 

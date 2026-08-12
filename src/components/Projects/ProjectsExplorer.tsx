@@ -490,14 +490,24 @@ function ProjectIndexRow({
       <div className={styles.projectMain}>
         <div className={styles.projectTitleLine}>
           <h3>
-            <Link
-              prefetch={false}
-              href={`/projects/${encodeURIComponent(
-                project.slug,
-              )}`}
-            >
-              {project.name}
-            </Link>
+            {project.catalogProject ? (
+              <Link
+                prefetch={false}
+                href={`/projects/${encodeURIComponent(
+                  project.slug,
+                )}`}
+              >
+                {project.name}
+              </Link>
+            ) : (
+              <a
+                href={project.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.name}
+              </a>
+            )}
           </h3>
 
           {project.catalogProject
@@ -556,17 +566,19 @@ function ProjectIndexRow({
         </div>
 
         <div className={styles.projectActions}>
-          <Link
-            prefetch={false}
-            href={`/projects/${encodeURIComponent(
-              project.slug,
-            )}`}
-          >
-            Inspect
-            <span aria-hidden="true">
-              →
-            </span>
-          </Link>
+          {project.catalogProject ? (
+            <Link
+              prefetch={false}
+              href={`/projects/${encodeURIComponent(
+                project.slug,
+              )}`}
+            >
+              Inspect
+              <span aria-hidden="true">
+                →
+              </span>
+            </Link>
+          ) : null}
 
           <a
             href={project.sourceUrl}
