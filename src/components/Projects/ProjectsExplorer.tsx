@@ -1,44 +1,61 @@
 'use client';
 
-import type { GitHubRepositorySummary } from '@/types/github';
-import type { RoleLens } from '@/types/role-lens';
-import {
-  getDefaultRoleLens,
-  getRoleLensBySlug,
-  ROLE_LENSES,
-} from '@/data/role-lenses';
-import { partitionRepositoriesForRoleLens } from '@/lib/projects/role-lens';
-import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import {
   useEffect,
   useMemo,
   useState,
 } from 'react';
 
-import ProjectExplorerCard from './ProjectExplorerCard';
+import {
+  getDefaultRoleLens,
+  getRoleLensBySlug,
+  ROLE_LENSES,
+} from '@/data/role-lenses';
+import { getFeaturedProjects } from '@/data/projects';
+import { partitionRepositoriesForRoleLens } from '@/lib/projects/role-lens';
+import { toRepositoryProjectViewModel } from '@/lib/projects/view-model';
+import type { GitHubRepositorySummary } from '@/types/github';
+import type { RoleLens } from '@/types/role-lens';
 
-const orderedRoleLenses = [...ROLE_LENSES].sort(
+import { formatDate } from './project-detail-utils';
+import styles from './ProjectsExplorer.module.css';
+
+const orderedRoleLenses = [
+  ...ROLE_LENSES,
+].sort(
   (left, right) =>
-    left.presentation.order - right.presentation.order,
+    left.presentation.order -
+    right.presentation.order,
 );
 
 const defaultRoleLens =
-  getDefaultRoleLens() ?? orderedRoleLenses[0];
+  getDefaultRoleLens() ??
+  orderedRoleLenses[0];
+
+const featuredProjectCount =
+  getFeaturedProjects().length;
 
 export default function ProjectsExplorer() {
   const [repos, setRepos] =
     useState<GitHubRepositorySummary[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] =
+    useState(true);
+
   const [error, setError] =
     useState<string | null>(null);
 
   const [activeLens, setActiveLens] =
-    useState<RoleLens | undefined>(defaultRoleLens);
+    useState<RoleLens | undefined>(
+      defaultRoleLens,
+    );
 
   useEffect(() => {
-    const requestedSlug = new URLSearchParams(
-      window.location.search,
-    ).get('lens');
+    const requestedSlug =
+      new URLSearchParams(
+        window.location.search,
+      ).get('lens');
 
     if (!requestedSlug) {
       return;
@@ -70,7 +87,8 @@ export default function ProjectsExplorer() {
           );
         }
 
-        const data: GitHubRepositorySummary[] =
+        const data:
+          GitHubRepositorySummary[] =
           await response.json();
 
         if (!cancelled) {
@@ -112,12 +130,18 @@ export default function ProjectsExplorer() {
     );
   }, [activeLens, repos]);
 
-  const selectLens = (lens: RoleLens) => {
+  const selectLens = (
+    lens: RoleLens,
+  ) => {
     setActiveLens(lens);
 
-    const url = new URL(window.location.href);
+    const url =
+      new URL(window.location.href);
 
-    url.searchParams.set('lens', lens.slug);
+    url.searchParams.set(
+      'lens',
+      lens.slug,
+    );
 
     window.history.replaceState(
       null,
@@ -127,33 +151,81 @@ export default function ProjectsExplorer() {
   };
 
   return (
-    <section className="space-y-8">
-      <header className="space-y-5">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Projects
-            </h1>
+    <section className={styles.page}>
+      <header className={styles.hero}>
+        <div className={styles.heroMeta}>
+          <span>WORK INDEX</span>
 
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Explore my public GitHub repositories through
-              role-focused views with live repository data.
-            </p>
-          </div>
+          <span>
+            {featuredProjectCount}
+            {' '}FLAGSHIP SYSTEMS
+          </span>
 
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <CodeBracketIcon className="h-4 w-4" />
-            <span>{repos.length} repositories</span>
-          </div>
+          <span>
+            LIVE GITHUB DATA
+          </span>
         </div>
 
-        <div className="space-y-3">
-          <div
-            role="group"
-            aria-label="Project role lens"
-            className="flex flex-wrap gap-2"
+        <div className={styles.heroGrid}>
+          <div>
+            <p className={styles.heroKicker}>
+              SHIPPED WORK / EVIDENCE /
+              SOURCE
+            </p>
+
+            <h1 className={styles.heroTitle}>
+              PROJECTS
+            </h1>
+          </div>
+
+          <div className={styles.heroAside}>
+            <p>
+              A role-aware index of systems,
+              QA evidence, data tooling, and
+              public engineering work.
+            </p>
+
+            <div className={styles.repoCount}>
+              <strong>
+                {loading
+                  ? '—'
+                  : repos.length}
+              </strong>
+
+              <span>
+                PUBLIC REPOSITORIES
+              </span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section
+        className={styles.lensSection}
+        aria-labelledby="project-lens-heading"
+      >
+        <div className={styles.lensIntro}>
+          <span
+            id="project-lens-heading"
+            className={styles.sectionLabel}
           >
-            {orderedRoleLenses.map((lens) => {
+            ROLE LENS
+          </span>
+
+          <p>
+            Reorder the index around the
+            work most relevant to a hiring
+            context.
+          </p>
+        </div>
+
+        <div
+          className={styles.lensGrid}
+          role="group"
+          aria-label="Project role lens"
+        >
+          {orderedRoleLenses.map(
+            (lens, index) => {
               const selected =
                 activeLens?.id === lens.id;
 
@@ -162,117 +234,365 @@ export default function ProjectsExplorer() {
                   key={lens.id}
                   type="button"
                   aria-pressed={selected}
-                  onClick={() => selectLens(lens)}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                  className={[
+                    styles.lensButton,
                     selected
-                      ? 'border-brand bg-brand/10 text-brand'
-                      : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
-                  }`}
+                      ? styles.lensButtonActive
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  onClick={() =>
+                    selectLens(lens)
+                  }
                 >
-                  {lens.shortLabel}
+                  <span
+                    className={
+                      styles.lensIndex
+                    }
+                    aria-hidden="true"
+                  >
+                    {String(
+                      index + 1,
+                    ).padStart(2, '0')}
+                  </span>
+
+                  <strong>
+                    {lens.shortLabel}
+                  </strong>
+
+                  <span
+                    className={
+                      styles.lensArrow
+                    }
+                    aria-hidden="true"
+                  >
+                    ↗
+                  </span>
                 </button>
               );
-            })}
-          </div>
+            },
+          )}
+        </div>
 
-          {activeLens && (
-            <p className="max-w-3xl text-sm text-muted-foreground">
+        {activeLens ? (
+          <div className={styles.lensSummary}>
+            <span>
+              {activeLens.label}
+            </span>
+
+            <p>
               {activeLens.summary}
             </p>
-          )}
-        </div>
-      </header>
+          </div>
+        ) : null}
+      </section>
 
-      {error && (
-        <div className="rounded-control border border-destructive/40 bg-destructive/10 p-3 text-sm text-foreground">
-          {error}
+      {error ? (
+        <div
+          className={styles.error}
+          role="status"
+        >
+          <span>
+            GITHUB FEED UNAVAILABLE
+          </span>
+
+          <p>{error}</p>
         </div>
-      )}
+      ) : null}
 
       {loading ? (
-        <p className="text-sm text-muted-foreground">
-          Loading repositories…
-        </p>
+        <div className={styles.loading}>
+          <span>READING WORK INDEX</span>
+          <strong>LOADING…</strong>
+        </div>
       ) : repos.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          No repositories available.
-        </p>
+        <div className={styles.loading}>
+          <span>WORK INDEX</span>
+          <strong>
+            NO REPOSITORIES AVAILABLE
+          </strong>
+        </div>
       ) : (
-        <div className="space-y-10">
-          {activeLens &&
-            partition.matched.length > 0 && (
-              <section className="space-y-4">
-                <div>
-                  <h2 className="text-lg font-semibold">
-                    Best matches for {activeLens.shortLabel}
-                  </h2>
+        <>
+          <section
+            className={styles.selectedSection}
+            aria-labelledby="selected-work-heading"
+          >
+            <div className={styles.sectionHeading}>
+              <div>
+                <span
+                  className={
+                    styles.sectionLabel
+                  }
+                >
+                  SELECTED WORK
+                </span>
 
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Canonical portfolio projects prioritized
-                    for this role lens.
-                  </p>
+                <h2 id="selected-work-heading">
+                  {activeLens
+                    ? `Best matches for ${activeLens.shortLabel}`
+                    : 'Curated work'}
+                </h2>
+              </div>
+
+              <span
+                className={
+                  styles.sectionCount
+                }
+              >
+                {String(
+                  partition.matched.length,
+                ).padStart(2, '0')}
+              </span>
+            </div>
+
+            {partition.matched.length >
+            0 ? (
+              <div
+                className={
+                  styles.projectIndex
+                }
+              >
+                {partition.matched.map(
+                  (repo, index) => (
+                    <ProjectIndexRow
+                      key={repo.id}
+                      repo={repo}
+                      index={index}
+                      featured
+                    />
+                  ),
+                )}
+              </div>
+            ) : (
+              <div className={styles.emptyMatch}>
+                <strong>
+                  No catalogued matches are
+                  present in the current
+                  GitHub feed.
+                </strong>
+
+                <p>
+                  Public repositories remain
+                  available in the full index
+                  below.
+                </p>
+              </div>
+            )}
+          </section>
+
+          {partition.other.length > 0 ? (
+            <section
+              className={styles.repositorySection}
+              aria-labelledby="repository-index-heading"
+            >
+              <div className={styles.sectionHeading}>
+                <div>
+                  <span
+                    className={
+                      styles.sectionLabel
+                    }
+                  >
+                    PUBLIC SOURCE
+                  </span>
+
+                  <h2
+                    id="repository-index-heading"
+                  >
+                    Repository index
+                  </h2>
                 </div>
 
-                <RepositoryGrid
-                  repos={partition.matched}
-                />
-              </section>
-            )}
-
-          {activeLens &&
-            partition.matched.length === 0 && (
-              <div className="rounded-xl border border-border/70 bg-card/50 p-4">
-                <p className="text-sm font-medium">
-                  No catalogued matches are present in the
-                  current GitHub feed.
-                </p>
-
-                <p className="mt-1 text-xs text-muted-foreground">
-                  The remaining public repositories are still
-                  available below.
-                </p>
-              </div>
-            )}
-
-          {partition.other.length > 0 && (
-            <section className="space-y-4">
-              <div>
-                <h2 className="text-lg font-semibold">
-                  Other repositories
-                </h2>
-
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Other canonical projects and uncatalogued
-                  public repositories remain visible.
-                </p>
+                <span
+                  className={
+                    styles.sectionCount
+                  }
+                >
+                  {String(
+                    partition.other.length,
+                  ).padStart(2, '0')}
+                </span>
               </div>
 
-              <RepositoryGrid
-                repos={partition.other}
-              />
+              <div
+                className={
+                  styles.repositoryIndex
+                }
+              >
+                {partition.other.map(
+                  (repo, index) => (
+                    <ProjectIndexRow
+                      key={repo.id}
+                      repo={repo}
+                      index={index}
+                    />
+                  ),
+                )}
+              </div>
             </section>
-          )}
-        </div>
+          ) : null}
+        </>
       )}
+
+      <footer className={styles.pageEnd}>
+        <span>
+          SELECT → INSPECT → VERIFY
+        </span>
+
+        <Link href="/contact">
+          Discuss the work
+          <span aria-hidden="true">
+            ↗
+          </span>
+        </Link>
+      </footer>
     </section>
   );
 }
 
-function RepositoryGrid({
-  repos,
+function ProjectIndexRow({
+  repo,
+  index,
+  featured = false,
 }: {
-  repos: readonly GitHubRepositorySummary[];
+  repo: GitHubRepositorySummary;
+  index: number;
+  featured?: boolean;
 }) {
+  const project =
+    toRepositoryProjectViewModel(repo);
+
+  const evidence =
+    project.catalogProject?.evidence
+      .filter(
+        (item) =>
+          typeof item.value === 'string' &&
+          item.value.trim().length > 0,
+      )
+      .slice(0, 2) ?? [];
+
   return (
-    <div
-      className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+    <article
+      className={[
+        styles.projectRow,
+        featured
+          ? styles.projectRowFeatured
+          : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {repos.map((repo) => (
-        <ProjectExplorerCard
-          key={repo.id}
-          repo={repo}
-        />
-      ))}
-    </div>
+      <div className={styles.projectNumber}>
+        {String(index + 1).padStart(2, '0')}
+      </div>
+
+      <div className={styles.projectMain}>
+        <div className={styles.projectTitleLine}>
+          <h3>
+            <Link
+              prefetch={false}
+              href={`/projects/${encodeURIComponent(
+                project.slug,
+              )}`}
+            >
+              {project.name}
+            </Link>
+          </h3>
+
+          {project.catalogProject
+            ?.presentation?.featured ? (
+            <span
+              className={
+                styles.flagshipLabel
+              }
+            >
+              FLAGSHIP
+            </span>
+          ) : null}
+        </div>
+
+        {project.description ? (
+          <p className={styles.projectDescription}>
+            {project.description}
+          </p>
+        ) : null}
+
+        {featured &&
+        evidence.length > 0 ? (
+          <div className={styles.evidenceStrip}>
+            {evidence.map((item) => (
+              <div key={item.id}>
+                <span>
+                  {item.label}
+                </span>
+
+                <strong>
+                  {item.value}
+                </strong>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <div className={styles.projectMeta}>
+        <div className={styles.metaStack}>
+          {project.language ? (
+            <span>
+              {project.language.name}
+            </span>
+          ) : (
+            <span>—</span>
+          )}
+
+          <span>
+            {project.updatedAt
+              ? `UPDATED ${formatDate(
+                  project.updatedAt,
+                )}`
+              : 'UPDATE UNKNOWN'}
+          </span>
+        </div>
+
+        <div className={styles.projectActions}>
+          <Link
+            prefetch={false}
+            href={`/projects/${encodeURIComponent(
+              project.slug,
+            )}`}
+          >
+            Inspect
+            <span aria-hidden="true">
+              →
+            </span>
+          </Link>
+
+          <a
+            href={project.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+            <span aria-hidden="true">
+              ↗
+            </span>
+          </a>
+
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Live
+              <span aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </article>
   );
 }

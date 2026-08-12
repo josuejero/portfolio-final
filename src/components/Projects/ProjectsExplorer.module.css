@@ -1,0 +1,769 @@
+.page {
+  --work-line: color-mix(
+    in srgb,
+    var(--portfolio-ink) 18%,
+    transparent
+  );
+
+  min-height: 100svh;
+  padding:
+    clamp(7rem, 10vw, 10rem)
+    clamp(1rem, 2.8vw, 3rem)
+    clamp(5rem, 8vw, 8rem);
+  background: var(--portfolio-bone);
+  color: var(--portfolio-ink);
+}
+
+.heroMeta,
+.heroKicker,
+.sectionLabel,
+.sectionCount,
+.lensIndex,
+.lensSummary > span,
+.repoCount span,
+.projectNumber,
+.flagshipLabel,
+.evidenceStrip span,
+.metaStack,
+.loading span,
+.error span,
+.pageEnd > span {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.heroMeta {
+  display: grid;
+  grid-template-columns:
+    1fr
+    1fr
+    auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid
+    var(--work-line);
+  color: var(--portfolio-muted);
+  font-size: 0.55rem;
+}
+
+.heroMeta span:nth-child(2) {
+  text-align: center;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(18rem, 0.45fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  align-items: end;
+  padding:
+    clamp(4rem, 8vw, 8rem)
+    0
+    clamp(5rem, 9vw, 9rem);
+}
+
+.heroKicker {
+  margin: 0 0 1.5rem;
+  color: var(--portfolio-cobalt);
+  font-size: 0.58rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(
+    6rem,
+    18.5vw,
+    19rem
+  );
+  font-weight: 880;
+  letter-spacing: -0.095em;
+  line-height: 0.68;
+}
+
+.heroAside {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.heroAside > p {
+  margin: 0;
+  font-size: clamp(
+    1.05rem,
+    1.5vw,
+    1.35rem
+  );
+  font-weight: 570;
+  letter-spacing: -0.03em;
+  line-height: 1.4;
+}
+
+.repoCount {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.repoCount strong {
+  font-size: clamp(
+    3rem,
+    5vw,
+    5rem
+  );
+  font-weight: 840;
+  letter-spacing: -0.08em;
+  line-height: 0.78;
+}
+
+.repoCount span {
+  padding-bottom: 0.15rem;
+  color: var(--portfolio-muted);
+  font-size: 0.5rem;
+}
+
+.lensSection {
+  display: grid;
+  grid-template-columns:
+    minmax(12rem, 0.35fr)
+    minmax(0, 1.65fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  padding:
+    2rem
+    0
+    clamp(6rem, 10vw, 10rem);
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.lensIntro {
+  padding-top: 0.4rem;
+}
+
+.sectionLabel {
+  color: var(--portfolio-muted);
+  font-size: 0.54rem;
+}
+
+.lensIntro p {
+  max-width: 16rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.lensGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+  border-top: 1px solid
+    var(--work-line);
+  border-left: 1px solid
+    var(--work-line);
+}
+
+.lensButton {
+  min-width: 0;
+  min-height: 9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 0;
+  border-right: 1px solid
+    var(--work-line);
+  border-bottom: 1px solid
+    var(--work-line);
+  background: transparent;
+  color: var(--portfolio-ink);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.lensButton:hover,
+.lensButton:focus-visible,
+.lensButtonActive {
+  background: var(--portfolio-ink);
+  color: var(--portfolio-bone);
+}
+
+.lensButton:focus-visible {
+  outline: 3px solid
+    var(--portfolio-cobalt);
+  outline-offset: -3px;
+}
+
+.lensButton strong {
+  margin-top: auto;
+  font-size: clamp(
+    1.1rem,
+    1.6vw,
+    1.5rem
+  );
+  font-weight: 730;
+  letter-spacing: -0.04em;
+}
+
+.lensIndex,
+.lensArrow {
+  font-size: 0.52rem;
+}
+
+.lensArrow {
+  color: var(--portfolio-cobalt);
+}
+
+.lensButtonActive .lensArrow {
+  color: var(--portfolio-acid);
+}
+
+.lensSummary {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns:
+    minmax(10rem, 0.4fr)
+    minmax(0, 1.6fr);
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.lensSummary > span {
+  color: var(--portfolio-cobalt);
+  font-size: 0.53rem;
+}
+
+.lensSummary p {
+  max-width: 45rem;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.selectedSection,
+.repositorySection {
+  padding:
+    clamp(5rem, 8vw, 8rem)
+    0;
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.repositorySection {
+  padding-top:
+    clamp(7rem, 11vw, 11rem);
+}
+
+.sectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sectionHeading h2 {
+  margin: 0.7rem 0 0;
+  font-size: clamp(
+    2.8rem,
+    6vw,
+    6rem
+  );
+  font-weight: 820;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.sectionCount {
+  color: var(--portfolio-muted);
+  font-size: clamp(
+    2rem,
+    4vw,
+    4rem
+  );
+  letter-spacing: -0.07em;
+}
+
+.projectIndex,
+.repositoryIndex {
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.projectRow {
+  display: grid;
+  grid-template-columns:
+    3.5rem
+    minmax(0, 1fr)
+    minmax(14rem, 0.34fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding:
+    1.5rem
+    0
+    1.7rem;
+  border-bottom: 1px solid
+    var(--work-line);
+  transition:
+    background 160ms ease;
+}
+
+.projectRow:hover {
+  background: color-mix(
+    in srgb,
+    var(--portfolio-ink) 3%,
+    transparent
+  );
+}
+
+.projectRowFeatured {
+  padding:
+    clamp(2rem, 4vw, 4rem)
+    0;
+}
+
+.projectNumber {
+  padding-top: 0.35rem;
+  color: var(--portfolio-muted);
+  font-size: 0.5rem;
+}
+
+.projectTitleLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.7rem 1rem;
+}
+
+.projectTitleLine h3 {
+  margin: 0;
+}
+
+.projectTitleLine h3 a {
+  color: var(--portfolio-ink);
+  font-size: clamp(
+    1.7rem,
+    3.2vw,
+    3.3rem
+  );
+  font-weight: 770;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  text-decoration: none;
+}
+
+.projectRow:not(
+  .projectRowFeatured
+) .projectTitleLine h3 a {
+  font-size: clamp(
+    1.15rem,
+    1.8vw,
+    1.6rem
+  );
+  letter-spacing: -0.04em;
+}
+
+.projectTitleLine h3 a:hover,
+.projectTitleLine h3 a:focus-visible {
+  color: var(--portfolio-cobalt);
+}
+
+.projectTitleLine h3 a:focus-visible {
+  outline: 2px solid
+    var(--portfolio-cobalt);
+  outline-offset: 3px;
+}
+
+.flagshipLabel {
+  color: var(--portfolio-cobalt);
+  font-size: 0.49rem;
+}
+
+.projectDescription {
+  max-width: 58rem;
+  margin: 1rem 0 0;
+  color: var(--portfolio-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.projectRowFeatured
+.projectDescription {
+  max-width: 52rem;
+  font-size: clamp(
+    0.95rem,
+    1.15vw,
+    1.08rem
+  );
+}
+
+.evidenceStrip {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  margin-top: 2rem;
+  border-top: 1px solid
+    var(--work-line);
+}
+
+.evidenceStrip > div {
+  min-height: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding:
+    1rem
+    1rem
+    0
+    0;
+}
+
+.evidenceStrip > div + div {
+  padding-left: 1rem;
+  border-left: 1px solid
+    var(--work-line);
+}
+
+.evidenceStrip span {
+  color: var(--portfolio-muted);
+  font-size: 0.49rem;
+}
+
+.evidenceStrip strong {
+  max-width: 30rem;
+  font-size: clamp(
+    1rem,
+    1.35vw,
+    1.2rem
+  );
+  font-weight: 680;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+}
+
+.projectMeta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.metaStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: var(--portfolio-muted);
+  font-size: 0.49rem;
+}
+
+.projectActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.2rem;
+}
+
+.projectActions a {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  padding-bottom: 0.18rem;
+  border-bottom: 1px solid
+    var(--work-line);
+  color: var(--portfolio-ink);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.projectActions a:first-child {
+  border-color:
+    var(--portfolio-cobalt);
+}
+
+.projectActions a span {
+  color: var(--portfolio-cobalt);
+}
+
+.projectActions a:hover,
+.projectActions a:focus-visible {
+  color: var(--portfolio-cobalt);
+}
+
+.projectActions a:focus-visible {
+  outline: 2px solid
+    var(--portfolio-cobalt);
+  outline-offset: 3px;
+}
+
+.emptyMatch,
+.loading,
+.error {
+  padding:
+    clamp(3rem, 6vw, 6rem)
+    0;
+  border-top: 1px solid
+    var(--work-line);
+  border-bottom: 1px solid
+    var(--work-line);
+}
+
+.emptyMatch strong,
+.loading strong {
+  display: block;
+  max-width: 50rem;
+  font-size: clamp(
+    2rem,
+    4vw,
+    4rem
+  );
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.emptyMatch p {
+  max-width: 34rem;
+  margin: 1rem 0 0;
+  color: var(--portfolio-muted);
+}
+
+.loading span,
+.error span {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--portfolio-cobalt);
+  font-size: 0.52rem;
+}
+
+.error p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.pageEnd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-top:
+    clamp(5rem, 8vw, 8rem);
+  padding-top: 2rem;
+  border-top: 2px solid
+    var(--portfolio-ink);
+}
+
+.pageEnd > span {
+  color: var(--portfolio-muted);
+  font-size: 0.53rem;
+}
+
+.pageEnd > a {
+  display: inline-flex;
+  gap: 0.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid
+    var(--portfolio-cobalt);
+  color: var(--portfolio-ink);
+  font-size: clamp(
+    1.25rem,
+    2vw,
+    1.8rem
+  );
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  text-decoration: none;
+}
+
+.pageEnd > a span {
+  color: var(--portfolio-cobalt);
+}
+
+@supports (
+  animation-timeline: view()
+) {
+  .heroTitle {
+    animation:
+      work-title linear both;
+    animation-timeline: view();
+    animation-range:
+      entry 0%
+      cover 30%;
+  }
+}
+
+@keyframes work-title {
+  from {
+    opacity: 0.25;
+    transform: translateX(-5vw);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .heroGrid,
+  .lensSection {
+    grid-template-columns: 1fr;
+  }
+
+  .lensSummary {
+    grid-column: auto;
+  }
+
+  .lensGrid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .projectRow {
+    grid-template-columns:
+      2.5rem
+      minmax(0, 1fr);
+  }
+
+  .projectMeta {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding:
+      6rem
+      1rem
+      4.5rem;
+  }
+
+  .heroMeta {
+    grid-template-columns:
+      1fr
+      auto;
+  }
+
+  .heroMeta span:nth-child(2) {
+    display: none;
+  }
+
+  .heroMeta span:last-child {
+    text-align: right;
+  }
+
+  .heroTitle {
+    font-size: clamp(
+      5rem,
+      25vw,
+      8rem
+    );
+  }
+
+  .lensGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .lensButton {
+    min-height: 6.5rem;
+  }
+
+  .lensSummary {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .sectionHeading {
+    align-items: flex-start;
+  }
+
+  .sectionHeading h2 {
+    font-size: clamp(
+      2.5rem,
+      12vw,
+      4rem
+    );
+  }
+
+  .projectRow,
+  .projectRowFeatured {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding:
+      1.7rem
+      0;
+  }
+
+  .projectNumber {
+    padding: 0;
+  }
+
+  .projectTitleLine h3 a,
+  .projectRow:not(
+    .projectRowFeatured
+  )
+  .projectTitleLine h3 a {
+    font-size: clamp(
+      1.55rem,
+      8vw,
+      2.5rem
+    );
+  }
+
+  .evidenceStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .evidenceStrip > div {
+    min-height: auto;
+    padding:
+      1rem
+      0;
+  }
+
+  .evidenceStrip > div + div {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid
+      var(--work-line);
+  }
+
+  .projectMeta {
+    grid-column: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .pageEnd {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lensButton,
+  .projectRow {
+    transition: none;
+  }
+
+  .heroTitle {
+    animation: none;
+  }
+}
