@@ -5,6 +5,8 @@ import {
 
 import type { PortfolioProject } from '@/types/project';
 
+import styles from './ProjectInteractiveDemo.module.css';
+
 const FrameCastDemo = lazy(
   () => import('./FrameCastDemo'),
 );
@@ -27,7 +29,7 @@ const CycleReadyDemo = lazy(
 
 function DemoLoadingState() {
   return (
-    <div className="rounded-panel border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground shadow-soft">
+    <div className={styles.loading}>
       Loading interactive workspace…
     </div>
   );
@@ -48,73 +50,89 @@ export default function ProjectInteractiveDemo({
 
   return (
     <section
+      className={styles.section}
       aria-labelledby="interactive-demo-heading"
-      className="space-y-5"
     >
-      <div className="max-w-2xl space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
-          Interactive demo
-        </p>
+      <div className={styles.heading}>
+        <div>
+          <span>INTERACTIVE SYSTEM</span>
 
-        <h2
-          id="interactive-demo-heading"
-          className="text-2xl font-semibold tracking-tight sm:text-3xl"
-        >
-          {demo.label}
-        </h2>
+          <h2
+            id="interactive-demo-heading"
+          >
+            {demo.label}
+          </h2>
+        </div>
 
-        <p className="text-sm leading-6 text-muted-foreground">
-          {demo.description}
-        </p>
-
-        {demo.disclaimer && (
-          <p className="text-xs leading-5 text-muted-foreground">
-            {demo.disclaimer}
+        <div className={styles.description}>
+          <p>
+            {demo.description}
           </p>
-        )}
+
+          {demo.disclaimer ? (
+            <small>
+              {demo.disclaimer}
+            </small>
+          ) : null}
+        </div>
       </div>
 
-      {demo.type ===
-        'framecast-configurator' && (
-        <Suspense
-          fallback={<DemoLoadingState />}
-        >
-          <FrameCastDemo />
-        </Suspense>
-      )}
+      <div className={styles.demoSurface}>
+        {demo.type ===
+        'framecast-configurator' ? (
+          <Suspense
+            fallback={
+              <DemoLoadingState />
+            }
+          >
+            <FrameCastDemo />
+          </Suspense>
+        ) : null}
 
-      {demo.type === 'hostdesk-operations' && (
-        <Suspense
-          fallback={<DemoLoadingState />}
-        >
-          <HostDeskDemo />
-        </Suspense>
-      )}
+        {demo.type ===
+        'hostdesk-operations' ? (
+          <Suspense
+            fallback={
+              <DemoLoadingState />
+            }
+          >
+            <HostDeskDemo />
+          </Suspense>
+        ) : null}
 
-      {demo.type === 'botmedic-triage' && (
-        <Suspense
-          fallback={<DemoLoadingState />}
-        >
-          <BotMedicDemo />
-        </Suspense>
-      )}
+        {demo.type ===
+        'botmedic-triage' ? (
+          <Suspense
+            fallback={
+              <DemoLoadingState />
+            }
+          >
+            <BotMedicDemo />
+          </Suspense>
+        ) : null}
 
-      {demo.type === 'dqsentry-validator' && (
-        <Suspense
-          fallback={<DemoLoadingState />}
-        >
-          <DQSentryDemo />
-        </Suspense>
-      )}
+        {demo.type ===
+        'dqsentry-validator' ? (
+          <Suspense
+            fallback={
+              <DemoLoadingState />
+            }
+          >
+            <DQSentryDemo />
+          </Suspense>
+        ) : null}
 
-      {demo.type ===
-        'cycleready-release-room' && (
-        <Suspense
-          fallback={<DemoLoadingState />}
-        >
-          <CycleReadyDemo />
-        </Suspense>
-      )}
+        {demo.type ===
+        'cycleready-release-room' ? (
+          <Suspense
+            fallback={
+              <DemoLoadingState />
+            }
+          >
+            <CycleReadyDemo />
+          </Suspense>
+        ) : null}
+      </div>
     </section>
   );
 }

@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  ArrowTopRightOnSquareIcon,
-  CodeBracketIcon,
-  GlobeAltIcon,
-} from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useMemo } from 'react';
 import { defaultUrlTransform } from 'react-markdown';
 
@@ -16,6 +12,8 @@ import {
   normalizeRelativePath,
 } from './project-detail-utils';
 import { useProjectDetail } from './hooks/useProjectDetail';
+
+import styles from './ProjectDetail.module.css';
 
 interface ProjectDetailProps {
   name: string;
@@ -41,57 +39,68 @@ export default function ProjectDetail({
     project?.summary ?? repo?.description;
 
   const repoUrl =
-    project?.links.source ?? repo?.htmlUrl;
+    project?.links.source ??
+    repo?.htmlUrl;
 
   const liveUrl =
-    project?.links.live ?? repo?.homepage ?? undefined;
+    project?.links.live ??
+    repo?.homepage ??
+    undefined;
 
-  const { blobBase, rawBase } = useMemo(() => {
-    let owner = '';
-    let repositoryName = '';
+  const supportingEvidence =
+    project?.evidence.filter(
+      (evidence) =>
+        evidence.type !== 'repository',
+    ) ?? [];
 
-    if (repoUrl) {
-      try {
-        const parts = new URL(repoUrl)
-          .pathname
-          .split('/')
-          .filter(Boolean);
+  const { blobBase, rawBase } =
+    useMemo(() => {
+      let owner = '';
+      let repositoryName = '';
 
-        owner = parts[0] ?? '';
-        repositoryName = parts[1] ?? '';
-      } catch {
-        // Ignore malformed repository URLs.
+      if (repoUrl) {
+        try {
+          const parts =
+            new URL(repoUrl)
+              .pathname
+              .split('/')
+              .filter(Boolean);
+
+          owner = parts[0] ?? '';
+          repositoryName =
+            parts[1] ?? '';
+        } catch {
+          // Ignore malformed repository URLs.
+        }
       }
-    }
 
-    let branch = 'main';
+      let branch = 'main';
 
-    if (readme?.sourceUrl) {
-      const match =
-        readme.sourceUrl.match(
-          /\/blob\/([^/]+)\//,
-        );
+      if (readme?.sourceUrl) {
+        const match =
+          readme.sourceUrl.match(
+            /\/blob\/([^/]+)\//,
+          );
 
-      if (match?.[1]) {
-        branch = match[1];
+        if (match?.[1]) {
+          branch = match[1];
+        }
       }
-    }
 
-    const blob =
-      owner && repositoryName
-        ? `https://github.com/${owner}/${repositoryName}/blob/${branch}`
-        : '';
-
-    const raw =
-      owner && repositoryName
-        ? `https://raw.githubusercontent.com/${owner}/${repositoryName}/${branch}`
-        : '';
-
-    return {
-      blobBase: blob,
-      rawBase: raw,
-    };
-  }, [repoUrl, readme?.sourceUrl]);
+      return {
+        blobBase:
+          owner && repositoryName
+            ? `https://github.com/${owner}/${repositoryName}/blob/${branch}`
+            : '',
+        rawBase:
+          owner && repositoryName
+            ? `https://raw.githubusercontent.com/${owner}/${repositoryName}/${branch}`
+            : '',
+      };
+    }, [
+      repoUrl,
+      readme?.sourceUrl,
+    ]);
 
   const urlTransform = (
     url: string,
@@ -131,126 +140,267 @@ export default function ProjectDetail({
   };
 
   return (
-    <div className="space-y-12">
-      <header className="space-y-6 border-b border-border/60 pb-8">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
-          <div className="max-w-3xl space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
-              Project
-            </p>
+    <div
+      className={styles.page}
+      data-project={
+        project?.id ?? 'repository'
+      }
+    >
+      <header className={styles.hero}>
+        <div className={styles.utilityRow}>
+          <Link
+            href="/projects"
+            className={styles.backLink}
+          >
+            <span aria-hidden="true">
+              ←
+            </span>
+            Work index
+          </Link>
 
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              {repoName}
-            </h1>
+          <div className={styles.utilityMeta}>
+            <span>
+              {project
+                ? 'CATALOGUED PROJECT'
+                : 'PUBLIC REPOSITORY'}
+            </span>
 
-            {repoDescription && (
-              <p className="text-base leading-7 text-muted-foreground">
-                {repoDescription}
-              </p>
-            )}
+            {repo?.language ? (
+              <span>
+                {repo.language}
+              </span>
+            ) : null}
 
-            {repo && (
-              <div className="flex flex-wrap gap-2 pt-1 text-xs text-muted-foreground">
-                {repo.language && (
-                  <span className="rounded-pill border border-border/60 bg-muted/60 px-2.5 py-1">
-                    {repo.language}
-                  </span>
+            {repo?.pushedAt ? (
+              <span>
+                UPDATED{' '}
+                {formatDate(
+                  repo.pushedAt,
                 )}
-
-                <span className="rounded-pill border border-border/60 bg-muted/60 px-2.5 py-1">
-                  Updated{' '}
-                  {formatDate(repo.pushedAt)}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {repoUrl && (
-              <a
-                href={repoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-control border border-border bg-surface-raised/70 px-3 py-2 text-xs font-medium text-foreground transition-colors duration-fast hover:border-brand/50 hover:bg-muted"
-              >
-                <CodeBracketIcon
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                />
-                Source
-                <ArrowTopRightOnSquareIcon
-                  className="h-3 w-3"
-                  aria-hidden="true"
-                />
-              </a>
-            )}
-
-            {liveUrl && (
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-control bg-brand px-3 py-2 text-xs font-semibold text-brand-foreground transition-colors duration-fast hover:bg-brand-hover"
-              >
-                <GlobeAltIcon
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                />
-                Live application
-                <ArrowTopRightOnSquareIcon
-                  className="h-3 w-3"
-                  aria-hidden="true"
-                />
-              </a>
-            )}
+              </span>
+            ) : null}
           </div>
         </div>
 
-        {loading && !repo && (
-          <div className="rounded-surface border border-border/70 bg-card/50 p-4 text-sm text-muted-foreground">
-            Loading repository metadata…
-          </div>
-        )}
+        <div className={styles.titleGrid}>
+          <div>
+            <p className={styles.kicker}>
+              SYSTEM / EVIDENCE / SOURCE
+            </p>
 
-        {!loading && error && (
-          <div className="rounded-surface border border-destructive/40 bg-destructive/10 p-4 text-sm text-foreground">
+            <h1 className={styles.title}>
+              {repoName}
+            </h1>
+          </div>
+
+          <div className={styles.heroAside}>
+            {repoDescription ? (
+              <p>
+                {repoDescription}
+              </p>
+            ) : null}
+
+            <div className={styles.heroActions}>
+              {repoUrl ? (
+                <a
+                  href={repoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Source
+                  <span aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              ) : null}
+
+              {liveUrl ? (
+                <a
+                  href={liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Live system
+                  <span aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        {loading && !repo ? (
+          <div
+            className={
+              styles.statusMessage
+            }
+          >
+            Reading repository metadata…
+          </div>
+        ) : null}
+
+        {!loading && error ? (
+          <div
+            className={
+              styles.statusMessage
+            }
+            data-error="true"
+          >
             {error}
           </div>
-        )}
+        ) : null}
+
+        {supportingEvidence.length >
+        0 ? (
+          <section
+            className={
+              styles.evidenceLedger
+            }
+            aria-labelledby="project-evidence-heading"
+          >
+            <div
+              className={
+                styles.evidenceIntro
+              }
+            >
+              <span
+                id="project-evidence-heading"
+              >
+                EVIDENCE LEDGER
+              </span>
+
+              <p>
+                Verifiable project claims
+                before narrative.
+              </p>
+            </div>
+
+            <div
+              className={
+                styles.evidenceEntries
+              }
+            >
+              {supportingEvidence.map(
+                (evidence, index) => {
+                  const content = (
+                    <>
+                      <span
+                        className={
+                          styles.evidenceIndex
+                        }
+                      >
+                        {String(
+                          index + 1,
+                        ).padStart(
+                          2,
+                          '0',
+                        )}
+                      </span>
+
+                      <div>
+                        <span
+                          className={
+                            styles.evidenceLabel
+                          }
+                        >
+                          {
+                            evidence.label
+                          }
+                        </span>
+
+                        {evidence.value ? (
+                          <strong>
+                            {
+                              evidence.value
+                            }
+                          </strong>
+                        ) : null}
+
+                        {evidence.description ? (
+                          <p>
+                            {
+                              evidence.description
+                            }
+                          </p>
+                        ) : null}
+                      </div>
+
+                      {evidence.href ? (
+                        <span
+                          className={
+                            styles.evidenceArrow
+                          }
+                          aria-hidden="true"
+                        >
+                          ↗
+                        </span>
+                      ) : null}
+                    </>
+                  );
+
+                  return evidence.href ? (
+                    <a
+                      key={evidence.id}
+                      href={evidence.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={
+                        styles.evidenceEntry
+                      }
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <div
+                      key={evidence.id}
+                      className={
+                        styles.evidenceEntry
+                      }
+                    >
+                      {content}
+                    </div>
+                  );
+                },
+              )}
+            </div>
+          </section>
+        ) : null}
       </header>
 
-      {project && (
+      {project?.caseStudy ? (
         <ProjectCaseStudy
           project={project}
         />
-      )}
+      ) : null}
 
-      {project?.demo && (
+      {project?.demo ? (
         <ProjectInteractiveDemo
           project={project}
         />
-      )}
+      ) : null}
 
       <section
+        className={styles.documentation}
         aria-labelledby="repository-readme-heading"
-        className="space-y-5"
       >
-        <div className="max-w-2xl space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
-            Repository documentation
-          </p>
+        <div className={styles.documentationHeading}>
+          <div>
+            <span>
+              REPOSITORY DOCUMENTATION
+            </span>
 
-          <h2
-            id="repository-readme-heading"
-            className="text-2xl font-semibold tracking-tight sm:text-3xl"
-          >
-            README
-          </h2>
+            <h2
+              id="repository-readme-heading"
+            >
+              README
+            </h2>
+          </div>
 
-          <p className="text-sm leading-6 text-muted-foreground">
-            Original repository documentation is
-            preserved below for deeper technical
-            inspection.
+          <p>
+            Original repository
+            documentation preserved for
+            deeper technical inspection.
           </p>
         </div>
 
@@ -262,6 +412,22 @@ export default function ProjectDetail({
           urlTransform={urlTransform}
         />
       </section>
+
+      <footer className={styles.pageEnd}>
+        <Link href="/projects">
+          <span aria-hidden="true">
+            ←
+          </span>
+          All projects
+        </Link>
+
+        <Link href="/contact">
+          Discuss this work
+          <span aria-hidden="true">
+            ↗
+          </span>
+        </Link>
+      </footer>
     </div>
   );
 }

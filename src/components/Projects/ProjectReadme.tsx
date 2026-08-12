@@ -2,14 +2,18 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
 import type { ReadmeData } from './project-detail-utils';
+
+import styles from './ProjectReadme.module.css';
 
 interface Props {
   readme: ReadmeData | null;
   readmeLoading: boolean;
   readmeError: string | null;
   repoUrl: string | undefined;
-  urlTransform: (url: string, key?: string) => string;
+  urlTransform:
+    (url: string, key?: string) => string;
 }
 
 export default function ProjectReadme({
@@ -20,57 +24,96 @@ export default function ProjectReadme({
   urlTransform,
 }: Props) {
   if (readmeLoading) {
-    return <p className="animate-pulse text-muted-foreground">Loading README…</p>;
+    return (
+      <p className={styles.state}>
+        Loading README…
+      </p>
+    );
   }
 
   if (readme?.markdown) {
     return (
       <>
-        <article
-          className="prose prose-neutral dark:prose-invert max-w-none
-                     prose-headings:text-foreground
-                     prose-a:text-brand prose-a:no-underline hover:prose-a:underline
-                     prose-strong:text-foreground
-                     prose-pre:bg-surface-raised prose-pre:border prose-pre:border-border"
-        >
+        <article className={styles.article}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             urlTransform={urlTransform}
             components={{
-              a({ href, children, ...props }) {
-                const isExternal = !!href && /^https?:\/\//i.test(href);
+              a({
+                href,
+                children,
+                ...props
+              }) {
+                const isExternal =
+                  !!href &&
+                  /^https?:\/\//i.test(
+                    href,
+                  );
+
                 return (
                   <a
                     href={href}
                     {...props}
-                    target={isExternal ? '_blank' : undefined}
-                    rel={isExternal ? 'noreferrer' : undefined}
+                    target={
+                      isExternal
+                        ? '_blank'
+                        : undefined
+                    }
+                    rel={
+                      isExternal
+                        ? 'noreferrer'
+                        : undefined
+                    }
                   >
                     {children}
                   </a>
                 );
               },
-              img({ alt, ...props }) {
+
+              img({
+                alt,
+                ...props
+              }) {
                 return (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     alt={alt ?? ''}
                     loading="lazy"
-                    className="rounded-surface border border-border"
+                    className={
+                      styles.image
+                    }
                     {...props}
                   />
                 );
               },
-              code({ children, ...props }) {
+
+              code({
+                children,
+                ...props
+              }) {
                 return (
-                  <code className="rounded-control bg-muted/60 px-1 py-0.5" {...props}>
+                  <code
+                    className={
+                      styles.code
+                    }
+                    {...props}
+                  >
                     {children}
                   </code>
                 );
               },
-              pre({ children, ...props }) {
+
+              pre({
+                children,
+                ...props
+              }) {
                 return (
-                  <pre className="overflow-x-auto rounded-surface p-3" {...props}>
+                  <pre
+                    className={
+                      styles.pre
+                    }
+                    {...props}
+                  >
                     {children}
                   </pre>
                 );
@@ -81,26 +124,33 @@ export default function ProjectReadme({
           </ReactMarkdown>
         </article>
 
-        {repoUrl && (
-          <p className="text-xs text-muted-foreground">
-            README from{' '}
+        {repoUrl ? (
+          <p className={styles.sourceNote}>
+            Repository documentation from{' '}
             <a
               href={`${repoUrl}#readme`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 text-brand transition-colors duration-fast hover:text-brand-hover"
             >
-              GitHub
+              GitHub ↗
             </a>
           </p>
-        )}
+        ) : null}
       </>
     );
   }
 
   if (readmeError) {
-    return <p className="text-xs text-foreground">{readmeError}</p>;
+    return (
+      <p className={styles.state}>
+        {readmeError}
+      </p>
+    );
   }
 
-  return <p className="text-muted-foreground">No README found for this repository.</p>;
+  return (
+    <p className={styles.state}>
+      No README found for this repository.
+    </p>
+  );
 }
