@@ -1,12 +1,17 @@
 import PhotoPreview from './PhotoPreview';
+
 import {
   clamp,
   type DemoPhoto,
 } from './model';
 
+import styles from '../FrameCastDemo.module.css';
+
 interface PhotoEditorDemoProps {
   photos: readonly DemoPhoto[];
+
   activePhotoId: string;
+
   activePhoto?: DemoPhoto;
 
   onSelectPhoto: (
@@ -18,10 +23,12 @@ interface PhotoEditorDemoProps {
   ) => void;
 
   onUpdatePhoto: (
-    updates: Partial<DemoPhoto>,
+    updates:
+      Partial<DemoPhoto>,
   ) => void;
 
-  onSavePhotoConfig: () => void;
+  onSavePhotoConfig:
+    () => void;
 }
 
 export default function PhotoEditorDemo({
@@ -34,54 +41,149 @@ export default function PhotoEditorDemo({
   onSavePhotoConfig,
 }: PhotoEditorDemoProps) {
   return (
-    <div className="mt-6 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-semibold text-foreground">
-          Photos
-        </legend>
+    <div
+      className={
+        styles.photoWorkspace
+      }
+    >
+      <section
+        className={
+          styles.photoRail
+        }
+      >
+        <div
+          className={
+            styles.panelHeading
+          }
+        >
+          <span
+            className={
+              styles.sectionIndex
+            }
+          >
+            01 / PHOTO
+          </span>
 
-        <div className="space-y-2">
-          {photos.map((photo) => (
-            <label
-              key={photo.id}
-              className="flex items-center gap-2 rounded-control border border-border/60 bg-surface/60 px-3 py-2 text-xs"
-            >
-              <input
-                type="radio"
-                name="framecast-demo-photo"
-                checked={
-                  photo.id === activePhotoId
-                }
-                onChange={() =>
-                  onSelectPhoto(photo.id)
-                }
-              />
+          <div>
+            <h3>
+              Select source.
+            </h3>
 
-              <span className="truncate">
-                {photo.name}
-              </span>
-            </label>
-          ))}
+            <p>
+              Choose the image
+              configuration to edit.
+            </p>
+          </div>
         </div>
-      </fieldset>
 
-      {activePhoto && (
-        <div className="space-y-5">
-          <PhotoPreview photo={activePhoto} />
+        <fieldset>
+          <legend
+            className={
+              styles.visuallyHidden
+            }
+          >
+            Photos
+          </legend>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Transform
-              </p>
+          <div
+            className={
+              styles.selectionList
+            }
+          >
+            {photos.map(
+              (photo) => {
+                const active =
+                  photo.id ===
+                  activePhotoId;
 
-              <div className="flex gap-2">
+                return (
+                  <label
+                    key={photo.id}
+                    className={`${styles.selectionRow} ${
+                      active
+                        ? styles.selectionRowActive
+                        : ''
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="framecast-demo-photo"
+                      checked={active}
+                      onChange={() =>
+                        onSelectPhoto(
+                          photo.id,
+                        )
+                      }
+                    />
+
+                    <span
+                      className={
+                        styles.selectionName
+                      }
+                    >
+                      {photo.name}
+                    </span>
+                  </label>
+                );
+              },
+            )}
+          </div>
+        </fieldset>
+      </section>
+
+      {activePhoto ? (
+        <section
+          className={
+            styles.photoEditor
+          }
+        >
+          <PhotoPreview
+            photo={activePhoto}
+          />
+
+          <div
+            className={
+              styles.editorControls
+            }
+          >
+            <section
+              className={
+                styles.controlGroup
+              }
+            >
+              <div
+                className={
+                  styles.controlHeading
+                }
+              >
+                <span
+                  className={
+                    styles.sectionIndex
+                  }
+                >
+                  02 / TRANSFORM
+                </span>
+
+                <h3>
+                  Rotation + scale
+                </h3>
+              </div>
+
+              <div
+                className={
+                  styles.buttonPair
+                }
+              >
                 <button
                   type="button"
                   onClick={() =>
-                    onRotatePhoto(-90)
+                    onRotatePhoto(
+                      -90,
+                    )
                   }
-                  className="flex-1 rounded-control border border-border px-3 py-2 text-xs font-semibold"
+                  className={
+                    styles.secondaryButton
+                  }
                 >
                   Rotate −90°
                 </button>
@@ -89,16 +191,28 @@ export default function PhotoEditorDemo({
                 <button
                   type="button"
                   onClick={() =>
-                    onRotatePhoto(90)
+                    onRotatePhoto(
+                      90,
+                    )
                   }
-                  className="flex-1 rounded-control border border-border px-3 py-2 text-xs font-semibold"
+                  className={
+                    styles.secondaryButton
+                  }
                 >
                   Rotate +90°
                 </button>
               </div>
 
-              <label className="block space-y-1.5 text-xs">
-                <span>
+              <label
+                className={
+                  styles.field
+                }
+              >
+                <span
+                  className={
+                    styles.fieldLabel
+                  }
+                >
                   Scale (%)
                 </span>
 
@@ -109,28 +223,57 @@ export default function PhotoEditorDemo({
                   value={
                     activePhoto.scaling
                   }
-                  onChange={(event) =>
+                  onChange={(
+                    event,
+                  ) =>
                     onUpdatePhoto({
-                      scaling: clamp(
-                        Number(
-                          event.target.value,
-                        ) || 10,
-                        10,
-                        100,
-                      ),
+                      scaling:
+                        clamp(
+                          Number(
+                            event
+                              .target
+                              .value,
+                          ) || 10,
+                          10,
+                          100,
+                        ),
                     })
                   }
-                  className="w-full rounded-control border border-border bg-background px-3 py-2"
+                  className={
+                    styles.input
+                  }
                 />
               </label>
-            </div>
+            </section>
 
-            <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Split-screen geometry
-              </p>
+            <section
+              className={
+                styles.controlGroup
+              }
+            >
+              <div
+                className={
+                  styles.controlHeading
+                }
+              >
+                <span
+                  className={
+                    styles.sectionIndex
+                  }
+                >
+                  03 / GEOMETRY
+                </span>
 
-              <div className="grid grid-cols-2 gap-2">
+                <h3>
+                  Split-screen bounds
+                </h3>
+              </div>
+
+              <div
+                className={
+                  styles.geometryGrid
+                }
+              >
                 {(
                   [
                     ['x', 'X'],
@@ -145,12 +288,21 @@ export default function PhotoEditorDemo({
                     ],
                   ] as const
                 ).map(
-                  ([field, label]) => (
+                  ([
+                    field,
+                    label,
+                  ]) => (
                     <label
                       key={field}
-                      className="space-y-1 text-xs"
+                      className={
+                        styles.field
+                      }
                     >
-                      <span>
+                      <span
+                        className={
+                          styles.fieldLabel
+                        }
+                      >
                         {label} (%)
                       </span>
 
@@ -163,38 +315,59 @@ export default function PhotoEditorDemo({
                             field
                           ]
                         }
-                        onChange={(event) =>
-                          onUpdatePhoto({
-                            [field]:
-                              clamp(
-                                Number(
-                                  event
-                                    .target
-                                    .value,
-                                ) || 0,
-                                0,
-                                100,
-                              ),
-                          })
+                        onChange={(
+                          event,
+                        ) =>
+                          onUpdatePhoto(
+                            {
+                              [field]:
+                                clamp(
+                                  Number(
+                                    event
+                                      .target
+                                      .value,
+                                  ) ||
+                                    0,
+                                  0,
+                                  100,
+                                ),
+                            },
+                          )
                         }
-                        className="w-full rounded-control border border-border bg-background px-3 py-2"
+                        className={
+                          styles.input
+                        }
                       />
                     </label>
                   ),
                 )}
               </div>
-            </div>
+            </section>
           </div>
 
-          <button
-            type="button"
-            onClick={onSavePhotoConfig}
-            className="rounded-control bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground transition-colors duration-fast hover:bg-brand-hover"
+          <div
+            className={
+              styles.saveRow
+            }
           >
-            Save photo configuration
-          </button>
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={
+                onSavePhotoConfig
+              }
+              className={
+                styles.primaryButton
+              }
+            >
+              Save photo
+              configuration
+              <span aria-hidden="true">
+                →
+              </span>
+            </button>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

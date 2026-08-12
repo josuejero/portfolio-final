@@ -19,6 +19,8 @@ import {
   type DemoPhoto,
 } from './framecast/model';
 
+import styles from './FrameCastDemo.module.css';
+
 export default function FrameCastDemo() {
   const [mode, setMode] =
     useState<DemoMode>('devices');
@@ -30,23 +32,39 @@ export default function FrameCastDemo() {
 
   const [devices, setDevices] =
     useState<DemoDevice[]>([
-      ...INITIAL_DEVICES.map((device) => ({
-        ...device,
-        photoIds: [...device.photoIds],
-      })),
+      ...INITIAL_DEVICES.map(
+        (device) => ({
+          ...device,
+          photoIds: [
+            ...device.photoIds,
+          ],
+        }),
+      ),
     ]);
 
-  const [selectedPhotoIds, setSelectedPhotoIds] =
-    useState<string[]>([]);
+  const [
+    selectedPhotoIds,
+    setSelectedPhotoIds,
+  ] = useState<string[]>([]);
 
-  const [targetDeviceIds, setTargetDeviceIds] =
-    useState<string[]>([]);
+  const [
+    targetDeviceIds,
+    setTargetDeviceIds,
+  ] = useState<string[]>([]);
 
-  const [activeDeviceId, setActiveDeviceId] =
-    useState(INITIAL_DEVICES[0].id);
+  const [
+    activeDeviceId,
+    setActiveDeviceId,
+  ] = useState(
+    INITIAL_DEVICES[0].id,
+  );
 
-  const [activePhotoId, setActivePhotoId] =
-    useState(INITIAL_PHOTOS[0].id);
+  const [
+    activePhotoId,
+    setActivePhotoId,
+  ] = useState(
+    INITIAL_PHOTOS[0].id,
+  );
 
   const [
     assignedPreviewPhotoId,
@@ -55,12 +73,15 @@ export default function FrameCastDemo() {
     INITIAL_DEVICES[0].photoIds[0],
   );
 
-  const [deviceFrequency, setDeviceFrequency] =
-    useState(
-      String(
-        INITIAL_DEVICES[0].updateFrequency,
-      ),
-    );
+  const [
+    deviceFrequency,
+    setDeviceFrequency,
+  ] = useState(
+    String(
+      INITIAL_DEVICES[0]
+        .updateFrequency,
+    ),
+  );
 
   const [
     deviceRandomOrder,
@@ -69,47 +90,63 @@ export default function FrameCastDemo() {
     INITIAL_DEVICES[0].randomOrder,
   );
 
-  const [status, setStatus] = useState(
-    'Changes stay inside this browser simulation.',
-  );
+  const [status, setStatus] =
+    useState(
+      'Changes stay inside this browser simulation.',
+    );
 
-  const activeDevice = useMemo(
-    () =>
-      devices.find(
-        (device) =>
-          device.id === activeDeviceId,
-      ),
-    [activeDeviceId, devices],
-  );
+  const activeDevice =
+    useMemo(
+      () =>
+        devices.find(
+          (device) =>
+            device.id ===
+            activeDeviceId,
+        ),
+      [
+        activeDeviceId,
+        devices,
+      ],
+    );
 
-  const activePhoto = useMemo(
-    () =>
-      photos.find(
-        (photo) =>
-          photo.id === activePhotoId,
-      ),
-    [activePhotoId, photos],
-  );
+  const activePhoto =
+    useMemo(
+      () =>
+        photos.find(
+          (photo) =>
+            photo.id ===
+            activePhotoId,
+        ),
+      [
+        activePhotoId,
+        photos,
+      ],
+    );
 
-  const assignedPhotos = useMemo(
-    () =>
-      activeDevice
-        ? activeDevice.photoIds
-            .map((photoId) =>
-              photos.find(
-                (photo) =>
-                  photo.id === photoId,
-              ),
-            )
-            .filter(
-              (
-                photo,
-              ): photo is DemoPhoto =>
-                Boolean(photo),
-            )
-        : [],
-    [activeDevice, photos],
-  );
+  const assignedPhotos =
+    useMemo(
+      () =>
+        activeDevice
+          ? activeDevice.photoIds
+              .map((photoId) =>
+                photos.find(
+                  (photo) =>
+                    photo.id ===
+                    photoId,
+                ),
+              )
+              .filter(
+                (
+                  photo,
+                ): photo is DemoPhoto =>
+                  Boolean(photo),
+              )
+          : [],
+      [
+        activeDevice,
+        photos,
+      ],
+    );
 
   const assignedPreviewPhoto =
     assignedPhotos.find(
@@ -121,112 +158,130 @@ export default function FrameCastDemo() {
   const selectActiveDevice = (
     deviceId: string,
   ) => {
-    const next = devices.find(
-      (device) =>
-        device.id === deviceId,
-    );
+    const next =
+      devices.find(
+        (device) =>
+          device.id === deviceId,
+      );
 
     if (!next) {
       return;
     }
 
     setActiveDeviceId(deviceId);
+
     setDeviceFrequency(
-      String(next.updateFrequency),
+      String(
+        next.updateFrequency,
+      ),
     );
+
     setDeviceRandomOrder(
       next.randomOrder,
     );
+
     setAssignedPreviewPhotoId(
       next.photoIds[0] ?? '',
     );
+
     setStatus(
       `Loaded ${next.name} configuration.`,
     );
   };
 
-  const addPhotosToDevices = () => {
-    if (
-      selectedPhotoIds.length === 0 ||
-      targetDeviceIds.length === 0
-    ) {
+  const addPhotosToDevices =
+    () => {
+      if (
+        selectedPhotoIds.length ===
+          0 ||
+        targetDeviceIds.length ===
+          0
+      ) {
+        setStatus(
+          'Select at least one photo and one target device.',
+        );
+
+        return;
+      }
+
+      setDevices((current) =>
+        current.map((device) => {
+          if (
+            !targetDeviceIds.includes(
+              device.id,
+            )
+          ) {
+            return device;
+          }
+
+          return {
+            ...device,
+            photoIds: mergeUnique(
+              device.photoIds,
+              selectedPhotoIds,
+            ),
+          };
+        }),
+      );
+
+      if (
+        targetDeviceIds.includes(
+          activeDeviceId,
+        ) &&
+        !assignedPreviewPhotoId
+      ) {
+        setAssignedPreviewPhotoId(
+          selectedPhotoIds[0],
+        );
+      }
+
       setStatus(
-        'Select at least one photo and one target device.',
+        `Assigned ${selectedPhotoIds.length} photo${selectedPhotoIds.length === 1 ? '' : 's'} to ${targetDeviceIds.length} device${targetDeviceIds.length === 1 ? '' : 's'}.`,
       );
-      return;
-    }
+    };
 
-    setDevices((current) =>
-      current.map((device) => {
-        if (
-          !targetDeviceIds.includes(
-            device.id,
-          )
-        ) {
-          return device;
-        }
-
-        return {
-          ...device,
-          photoIds: mergeUnique(
-            device.photoIds,
-            selectedPhotoIds,
-          ),
-        };
-      }),
-    );
-
-    if (
-      targetDeviceIds.includes(
-        activeDeviceId,
-      ) &&
-      !assignedPreviewPhotoId
-    ) {
-      setAssignedPreviewPhotoId(
-        selectedPhotoIds[0],
+  const saveDeviceConfig =
+    () => {
+      const frequency = clamp(
+        Number(
+          deviceFrequency,
+        ) || 0,
+        0,
+        999,
       );
-    }
 
-    setStatus(
-      `Assigned ${selectedPhotoIds.length} photo${selectedPhotoIds.length === 1 ? '' : 's'} to ${targetDeviceIds.length} device${targetDeviceIds.length === 1 ? '' : 's'}.`,
-    );
-  };
+      setDevices((current) =>
+        current.map((device) =>
+          device.id ===
+          activeDeviceId
+            ? {
+                ...device,
+                updateFrequency:
+                  frequency,
+                randomOrder:
+                  deviceRandomOrder,
+              }
+            : device,
+        ),
+      );
 
-  const saveDeviceConfig = () => {
-    const frequency = clamp(
-      Number(deviceFrequency) || 0,
-      0,
-      999,
-    );
+      setDeviceFrequency(
+        String(frequency),
+      );
 
-    setDevices((current) =>
-      current.map((device) =>
-        device.id === activeDeviceId
-          ? {
-              ...device,
-              updateFrequency: frequency,
-              randomOrder:
-                deviceRandomOrder,
-            }
-          : device,
-      ),
-    );
-
-    setDeviceFrequency(
-      String(frequency),
-    );
-
-    setStatus(
-      `Saved ${activeDevice?.name ?? 'device'} configuration to local simulation state.`,
-    );
-  };
+      setStatus(
+        `Saved ${activeDevice?.name ?? 'device'} configuration to local simulation state.`,
+      );
+    };
 
   const updateActivePhoto = (
-    updates: Partial<DemoPhoto>,
+    updates:
+      Partial<DemoPhoto>,
   ) => {
     setPhotos((current) =>
       current.map((photo) =>
-        photo.id === activePhotoId
+        photo.id ===
+        activePhotoId
           ? {
               ...photo,
               ...updates,
@@ -245,7 +300,8 @@ export default function FrameCastDemo() {
 
     const rotation =
       normalizeRotation(
-        activePhoto.rotation + amount,
+        activePhoto.rotation +
+          amount,
       );
 
     updateActivePhoto({
@@ -258,45 +314,61 @@ export default function FrameCastDemo() {
   };
 
   return (
-    <div className="rounded-panel border border-border/60 bg-card/60 p-5 shadow-soft">
+    <div className={styles.shell}>
       <div
-        className="flex flex-wrap gap-2"
-        role="group"
-        aria-label="FrameCast simulator mode"
+        className={
+          styles.modeBar
+        }
       >
-        <button
-          type="button"
-          aria-pressed={
-            mode === 'devices'
+        <span
+          className={
+            styles.modeLabel
           }
-          onClick={() =>
-            setMode('devices')
-          }
-          className={`rounded-control border px-3 py-2 text-sm font-medium transition-colors duration-fast ${
-            mode === 'devices'
-              ? 'border-brand bg-brand/10 text-brand'
-              : 'border-border bg-surface text-muted-foreground hover:text-foreground'
-          }`}
         >
-          Device editor
-        </button>
+          WORKSPACE MODE
+        </span>
 
-        <button
-          type="button"
-          aria-pressed={
-            mode === 'photos'
+        <div
+          className={
+            styles.modeControls
           }
-          onClick={() =>
-            setMode('photos')
-          }
-          className={`rounded-control border px-3 py-2 text-sm font-medium transition-colors duration-fast ${
-            mode === 'photos'
-              ? 'border-brand bg-brand/10 text-brand'
-              : 'border-border bg-surface text-muted-foreground hover:text-foreground'
-          }`}
+          role="group"
+          aria-label="FrameCast simulator mode"
         >
-          Photo editor
-        </button>
+          <button
+            type="button"
+            aria-pressed={
+              mode === 'devices'
+            }
+            onClick={() =>
+              setMode('devices')
+            }
+            className={`${styles.modeButton} ${
+              mode === 'devices'
+                ? styles.modeButtonActive
+                : ''
+            }`}
+          >
+            Device editor
+          </button>
+
+          <button
+            type="button"
+            aria-pressed={
+              mode === 'photos'
+            }
+            onClick={() =>
+              setMode('photos')
+            }
+            className={`${styles.modeButton} ${
+              mode === 'photos'
+                ? styles.modeButtonActive
+                : ''
+            }`}
+          >
+            Photo editor
+          </button>
+        </div>
       </div>
 
       {mode === 'devices' ? (
@@ -305,7 +377,9 @@ export default function FrameCastDemo() {
           selectedPhotoIds={
             selectedPhotoIds
           }
-          onTogglePhoto={(photoId) =>
+          onTogglePhoto={(
+            photoId,
+          ) =>
             setSelectedPhotoIds(
               (current) =>
                 toggleValue(
@@ -369,8 +443,12 @@ export default function FrameCastDemo() {
           activePhotoId={
             activePhotoId
           }
-          activePhoto={activePhoto}
-          onSelectPhoto={(photoId) => {
+          activePhoto={
+            activePhoto
+          }
+          onSelectPhoto={(
+            photoId,
+          ) => {
             setActivePhotoId(
               photoId,
             );
@@ -408,7 +486,9 @@ export default function FrameCastDemo() {
 
       <div
         aria-live="polite"
-        className="mt-5 border-t border-border/60 pt-4 text-xs text-muted-foreground"
+        className={
+          styles.status
+        }
       >
         {status}
       </div>
