@@ -1,3 +1,4 @@
+import BotMedicChapter from './BotMedicChapter';
 import HostDeskChapter from './HostDeskChapter';
 import PortfolioHero from './PortfolioHero';
 
@@ -6,6 +7,7 @@ export default function Home() {
     <>
       <PortfolioHero />
       <HostDeskChapter />
+      <BotMedicChapter />
     </>
   );
 }
