@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { CONTACT_FIELD_LIMITS } from '@/lib/contact/validation';
 import {
   useState,
@@ -13,24 +12,14 @@ import type {
   FormState,
 } from './types';
 
+import styles from './ContactForm.module.css';
+
 const EMPTY_FORM: FormState = {
   name: '',
   email: '',
   message: '',
   website: '',
 };
-
-const fieldClassName = [
-  'w-full rounded-control border border-input',
-  'bg-background px-3 py-2 text-sm text-foreground',
-  'transition-colors duration-fast ease-standard',
-  'placeholder:text-muted-foreground',
-  'focus-visible:outline-none',
-  'focus-visible:ring-2 focus-visible:ring-brand',
-  'focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-  'aria-[invalid=true]:border-destructive',
-  'aria-[invalid=true]:focus-visible:ring-destructive',
-].join(' ');
 
 interface ValidationResult {
   valid: boolean;
@@ -43,39 +32,57 @@ function validateForm(
 ): ValidationResult {
   const errors: FieldErrors = {};
 
-  // Preserve the existing honeypot behavior:
-  // populated bot submissions fail silently.
-  if (form.website.length > CONTACT_FIELD_LIMITS.website.max) {
+  if (
+    form.website.length >
+    CONTACT_FIELD_LIMITS.website.max
+  ) {
     return {
       valid: false,
       errors,
     };
   }
 
-  if (form.name.length < CONTACT_FIELD_LIMITS.name.min) {
+  if (
+    form.name.length <
+    CONTACT_FIELD_LIMITS.name.min
+  ) {
     errors.name =
       'Please enter your full name.';
-  } else if (form.name.length > CONTACT_FIELD_LIMITS.name.max) {
+  } else if (
+    form.name.length >
+    CONTACT_FIELD_LIMITS.name.max
+  ) {
     errors.name =
       'Name is too long.';
   }
 
   const emailInput =
-    formElement.elements.namedItem('email');
+    formElement.elements.namedItem(
+      'email',
+    );
 
   if (
-    !(emailInput instanceof HTMLInputElement)
-    || emailInput.validity.valueMissing
-    || emailInput.validity.typeMismatch
+    !(
+      emailInput instanceof
+      HTMLInputElement
+    ) ||
+    emailInput.validity.valueMissing ||
+    emailInput.validity.typeMismatch
   ) {
     errors.email =
       'Invalid email address';
   }
 
-  if (form.message.length < CONTACT_FIELD_LIMITS.message.min) {
+  if (
+    form.message.length <
+    CONTACT_FIELD_LIMITS.message.min
+  ) {
     errors.message =
       'Message must be at least 10 characters.';
-  } else if (form.message.length > CONTACT_FIELD_LIMITS.message.max) {
+  } else if (
+    form.message.length >
+    CONTACT_FIELD_LIMITS.message.max
+  ) {
     errors.message =
       'Message is too long.';
   }
@@ -104,26 +111,23 @@ export default function ContactForm() {
     (field: keyof FormState) =>
     (
       event: ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement
+        HTMLInputElement |
+        HTMLTextAreaElement
       >,
     ) => {
       const value =
         event.target.value;
 
-      setForm(
-        (current) => ({
-          ...current,
-          [field]: value,
-        }),
-      );
+      setForm((current) => ({
+        ...current,
+        [field]: value,
+      }));
 
-      setErrors(
-        (current) => ({
-          ...current,
-          [field]: undefined,
-          general: undefined,
-        }),
-      );
+      setErrors((current) => ({
+        ...current,
+        [field]: undefined,
+        general: undefined,
+      }));
     };
 
   const handleSubmit = async (
@@ -163,7 +167,9 @@ export default function ContactForm() {
         },
       );
 
-      if (response.status === 204) {
+      if (
+        response.status === 204
+      ) {
         setSent(true);
         setForm(EMPTY_FORM);
         return;
@@ -178,8 +184,7 @@ export default function ContactForm() {
             await response.json();
 
           if (data?.error) {
-            detail =
-              data.error;
+            detail = data.error;
           }
         } catch {
           // Ignore invalid error payloads.
@@ -205,26 +210,34 @@ export default function ContactForm() {
   };
 
   return (
-    <>
-      {sent && (
+    <div className={styles.wrapper}>
+      {sent ? (
         <div
           role="status"
-          className="rounded-control border border-success/40 bg-success/10 p-3 text-sm text-foreground"
+          className={styles.success}
         >
-          Thanks! Your message has been sent.
-        </div>
-      )}
+          <span>MESSAGE SENT</span>
 
-      {errors.general && (
+          <p>
+            Thanks. Your message has been
+            submitted successfully.
+          </p>
+        </div>
+      ) : null}
+
+      {errors.general ? (
         <div
           role="alert"
-          className="rounded-control border border-destructive/40 bg-destructive/10 p-3 text-sm text-foreground"
+          className={styles.errorBanner}
         >
-          {errors.general}
+          <span>SUBMISSION ERROR</span>
+
+          <p>{errors.general}</p>
         </div>
-      )}
+      ) : null}
 
       <form
+        className={styles.form}
         onSubmit={handleSubmit}
         noValidate
       >
@@ -256,20 +269,27 @@ export default function ContactForm() {
           />
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="mb-1 block text-sm font-medium"
-          >
-            Name
-          </label>
+        <div
+          className={styles.field}
+          data-invalid={
+            errors.name
+              ? 'true'
+              : undefined
+          }
+        >
+          <div className={styles.fieldTop}>
+            <label htmlFor="name">
+              Name
+            </label>
+
+            <span>01</span>
+          </div>
 
           <input
             id="name"
             name="name"
             type="text"
             autoComplete="name"
-            className={fieldClassName}
             value={form.name}
             onChange={
               onChange('name')
@@ -283,34 +303,48 @@ export default function ContactForm() {
                 : undefined
             }
             required
-            minLength={CONTACT_FIELD_LIMITS.name.min}
-            maxLength={CONTACT_FIELD_LIMITS.name.max}
+            minLength={
+              CONTACT_FIELD_LIMITS.name.min
+            }
+            maxLength={
+              CONTACT_FIELD_LIMITS.name.max
+            }
+            placeholder="Your name"
           />
 
-          {errors.name && (
+          {errors.name ? (
             <p
               id="name-error"
-              className="mt-1 text-sm text-destructive"
+              className={
+                styles.fieldError
+              }
             >
               {errors.name}
             </p>
-          )}
+          ) : null}
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="mb-1 block text-sm font-medium"
-          >
-            Email
-          </label>
+        <div
+          className={styles.field}
+          data-invalid={
+            errors.email
+              ? 'true'
+              : undefined
+          }
+        >
+          <div className={styles.fieldTop}>
+            <label htmlFor="email">
+              Email
+            </label>
+
+            <span>02</span>
+          </div>
 
           <input
             id="email"
             name="email"
             type="email"
             autoComplete="email"
-            className={fieldClassName}
             value={form.email}
             onChange={
               onChange('email')
@@ -324,30 +358,40 @@ export default function ContactForm() {
                 : undefined
             }
             required
+            placeholder="you@example.com"
           />
 
-          {errors.email && (
+          {errors.email ? (
             <p
               id="email-error"
-              className="mt-1 text-sm text-destructive"
+              className={
+                styles.fieldError
+              }
             >
               {errors.email}
             </p>
-          )}
+          ) : null}
         </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="message"
-            className="mb-1 block text-sm font-medium"
-          >
-            Message
-          </label>
+        <div
+          className={styles.field}
+          data-invalid={
+            errors.message
+              ? 'true'
+              : undefined
+          }
+        >
+          <div className={styles.fieldTop}>
+            <label htmlFor="message">
+              Message
+            </label>
+
+            <span>03</span>
+          </div>
 
           <textarea
             id="message"
             name="message"
-            className={`${fieldClassName} min-h-[140px] resize-y`}
             value={form.message}
             onChange={
               onChange('message')
@@ -361,29 +405,58 @@ export default function ContactForm() {
                 : undefined
             }
             required
-            minLength={CONTACT_FIELD_LIMITS.message.min}
-            maxLength={CONTACT_FIELD_LIMITS.message.max}
+            minLength={
+              CONTACT_FIELD_LIMITS.message.min
+            }
+            maxLength={
+              CONTACT_FIELD_LIMITS.message.max
+            }
+            placeholder="What are you trying to build, fix, validate, or understand?"
           />
 
-          {errors.message && (
-            <p
-              id="message-error"
-              className="mt-1 text-sm text-destructive"
-            >
-              {errors.message}
-            </p>
-          )}
+          <div className={styles.messageMeta}>
+            {errors.message ? (
+              <p
+                id="message-error"
+                className={
+                  styles.fieldError
+                }
+              >
+                {errors.message}
+              </p>
+            ) : (
+              <span>
+                INCLUDE THE CONTEXT THAT
+                CHANGES THE PROBLEM.
+              </span>
+            )}
+
+            <span>
+              {form.message.length}/
+              {
+                CONTACT_FIELD_LIMITS
+                  .message.max
+              }
+            </span>
+          </div>
         </div>
 
-        <Button
+        <button
           type="submit"
+          className={styles.submit}
           disabled={submitting}
         >
-          {submitting
-            ? 'Sending…'
-            : 'Send message'}
-        </Button>
+          <span>
+            {submitting
+              ? 'SENDING'
+              : 'SEND MESSAGE'}
+          </span>
+
+          <span aria-hidden="true">
+            {submitting ? '…' : '↗'}
+          </span>
+        </button>
       </form>
-    </>
+    </div>
   );
 }

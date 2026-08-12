@@ -1,67 +1,140 @@
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { siteConfig } from '@/config/site';
 
 import ContactForm from './ContactForm';
 
+import styles from './Contact.module.css';
+
 export default function Contact() {
   return (
-    <section className="mx-auto max-w-reading space-y-10 py-6 lg:py-10">
-      <div className="space-y-10">
-        <div className="space-y-6">
-          <h1 className="text-2xl font-semibold">
-            Contact
-          </h1>
+    <section
+      className={styles.page}
+      aria-labelledby="contact-heading"
+    >
+      <header className={styles.hero}>
+        <div className={styles.heroMeta}>
+          <span>CONTACT</span>
+          <span>DIRECT INQUIRY</span>
+          <span>START WITH CONTEXT</span>
+        </div>
+
+        <div className={styles.heroGrid}>
+          <div>
+            <p className={styles.kicker}>
+              SOMETHING NEEDS TO WORK.
+            </p>
+
+            <h1
+              id="contact-heading"
+              className={styles.title}
+            >
+              <span>TELL ME</span>
+              <span>WHAT NEEDS</span>
+              <span>TO WORK.</span>
+            </h1>
+          </div>
+
+          <div className={styles.heroAside}>
+            <p>
+              Share the goal, constraint,
+              failure mode, or system you are
+              trying to move forward.
+            </p>
+
+            <span>
+              BUILD / TEST / DATA / PLATFORM
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <div className={styles.contactGrid}>
+        <div className={styles.formColumn}>
+          <div className={styles.sectionHeading}>
+            <span>01 / MESSAGE</span>
+
+            <h2>
+              Start with the problem.
+            </h2>
+          </div>
 
           <ContactForm />
         </div>
 
-        <div className="space-y-4 rounded-panel border border-border/60 bg-card/60 p-6 shadow-soft">
-          <h2 className="text-lg font-semibold text-foreground">
-            What to expect next
-          </h2>
+        <aside className={styles.contextColumn}>
+          <section className={styles.contextSection}>
+            <span className={styles.contextLabel}>
+              USEFUL CONTEXT
+            </span>
 
-          <p className="text-sm text-muted-foreground">
-            I read every message and usually respond within two business days. If relevant materials can help explain the
-            request, share them in the form above so I can jump in with context.
-          </p>
+            <div className={styles.contextItems}>
+              <div>
+                <span>01</span>
+                <p>
+                  What are you trying to
+                  build, fix, validate, or
+                  understand?
+                </p>
+              </div>
 
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>
-              • Describe the goal, deliverables, or blockers you are trying to solve.
-            </li>
-            <li>
-              • Let me know your preferred tone for the engagement (strategy session, code review, etc.).
-            </li>
-            <li>
-              • If you have a deadline, include the most helpful date to hear back.
-            </li>
-          </ul>
-        </div>
+              <div>
+                <span>02</span>
+                <p>
+                  What constraint, blocker, or
+                  deadline matters most?
+                </p>
+              </div>
 
-        <div className="space-y-4 rounded-panel border border-border/60 bg-surface-raised/60 p-6 shadow-soft">
-          <h2 className="text-lg font-semibold text-foreground">
-            Need a faster website refresh?
-          </h2>
+              <div>
+                <span>03</span>
+                <p>
+                  What would a successful
+                  outcome look like?
+                </p>
+              </div>
+            </div>
+          </section>
 
-          <p className="text-sm text-muted-foreground">
-            Visit the Website Help page to book a 60-minute review that sharpens copy, layout, and CTAs before launch.
-          </p>
+          <section className={styles.profileSection}>
+            <span className={styles.contextLabel}>
+              ELSEWHERE
+            </span>
 
-          <Link
-            href="/website-help"
-            className={cn(
-              buttonVariants({
-                variant: 'outline',
-                size: 'default',
-              }),
-              'w-fit font-semibold',
-            )}
-          >
-            Explore Website Help
-          </Link>
-        </div>
+            <div className={styles.profileLinks}>
+              <a
+                href={siteConfig.github.profileUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>GitHub</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href={siteConfig.social.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>LinkedIn</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </section>
+        </aside>
       </div>
+
+      <footer className={styles.pageEnd}>
+        <span>
+          {siteConfig.person.name}
+        </span>
+
+        <span>
+          SOFTWARE / QA / DATA / PLATFORM
+        </span>
+
+        <span>
+          CONTACT
+        </span>
+      </footer>
     </section>
   );
 }

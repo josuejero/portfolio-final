@@ -1,0 +1,252 @@
+.wrapper {
+  width: 100%;
+}
+
+.success,
+.errorBanner {
+  display: grid;
+  grid-template-columns:
+    minmax(8rem, 0.3fr)
+    minmax(0, 1.7fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding:
+    1rem
+    0;
+  border-top: 2px solid
+    var(--portfolio-cobalt);
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.success > span,
+.errorBanner > span,
+.fieldTop,
+.messageMeta,
+.submit {
+  font-family:
+    var(--font-geist-mono),
+    ui-monospace,
+    monospace;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.success > span,
+.errorBanner > span {
+  color: var(--portfolio-cobalt);
+  font-size: 0.51rem;
+}
+
+.success p,
+.errorBanner p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.errorBanner {
+  border-top-color:
+    var(--portfolio-ink);
+}
+
+.errorBanner > span {
+  color: var(--portfolio-ink);
+}
+
+.form {
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.field {
+  position: relative;
+  padding:
+    1.4rem
+    0
+    1.6rem;
+  border-bottom: 1px solid
+    color-mix(
+      in srgb,
+      var(--portfolio-ink) 18%,
+      transparent
+    );
+}
+
+.field[data-invalid='true'] {
+  border-bottom-color:
+    var(--portfolio-cobalt);
+}
+
+.fieldTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--portfolio-muted);
+  font-size: 0.52rem;
+}
+
+.fieldTop label {
+  color: var(--portfolio-ink);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--portfolio-ink);
+  font: inherit;
+  font-size: clamp(
+    1.4rem,
+    2.5vw,
+    2.4rem
+  );
+  font-weight: 620;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+}
+
+.field textarea {
+  min-height: 13rem;
+  resize: vertical;
+  line-height: 1.3;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: color-mix(
+    in srgb,
+    var(--portfolio-ink) 28%,
+    transparent
+  );
+}
+
+.field:focus-within {
+  border-bottom-color:
+    var(--portfolio-cobalt);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+}
+
+.messageMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: var(--portfolio-muted);
+  font-size: 0.48rem;
+  line-height: 1.5;
+}
+
+.fieldError {
+  margin: 0;
+  color: var(--portfolio-cobalt);
+  font-size: 0.72rem;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    sans-serif;
+  font-weight: 580;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.submit {
+  width: 100%;
+  min-height: clamp(
+    7rem,
+    12vw,
+    11rem
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding:
+    1.4rem;
+  border: 0;
+  background: var(--portfolio-ink);
+  color: var(--portfolio-bone);
+  cursor: pointer;
+  font-size: clamp(
+    1.4rem,
+    3vw,
+    3rem
+  );
+  letter-spacing: -0.04em;
+  text-align: left;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.submit span:last-child {
+  color: var(--portfolio-acid);
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  background: var(--portfolio-cobalt);
+}
+
+.submit:focus-visible {
+  outline: 3px solid
+    var(--portfolio-cobalt);
+  outline-offset: 4px;
+}
+
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+@media (max-width: 640px) {
+  .success,
+  .errorBanner {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .field input,
+  .field textarea {
+    font-size: clamp(
+      1.25rem,
+      6vw,
+      1.8rem
+    );
+  }
+
+  .messageMeta {
+    flex-direction: column;
+  }
+
+  .submit {
+    min-height: 7rem;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .submit {
+    transition: none;
+  }
+}
