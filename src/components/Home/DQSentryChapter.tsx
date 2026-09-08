@@ -223,6 +223,7 @@ export default function DQSentryChapter() {
                         : styles.checkCellPassed,
                     ].join(' ')}
                     title={`${check.label}: ${check.status}`}
+                    role="img"
                     aria-label={`Check ${index + 1}: ${check.label}, ${check.status}`}
                   >
                     {String(

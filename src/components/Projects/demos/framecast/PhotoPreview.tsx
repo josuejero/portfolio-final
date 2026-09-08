@@ -77,6 +77,7 @@ export default function PhotoPreview({
         className={
           styles.previewStage
         }
+        role="img"
         aria-label={`Simulated preview for ${photo.name}`}
       >
         <div

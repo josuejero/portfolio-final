@@ -489,3 +489,10 @@
     animation: none;
   }
 }
+
+/* accessibility: dark mobile closing text */
+@media (max-width: 640px) {
+  .footerLine span:first-child {
+    color: var(--portfolio-on-dark-muted);
+  }
+}

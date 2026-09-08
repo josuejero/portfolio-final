@@ -142,6 +142,7 @@ export default function PortfolioHero() {
         <div className={styles.lowerGrid}>
           <div
             className={styles.modePanel}
+            role="group"
             aria-label="Portfolio role lens"
           >
             <p className={styles.panelLabel}>

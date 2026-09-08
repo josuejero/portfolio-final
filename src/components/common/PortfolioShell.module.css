@@ -1,9 +1,11 @@
 .shell {
   --portfolio-bone: #f1ede4;
   --portfolio-ink: #11120f;
-  --portfolio-cobalt: #2457ff;
+  --portfolio-cobalt: #1e4de8;
   --portfolio-acid: #d8ff43;
-  --portfolio-muted: #6d6d65;
+  --portfolio-muted: #62625a;
+  --portfolio-on-dark-muted: #a6a39a;
+  --portfolio-on-dark-accent: #8aa3ff;
   --portfolio-line: color-mix(
     in srgb,
     var(--portfolio-ink) 16%,

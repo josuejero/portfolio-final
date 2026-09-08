@@ -35,12 +35,12 @@ export default function NotFound() {
           styles.errorBody
         }
       >
-        <h2 id="not-found-heading">
+        <h1 id="not-found-heading">
           Nothing
           <span>
             here.
           </span>
-        </h2>
+        </h1>
 
         <div
           className={
