@@ -186,3 +186,15 @@ The project is compatible with Vercel deployment and other environments that sup
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+## Repomix exports
+
+Generate one Repomix XML export for every local Git branch without switching the
+current working branch:
+
+```bash
+npm run repomix:all-branches
+```
+
+The files are written to `repomix-outputs/` using percent-encoded branch names,
+with `manifest.json` recording the matching branch and commit for each export.
+The directory is intentionally ignored by Git.
