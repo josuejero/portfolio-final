@@ -8,6 +8,8 @@ export const CONTACT_FIELD_LIMITS = {
     max: 5000,
   },
   website: {
-    max: 0,
+    // The hidden honeypot must accept a bounded non-empty value so
+    // server-side bot handling can silently discard the submission.
+    max: 200,
   },
 } as const;
