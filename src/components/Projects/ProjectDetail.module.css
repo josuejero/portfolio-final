@@ -479,7 +479,14 @@ a.evidenceEntry:focus-visible {
   .titleGrid,
   .evidenceLedger,
   .documentationHeading {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  .titleGrid > *,
+  .evidenceLedger > *,
+  .documentationHeading > * {
+    min-width: 0;
   }
 
   .evidenceIntro p {
@@ -505,10 +512,11 @@ a.evidenceEntry:focus-visible {
   }
 
   .title {
+    max-width: none;
     font-size: clamp(
-      4.2rem,
-      20vw,
-      7rem
+      3.25rem,
+      16vw,
+      6rem
     );
   }
 
