@@ -22,7 +22,7 @@ export function proxy(request: NextRequest) {
     "frame-ancestors 'none'",
     `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' blob: data:",
+    "img-src 'self' blob: data: https://github.com https://raw.githubusercontent.com https://api.scorecard.dev",
     "font-src 'self'",
     "form-action 'self'",
     "frame-src 'self'",
