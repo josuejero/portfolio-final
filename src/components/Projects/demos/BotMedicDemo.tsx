@@ -452,7 +452,12 @@ export default function BotMedicDemo() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-surface border border-border/60">
+        <div
+          className="overflow-x-auto rounded-surface border border-border/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          role="region"
+          aria-label="BotMedic telemetry history"
+          tabIndex={0}
+        >
           <table className="w-full min-w-[560px] text-left text-xs">
             <thead className="bg-surface/80 text-muted-foreground">
               <tr>

@@ -879,3 +879,13 @@
     animation: none;
   }
 }
+
+/* accessibility: dark mobile HostDesk text */
+@media (max-width: 640px) {
+  .flowLabel,
+  .workspaceFooter span:nth-child(1),
+  .workspaceFooter span:nth-child(2),
+  .workspaceFooter span:last-child {
+    color: var(--portfolio-on-dark-muted);
+  }
+}

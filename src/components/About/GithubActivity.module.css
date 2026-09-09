@@ -406,3 +406,14 @@
     overflow-x: auto;
   }
 }
+
+/* accessibility: dark GitHub activity text */
+.statsLead > span {
+  color: var(--portfolio-on-dark-accent);
+}
+
+.chartPlaceholder,
+.activityList > li > span,
+.activityList time {
+  color: var(--portfolio-on-dark-muted);
+}

@@ -36,3 +36,4 @@ next-env.d.ts
 # local/generated repository artifacts
 *.bak
 repomix-output.xml
+repomix-outputs/
