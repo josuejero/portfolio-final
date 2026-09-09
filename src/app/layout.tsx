@@ -43,16 +43,6 @@ export const metadata: Metadata = {
     siteName: siteMetadata.siteName,
     locale: siteMetadata.locale,
     type: 'website',
-    images: [
-      {
-        url: siteMetadata.image.url,
-        width:
-          siteMetadata.image.width,
-        height:
-          siteMetadata.image.height,
-        alt: siteMetadata.image.alt,
-      },
-    ],
   },
 
   twitter: {
@@ -60,9 +50,6 @@ export const metadata: Metadata = {
     title: siteMetadata.title,
     description:
       siteMetadata.description,
-    images: [
-      siteMetadata.image.url,
-    ],
   },
 
   robots: {

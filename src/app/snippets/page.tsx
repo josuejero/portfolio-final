@@ -9,6 +9,9 @@ const PAGE_DESCRIPTION =
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
+  alternates: {
+    canonical: '/snippets',
+  },
 
   openGraph: {
     title:
@@ -19,16 +22,6 @@ export const metadata: Metadata = {
     siteName: siteMetadata.siteName,
     locale: siteMetadata.locale,
     type: 'website',
-    images: [
-      {
-        url: siteMetadata.image.url,
-        width:
-          siteMetadata.image.width,
-        height:
-          siteMetadata.image.height,
-        alt: siteMetadata.image.alt,
-      },
-    ],
   },
 
   twitter: {
@@ -36,9 +29,6 @@ export const metadata: Metadata = {
     title:
       `${PAGE_TITLE} | ${siteMetadata.title}`,
     description: PAGE_DESCRIPTION,
-    images: [
-      siteMetadata.image.url,
-    ],
   },
 };
 
